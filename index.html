@@ -3,8 +3,91 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/memenu.css">
     <title>Document</title>
 </head>
 <body>
+<!--top-header-->
+<!--bottom-header-->
+<!--banner-starts-->
+<div class="top-header">
+    <div class="container">
+        <div class="top-header-main">
+            <div class="top-header-right">
+            <div class="cart box_1">
+                    <a href="account.php">						
+                            <img src="images/account.png" alt="" style="width:30px;height:30px">
+                    </a>
+                    <div class="clearfix"> </div>
+                </div>
+            </div>
+        </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    <div class="logo">
+        <a href="index.php"><h1><b>Prestigious cars</b></h1></a>
+        </div>
+        <div class="header-bottom">
+            <div class="container">
+                <div class="header">
+                    <div class="col-md-9 header-left">
+                    <div class="top-nav">
+                        <ul class="memenu skyblue"><li class="showhide" style="display: none;"><span class="title">MENU</span><span class="icon1"></span><span class="icon2"></span></li>
+                        <li class="active" id="first" style="">
+                            <a href="index.php">Home</a>
+                            </li>
+                            <li class="grid" id="second" style=""><a href="products.php">Cars</a>
+                            </li>
+                            <li class="grid" id="third" style=""><a href="blog.php">Blog</a>
+                            </li>
+                            <li class="grid" id="fourh" style=""><a href="contact.php">Contact</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="clearfix"> </div>
+                </div>
+                <div class="clearfix"> </div>
+                </div>
+            </div>
+            </div>
+            <div class="bnr" id="home">
+                <div id="top" class="callbacks_container">
+                    <ul class="rslides callbacks callbacks1" id="slider4">
+                        <li id="callbacks1_s0" class="" style="display: list-item; transition: opacity 500ms ease-in-out 0s; float: none; position: absolute; opacity: 1; z-index: 1;" class="callbacks1_on">
+                            <img src="images/bnr-1.jpg" alt="">
+                        </li>
+                        <li id="callbacks1_s1" style="display: list-item; transition: opacity 500ms ease-in-out 0s; float: none; position: absolute; opacity: 0; z-index: 1;" class="">
+                            <img src="images/bnr-2.jpg" alt="">
+                        </li>
+                        <li id="callbacks1_s2" style="display: list-item; transition: opacity 500ms ease-in-out 0s; float: left; position: relative; opacity: 0; z-index: 2;" class="">
+                            <img src="images/bnr-3.jpg" alt="">
+                        </li>
+                    </ul><a href="#" class="callbacks_nav callbacks1_nav prev">Previous</a><a href="#" class="callbacks_nav callbacks1_nav next">Next</a><ul class="callbacks_tabs callbacks1_tabs"><li class="callbacks1_s1"><a href="#" class="callbacks1_s1">1</a></li><li class="callbacks1_s2"><a href="#" class="callbacks1_s2">2</a></li><li class="callbacks1_s3 callbacks_here"><a href="#" class="callbacks1_s3">3</a></li></ul>
+                </div>
+                <div class="clearfix"> </div>
+            </div>
+            <script src="js/responsiveslides.min.js"></script>
+            <script>
+            $(window).load(function() {
+			    $(function () {
+			      // Slideshow 4
+			      $("#slider4").responsiveSlides({
+			        auto: true,
+			        pager: true,
+			        nav: true,
+			        speed: 500,
+			        namespace: "callbacks",
+			        before: function () {
+			          $('.events').append("<li>before event fired.</li>");
+			        },
+			        after: function () {
+			          $('.events').append("<li>after event fired.</li>");
+			        }
+			      });		
+			    })});
+			  </script>
 </body>
 </html>
