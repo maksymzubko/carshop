@@ -503,6 +503,7 @@ figure.effect-mouse:hover p,figure.effect-mouse:hover h2 {
 
 /*top-navigator*/
 .breadcrumbs-main {
+	font-family: 'Heebo';
     border: 1px solid #D6D6D6;
 }
 .breadcrumb {
@@ -635,6 +636,7 @@ figure.effect-mouse:hover p,figure.effect-mouse:hover h2 {
 
   /*cars-catalog*/
 .cars-catalog{
+	font-family: 'Heebo';
 	padding:6em 0px;
 }
 .w_sidebar{
