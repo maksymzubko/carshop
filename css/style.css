@@ -147,6 +147,67 @@ padding: 18px 0px;
 font-family: 'Heebo', serif;
 }
 
+.header-left {
+    width: 72%;
+	float: left;
+	padding-right: 10px;
+}
+
+@media (max-width:320px){
+	.top-header-left {
+		padding: 0;
+	}
+	.header-bottom {
+		padding: 13px 0px 8px 0px;
+	}
+	.about-our {
+		width: 33.3%;
+		float: left;
+		padding: 0 10px;
+	}
+	.about {
+		padding: 3.5em 0px 1em 0px;
+	}
+	figure.effect-mouse figcaption::before, figure.effect-mouse figcaption::after {
+		top: 20px;
+		right: 20px;
+		bottom: 20px;
+		left: 20px;
+	}
+	figure.effect-mouse h4,figure.effect-mouse h2  {
+		font-size: 1.2em;
+		padding-top: 17%;
+	}
+	figure.effect-mouse p {
+		padding: 0px 0.5em;
+		font-size: 13px;
+	}
+}
+
+@media (max-width:640px){
+	.account-box a img {
+		margin: 3px 0 0 5px;
+	}
+	.logo a h1 {
+		font-size: 21px;
+	}
+	.memenu>li.showhide {
+		height: 39px;
+	}
+	.memenu>li.showhide span.title {
+		margin: 11px 0 0 25px;
+	}
+	.memenu>li.showhide span.icon1:after {
+		top: 12px;
+	}
+	.memenu>li.showhide span.icon2:after {
+		top: 23px;
+	}
+	.logo {
+		padding: 14px 0 9px 0px;
+	}
+}
+
 .about {
     padding: 5em 0px 4em 0px;
 }
