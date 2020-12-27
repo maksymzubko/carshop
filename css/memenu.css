@@ -1,4 +1,5 @@
 .memenu {
+	font-family: 'Heebo';
     margin: 5px 0 0 0;
     padding: 0;
     width: 100%;
@@ -7,6 +8,16 @@
     position: relative;
     font-size: 15px;
 }
+
+@font-face {
+    font-family: 'Heebo';
+    src:url(/fonts/Heebo-Regular.ttf) format('truetype');
+}
+
+.filters{
+    margin: 0px 0 0 0;
+}
+
 .memenu li{
 	display:inline-block;
 }
@@ -116,6 +127,11 @@
 	background:linear-gradient(to bottom,#eee 0,#dbdbdb 100%);
 	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#eeeeee',endColorstr='#dbdbdb',GradientType=0)
 }
+
+span.title{
+	font-family: 'Heebo-Bold';
+}
+
 .memenu>li.showhide span.title{
 	margin:15px 0 0 25px;
 	float:left;
