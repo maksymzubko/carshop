@@ -102,13 +102,11 @@ a.animated-button.thar:before {
 	transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
 }
 
-
 @font-face {
     font-family: 'Playfair Display';
     src:url(fonts/PlayfairDisplay-Regular.ttf) format('truetype');
 }
 
-/*--starts-logo--*/
 .logo {
     text-align: center;
     padding: 25px 0 20px 0px;
@@ -125,8 +123,7 @@ a.animated-button.thar:before {
 .logo a:hover{
 	text-decoration:none;
 }
-/*--end-logo--*/
-/*--starts-top-header--*/
+
 .top-header {
     background: #000;
     padding: 10px 0px;
