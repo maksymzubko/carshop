@@ -10,6 +10,14 @@ body a{
 	-ms-transition: 0.5s all;
 }
 
+.body_hide {
+	opacity: 0;
+	transition: .9s opacity ease-in-out;
+}
+.body_visible {
+	opacity: 1;
+}
+
 a.animated-button:link, a.animated-button:visited {
 	position: relative;
 	display: block;
