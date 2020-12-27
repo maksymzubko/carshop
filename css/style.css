@@ -486,6 +486,28 @@ figure.effect-mouse:hover p,figure.effect-mouse:hover h2 {
 	transform: translate3d(0,0,0);
 }
 
+/*top-navigator*/
+.breadcrumbs-main {
+    border: 1px solid #D6D6D6;
+}
+.breadcrumb {
+    background: none;
+	margin: 0;
+}
+.breadcrumb > li {
+    display: inline-block;
+}
+.breadcrumb > .active {
+    color: #C3C3C3;
+}
+.breadcrumb li a {
+    color: #242424;
+}
+.breadcrumb li a:hover {
+    color: #73B6E1;
+    text-decoration: none;
+}
+
 /*------------------ Slider Part starts Here----------*/
 .callbacks_container {
 	position: relative;
