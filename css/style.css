@@ -101,7 +101,7 @@ a.animated-button.thar:before {
 	background: rgba(51, 51, 51, 0.295);
 	transition: all 0.4s cubic-bezier(.07,.81,.9,.9);
 }
-
+/*import fonts*/
 @font-face {
     font-family: 'Heebo';
     src:url(/fonts/Heebo-Regular.ttf) format('truetype');
@@ -226,9 +226,13 @@ font-family: 'Heebo', serif;
 	.logo {
 		padding: 14px 0 9px 0px;
 	}
+	.infor-left:nth-child(-n+4){
+		margin: 20px 0 0 0;
+		}
 }
 
 /* info footer */
+
 .infor-left h3 {
     font-size: 1.5em;
     color: #000;
