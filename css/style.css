@@ -77,38 +77,68 @@ a.animated-button:link, a.animated-button:visited {
 	-o-transition: all 1s ease;
 	transition: all 1s ease;
 }
-/* Thar Buttons */
-a.animated-button.thar {
-	color: rgb(0, 0, 0);
+
+.btn {
+	letter-spacing: 0.1em;
 	cursor: pointer;
-	display: block;
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 45px;
+	max-width: 1160px;
 	position: relative;
-	border: 2px solid #42423f;
-	transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
-}
-a.animated-button.thar:hover {
-	color: #000 !important;
-	background-color: transparent;
-	text-shadow: nthree;
-}
-a.animated-button.thar:hover:before {
-	left: 0%;
-	right: auto;
+	text-decoration: none;
+	text-transform: uppercase;
 	width: 100%;
-}
-a.animated-button.thar:before {
-	display: block;
+	font-family: 'Heebo-Bold';
+  }
+
+  .btn:hover {
+	text-decoration: none;
+  }
+  
+  .effect-button {
+	--uismLinkDisplay: var(--smLinkDisplay, inline-flex);
+	display: var(--uismLinkDisplay);
+	color: #000;
+	outline: solid  2px #000;
+	position: relative;
+	transition-duration: 0.4s;
+	overflow: hidden;
+  }
+  
+  .effect-button::before,
+  .effect-button span{
+	  margin: 0 auto;
+	  transition-timing-function: cubic-bezier(0.86, 0, 0.07, 1);
+	  transition-duration: 0.4s;
+  }
+  
+  .effect-button:hover{
+	background-color: #000;
+  }
+  
+  .effect-button:hover span{
+	-webkit-transform: translateY(-400%) scale(-0.1,20);
+			transform: translateY(-400%) scale(-0.1,20);
+  }
+  
+  .effect-button::before{
+	content: attr(data-sm-link-text);
+	  color: #FFF;
 	position: absolute;
-	top: 0px;
-	right: 0px;
-	height: 100%;
-	width: 0px;
-	z-index: -1;
-	content: '';
-	color: #000 !important;
-	background: rgba(51, 51, 51, 0.295);
-	transition: all 0.4s cubic-bezier(.07,.81,.9,.9);
-}
+	left: 0;
+	right: 0;
+	margin: auto;
+	-webkit-transform: translateY(500%) scale(-0.1,20);
+			transform: translateY(500%) scale(-0.1,20);
+  }
+  
+  .effect-button:hover::before{
+	letter-spacing: 0.05em;
+	-webkit-transform: translateY(0) scale(1,1);
+			transform: translateY(0) scale(1,1);
+  }
+  
 /*import fonts*/
 @font-face {
     font-family: 'Heebo';
