@@ -1330,3 +1330,53 @@ a.mask {
     padding-bottom: 3em;
 }
 /*--map-end--*/
+
+/*account*/
+.account{
+	margin: 20px 0;
+	font-family: 'Heebo';
+}
+.profile 
+{
+    min-height: 355px;
+    display: inline-block;
+    }
+.divider 
+{
+    border-top:1px solid rgba(0,0,0,0.1);
+	}
+@media (max-width:767px){
+	.emphasis 
+	{
+		margin-top: 15px;
+	}
+	.emphasis:hover 
+{
+	//
+}
+}
+.emphasis 
+{
+    border-top: 4px solid transparent;
+    }
+.emphasis:hover 
+{
+    border-top: 4px solid #1abc9c;
+}
+.emphasis h2
+{
+    margin-bottom:0;
+    }
+span.tags
+{
+border-radius: 2px;
+color: #f5f5f5;
+font-weight: bold;
+padding: 2px 4px;
+}
+span.tags.c{
+	background: #1abc9c;
+}
+span.tags.d{
+	background: #bc2d1a;
+}
