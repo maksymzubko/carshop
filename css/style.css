@@ -1158,36 +1158,19 @@ figure.effect-mouse:hover p,figure.effect-mouse:hover h2 {
     padding: 3em 0px 6em 0px;
 }
 .product-bottom h3 {
-    font-size: 16px;
+    font-size: 24px;
     color: #000;
     margin: 0;
     text-transform: uppercase;
 	font-family: 'Heebo';
 }
-.product-bottom h4 span{
-    font-size: 17px;
-    color: #000;
-    margin: 5px 0 0 0;
-    font-family: 'Heebo';
-}
-.product-bottom h4 i {
-    background: url(/images/cart-2.png) no-repeat;
-    width: 20px;
-    height: 15px;
-    display: inline-block;
-    margin-right: 4px;
-    vertical-align: middle;
-}
-.product-left:hover .product-bottom h4 i{
-	background: url(/images/cart-3.png) no-repeat;
-}
+
 .product-bottom {
-    text-align: left;
+    text-align: center;
     margin-top: 20px;
-    padding-left: 30px;
 }
 .product-bottom p {
-	font-size: 12px;
+	font-size: 16px;
     color: #999;
     margin: 5px 0 0 0;
     text-transform: uppercase;
@@ -1206,21 +1189,45 @@ figure.effect-mouse:hover p,figure.effect-mouse:hover h2 {
 .product-buttons img.favourite.nope {
 	content: url("/images/favourite.png");
 }
-.product-buttons img {
+.product-buttons img.favourite:focus {
+	outline: 0;
+	animation: effect_dylan 0.8s ease-out;;
+}
+.product-buttons img.favourite {
+	margin-left: auto;
+	margin-top: 5px;
 	text-align: right;
 	height: 45px;
 	width: 45px;
 	margin-right: 20px;
 }
+.product-buttons img.favourite:before{
+	content: '';
+	transform: scale(0.001,0.001);
+}
+@keyframes effect_dylan {
+	50% {
+		transform: scale(1.75,1.75);
+		opacity: 0;
+   }
+	99% {
+		transform: scale(0.001,0.001);
+		opacity: 0;
+   }
+	100% {
+		transform: scale(0.001,0.001);
+		opacity: 1;
+   }
+}
 .product-buttons .btn {
 	width: 170px;
 	height: 55px;
-	margin-right: auto;
 }
-.product-buttons img.favourite.nope:hover, .product-buttons img.favourite.is:hover{
-	content: url("/images/favourite-hover.png");
+.product-buttons img.favourite.nope:hover{
+	content: url("/images/favourite-hover-nope.png");
 }
-
+.product-buttons img.favourite.is:hover{	
+	content: url("/images/favourite-hover.png");}
 .product-one:nth-child(2){
 	margin-top:30px;
 }
@@ -1257,7 +1264,14 @@ a.mask {
     -o-transition: 0.5s all ease;
     -ms-transition: 0.5s all ease;
 }
-
+.product-main:hover {
+	border:1px solid #73B6E1;
+	transition: 0.5s all ease;
+    -webkit-transition: 0.5s all ease;
+    -moz-transition: 0.5s all ease;
+    -o-transition: 0.5s all ease;
+    -ms-transition: 0.5s all ease;
+}
 /*--product-end--*/
 
 /*contact page*/
