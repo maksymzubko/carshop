@@ -18,6 +18,9 @@ $(document).ready(function () {
 		elem.focus();
 		elem.blur();
 	});
+		$('.lan').click(function(e) {
+				location.href = window.location.origin + window.location.pathname + "?lang=" + e.target.id;
+		   });
 	$.getScript("/javascript/resize.js", function () {
 		new ResizeSensor(jQuery(elem), function () {
 			elem.css({ 'transition-duration': '0.4s' });
@@ -42,7 +45,6 @@ $(document).ready(function () {
 		});
 	});
 });
-
 setTimeout(function () {
 	$('body').addClass('body_visible');
 }, 100);

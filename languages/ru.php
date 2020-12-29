@@ -1,6 +1,7 @@
 <?php 
 $lang = array(
     "toplabel"=>"Аккаунт",
+    "language"=>"Язык",
     "home"=>"Главная",
     "cars"=>"Автомобили",
     "blog"=>"Блог",
