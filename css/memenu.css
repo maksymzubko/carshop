@@ -1,5 +1,14 @@
+@font-face {
+    font-family: 'Heebo';
+    src:url(/fonts/Heebo-Regular.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: 'Roboto';
+    src:url(/fonts/Roboto-Regular.ttf) format('truetype');
+}
+
 .memenu {
-	font-family: 'Heebo';
     margin: 5px 0 0 0;
     padding: 0;
     width: 100%;
@@ -9,11 +18,13 @@
     font-size: 15px;
 }
 
-@font-face {
-    font-family: 'Heebo';
-    src:url(/fonts/Heebo-Regular.ttf) format('truetype');
+.memenu.en {
+	font-family: 'Heebo';
 }
 
+.memenu.ru {
+	font-family: 'Roboto';
+}
 .filters{
     margin: 0px 0 0 0;
 }
