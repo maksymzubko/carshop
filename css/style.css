@@ -138,7 +138,52 @@ a.animated-button:link, a.animated-button:visited {
 	-webkit-transform: translateY(0) scale(1,1);
 			transform: translateY(0) scale(1,1);
   }
+  .effect-button2 {
+	  border: 0;
+	border-radius: 0;
+	--uismLinkDisplay: var(--smLinkDisplay, inline-flex);
+	display: var(--uismLinkDisplay);
+	color: #000;
+	outline: solid  1px #000;
+	position: relative;
+	transition-duration: 0.4s;
+	overflow: hidden;
+  }
   
+  .effect-button2::before,
+  .effect-button2 span{
+	  margin: 0 auto;
+	  transition-timing-function: cubic-bezier(0.86, 0, 0.07, 1);
+	  transition-duration: 0.36s;
+  }
+  
+  .effect-button2:hover{
+	background-color: #337ab7;
+	outline: solid  2px #000;
+	border-radius: 0;
+  }
+  
+  .effect-button2:hover span{
+	-webkit-transform: translateX(-400%) scale(-0.1,2);
+			transform: translateX(-400%) scale(-0.1,2);
+  }
+  
+  .effect-button2::before{
+	content: attr(data-sm-link-text);
+	  color: #FFF;
+	position: absolute;
+	left: 0;
+	right: 0;
+	margin: auto;
+	-webkit-transform: translateX(500%) scale(-0.1,2);
+			transform: translateX(500%) scale(-0.1,2);
+  }
+  
+  .effect-button2:hover::before{
+	letter-spacing: 0.05em;
+	-webkit-transform: translatex(0) scale(1,1);
+			transform: translatex(0) scale(1,1);
+  }
 /*import fonts*/
 @font-face {
     font-family: 'Heebo';
@@ -1354,6 +1399,20 @@ a.mask {
 	margin: 20px 0;
 	font-family: 'Heebo';
 }
+.account .btn:hover{
+	height: 60px;
+	letter-spacing: 0.1em;
+	cursor: pointer;
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 45px;
+	max-width: 1160px;
+	position: relative;
+	text-decoration: none;
+	text-transform: uppercase;
+	width: 100%;
+	font-family: 'Heebo-Bold';
+}
 .profile 
 {
     min-height: 355px;
@@ -1379,7 +1438,7 @@ a.mask {
     }
 .emphasis:hover 
 {
-    border-top: 4px solid #1abc9c;
+    border-top: 4px solid #337ab7;
 }
 .emphasis h2
 {
