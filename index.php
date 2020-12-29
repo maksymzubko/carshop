@@ -1,6 +1,5 @@
 <?php require "config.php" ?>
 <!DOCTYPE html>
-<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,7 +25,7 @@
             <div class="top-header-main">
                 <div class="top-header-right">
                     <div class="account-box">
-                        <label>Account</label>
+                        <label><?php echo $lang['toplabel'] ?></label>
                         <a href="account.html">
                             <img src="images/account.png" alt="" style="width:30px;height:30px" />
                         </a>
@@ -50,13 +49,13 @@
                     <div class="top-nav">
                         <ul class="memenu main skyblue">
                             <li class="grid active" id="first">
-                                <a data-localize="menu.home" href="index.html">Home</a>
+                                <a data-localize="menu.home" href="index.html"><?php echo $lang['home'] ?></a>
                             </li>
-                            <li class="grid" id="second"><a data-localize="menu.cars" href="cars.html">Cars</a>
+                            <li class="grid" id="second"><a data-localize="menu.cars" href="cars.html"><?php echo $lang['cars'] ?></a>
                             </li>
-                            <li class="grid" id="third"><a data-localize="menu.blog" href="blog.html">Blog</a>
+                            <li class="grid" id="third"><a data-localize="menu.blog" href="blog.html"><?php echo $lang['blog'] ?></a>
                             </li>
-                            <li class="grid" id="fourh"><a data-localize="menu.contact" href="contact.html">Contact</a>
+                            <li class="grid" id="fourh"><a data-localize="menu.contact" href="contact.html"><?php echo $lang['contact'] ?></a>
                             </li>
                         </ul>
                     </div>
@@ -94,8 +93,8 @@
                 <figure class="effect-mouse">
                     <img class="img-responsive" src="images/car2.jpg">
                     <figcaption>
-                        <h4>Warranty</h4>
-                        <p>We guarantee work and support for 10 years!</p>
+                        <h4><?php echo $lang['about1'] ?></h4>
+                        <p><?php echo $lang['about1text'] ?></p>
                     </figcaption>
                 </figure>
             </div>
@@ -103,8 +102,8 @@
                 <figure class="effect-mouse">
                     <img class="img-responsive" src="images/car1.jpg">
                     <figcaption>
-                        <h2>Reliability</h2>
-                        <p>Our partners are reliable.</p>
+                        <h2><?php echo $lang['about2'] ?></h2>
+                        <p><?php echo $lang['about2text'] ?></p>
                     </figcaption>
                 </figure>
             </div>
@@ -112,8 +111,8 @@
                 <figure class="effect-mouse">
                     <img class="img-responsive" src="images/car-1.jpg">
                     <figcaption>
-                        <h4>Quality</h4>
-                        <p>Our showroom sells the highest quality cars.</p>
+                        <h4><?php echo $lang['about3'] ?></h4>
+                        <p><?php echo $lang['about3text'] ?></p>
                     </figcaption>
                 </figure>
             </div>
@@ -122,7 +121,7 @@
     </div>
     <div class="block">
         <div class="container text-center">
-            <a href="cars.html" class="btn effect-button" data-sm-link-text="CLICK HERE"><span>Go to catalog</span></a>
+            <a href="cars.html" class="btn effect-button" data-sm-link-text="<?php echo $lang['buttonHideText'] ?>"><span><?php echo $lang['buttonMainText'] ?></span></a>
         </div>
     </div>
     <br><br><br><br>
@@ -134,7 +133,7 @@
         <div class="container">
             <div class="infor-top">
                 <div class="col-xxs-12 col-xs-3 col-md-3 infor-left">
-                    <h3>Follow Us</h3>
+                    <h3><?php echo $lang['footerH1'] ?></h3>
                     <ul>
                         <li><a href="https://www.facebook.com/profile.php?id=100007769135894"><span class="fb"></span>
                                 <h6>Facebook</h6>
@@ -148,32 +147,32 @@
                     </ul>
                 </div>
                 <div class="col-xxs-12 col-xs-3 col-md-3 infor-left">
-                    <h3>Information</h3>
+                    <h3><?php echo $lang['footerH2'] ?></h3>
                     <ul>
                         <li><a href="cars.html">
-                                <p>Our cars</p>
+                                <p><?php echo $lang['finfp1'] ?></p>
                             </a></li>
                         <li><a href="contact.html">
-                                <p>Contact Us</p>
+                                <p><?php echo $lang['finfp2'] ?></p>
                             </a></li>
                     </ul>
                 </div>
                 <div class="col-xxs-12 col-xs-3  col-md-3 infor-left">
-                    <h3>My Account</h3>
+                    <h3><?php echo $lang['footerH3'] ?></h3>
                     <ul>
                         <li><a href="account.html">
-                                <p>My Account</p>
+                                <p><?php echo $lang['faccp1'] ?></p>
                             </a></li>
                         <li><a href="#">
-                                <p>My Favourites</p>
+                                <p><?php echo $lang['faccp2'] ?></p>
                             </a></li>
                     </ul>
                 </div>
                 <div class="col-xxs-12 col-xs-3 col-md-3 infor-left">
-                    <h3>Store Information</h3>
+                    <h3><?php echo $lang['footerH4'] ?></h3>
                     <h4>KhCar Shop,
-                        <span>Kharkiv,</span>
-                        Klochkivska street, 188.
+                        <span><?php echo $lang['fstorep1'] ?>,</span>
+                        <?php echo $lang['fstorep2'] ?>.
                     </h4>
                     <h5><a href="callto:+380992443242">+380 99 244 3242</a></h5>
                     <p><a href="mailto:makzzubko66@email.com">makzzubko66@gmail.com</a></p>
@@ -188,7 +187,7 @@
     <div class="footer">
         <div class="container">
             <div class="footer-top text-center">
-                <p>© 2020 Prestigious cars. All Rights Reserved</p>
+                <p>© 2020 Prestigious cars. <?php echo $lang['footer'] ?></p>
                 <div class="clearfix"></div>
             </div>
         </div>
