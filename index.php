@@ -1,5 +1,5 @@
 <?php require "config.php" ?>
-<!DOCTYPE html>
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,7 +24,7 @@
         <div class="container">
             <div class="top-header-main">
                 <div class="top-header-right">
-                    <div class="account-box">
+                    <div class="account-box <?php echo $_SESSION['lang']?>">
                         <label><?php echo $lang['toplabel'] ?></label>
                         <a href="account.html">
                             <img src="images/account.png" alt="" style="width:30px;height:30px" />
@@ -47,7 +47,7 @@
             <div class="header">
                 <div class="col-md-12">
                     <div class="top-nav">
-                        <ul class="memenu main skyblue">
+                        <ul class="memenu <?php echo $_SESSION['lang']?> main skyblue">
                             <li class="grid active" id="first">
                                 <a data-localize="menu.home" href="index.html"><?php echo $lang['home'] ?></a>
                             </li>
@@ -121,7 +121,7 @@
     </div>
     <div class="block">
         <div class="container text-center">
-            <a href="cars.html" class="btn effect-button" data-sm-link-text="<?php echo $lang['buttonHideText'] ?>"><span><?php echo $lang['buttonMainText'] ?></span></a>
+            <a href="cars.html" class="btn <?php echo $_SESSION['lang']?> effect-button" data-sm-link-text="<?php echo $lang['buttonHideText'] ?>"><span><?php echo $lang['buttonMainText'] ?></span></a>
         </div>
     </div>
     <br><br><br><br>
@@ -129,11 +129,11 @@
     <!--about-end-->
 
     <!--information-start-->
-    <div class="information">
+    <div class="information <?php echo $_SESSION['lang']?>">
         <div class="container">
             <div class="infor-top">
                 <div class="col-xxs-12 col-xs-3 col-md-3 infor-left">
-                    <h3><?php echo $lang['footerH1'] ?></h3>
+                    <h3 class="<?php echo $_SESSION['lang']?>"><?php echo $lang['footerH1'] ?></h3>
                     <ul>
                         <li><a href="https://www.facebook.com/profile.php?id=100007769135894"><span class="fb"></span>
                                 <h6>Facebook</h6>
@@ -147,7 +147,7 @@
                     </ul>
                 </div>
                 <div class="col-xxs-12 col-xs-3 col-md-3 infor-left">
-                    <h3><?php echo $lang['footerH2'] ?></h3>
+                    <h3 class="<?php echo $_SESSION['lang']?>"><?php echo $lang['footerH2'] ?></h3>
                     <ul>
                         <li><a href="cars.html">
                                 <p><?php echo $lang['finfp1'] ?></p>
@@ -158,7 +158,7 @@
                     </ul>
                 </div>
                 <div class="col-xxs-12 col-xs-3  col-md-3 infor-left">
-                    <h3><?php echo $lang['footerH3'] ?></h3>
+                    <h3 class="<?php echo $_SESSION['lang']?>"><?php echo $lang['footerH3'] ?></h3>
                     <ul>
                         <li><a href="account.html">
                                 <p><?php echo $lang['faccp1'] ?></p>
@@ -169,7 +169,7 @@
                     </ul>
                 </div>
                 <div class="col-xxs-12 col-xs-3 col-md-3 infor-left">
-                    <h3><?php echo $lang['footerH4'] ?></h3>
+                    <h3 class="<?php echo $_SESSION['lang']?>"><?php echo $lang['footerH4'] ?></h3>
                     <h4>KhCar Shop,
                         <span><?php echo $lang['fstorep1'] ?>,</span>
                         <?php echo $lang['fstorep2'] ?>.
@@ -184,7 +184,7 @@
     <!--information-end-->
 
     <!--footer-starts-->
-    <div class="footer">
+    <div class="footer <?php echo $_SESSION['lang']?>">
         <div class="container">
             <div class="footer-top text-center">
                 <p>© 2020 Prestigious cars. <?php echo $lang['footer'] ?></p>
