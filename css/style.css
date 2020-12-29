@@ -183,8 +183,11 @@ a.animated-button:link, a.animated-button:visited {
 }
 /*headers*/
 .top-header {
-    background: #000;
+	background: #000;
     padding: 10px 0px;
+}
+.top-header .container {
+    margin-right: 45px;
 }
 
 .top-header-right {
@@ -193,6 +196,21 @@ a.animated-button:link, a.animated-button:visited {
 
 .account-box {
 	float: right;
+}
+
+.account-box label{
+	font-family: 'Heebo-Medium';
+	margin-right: 6px;
+	color: white;
+}
+
+.account-box a img{
+	content: url(/images/account.png);
+}
+
+.account-box a img:hover{
+	color: #73b6e1;
+	content: url(/images/account-hover.png);
 }
 
 .header-bottom {
