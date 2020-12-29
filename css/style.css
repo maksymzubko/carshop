@@ -159,6 +159,11 @@ a.animated-button:link, a.animated-button:visited {
     font-family: 'Lato';
     src:url(/fonts/Lato-Regular.ttf) format('truetype');
 }
+
+@font-face {
+    font-family: 'Heebo-Medium';
+    src:url(/fonts/Heebo-Medium.ttf) format('truetype');
+}
 /*logo*/
 .logo {
     text-align: center;
@@ -1150,6 +1155,7 @@ figure.effect-mouse:hover p,figure.effect-mouse:hover h2 {
 
 }
 .product-main {
+	font-family: 'Heebo';
     padding: 1em 0px 5px 0px;
 	border:1px solid #ECEAEA;
 	margin: 5px 0px 5px 0px;
@@ -1157,26 +1163,26 @@ figure.effect-mouse:hover p,figure.effect-mouse:hover h2 {
 .product {
     padding: 3em 0px 6em 0px;
 }
-.product-bottom h3 {
-    font-size: 24px;
-    color: #000;
-    margin: 0;
-    text-transform: uppercase;
-	font-family: 'Heebo';
-}
 
 .product-bottom {
     text-align: center;
     margin-top: 20px;
 }
+.product-bottom h3 {
+    font-size: 22px;
+    color: #000;
+    margin: 0;
+    text-transform: uppercase;
+	font-family: 'Heebo-Medium';
+}
 .product-bottom p {
-	font-size: 16px;
+	font-size: 18px;
     color: #999;
     margin: 5px 0 0 0;
     text-transform: uppercase;
 }
 .product-buttons{
-	margin: 35px 0 15px 0;
+	margin: 28px 0 15px 0;
 	text-align: right;
 	flex-direction: row;
 	display: flex;
