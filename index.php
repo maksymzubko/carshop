@@ -1,6 +1,6 @@
+<?php require "config.php" ?>
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -25,11 +25,11 @@
         <div class="container">
             <div class="top-header-main">
                 <div class="top-header-right">
-                    <div class="account-box">     
-                        <label>Account</label>                
+                    <div class="account-box">
+                        <label>Account</label>
                         <a href="account.html">
                             <img src="images/account.png" alt="" style="width:30px;height:30px" />
-                        </a>                   
+                        </a>
                         <div class="clearfix"> </div>
                     </div>
                 </div>
@@ -50,13 +50,13 @@
                     <div class="top-nav">
                         <ul class="memenu main skyblue">
                             <li class="grid active" id="first">
-                                <a href="index.html">Home</a>
+                                <a data-localize="menu.home" href="index.html">Home</a>
                             </li>
-                            <li class="grid" id="second"><a href="cars.html">Cars</a>
+                            <li class="grid" id="second"><a data-localize="menu.cars" href="cars.html">Cars</a>
                             </li>
-                            <li class="grid" id="third"><a href="blog.html">Blog</a>
+                            <li class="grid" id="third"><a data-localize="menu.blog" href="blog.html">Blog</a>
                             </li>
-                            <li class="grid" id="fourh"><a href="contact.html">Contact</a>
+                            <li class="grid" id="fourh"><a data-localize="menu.contact" href="contact.html">Contact</a>
                             </li>
                         </ul>
                     </div>
