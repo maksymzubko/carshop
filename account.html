@@ -9,8 +9,10 @@
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/memenu.css">
+    <link rel="stylesheet" href="css/all.css">
 
     <!-- Import javascript -->
+    <script type="text/javascript" src="javascript/all.js"></script>
     <script type="text/javascript" src="javascript/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="javascript/memenu.js"></script>
     <script>$(document).ready(function () { $(".memenu").memenu(); });</script>
@@ -80,7 +82,43 @@
     </div>
     <!--Navigator end-->
 
-   <br>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-lg-12 text-center account">
+                <div class="profile">
+                    <div class="col-sm-12">
+                        <div class="col-xs-12 col-sm-8 col-md-12">
+                            <h2>User Human</h2>
+                            <p><strong>Role: </strong>
+                                <span class="tags c">User</span>
+                                <span class="tags d">Admin</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 divider text-center">
+                        <div class="col-xs-12 col-sm-4 emphasis">
+                            <h2><strong> 23 </strong></h2>
+                            <p><small>Cars in favourite</small></p>
+                            <button class="btn btn-block" onclick="window.location.href='/account.html'"><span class="fa fa-heart"></span> My Favourite
+                            </button>
+                        </div>
+                        <div class="col-xs-12 col-sm-4 emphasis">
+                            <h2><strong>12</strong></h2>
+                            <p><small>Test-drives</small></p>
+                            <button class="btn btn-block" onclick="window.location.href='/account.html'"><span class="fa fa-car"></span> View my test-drives
+                            </button>
+                        </div>
+                        <div class="col-xs-12 col-sm-4 emphasis">
+                            <h2><strong>245</strong></h2>
+                            <p><small>Viewed cars</small></p>
+                            <button class="btn btn-block" onclick="window.location.href='/cars.html'"><span class="fa fa-arrow-alt-circle-right"></span> Continue View Cars
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!--information-start-->
     <div class="information">
