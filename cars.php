@@ -1,79 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
-
+<?php require_once "config.php" ?>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Import css -->
-    <link rel="stylesheet" href="css/bootstrap.css">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/memenu.css">
+    <?php require_once "head.php" ?>
 
-    <!-- Import javascript -->
-    <script type="text/javascript" src="javascript/jquery-1.11.0.min.js"></script>
-    <script type="text/javascript" src="javascript/memenu.js"></script>
-    <script>$(document).ready(function () { $(".memenu").memenu(); });</script>
-    <script type="text/javascript" src="javascript/otherFunctions.js"></script>
-    <title>Cars "Prestigious Cars"</title>
+    <title><?php $lang['catalog'] ?></title>
 </head>
 
 <body class="body_hide">
-    <!--header-start-->
-    <div class="top-header">
-        <div class="container">
-            <div class="top-header-main">
-                <div class="top-header-right">
-                    <div class="account-box">     
-                        <label>Account</label>                
-                        <a href="account.html">
-                            <img src="images/account.png" alt="" style="width:30px;height:30px" />
-                        </a>                   
-                        <div class="clearfix"> </div>
-                    </div>
-                </div>
-            </div>
-            <div class="clearfix"></div>
-        </div>
-    </div>
-    </div>
-    <div class="logo">
-        <a href="index.html">
-            <h1><b>Prestigious cars</b></h1>
-        </a>
-    </div>
-    <div class="header-bottom">
-        <div class="container">
-            <div class="header">
-                <div class="col-md-12">
-                    <div class="top-nav">
-                        <ul class="memenu main skyblue">
-                            <li class="grid" id="first">
-                                <a href="index.html">Home</a>
-                            </li>
-                            <li class="grid active" id="second"><a href="cars.html">Cars</a>
-                            </li>
-                            <li class="grid" id="third"><a href="blog.html">Blog</a>
-                            </li>
-                            <li class="grid" id="fourh"><a href="contact.html">Contact</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="clearfix"> </div>
-                </div>
-                <div class="clearfix"> </div>
-            </div>
-        </div>
-    </div>
-    <!--header-end-->
+    <?php require_once "header.php" ?>
 
     <!--Navigator start-->
     <div class="breadcrumb">
         <div class="container">
-            <div class="breadcrumbs-main">
+            <div class="breadcrumbs-main <?php echo $_SESSION['lang'] ?>">
                 <ol class="breadcrumb">
-                    <li><a href="index.html">Home</a></li>
-                    <li class="active">Car Gallery</li>
+                    <li><a href="index.html"><?php echo $lang['home'] ?></a></li>
+                    <li class="active"><?php echo $catalog['catalog'] ?></li>
                 </ol>
             </div>
         </div>
@@ -86,27 +30,24 @@
             <div class="cars-top">
                 <div class="col-md-3 car-right">
                     <div class="w_sidebar">
-                        <ul class="memenu filters skyblue">
+                        <ul class="memenu <?php echo $_SESSION['lang'] ?> filters skyblue">
                             <li>
                                 <section class="sky-form">
-                                    <h4>Catogories</h4>
+                                    <h4><?php echo $catalog['c1'] ?></h4>
                                     <div class="row1 scroll-pane">
                                         <div class="col col-4">
-                                            <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>All
-                                                categories</label>
+                                            <label class="checkbox"><input type="checkbox" name="checkbox"><i></i><?php echo $catalog['c2'] ?></label>
                                             <label class="checkbox"><input type="checkbox"
-                                                    name="checkbox"><i></i>Sportcars</label>
-                                            <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>For
-                                                family</label>
+                                                    name="checkbox"><i></i><?php echo $catalog['c3'] ?></label>
+                                            <label class="checkbox"><input type="checkbox" name="checkbox"><i></i><?php echo $catalog['c4'] ?></label>
                                         </div>
                                     </div>
                                 </section>
                                 <section class="sky-form">
-                                    <h4>Brand</h4>
+                                    <h4><?php echo $catalog['f1'] ?></h4>
                                     <div class="row1 scroll-pane">
                                         <div class="col col-4">
-                                            <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>All
-                                                brands</label>
+                                            <label class="checkbox"><input type="checkbox" name="checkbox"><i></i><?php echo $catalog['f2'] ?></label>
                                             <label class="checkbox"><input type="checkbox"
                                                     name="checkbox"><i></i>Toyota</label>
                                             <label class="checkbox"><input type="checkbox"
@@ -119,7 +60,7 @@
                                     </div>
                                 </section>
                                 <section class="sky-form">
-                                    <h4>Colour</h4>
+                                    <h4><?php echo $catalog['col'] ?></h4>
                                     <ul class="w_nav2">
                                         <li><a class="color1" href="#"></a></li>
                                         <li><a class="color2" href="#"></a></li>
@@ -154,7 +95,7 @@
                                     <p>Camry</p>
                                 </div>
                                 <div class="product-buttons">
-                                    <a href="cars.html" class="btn effect-button" data-sm-link-text="Click"><span>View car</span></a>
+                                    <a href="cars.html" class="btn <?php echo $_SESSION['lang'] ?> effect-button" data-sm-link-text="<?php echo $lang['buttonHideText'] ?>"><span><?php echo $catalog['btn'] ?></span></a>
                                         <img src="/images/favourite-is.png" class="favourite nope" tabindex="0">
                                 </div>
                             </div>
@@ -169,7 +110,7 @@
                                     <p>Camry</p>
                                 </div>
                                 <div class="product-buttons">
-                                    <a href="cars.html" class="btn effect-button" data-sm-link-text="Click"><span>View car</span></a>
+                                    <a href="cars.html" class="btn <?php echo $_SESSION['lang'] ?> effect-button" data-sm-link-text="<?php echo $lang['buttonHideText'] ?>"><span><?php echo $catalog['btn'] ?></span></a>
                                     <img class="favourite is"  tabindex="2">
                                 </div>
                             </div>
@@ -184,7 +125,7 @@
                                     <p>Camry</p>
                                 </div>
                                 <div class="product-buttons">
-                                    <a href="cars.html" class="btn effect-button" data-sm-link-text="Click"><span>View car</span></a>
+                                    <a href="cars.html" class="btn <?php echo $_SESSION['lang'] ?> effect-button" data-sm-link-text="<?php echo $lang['buttonHideText'] ?>"><span><?php echo $catalog['btn'] ?></span></a>
                                     <img class="favourite is">
                                 </div>
                             </div>
@@ -199,7 +140,7 @@
                                     <p>Gg</p>
                                 </div>
                                 <div class="product-buttons">
-                                    <a href="cars.html" class="btn effect-button" data-sm-link-text="Click"><span>View car</span></a>
+                                    <a href="cars.html" class="btn <?php echo $_SESSION['lang'] ?> effect-button" data-sm-link-text="<?php echo $lang['buttonHideText'] ?>"><span><?php echo $catalog['btn'] ?></span></a>
                                     <img class="favourite is">
                                 </div>
                             </div>
@@ -214,13 +155,12 @@
                                     <p>Gg</p>
                                 </div>
                                 <div class="product-buttons">
-                                    <a href="cars.html" class="btn effect-button" data-sm-link-text="Click"><span>View car</span></a>
+                                    <a href="cars.html" class="btn <?php echo $_SESSION['lang'] ?> effect-button" data-sm-link-text="<?php echo $lang['buttonHideText'] ?>"><span><?php echo $catalog['btn'] ?></span></a>
                                     <img class="favourite is">
                                 </div>
                             </div>
                             <div class="clearfix"></div>
                         </div>
-
                     </div>
                 </div>
                 <div class="clearfix"></div>
@@ -229,72 +169,7 @@
     </div>
     <!--Cars-product end-->
 
-    <!--information-start-->
-    <div class="information">
-        <div class="container">
-            <div class="infor-top">
-                <div class="col-xxs-12 col-xs-3 col-md-3 infor-left">
-                    <h3>Follow Us</h3>
-                    <ul>
-                        <li><a href="https://www.facebook.com/profile.php?id=100007769135894"><span class="fb"></span>
-                                <h6>Facebook</h6>
-                            </a></li>
-                        <li><a href="https://twitter.com/Maksimilan0"><span class="twit"></span>
-                                <h6>Twitter</h6>
-                            </a></li>
-                        <li><a href="https://www.instagram.com/piaceofrice"><span class="google"></span>
-                                <h6>Instagram</h6>
-                            </a></li>
-                    </ul>
-                </div>
-                <div class="col-xxs-12 col-xs-3 col-md-3 infor-left">
-                    <h3>Information</h3>
-                    <ul>
-                        <li><a href="cars.html">
-                                <p>Our cars</p>
-                            </a></li>
-                        <li><a href="contact.html">
-                                <p>Contact Us</p>
-                            </a></li>
-                    </ul>
-                </div>
-                <div class="col-xxs-12 col-xs-3  col-md-3 infor-left">
-                    <h3>My Account</h3>
-                    <ul>
-                        <li><a href="account.html">
-                                <p>My Account</p>
-                            </a></li>
-                        <li><a href="#">
-                                <p>My Favourites</p>
-                            </a></li>
-                    </ul>
-                </div>
-                <div class="col-xxs-12 col-xs-3 col-md-3 infor-left">
-                    <h3>Store Information</h3>
-                    <h4>KhCar Shop,
-                        <span>Kharkiv,</span>
-                        Klochkivska street, 188.
-                    </h4>
-                    <h5><a href="callto:+380992443242">+380 99 244 3242</a></h5>
-                    <p><a href="mailto:makzzubko66@email.com">makzzubko66@gmail.com</a></p>
-                </div>
-                <div class="clearfix"></div>
-            </div>
-        </div>
-    </div>
-    <!--information-end-->
-
-    <!--footer-starts-->
-    <div class="footer">
-        <div class="container">
-            <div class="footer-top text-center">
-                <p>© 2020 Prestigious cars. All Rights Reserved</p>
-                <div class="clearfix"></div>
-            </div>
-        </div>
-    </div>
-    </div>
-    <!--footer-end-->
+    <?php require_once "footer.php" ?>
 </body>
 
 </html>
