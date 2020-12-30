@@ -39,4 +39,8 @@ $catalog = array(
     "col"=>"Color",
     "btn"=>"View auto"
 );
+$blog= array(
+    "blog"=>"Blog",
+    "temp"=>"Comming soon.."
+    );
 ?>

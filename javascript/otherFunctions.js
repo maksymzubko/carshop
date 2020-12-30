@@ -4,9 +4,9 @@ $(document).ready(function () {
 		$('#first').removeClass().addClass('grid active');
 		else if(window.location.pathname == "/cars.php")
 		$('#second').removeClass().addClass('grid active');
-		else if(window.location.pathname == "/blog.html")
+		else if(window.location.pathname == "/blog.php")
 		$('#third').removeClass().addClass('grid active');
-		else if(window.location.pathname == "/contact.html")
+		else if(window.location.pathname == "/contact.php")
 		$('#fouth').removeClass().addClass('grid active');
 	}
 	setActive();
