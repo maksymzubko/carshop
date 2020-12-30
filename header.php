@@ -39,7 +39,7 @@ echo ' <!--header-start-->
             <div class="col-md-12">
                 <div class="top-nav">
                     <ul class="memenu '. $_SESSION['lang'] .' main skyblue">
-                        <li class="grid active" id="first">
+                        <li class="grid" id="first">
                             <a href="index.php">'. $lang['home'] .'</a>
                         </li>
                         <li class="grid" id="second"><a href="cars.php">'. $lang['cars'] .'</a>

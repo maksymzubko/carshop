@@ -1,4 +1,15 @@
 $(document).ready(function () {
+	function setActive(){
+		if(window.location.pathname == "/index.php")
+		$('#first').removeClass().addClass('grid active');
+		else if(window.location.pathname == "/cars.php")
+		$('#second').removeClass().addClass('grid active');
+		else if(window.location.pathname == "/blog.html")
+		$('#third').removeClass().addClass('grid active');
+		else if(window.location.pathname == "/contact.html")
+		$('#fouth').removeClass().addClass('grid active');
+	}
+	setActive();
 	var elem = $(".product").children("div");
 	$('input:radio[id="t1"]').change(function () {
 		if ($(this).is(':checked')) {
