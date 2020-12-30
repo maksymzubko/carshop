@@ -1,14 +1,14 @@
 $(document).ready(function () {
-	function setActive(){
-		if(window.location.pathname == "/index.php")
-		$('#first').removeClass().addClass('grid active');
-		else if(window.location.pathname == "/cars.php")
-		$('#second').removeClass().addClass('grid active');
-		else if(window.location.pathname == "/blog.php")
-		$('#third').removeClass().addClass('grid active');
-		else if(window.location.pathname == "/contact.php")
-		$('#fourh').removeClass().addClass('grid active');
-		
+	function setActive() {
+		if (window.location.pathname == "/index.php")
+			$('#first').removeClass().addClass('grid active');
+		else if (window.location.pathname == "/cars.php")
+			$('#second').removeClass().addClass('grid active');
+		else if (window.location.pathname == "/blog.php")
+			$('#third').removeClass().addClass('grid active');
+		else if (window.location.pathname == "/contact.php")
+			$('#fourh').removeClass().addClass('grid active');
+
 	}
 	setActive();
 	var elem = $(".product").children("div");
@@ -29,15 +29,44 @@ $(document).ready(function () {
 	});
 	$('.favourite').click(function () {
 		var elem = $(this);
-		if (elem.attr('class') == "favourite nope") { elem.removeClass().addClass('favourite is');}
-		else { elem.removeClass().addClass('favourite nope');}
+		if (elem.attr('class') == "favourite nope") { elem.removeClass().addClass('favourite is'); }
+		else { elem.removeClass().addClass('favourite nope'); }
 
 		elem.focus();
 		elem.blur();
 	});
-		$('.lan').click(function(e) {
-				location.href = window.location.origin + window.location.pathname + "?lang=" + e.target.id;
-		   });
+	$('.phone').mask('+380 (00) 000 0000', { placeholder: "+___ (__) ___ ____" });
+	$('.lan').click(function (e) {
+		location.href = window.location.origin + window.location.pathname + "?lang=" + e.target.id;
+	});
+	$('#register').submit(function (e) {
+		var data = new FormData(this);
+		e.preventDefault();
+		$.ajax({
+			type: 'POST',
+			url: '/eventsHandler.php',
+			data: data,
+			cache: false,
+			contentType: false,
+			processData: false,
+			success: function (response) {
+				swal(
+					"Отлично!",
+					"Пользователь успешно зарегистрирован!",
+					"success",
+				);
+				location.href = window.location.origin + "/account.php";
+			},
+			error: function (xhr, status, error) {
+				let d = JSON.parse(xhr.responseText);
+				swal(
+					"Жаль!",
+					d.errors[0].email,
+					"error",
+				);
+			}
+		})
+	});
 	$.getScript("/javascript/resize.js", function () {
 		new ResizeSensor(jQuery(elem), function () {
 			elem.css({ 'transition-duration': '0.4s' });

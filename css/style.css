@@ -327,6 +327,14 @@ a.animated-button:link, a.animated-button:visited {
 	float: right;
 }
 
+.account-top,.register-top{
+	text-align:center;
+}
+
+.account-main,.register-main{
+	margin-top:4%;
+}
+
 .account-box label{
 	margin-right: 6px;
 	color: white;
@@ -340,7 +348,6 @@ a.animated-button:link, a.animated-button:visited {
 	font-family: 'Roboto-Medium';
 }
 
-
 .account-box a img{
 	content: url(/images/account.png);
 }
@@ -349,6 +356,53 @@ a.animated-button:link, a.animated-button:visited {
 	color: #73b6e1;
 	content: url(/images/account-hover.png);
 }
+
+/*register*/
+/*--starts-register--*/
+
+.register{
+	padding: 2em 0 6em 0;
+}
+
+.register h2 {
+	padding-bottom: 20px;
+    border-bottom: 1px solid black;
+}
+
+.register .form-group
+{
+	margin: 15px 0;
+}
+
+.form-row .form-group
+{
+	margin: 5px 0;
+}
+
+.register .button
+{
+padding-top: 60px;
+border-top: 1px solid black;
+}
+
+.register button {
+ width: 35%;
+}
+
+.form-check-inline {
+	display: inline-block;
+	margin: 0 17px;
+	margin-top: 6px;
+}
+
+.register .control-group p{
+	margin: 1.2em 0 2.2em 0;
+	font-size:14px;
+	line-height:1.8em;
+	color:#999;
+}
+
+/*--end-register--*/
 
 .header-bottom {
 padding: 18px 0px;
@@ -360,7 +414,6 @@ font-family: 'Heebo', serif;
 font-family: 'Roboto', serif;
 }
 	
-
 .header-left {
     width: 72%;
 	float: left;

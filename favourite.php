@@ -26,7 +26,6 @@
     </div>
     <!--Navigator end-->
 
-
     <!--Cars-product start-->
     <div class="cars-catalog-favourite">
         <div class="container">

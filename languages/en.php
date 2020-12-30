@@ -59,4 +59,7 @@ $account = array(
     "b1"=>"View my test-drives",
     "b2"=>"Continue view cars"
     ); 
+$register = array(
+     "register" => "Register"  
+);
 ?>
