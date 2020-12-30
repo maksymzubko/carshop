@@ -21,7 +21,7 @@ echo ' <!--information-start-->
             <div class="col-xxs-12 col-xs-3 col-md-3 infor-left">
                 <h3 class="'. $_SESSION['lang'] .'">'. $lang['footerH2'] .'</h3>
                 <ul>
-                    <li><a href="cars.html">
+                    <li><a href="cars.php">
                             <p>'. $lang['finfp1'] .'</p>
                         </a></li>
                     <li><a href="contact.html">

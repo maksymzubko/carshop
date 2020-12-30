@@ -29,7 +29,7 @@ echo ' <!--header-start-->
 </div>
 </div>
 <div class="logo">
-    <a href="index.html">
+    <a href="index.php">
         <h1><b>Prestigious cars</b></h1>
     </a>
 </div>
@@ -40,9 +40,9 @@ echo ' <!--header-start-->
                 <div class="top-nav">
                     <ul class="memenu '. $_SESSION['lang'] .' main skyblue">
                         <li class="grid active" id="first">
-                            <a href="index.html">'. $lang['home'] .'</a>
+                            <a href="index.php">'. $lang['home'] .'</a>
                         </li>
-                        <li class="grid" id="second"><a href="cars.html">'. $lang['cars'] .'</a>
+                        <li class="grid" id="second"><a href="cars.php">'. $lang['cars'] .'</a>
                         </li>
                         <li class="grid" id="third"><a href="blog.html">'. $lang['blog'] .'</a>
                         </li>

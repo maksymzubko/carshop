@@ -5,7 +5,7 @@
 
     <?php require_once "head.php" ?>
 
-    <title><?php $lang['catalog'] ?></title>
+    <title><?php echo $catalog['catalog'] ?></title>
 </head>
 
 <body class="body_hide">
@@ -16,7 +16,7 @@
         <div class="container">
             <div class="breadcrumbs-main <?php echo $_SESSION['lang'] ?>">
                 <ol class="breadcrumb">
-                    <li><a href="index.html"><?php echo $lang['home'] ?></a></li>
+                    <li><a href="index.php"><?php echo $lang['home'] ?></a></li>
                     <li class="active"><?php echo $catalog['catalog'] ?></li>
                 </ol>
             </div>

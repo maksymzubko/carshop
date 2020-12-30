@@ -3,7 +3,7 @@
 
 <head>
    <?php require_once "head.php" ?>
-    <title><?php $lang['home'] ?></title>
+    <title><?php echo $lang['home'] ?></title>
 </head>
 
 <body class="body_hide">
