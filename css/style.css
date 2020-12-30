@@ -1466,13 +1466,6 @@ a.mask {
 /*contact page*/
 /*--contact-starts--*/
 
-.address.en{
-	font-family: 'Heebo';
-}
-.address.ru, .address.ukr{
-	font-family: 'Roboto';
-}
-
 .contact{
 	padding:3em 0px;
 }
@@ -1481,6 +1474,12 @@ a.mask {
 }
 .contact-text{
 	margin-top:4%;
+}
+.contact-text.en{
+	font-family: 'Heebo';
+}
+.contact-text.ru, .contact-text.ukr{
+	font-family: 'Roboto';
 }
 
 .address h5 {
@@ -1524,7 +1523,12 @@ a.mask {
 /*account*/
 .account{
 	margin: 20px 0;
+}
+.account.en{
 	font-family: 'Heebo';
+}
+.account.ru, .account.ukr{
+	font-family: 'Roboto';
 }
 .account .btn:hover{
 	height: 60px;
@@ -1562,7 +1566,17 @@ a.mask {
 .emphasis 
 {
     border-top: 4px solid transparent;
-    }
+	}
+.emphasis.en 
+{
+	font-family: 'Heebo';
+}
+.emphasis.ru, .emphasis.ukr 
+{
+	font-family: 'Roboto';
+}
+
+
 .emphasis:hover 
 {
     border-top: 4px solid #337ab7;

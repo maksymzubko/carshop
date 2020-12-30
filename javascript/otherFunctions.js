@@ -8,6 +8,7 @@ $(document).ready(function () {
 		$('#third').removeClass().addClass('grid active');
 		else if(window.location.pathname == "/contact.php")
 		$('#fourh').removeClass().addClass('grid active');
+		
 	}
 	setActive();
 	var elem = $(".product").children("div");

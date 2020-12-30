@@ -33,7 +33,7 @@
                    <?php echo $contact['mText'] ?>
                 </h2>
             </div>
-            <div class="contact-text">
+            <div class="contact-text <?php echo $_SESSION['lang'] ?>">
                 <div class="col-md-4 contact-right">
                     <div class="address <?php echo $_SESSION['lang'] ?>">
                         <h5><?php echo $contact['adr'] ?></h5>

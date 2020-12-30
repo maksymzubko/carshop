@@ -48,5 +48,15 @@ $contact = array(
     "tel"=>"Phone",
     "adr"=>"Adress",
     "mail"=>"Mail"
+    );
+$account = array(
+    "role"=>"Role",
+    "r1"=>"User",
+    "r2"=>"Admin",
+    "hd1"=>"Auto in Favourite",
+    "hd2"=>"Test-drives",
+    "hd3"=>"Viewed auto",
+    "b1"=>"View my test-drives",
+    "b2"=>"Continue view cars"
     ); 
 ?>
