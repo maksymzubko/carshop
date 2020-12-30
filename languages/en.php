@@ -59,7 +59,16 @@ $account = array(
     "b1"=>"View my test-drives",
     "b2"=>"Continue view cars"
     ); 
-$register = array(
-     "register" => "Register"  
-);
+    $register = array(
+        "register" => "Registration",
+        "email"=>"Email",
+        "name"=>"Name",
+        "sur"=>"Second Name",
+        "phone"=>"Phone",
+        "pass"=>"Password",
+        "apass"=>"Confirm password",
+        "m1"=>"Male",
+        "m2"=>"Female",
+        "reg"=>"Register"
+      );
 ?>

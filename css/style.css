@@ -365,12 +365,20 @@ a.animated-button:link, a.animated-button:visited {
 }
 
 .register h2 {
+	font-weight: bold;
 	padding-bottom: 20px;
     border-bottom: 1px solid black;
 }
 
+.register label, .register input {
+	font-weight: normal;
+}
+
 .register .form-group
 {
+	border-radius: 6px;
+	background-color: #222222;
+	color: white;
 	margin: 15px 0;
 }
 
@@ -379,10 +387,27 @@ a.animated-button:link, a.animated-button:visited {
 	margin: 5px 0;
 }
 
+.login .form-row {
+	margin: 20px 0;
+	padding: 40px 0;
+}
+
+.register .form-group
+{
+	margin: 15px 0;
+}
+
 .register .button
 {
 padding-top: 60px;
 border-top: 1px solid black;
+}
+
+.register.en{
+font-family: 'Heebo';
+}
+.register.ru, .register.ukr{
+	font-family: 'Roboto';
 }
 
 .register button {
@@ -391,8 +416,7 @@ border-top: 1px solid black;
 
 .form-check-inline {
 	display: inline-block;
-	margin: 0 17px;
-	margin-top: 6px;
+	margin: 6px 17px;
 }
 
 .register .control-group p{
@@ -1597,6 +1621,11 @@ a.mask {
 .account{
 	margin: 20px 0;
 }
+
+.account h2{
+	font-family: 'Roboto';
+}
+
 .account.en{
 	font-family: 'Heebo';
 }

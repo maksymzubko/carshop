@@ -11,6 +11,8 @@
 <body class="body_hide">
 <?php require_once "header.php" ?>
 
+    <?php include 'functions.php'; $result = getAboutUser("30");
+    ?>
     <!--Navigator start-->
     <div class="breadcrumb">
         <div class="container">
@@ -31,7 +33,7 @@
                 <div class="profile">
                     <div class="col-sm-12">
                         <div class="col-xs-12 col-sm-8 col-md-12">
-                            <h2>User Human</h2>
+                            <h2><?php while($row = $result->fetch_assoc()) {$name = $row['u_fname'].' '.$row['u_name']; echo $name;} ?></h2>
                             <p><strong><?php echo $account['role'] ?>: </strong>
                                 <span class="tags c"><?php echo $account['r1'] ?></span>
                                 <span class="tags d"><?php echo $account['r2'] ?></span>

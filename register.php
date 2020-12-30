@@ -1,4 +1,9 @@
-<?php require_once "config.php" ?>
+<?php require_once "config.php" ;
+if(isset($_COOKIE['account']))
+{
+    header("Location: account.php"); exit;
+}
+?>
 <html>
 
 <head>
@@ -29,7 +34,7 @@
     <!--end-breadcrumbs-->
 
     <!--register-starts-->
-    <div class="register">
+    <div class="register <?php echo $_SESSION['lang'] ?>">
         <div class="container">
             <div class="register-top heading">
                 <h2><?php echo $register['register'] ?></h2>
@@ -37,54 +42,54 @@
             <form id="register" method="post" oninput='password2.setCustomValidity(password.value != password2.value ? "Passwords do not match." : "")'>
                 <div class="form-row">
                     <div class="form-group col-md-6">
-                        <label for="inputEmail">Email</label>
-                        <input type="email" class="form-control" id="inputEmail" placeholder="Email"  name="email" required>
+                        <label for="inputEmail"><?php echo $register['email'] ?></label>
+                        <input type="email" class="form-control" id="inputEmail" placeholder="<?php echo $register['email'] ?>"  name="email" required>
                         <div class="form-control-feedback"></div>
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="inputPhone">Phone number</label>
-                        <input type="tel" class="form-control phone" id="phone" placeholder="Phone" name="phone" required>
-                        <div class="form-control-feedback"></div>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label for="inputName">Name</label>
-                        <input type="text" class="form-control" id="inputName" placeholder="Name" name="name" required>
-                        <div class="form-control-feedback"></div>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label>Password </label>
-                        <input type="password" class="form-control" id="inputPassword1" placeholder="Password" name=password required>
+                        <label for="inputPhone"><?php echo $register['phone'] ?></label>
+                        <input type="tel" class="form-control phone" id="phone" placeholder="<?php echo $register['phone'] ?>" name="phone" required>
                         <div class="form-control-feedback"></div>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-6">
-                        <label for="inputSecondName">Second Name</label>
-                        <input type="text" class="form-control" id="inputSecondName" placeholder="Second Name"  name="secondname">
+                        <label for="inputName"><?php echo $register['name'] ?></label>
+                        <input type="text" class="form-control" id="inputName" placeholder="<?php echo $register['name'] ?>" name="name" required>
                         <div class="form-control-feedback"></div>
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="inputPassword4">Password confirm</label>
-                        <input type="password" class="form-control" id="inputPassword2" placeholder="Repeat Password" required name=password2>
+                        <label><?php echo $register['pass'] ?></label>
+                        <input type="password" class="form-control" id="inputPassword1" placeholder="<?php echo $register['pass'] ?>" name=password required>
+                        <div class="form-control-feedback"></div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="inputSecondName"><?php echo $register['sur'] ?></label>
+                        <input type="text" class="form-control" id="inputSecondName" placeholder="<?php echo $register['sur'] ?>"  name="secondname">
+                        <div class="form-control-feedback"></div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="inputPassword4"><?php echo $register['apass'] ?></label>
+                        <input type="password" class="form-control" id="inputPassword2" placeholder="<?php echo $register['apass'] ?>" required name=password2>
                         <div class="form-control-feedback"></div>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" id="inlineradio1" name="radi1" value="Male" checked>
-                        <label class="form-check-label">Male</label>
+                        <label class="form-check-label"><?php echo $register['m1'] ?></label>
                         <div class="form-control-feedback"></div>
                     </div>
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" id="inlineradio2" name="radi1" value="Female">
-                        <label class="form-check-label">Female</label>
+                        <label class="form-check-label"><?php echo $register['m2'] ?></label>
                         <div class="form-control-feedback"></div>
                     </div>
                 </div>
                 <div class="button text-center">
-                    <button id="registerButton" type="submit" name=register class="btn <?php echo $_SESSION['lang'] ?> btn-block effect-button2" data-sm-link-text="<?php echo $lang['buttonHideText'] ?>"><span><?php echo $lang['faccp2'] ?></span></button>
+                    <button id="registerButton" type="submit" name=register class="btn <?php echo $_SESSION['lang'] ?> btn-block effect-button2" data-sm-link-text="<?php echo $lang['buttonHideText'] ?>"><span><?php echo $register['reg'] ?></span></button>
                 </div>
             </form>
         </div>

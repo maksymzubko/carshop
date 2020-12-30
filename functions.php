@@ -70,3 +70,11 @@ function getUsersList()
     $db = get_connection();
     return $db->query($query);
 }
+
+function getAboutUser(string $id)
+{
+    $query = "SELECT * FROM `users` WHERE `u_ID` = $id";
+
+    $db = get_connection();
+    return $db->query($query);
+}
