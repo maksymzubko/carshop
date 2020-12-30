@@ -24,7 +24,7 @@ echo ' <!--information-start-->
                     <li><a href="cars.php">
                             <p>'. $lang['finfp1'] .'</p>
                         </a></li>
-                    <li><a href="contact.html">
+                    <li><a href="contact.php">
                             <p>'. $lang['finfp2'] .'</p>
                         </a></li>
                 </ul>

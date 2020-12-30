@@ -44,9 +44,9 @@ echo ' <!--header-start-->
                         </li>
                         <li class="grid" id="second"><a href="cars.php">'. $lang['cars'] .'</a>
                         </li>
-                        <li class="grid" id="third"><a href="blog.html">'. $lang['blog'] .'</a>
+                        <li class="grid" id="third"><a href="blog.php">'. $lang['blog'] .'</a>
                         </li>
-                        <li class="grid" id="fourh"><a href="contact.html">'. $lang['contact'] .'</a>
+                        <li class="grid" id="fourh"><a href="contact.php">'. $lang['contact'] .'</a>
                         </li>
                     </ul>
                 </div>
@@ -57,5 +57,4 @@ echo ' <!--header-start-->
     </div>
 </div>
 <!--header-end-->'
-
 ?>
