@@ -22,10 +22,15 @@ $(document).ready(function () {
 			elem.removeClass().addClass('col-xs-12 col-sm-12 col-lg-12 col-md-12 product-left p-left');
 		}
 	});
+	$('input:radio[id="t3"]').change(function () {
+		if ($(this).is(':checked')) {
+			elem.removeClass().addClass('col-xs-4 col-sm-4 col-lg-4 col-md-4 product-left p-left');
+		}
+	});
 	$('.favourite').click(function () {
 		var elem = $(this);
-		if (elem.attr('class') == "favourite nope") { elem.removeClass().addClass('favourite is'); }
-		else { elem.removeClass().addClass('favourite nope'); }
+		if (elem.attr('class') == "favourite nope") { elem.removeClass().addClass('favourite is');}
+		else { elem.removeClass().addClass('favourite nope');}
 
 		elem.focus();
 		elem.blur();

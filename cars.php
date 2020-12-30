@@ -90,7 +90,7 @@
                                 </div>
                                 <div class="product-buttons">
                                     <a href="" class="btn <?php echo $_SESSION['lang'] ?> effect-button" data-sm-link-text="<?php echo $lang['buttonHideText'] ?>"><span><?php echo $catalog['btn'] ?></span></a>
-                                    <img src="/images/favourite-is.png" class="favourite nope" tabindex="0">
+                                    <img src="/images/favourite-is.png" class="favourite nope" tabindex="0" alt="aa">
                                 </div>
                             </div>
                             <div class="clearfix"></div>
@@ -104,7 +104,7 @@
                                 </div>
                                 <div class="product-buttons">
                                     <a href="" class="btn <?php echo $_SESSION['lang'] ?> effect-button" data-sm-link-text="<?php echo $lang['buttonHideText'] ?>"><span><?php echo $catalog['btn'] ?></span></a>
-                                    <img class="favourite is" tabindex="2">
+                                    <img class="favourite is" tabindex="2" alt="">
                                 </div>
                             </div>
                             <div class="clearfix"></div>

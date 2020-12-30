@@ -5,7 +5,7 @@
 
     <?php require_once "head.php" ?>
 
-    <title><?php echo $blog['blog'] ?></title>
+    <title><?php echo $lang['contact'] ?></title>
 </head>
 
 <body class="body_hide">
