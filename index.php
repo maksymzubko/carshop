@@ -64,7 +64,7 @@
     </div>
     <div class="block">
         <div class="container text-center">
-            <a href="cars.html" class="btn <?php echo $_SESSION['lang'] ?> effect-button" data-sm-link-text="<?php echo $lang['buttonHideText'] ?>"><span><?php echo $index['buttonMainText'] ?></span></a>
+            <a href="cars.php" class="btn <?php echo $_SESSION['lang'] ?> effect-button" data-sm-link-text="<?php echo $lang['buttonHideText'] ?>"><span><?php echo $index['buttonMainText'] ?></span></a>
         </div>
     </div>
     <br><br><br><br>
