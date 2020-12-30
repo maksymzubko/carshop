@@ -18,7 +18,7 @@
             <div class="breadcrumbs-main <?php echo $_SESSION['lang'] ?>">
                 <ol class="breadcrumb">
                     <li><a href="index.php"><?php echo $lang['home'] ?></a></li>
-                    <li class="active"><?php echo $blog['blog'] ?></li>
+                    <li class="active"><?php echo $lang['blog'] ?></li>
                 </ol>
             </div>
         </div>

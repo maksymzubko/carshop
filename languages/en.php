@@ -42,5 +42,11 @@ $catalog = array(
 $blog= array(
     "blog"=>"Blog",
     "temp"=>"Comming soon.."
-    );
+);
+$contact = array(
+    "mText"=>"Do you have any questions? Contact our support who will be happy to help you!",
+    "tel"=>"Phone",
+    "adr"=>"Adress",
+    "mail"=>"Mail"
+    ); 
 ?>

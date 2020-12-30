@@ -1465,9 +1465,16 @@ a.mask {
 
 /*contact page*/
 /*--contact-starts--*/
+
+.address.en{
+	font-family: 'Heebo';
+}
+.address.ru, .address.ukr{
+	font-family: 'Roboto';
+}
+
 .contact{
 	padding:3em 0px;
-	font-family: 'Heebo';
 }
 .contact-top{
 	text-align:center;
