@@ -97,6 +97,7 @@ a.animated-button:link, a.animated-button:visited {
   }
 
   .btn.ru, .btn.ukr {
+	font-size: 12px;
 	font-family: 'Roboto-Bold';
   }
 
@@ -734,10 +735,10 @@ figure.effect-mouse:hover p,figure.effect-mouse:hover h2 {
 .breadcrumbs-main {
     border: 1px solid #D6D6D6;
 }
-.breadcrumb-main.en {
+.breadcrumbs-main.en {
 	font-family: 'Heebo';
 }
-.breadcrumb-main.ru, .breadcrumb-main.ukr {
+.breadcrumbs-main.ru, .breadcrumbs-main.ukr {
 	font-family: 'Roboto';
 }
 .breadcrumb {
@@ -989,7 +990,7 @@ figure.effect-mouse:hover p,figure.effect-mouse:hover h2 {
 	width: 15px;
 	height: 15px;
 	border-radius: 15px;
-	top: -5px;
+	top: -1px;
 	left: -1px;
 	position: relative;
 	background-color: #d1d3d1;
@@ -1003,7 +1004,7 @@ figure.effect-mouse:hover p,figure.effect-mouse:hover h2 {
 	width: 15px;
 	height: 15px;
 	border-radius: 15px;
-	top: -5px;
+	top: -1px;
 	left: -1px;
 	position: relative;
 	background-color: #73B6E1;
