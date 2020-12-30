@@ -32,7 +32,7 @@ echo ' <!--information-start-->
             <div class="col-xxs-12 col-xs-3  col-md-3 infor-left">
                 <h3 class="'. $_SESSION['lang'] .'">'. $lang['footerH3'] .'</h3>
                 <ul>
-                    <li><a href="account.html">
+                    <li><a href="account.php">
                             <p>'. $lang['faccp1'] .'</p>
                         </a></li>
                     <li><a href="#">
@@ -44,7 +44,7 @@ echo ' <!--information-start-->
                 <h3 class="'. $_SESSION['lang'] .'">'.$lang['footerH4'] .'</h3>
                 <h4>KhCar Shop,
                     <span>'.$lang['fstorep1'] .',</span>
-                    '. $lang['fstorep2'] .'.
+                    '. $lang['fstorep2'] .'
                 </h4>
                 <h5><a href="callto:+380992443242">+380 99 244 3242</a></h5>
                 <p><a href="mailto:makzzubko66@email.com">makzzubko66@gmail.com</a></p>

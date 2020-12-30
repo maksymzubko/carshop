@@ -89,7 +89,7 @@
                                     <p>Camry</p>
                                 </div>
                                 <div class="product-buttons">
-                                    <a href="cars.html" class="btn <?php echo $_SESSION['lang'] ?> effect-button" data-sm-link-text="<?php echo $lang['buttonHideText'] ?>"><span><?php echo $catalog['btn'] ?></span></a>
+                                    <a href="" class="btn <?php echo $_SESSION['lang'] ?> effect-button" data-sm-link-text="<?php echo $lang['buttonHideText'] ?>"><span><?php echo $catalog['btn'] ?></span></a>
                                     <img src="/images/favourite-is.png" class="favourite nope" tabindex="0">
                                 </div>
                             </div>
@@ -103,7 +103,7 @@
                                     <p>Camry</p>
                                 </div>
                                 <div class="product-buttons">
-                                    <a href="cars.html" class="btn <?php echo $_SESSION['lang'] ?> effect-button" data-sm-link-text="<?php echo $lang['buttonHideText'] ?>"><span><?php echo $catalog['btn'] ?></span></a>
+                                    <a href="" class="btn <?php echo $_SESSION['lang'] ?> effect-button" data-sm-link-text="<?php echo $lang['buttonHideText'] ?>"><span><?php echo $catalog['btn'] ?></span></a>
                                     <img class="favourite is" tabindex="2">
                                 </div>
                             </div>
@@ -117,7 +117,7 @@
                                     <p>Camry</p>
                                 </div>
                                 <div class="product-buttons">
-                                    <a href="cars.html" class="btn <?php echo $_SESSION['lang'] ?> effect-button" data-sm-link-text="<?php echo $lang['buttonHideText'] ?>"><span><?php echo $catalog['btn'] ?></span></a>
+                                    <a href="" class="btn <?php echo $_SESSION['lang'] ?> effect-button" data-sm-link-text="<?php echo $lang['buttonHideText'] ?>"><span><?php echo $catalog['btn'] ?></span></a>
                                     <img class="favourite is">
                                 </div>
                             </div>
@@ -131,7 +131,7 @@
                                     <p>Gg</p>
                                 </div>
                                 <div class="product-buttons">
-                                    <a href="cars.html" class="btn <?php echo $_SESSION['lang'] ?> effect-button" data-sm-link-text="<?php echo $lang['buttonHideText'] ?>"><span><?php echo $catalog['btn'] ?></span></a>
+                                    <a href="" class="btn <?php echo $_SESSION['lang'] ?> effect-button" data-sm-link-text="<?php echo $lang['buttonHideText'] ?>"><span><?php echo $catalog['btn'] ?></span></a>
                                     <img class="favourite is">
                                 </div>
                             </div>
@@ -145,7 +145,7 @@
                                     <p>Gg</p>
                                 </div>
                                 <div class="product-buttons">
-                                    <a href="cars.html" class="btn <?php echo $_SESSION['lang'] ?> effect-button" data-sm-link-text="<?php echo $lang['buttonHideText'] ?>"><span><?php echo $catalog['btn'] ?></span></a>
+                                    <a href="" class="btn <?php echo $_SESSION['lang'] ?> effect-button" data-sm-link-text="<?php echo $lang['buttonHideText'] ?>"><span><?php echo $catalog['btn'] ?></span></a>
                                     <img class="favourite is">
                                 </div>
                             </div>

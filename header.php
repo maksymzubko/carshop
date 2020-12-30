@@ -17,7 +17,7 @@ echo ' <!--header-start-->
             <div class="top-header-right">
                 <div class="account-box '. $_SESSION['lang'] .'">
                     <label>'. $lang['toplabel'] .'</label>
-                    <a href="account.html">
+                    <a href="account.php">
                         <img src="images/account.png" alt="" style="width:30px;height:30px" />
                     </a>
                     <div class="clearfix"> </div>
