@@ -7,7 +7,7 @@ $(document).ready(function () {
 		else if(window.location.pathname == "/blog.php")
 		$('#third').removeClass().addClass('grid active');
 		else if(window.location.pathname == "/contact.php")
-		$('#fouth').removeClass().addClass('grid active');
+		$('#fourh').removeClass().addClass('grid active');
 	}
 	setActive();
 	var elem = $(".product").children("div");
