@@ -1,5 +1,5 @@
-<?php require_once "config.php" ;
-if(isset($_COOKIE['account']))
+<?php require_once "app/config.php" ;
+if(isset($_COOKIE['acc']))
 {
     header("Location: account.php"); exit;
 }
@@ -91,6 +91,7 @@ if(isset($_COOKIE['account']))
                 <div class="button text-center">
                     <button id="registerButton" type="submit" name=register class="btn <?php echo $_SESSION['lang'] ?> btn-block effect-button2" data-sm-link-text="<?php echo $lang['buttonHideText'] ?>"><span><?php echo $register['reg'] ?></span></button>
                 </div>
+                <span class="psw"><a href="login.php"><?php echo $register['log'] ?></a></span>
             </form>
         </div>
     </div>

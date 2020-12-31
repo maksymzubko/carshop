@@ -29,11 +29,23 @@ $(document).ready(function () {
 	});
 	$('.favourite').click(function () {
 		var elem = $(this);
-		if (elem.attr('class') == "favourite nope") { elem.removeClass().addClass('favourite is'); }
-		else { elem.removeClass().addClass('favourite nope'); }
+		let need;
+		if (elem.attr('class') == "favourite nope") { elem.removeClass().addClass('favourite is'); need = "0";}
+		else { elem.removeClass().addClass('favourite nope'); need = "1";}
 
 		elem.focus();
 		elem.blur();
+
+		var id_car = $(this).parent().parent().parent().attr('id');
+    	$.ajax({
+        type: 'POST',
+        url: 'app/eventsHandler.php',
+        data: {
+			'car_ID': id_car,
+			'need' : need
+        }, success: function (result) {
+        }
+    });
 	});
 	$('.phone').mask('+380 (00) 000 0000', { placeholder: "+___ (__) ___ ____" });
 	$('.lan').click(function (e) {
@@ -44,7 +56,7 @@ $(document).ready(function () {
 		e.preventDefault();
 		$.ajax({
 			type: 'POST',
-			url: '/eventsHandler.php',
+			url: 'app/eventsHandler.php',
 			data: data,
 			cache: false,
 			contentType: false,
@@ -64,6 +76,53 @@ $(document).ready(function () {
 					d.errors[0].email,
 					"error",
 				);
+			}
+		})
+	});
+	$('#login').submit(function (e) {
+		var data = new FormData(this);
+		e.preventDefault();
+		$.ajax({
+			type: 'POST',
+			url: 'app/eventsHandler.php',
+			data: data,
+			cache: false,
+			contentType: false,
+			processData: false,
+			success: function (response) {
+				swal(
+					"Отлично!",
+					"Пользователь успешно авторизирован!",
+					"success",
+				);
+				location.href = window.location.origin + "/account.php";
+			},
+			error: function (xhr, status, error) {
+				let d = JSON.parse(xhr.responseText);
+				swal(
+					"Жаль!",
+					d.errors[0].login,
+					"error",
+				);
+			}
+		})
+	});
+	$('#logout').submit(function (e) {
+		var data = new FormData(this);
+		$.ajax({
+			type: 'POST',
+			url: 'app/eventsHandler.php',
+			data: data,
+			cache: false,
+			contentType: false,
+			processData: false,
+			success: function (response) {
+				swal(
+					"Отлично!",
+					"Пользователь успешно вышел!",
+					"success",
+				);
+				location.href = window.location.origin + "/account.php";
 			}
 		})
 	});

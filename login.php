@@ -1,5 +1,5 @@
-<?php require_once "config.php" ;
-if(isset($_COOKIE['account']))
+<?php require_once "app/config.php" ;
+if(isset($_COOKIE['acc']))
 {
     header("Location: account.php"); exit;
 }
@@ -12,7 +12,7 @@ if(isset($_COOKIE['account']))
 
     <?php require_once "head.php" ?>
 
-    <title><?php echo $register['register'] ?></title>
+    <title><?php echo $login['login'] ?></title>
 </head>
 
 <body class="body_hide">
@@ -26,39 +26,37 @@ if(isset($_COOKIE['account']))
                 <ol class="breadcrumb">
                     <li><a href="index.php"><?php echo $lang['home'] ?></a></li>
                     <li><a href="account.php"><?php echo $lang['footerH3'] ?></a></li>
-                    <li class="active"><?php echo $register['register'] ?></li>
+                    <li class="active"><?php echo $login['login'] ?></li>
                 </ol>
             </div>
         </div>
     </div>
     <!--end-breadcrumbs-->
 
-    <!--register-starts-->
-    <div class="register login <?php echo $_SESSION['lang'] ?>">
-        <div class="container">
-            <div class="register-top heading">
-                <h2><?php echo $register['register'] ?></h2>
-            </div>
-            <form id="register" method="post" oninput='password2.setCustomValidity(password.value != password2.value ? "Passwords do not match." : "")'>
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label for="inputEmail"><?php echo $register['email'] ?></label>
-                        <input type="email" class="form-control" id="inputEmail" placeholder="<?php echo $register['email'] ?>"  name="email" required>
-                        <div class="form-control-feedback"></div>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="inputPass"><?php echo $register['pass'] ?></label>
-                        <input type="password" class="form-control phone" id="pass" placeholder="<?php echo $register['pass'] ?>" name="password" required>
-                        <div class="form-control-feedback"></div>
-                    </div>
-                </div>
-                <div class="button text-center">
-                    <button id="registerButton" type="submit" name=register class="btn <?php echo $_SESSION['lang'] ?> btn-block effect-button2" data-sm-link-text="<?php echo $lang['buttonHideText'] ?>"><span><?php echo $register['reg'] ?></span></button>
-                </div>
-            </form>
-        </div>
+    <!--login-starts-->
+<div class="login <?php echo $_SESSION['lang'] ?>">
+<div class="container">
+<h2 class="text-center"><?php echo $login['login'] ?></h2>
+<form id="login" method="post">
+  <div class="container">
+    <label for="uname"><b><?php echo $register['email'] ?></b></label>
+    <input type="text" placeholder="<?php echo $register['email'] ?>" name="email" maxlength="30" required>
+
+    <label for="psw"><b><?php echo $register['pass'] ?></b></label>
+    <input type="password" placeholder="<?php echo $register['pass'] ?>" name="pass" maxlength="30" required>
+    <div class="text-center">
+    <button type="submit" class="btn <?php echo $_SESSION['lang'] ?> btn-block effect-button2" data-sm-link-text="<?php echo $lang['buttonHideText'] ?>"><span><?php echo $login['log'] ?></span></button>
     </div>
-    <!--register-end-->
+    <label>
+      <input type="checkbox" name="remember"> <?php echo $login['rem']?>
+    </label>
+    <span class="psw"><a href="register.php"><?php echo $login['acc'] ?></a></span>
+  </div>
+  </div>
+</form>
+</div>
+</div>
+    <!--login-end-->
 
     <?php require_once 'footer.php' ?>
 
