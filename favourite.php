@@ -1,4 +1,9 @@
-<?php require_once "config.php" ?>
+<?php require_once "app/config.php";
+if (!isset($_COOKIE['acc'])) {
+    header("Location: login.php");
+    exit;
+}
+?>
 
 <head>
     <meta charset="UTF-8">
@@ -27,10 +32,10 @@
     <!--Navigator end-->
 
     <!--Cars-product start-->
-    <div class="cars-catalog-favourite">
+    <div class="cars-catalog-favourite <?php echo $_SESSION['lang'] ?>">
         <div class="container">
             <div class="cars-top">
-                <h1 class="head <?php echo $_SESSION['lang'] ?>"><?php echo $lang['faccp2'] ?></h1>
+                <h1 class="head"><?php echo $lang['faccp2'] ?></h1>
                 <div class="col-sm-12 col-md-12 cars-left">
                     <div id="change1" class="sky-form-sort">
                         <h4>
@@ -43,7 +48,12 @@
                         </h4>
                     </div>
                     <div class="product">
-                        <div class="col-xs-12 col-sm-6 col-lg-4 col-md-4 product-left p-left" id="change" style="">
+                        <?php include 'app/functions.php';
+                        $result = favouriteList();
+                        $numrows = $result->num_rows;
+                        while ($row = $result->fetch_assoc()) 
+                        {
+                            echo '<div class="col-xs-12 col-sm-6 col-lg-4 col-md-4 product-left p-left" id="' . $row['auto_ID'] . '">
                             <div class="product-main">
                                 <a href="#" class="mask"><img class="img-responsive zoom-img" style="width:100%" src="/images/car1.jpg" alt="" /></a>
                                 <div class="product-bottom">
@@ -51,31 +61,25 @@
                                     <p>Camry</p>
                                 </div>
                                 <div class="product-buttons">
-                                    <a href="" class="btn <?php echo $_SESSION['lang'] ?> effect-button" data-sm-link-text="<?php echo $lang['buttonHideText'] ?>"><span><?php echo $catalog['btn'] ?></span></a>
-                                    <img src="/images/favourite-is.png" class="favourite nope" tabindex="0">
+                                    <a href="" class="btn ' . $_SESSION['lang'] . ' effect-button" data-sm-link-text=" ' . $lang['buttonHideText'] . '"><span> ' . $catalog['btn'] . '</span></a>
+                                    <img src="/images/favourite-is.png" class="favourite is" tabindex="0">
                                 </div>
                             </div>
                             <div class="clearfix"></div>
-                        </div>
-                        <div class="col-xs-12 col-sm-6 col-lg-4 col-md-4 product-left p-left" id="change" style="">
-                            <div class="product-main">
-                                <a href="#" class="mask"><img class="img-responsive zoom-img" style="width:100%" src="/images/car1.jpg" alt="" /></a>
-                                <div class="product-bottom">
-                                    <h3>Toyota</h3>
-                                    <p>Camry</p>
-                                </div>
-                                <div class="product-buttons">
-                                    <a href="" class="btn <?php echo $_SESSION['lang'] ?> effect-button" data-sm-link-text="<?php echo $lang['buttonHideText'] ?>"><span><?php echo $catalog['btn'] ?></span></a>
-                                    <img class="favourite is" tabindex="2">
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
+                        </div>';
+                        }
+                        if($numrows<1)
+                        {
+                            echo '<h2 class="empty list text-center">'. $account['emp'] .'</h2>';
+                            echo "<script>$('#change1').children().css('display','none');</script>";
+                        }
+                        ?>                    
                     </div>
                 </div>
-                <div class="clearfix"></div>
             </div>
+            <div class="clearfix"></div>
         </div>
+    </div>
     </div>
     <!--Cars-product end-->
 
