@@ -35,7 +35,7 @@ echo ' <!--information-start-->
                     <li><a href="account.php">
                             <p>'. $lang['faccp1'] .'</p>
                         </a></li>
-                    <li><a href="#">
+                    <li><a href="favourite.php">
                             <p>'. $lang['faccp2'] .'</p>
                         </a></li>
                 </ul>

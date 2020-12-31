@@ -57,7 +57,9 @@ $account = array(
     "hd2"=>"Test-drives",
     "hd3"=>"Viewed auto",
     "b1"=>"View my test-drives",
-    "b2"=>"Continue view cars"
+    "b2"=>"Continue view cars",
+    "emp"=>"List is empty",
+    "exit"=>"Logout"
     ); 
     $register = array(
         "register" => "Registration",
@@ -69,6 +71,13 @@ $account = array(
         "apass"=>"Confirm password",
         "m1"=>"Male",
         "m2"=>"Female",
-        "reg"=>"Register"
+        "reg"=>"Register",
+        "log"=>"Already have account?"
       );
+      $login = array(
+        "login"=>"Authorization",
+        "log"=>"Log in",
+        "rem"=>"Remember me",
+        "acc"=>"Doesnt have account?"
+        );
 ?>

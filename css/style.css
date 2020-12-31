@@ -173,8 +173,8 @@ a.animated-button:link, a.animated-button:visited {
   }
   
   .effect-button2:hover span{
-	-webkit-transform: translateX(-400%) scale(-0.1,2);
-			transform: translateX(-400%) scale(-0.1,2);
+	-webkit-transform: translateX(-600%) scale(-0.1,2);
+			transform: translateX(-600%) scale(-0.1,2);
   }
   
   .effect-button2::before{
@@ -327,6 +327,19 @@ a.animated-button:link, a.animated-button:visited {
 	float: right;
 }
 
+.empty {
+	font-weight: bold;
+}
+
+button.log{
+	float: right;
+	margin-right: 5em;
+}
+
+form#logout a:hover {
+	cursor: pointer;
+}
+
 .account-top,.register-top{
 	text-align:center;
 }
@@ -377,9 +390,9 @@ a.animated-button:link, a.animated-button:visited {
 .register .form-group
 {
 	border-radius: 6px;
-	background-color: #222222;
-	color: white;
-	margin: 15px 0;
+	/*background-color: #222222;*/
+	color: black;
+	margin: 6px 0;
 }
 
 .form-row .form-group
@@ -387,9 +400,51 @@ a.animated-button:link, a.animated-button:visited {
 	margin: 5px 0;
 }
 
-.login .form-row {
-	margin: 20px 0;
-	padding: 40px 0;
+.login h2{
+	font-weight: bold;
+	padding-bottom: 20px;
+    border-bottom: 1px solid black;
+}
+
+.login.en {
+	font-family: 'Heebo';
+}
+.login.ru, .login.ukr{
+	font-family: 'Roboto';
+}
+
+input[type=text], input[type=password] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+.login {
+	padding: 2em 0 6em 0;
+}
+
+.login button {
+	margin: 30px 0;
+	width: 35%;
+}
+
+.login .container {
+  padding: 16px;
+}
+
+span.psw {
+  float: right;
+}
+span.psw a{
+	text-decoration: none;
+	font-weight: bold;
+	color: black;
+}
+span.psw a:hover{
+	color: #337ab7;
 }
 
 .register .form-group
@@ -953,20 +1008,20 @@ figure.effect-mouse:hover p,figure.effect-mouse:hover h2 {
 }
 
 .cars-catalog-favourite{
-	font-family: 'Heebo';
 	padding:3em 0px;
+}
+
+.cars-catalog-favourite.en{
+	font-family: 'Heebo';
+}
+
+.cars-catalog-favourite.ru, .cars-catalog-favourite.ukr{
+	font-family: 'Roboto';
 }
 
 .cars-top h1{
 	margin-top: 20px;
 	margin-left: 15px;
-}
-
-.cars-top h1.en{
-	font-family: 'Heebo';
-}
-.cars-top h1.ru, .cars-top h1.ukr{
-	font-family: 'Roboto';
 }
 
 .w_sidebar{

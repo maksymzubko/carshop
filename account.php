@@ -1,4 +1,10 @@
-<?php require_once "config.php" ?>
+<?php require_once "app/config.php";
+if (!isset($_COOKIE['acc'])) {
+    header("Location: login.php");
+    exit;
+}
+?>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,9 +15,10 @@
 </head>
 
 <body class="body_hide">
-<?php require_once "header.php" ?>
+    <?php require_once "header.php" ?>
 
-    <?php include 'functions.php'; $result = getAboutUser("30");
+    <?php include 'app/functions.php';
+    $result = getAboutUser();
     ?>
     <!--Navigator start-->
     <div class="breadcrumb">
@@ -33,7 +40,10 @@
                 <div class="profile">
                     <div class="col-sm-12">
                         <div class="col-xs-12 col-sm-8 col-md-12">
-                            <h2><?php while($row = $result->fetch_assoc()) {$name = $row['u_fname'].' '.$row['u_name']; echo $name;} ?></h2>
+                            <h2><?php while ($row = $result->fetch_assoc()) {
+                                    $name = $row['u_fname'] . ' ' . $row['u_name'];
+                                    echo $name;
+                                } ?></h2>
                             <p><strong><?php echo $account['role'] ?>: </strong>
                                 <span class="tags c"><?php echo $account['r1'] ?></span>
                                 <span class="tags d"><?php echo $account['r2'] ?></span>
@@ -44,7 +54,7 @@
                         <div class="col-xs-12 col-sm-4 emphasis ">
                             <h2><strong> 23 </strong></h2>
                             <p><small><?php echo $account['hd1'] ?></small></p>
-                            <button class="btn <?php echo $_SESSION['lang'] ?> btn-block effect-button2" data-sm-link-text="<?php echo $lang['buttonHideText'] ?>" onclick="window.location.href='/account.php'"> <span><?php echo $lang['faccp2'] ?></span>
+                            <button class="btn <?php echo $_SESSION['lang'] ?> btn-block effect-button2" data-sm-link-text="<?php echo $lang['buttonHideText'] ?>" onclick="window.location.href='/favourite.php'"> <span><?php echo $lang['faccp2'] ?></span>
                             </button>
                         </div>
                         <div class="col-xs-12 col-sm-4 emphasis">
@@ -61,6 +71,10 @@
                         </div>
                     </div>
                 </div>
+                <form id="logout" method="post">
+                <input name=logout class="hide" value="logout">
+                <button type="submit" name=logout class="log"><span class="psw"><i class="fa fa-times-circle"></i><a id="signout" name=logout><?php echo '   '. $account['exit'] ?></a></span></button>
+                </form>
             </div>
         </div>
     </div>
