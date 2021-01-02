@@ -31,7 +31,7 @@ if (!isset($_COOKIE['acc'])) {
     </div>
     <!--Navigator end-->
 
-    <!--Cars-product start-->
+    <!--Favourite start-->
     <div class="cars-catalog-favourite <?php echo $_SESSION['lang'] ?>">
         <div class="container">
             <div class="cars-top">
@@ -53,16 +53,19 @@ if (!isset($_COOKIE['acc'])) {
                         $numrows = $result->num_rows;
                         while ($row = $result->fetch_assoc()) 
                         {
-                            echo '<div class="col-xs-12 col-sm-6 col-lg-4 col-md-4 product-left p-left" id="' . $row['auto_ID'] . '">
+                            $secrow = getCarByID($row['auto_ID']);
+                            echo '<div class="col-xs-12 col-sm-6 col-lg-4 col-md-4 product-left p-left" id="' . $secrow['a_ID'] . '">
                             <div class="product-main">
-                                <a href="#" class="mask"><img class="img-responsive zoom-img" style="width:100%" src="/images/car1.jpg" alt="" /></a>
+                                <a href="#" class="mask"><img class="img-responsive zoom-img" style="width:100%" src=" '. $secrow['img'] .' " alt="" /></a>
                                 <div class="product-bottom">
-                                    <h3>Toyota</h3>
-                                    <p>Camry</p>
+                                    <h3>'.$secrow['mark'].'</h3>
+                                    <p>'.$secrow['m_model'].'</p>
                                 </div>
                                 <div class="product-buttons">
                                     <a href="" class="btn ' . $_SESSION['lang'] . ' effect-button" data-sm-link-text=" ' . $lang['buttonHideText'] . '"><span> ' . $catalog['btn'] . '</span></a>
-                                    <img src="/images/favourite-is.png" class="favourite is" tabindex="0">
+                                    <div class="photo" data-title="'.$catalog['alt'].'">  
+                                    <img src="/images/favourite-is.png" class="favourite is" tabindex="'. $secrow['a_ID'] .'">
+                                </div>
                                 </div>
                             </div>
                             <div class="clearfix"></div>
@@ -81,7 +84,7 @@ if (!isset($_COOKIE['acc'])) {
         </div>
     </div>
     </div>
-    <!--Cars-product end-->
+    <!--Favourite end-->
 
     <?php require_once "footer.php" ?>
 </body>

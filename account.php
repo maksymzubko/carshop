@@ -18,7 +18,7 @@ if (!isset($_COOKIE['acc'])) {
     <?php require_once "header.php" ?>
 
     <?php include 'app/functions.php';
-    $result = getAboutUser();
+    $row = getAboutUser();
     ?>
     <!--Navigator start-->
     <div class="breadcrumb">
@@ -40,13 +40,18 @@ if (!isset($_COOKIE['acc'])) {
                 <div class="profile">
                     <div class="col-sm-12">
                         <div class="col-xs-12 col-sm-8 col-md-12">
-                            <h2><?php while ($row = $result->fetch_assoc()) {
+                            <h2><?php
                                     $name = $row['u_fname'] . ' ' . $row['u_name'];
-                                    echo $name;
-                                } ?></h2>
+                                    echo $name; ?></h2>
                             <p><strong><?php echo $account['role'] ?>: </strong>
-                                <span class="tags c"><?php echo $account['r1'] ?></span>
-                                <span class="tags d"><?php echo $account['r2'] ?></span>
+                            <span class="tags c"><?php echo $account['r1'] ?></span>
+                            <?php                       
+                            if(IsUserAdmin())
+                            echo '
+                            <button class="link""><span class="tags c">'. $account['r2'] .'</span></button>';
+                            else
+                            echo '<span class="tags d">'. $account['r2'] .'</span>';
+                            ?>
                             </p>
                         </div>
                     </div>
@@ -60,7 +65,7 @@ if (!isset($_COOKIE['acc'])) {
                         <div class="col-xs-12 col-sm-4 emphasis">
                             <h2><strong>12</strong></h2>
                             <p><small><?php echo $account['hd2'] ?></small></p>
-                            <button class="btn <?php echo $_SESSION['lang'] ?> btn-block effect-button2" data-sm-link-text="<?php echo $lang['buttonHideText'] ?>" onclick="window.location.href='/account.php'"> <span> <?php echo $account['b1'] ?></span>
+                            <button class="btn <?php echo $_SESSION['lang'] ?> btn-block effect-button2" data-sm-link-text="<?php echo $lang['buttonHideText'] ?>" onclick="window.location.href='/testdrives.php'"> <span> <?php echo $account['b1'] ?></span>
                             </button>
                         </div>
                         <div class="col-xs-12 col-sm-4 emphasis">

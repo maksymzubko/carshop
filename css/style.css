@@ -1019,9 +1019,11 @@ figure.effect-mouse:hover p,figure.effect-mouse:hover h2 {
 	font-family: 'Roboto';
 }
 
-.cars-top h1{
+h1.head{
 	margin-top: 20px;
 	margin-left: 15px;
+	padding-bottom: 5px;
+	border-bottom: 2px solid;
 }
 
 .w_sidebar{
@@ -1524,6 +1526,31 @@ figure.effect-mouse:hover p,figure.effect-mouse:hover h2 {
     padding-left: 30px;
 }
 
+.product-buttons .photo{
+	margin-left: auto;
+	position: relative;
+	display: inline-block; /* Строчно-блочный элемент */
+}
+
+.product-buttons .photo:hover::after{
+	content: attr(data-title); /* Выводим текст */
+    position: absolute; /* Абсолютное позиционирование */
+    left: 50%; top: 80%; /* Положение подсказки */
+    z-index: 1; /* Отображаем подсказку поверх других элементов */
+    background: rgba(61, 197, 221, 0.9); /* Полупрозрачный цвет фона */
+	border-radius: 4px;
+    font-size: 11px; /* Размер текста подсказки */
+    padding: 5px 10px; /* Поля */
+    border: 1px solid #333; /* Параметры рамки */
+}
+.product-buttons.en .photo:hover::after{
+	font-family: 'Heebo';
+}
+
+.product-buttons.ru .photo:hover::after, .product-buttons.ukr .photo:hover::after{
+	font-family: 'Roboto';
+}
+
 .product-buttons img.favourite.is {
 	content: url("/images/favourite2-is.png");
 }
@@ -1704,7 +1731,13 @@ a.mask {
 {
     min-height: 355px;
     display: inline-block;
-    }
+	}
+.profile button.link{
+	margin: 0;
+	padding: 0;
+	border: 0;
+	z-index: 1;
+}
 .divider 
 {
     border-top:1px solid rgba(0,0,0,0.1);
@@ -1732,7 +1765,6 @@ a.mask {
 	font-family: 'Roboto';
 }
 
-
 .emphasis:hover 
 {
     border-top: 4px solid #337ab7;
@@ -1753,4 +1785,41 @@ span.tags.c{
 }
 span.tags.d{
 	background: #bc2d1a;
+}
+
+.testdrive{
+	font-family: 'Roboto';
+}
+
+.testdrive div#data_filter
+{
+	display: none;
+}
+
+.testdrive tr.odd:nth-child(1)
+{
+	background-color: #73b6e1;
+}
+
+.panel.panel-default 
+{
+	margin: auto;
+}
+
+.testdrives
+{
+	padding: 1em 0 6em 0 ;
+}
+
+div#data_paginate a
+{
+	margin: 0 9px;
+	color: black;
+}
+
+div#data_paginate a:hover
+{
+	cursor: pointer;
+	color: #337ab7;
+	text-decoration: none;
 }

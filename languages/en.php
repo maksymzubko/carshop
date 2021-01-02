@@ -4,7 +4,7 @@ $lang = array(
 "language"=>"Language",
 "home"=>"Home",
 "cars"=>"Cars",
-"blog"=>"Blog",
+"blog"=>"About us",
 "contact"=>"Contact",
 "footerH1"=>"Follow Us",
 "footerH2"=>"Information",
@@ -37,7 +37,8 @@ $catalog = array(
     "f1"=>"Brand",
     "f2"=>"All Brands",
     "col"=>"Color",
-    "btn"=>"View auto"
+    "btn"=>"View auto",
+    "alt"=>"(Add/Remove) from favourite"
 );
 $blog= array(
     "blog"=>"Blog",
@@ -80,4 +81,11 @@ $account = array(
         "rem"=>"Remember me",
         "acc"=>"Doesnt have account?"
         );
+    $testdrive = array(
+        "test" => "My Testdrives",
+        "c1"=>"Mark",
+        "c2"=>"Model",
+        "c3"=>"Date",
+        "c4"=>"Status"
+    );
 ?>

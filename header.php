@@ -15,9 +15,14 @@ echo ' <!--header-start-->
                 </div>
             </div>
             <div class="top-header-right">
-                <div class="account-box '. $_SESSION['lang'] .'">
-                    <label>'. $lang['toplabel'] .'</label>
-                    <a href="account.php">
+                <div class="account-box '. $_SESSION['lang'] .'">';
+
+            if(!isset($_COOKIE['acc']))
+            echo '<label>'. $lang['footerH3'] .'</label>';
+            else
+            echo '<label>'. $_COOKIE['name'] .'</label>';
+
+                    echo '<a href="account.php">
                         <img src="images/account.png" alt="" style="width:30px;height:30px" />
                     </a>
                     <div class="clearfix"> </div>

@@ -81,34 +81,39 @@
                         </h4>
                     </div>
                     <div class="product">
-                        <div class="col-xs-12 col-sm-6 col-lg-6 col-md-6 product-left p-left" id="change" style="">
+                    <?php include 'app/functions.php';
+                        $result = getCarsList();
+                        $numrows = $result->num_rows;
+                        while ($row = $result->fetch_assoc()) 
+                        {
+                            echo '<div class="col-xs-12 col-sm-6 col-lg-6 col-md-6 product-left p-left" id="' . $row['a_ID'] . '">
                             <div class="product-main">
-                                <a href="#" class="mask"><img class="img-responsive zoom-img" style="width:100%" src="/images/car1.jpg" alt="" /></a>
+                                <a href="#" class="mask"><img class="img-responsive zoom-img" style="width:100%" src=" '. $row['img'] .' " alt="" /></a>
                                 <div class="product-bottom">
-                                    <h3>Toyota</h3>
-                                    <p>Camry</p>
+                                    <h3>'.$row['mark'].'</h3>
+                                    <p>'.$row['m_model'].'</p>
                                 </div>
                                 <div class="product-buttons">
-                                    <a href="" class="btn <?php echo $_SESSION['lang'] ?> effect-button" data-sm-link-text="<?php echo $lang['buttonHideText'] ?>"><span><?php echo $catalog['btn'] ?></span></a>
-                                    <img src="/images/favourite-is.png" class="favourite nope" tabindex="0" alt="aa">
+                                    <a href="" class="btn ' . $_SESSION['lang'] . ' effect-button" data-sm-link-text=" ' . $lang['buttonHideText'] . '"><span> ' . $catalog['btn'] . '</span></a>
+                                    <div class="photo" data-title="'.$catalog['alt'].'">';  
+
+                                    if(IsCarFavourite($row['a_ID']))
+                                    echo '<img src="/images/favourite-is.png" class="favourite is" tabindex="'. $row['a_ID'] .'">';
+                                    else
+                                    echo '<img src="/images/favourite-nop.png" class="favourite nope" tabindex="'. $row['a_ID'] .'">';
+
+                                echo '</div>
                                 </div>
                             </div>
                             <div class="clearfix"></div>
-                        </div>
-                        <div class="col-xs-12 col-sm-6 col-lg-6 col-md-6 product-left p-left" id="change" style="">
-                            <div class="product-main">
-                                <a href="#" class="mask"><img class="img-responsive zoom-img" style="width:100%" src="/images/car1.jpg" alt="" /></a>
-                                <div class="product-bottom">
-                                    <h3>Toyota</h3>
-                                    <p>Camry</p>
-                                </div>
-                                <div class="product-buttons">
-                                    <a href="" class="btn <?php echo $_SESSION['lang'] ?> effect-button" data-sm-link-text="<?php echo $lang['buttonHideText'] ?>"><span><?php echo $catalog['btn'] ?></span></a>
-                                    <img class="favourite is" tabindex="2" alt="">
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
+                        </div>';
+                        }
+                        if($numrows<1)
+                        {
+                            echo '<h2 class="empty list text-center">'. $account['emp'] .'</h2>';
+                            echo "<script>$('#change1').children().css('display','none');</script>";
+                        }
+                        ?>       
                     </div>
                 </div>
                 <div class="clearfix"></div>

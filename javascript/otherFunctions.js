@@ -30,22 +30,33 @@ $(document).ready(function () {
 	$('.favourite').click(function () {
 		var elem = $(this);
 		let need;
-		if (elem.attr('class') == "favourite nope") { elem.removeClass().addClass('favourite is'); need = "0";}
-		else { elem.removeClass().addClass('favourite nope'); need = "1";}
+		if (elem.attr('class') == "favourite nope") { need = "0"; }
+		else { need = "1"; }
 
-		elem.focus();
-		elem.blur();
+		var id_car = $(this).parent().parent().parent().parent().attr('id');
+		$.ajax({
+			type: 'POST',
+			url: 'app/eventsHandler.php',
+			data: {
+				'car_ID': id_car,
+				'need': need
+			}, success: function (result) {
+				if (need == 0)
+					elem.removeClass().addClass('favourite is');
+				else
+					elem.removeClass().addClass('favourite nope');
 
-		var id_car = $(this).parent().parent().parent().attr('id');
-    	$.ajax({
-        type: 'POST',
-        url: 'app/eventsHandler.php',
-        data: {
-			'car_ID': id_car,
-			'need' : need
-        }, success: function (result) {
-        }
-    });
+				elem.focus();
+				elem.blur();
+
+			}, error: function (xhr, status, error) {
+				swal(
+					"Ошибка!",
+					"Необходимо быть зарегистрированым!",
+					"error",
+				);
+			}
+		});
 	});
 	$('.phone').mask('+380 (00) 000 0000', { placeholder: "+___ (__) ___ ____" });
 	$('.lan').click(function (e) {
@@ -126,6 +137,9 @@ $(document).ready(function () {
 			}
 		})
 	});
+	$('.link').click(function () {
+		alert('Переход в админ панель');
+	});
 	$.getScript("/javascript/resize.js", function () {
 		new ResizeSensor(jQuery(elem), function () {
 			elem.css({ 'transition-duration': '0.4s' });
@@ -149,7 +163,47 @@ $(document).ready(function () {
 			}
 		});
 	});
+
+	$(document).ready(function () {
+	var url;
+
+	function lang()
+	{
+		var temp = $('.memenu').attr("class");
+		if(temp.includes("en"))
+		url = "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/English.json";
+		else if(temp.includes("ukr"))
+		url = "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json";
+		else 
+		url = "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json";
+	};
+		lang();
+
+		 $('#data').DataTable({
+			"processing": true,
+			"serverSide": true,
+			"bSort": false,
+			"language": {
+				"url": url
+			},
+			"ajax": {
+				url: "app/eventsHandler.php",
+				data: { testdrive: 'getTest' },
+				type: "POST"
+			},
+			success: function (data, textStatus, jqXHR) {
+				$('#data').DataTable().ajax.reload();
+			},
+			error: function () {  // error handling
+				$(".data-grid-error").html("");
+				$("#data").append('<table class="data-grid-error"><tr><th colspan="3">No data found in the server</th></tr></table>');
+				$("#data_processing").css("display", "none");
+			}
+
+		});
+	});
 });
+
 setTimeout(function () {
 	$('body').addClass('body_visible');
 }, 100);

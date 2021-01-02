@@ -10,7 +10,7 @@ if (!empty($_POST)) {
     {
         $errors = checkUser($_POST);
 
-        if (empty($errors)) {
+        if (empty($errors)) { 
             if (login($_POST)) {
                 http_response_code(201);
                 echo json_encode([
@@ -45,15 +45,36 @@ if (!empty($_POST)) {
     }
     else if(isset($_POST['need']))
     {
-        if($_POST['need'] == "0")
+        if(isAuthorizated())
         {
-            addToFavourite($_POST);
+            if($_POST['need'] == "0")
+            {
+                addToFavourite($_POST);
+            }
+            else
+            {
+                removeFromFavourite($_POST);
+            }
+            http_response_code(201);
+            echo json_encode([
+                'success' => true
+            ]);
+            exit();
         }
         else
         {
-            removeFromFavourite($_POST);
-        }
+            http_response_code(500);
+            echo json_encode([
+                'success' => false
+            ]);
             exit();
+        }
+    }
+    else if(isset($_POST['testdrive']))
+    {
+        $user = $_COOKIE['acc']; $where = 'u_ID = '. $user .'';
+        getTest(array('need'=>'yes'),$where);
+        exit();
     }
     else
     {
