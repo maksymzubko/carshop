@@ -165,6 +165,7 @@ $(document).ready(function () {
 	});
 
 	$(document).ready(function () {
+
 	var url;
 
 	function lang()
@@ -203,7 +204,6 @@ $(document).ready(function () {
 		});
 	});
 });
-
 setTimeout(function () {
 	$('body').addClass('body_visible');
 }, 100);
