@@ -4,7 +4,6 @@ if (!isset($_COOKIE['acc'])) {
     exit;
 }
 ?>
-
 <head>
 
     <meta charset="UTF-8">
@@ -57,9 +56,9 @@ if (!isset($_COOKIE['acc'])) {
             </div>
         </div>
     </div>
-        <!--Testdrives end-->
+    <!--Testdrives end-->
 
-        <?php require_once "templates/footer.php" ?>
+    <?php require_once "templates/footer.php" ?>
 </body>
 
 </html>

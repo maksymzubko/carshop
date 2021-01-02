@@ -331,9 +331,14 @@ a.animated-button:link, a.animated-button:visited {
 	font-weight: bold;
 }
 
-button.log{
+.account.ru button.log, .account.ukr button.log{
 	float: right;
 	margin-right: 5em;
+}
+
+.account.en button.log{
+	float: right;
+	margin-right: 8em;
 }
 
 form#logout a:hover {

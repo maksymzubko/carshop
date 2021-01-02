@@ -25,7 +25,6 @@
     </div>
     <!--Navigator end-->
 
-
     <!--Cars-product start-->
     <div class="cars-catalog">
         <div class="container">
@@ -81,39 +80,37 @@
                         </h4>
                     </div>
                     <div class="product">
-                    <?php include 'app/functions.php';
+                        <?php include 'app/functions.php';
                         $result = getCarsList();
                         $numrows = $result->num_rows;
-                        while ($row = $result->fetch_assoc()) 
-                        {
+                        while ($row = $result->fetch_assoc()) {
                             echo '<div class="col-xs-12 col-sm-6 col-lg-6 col-md-6 product-left p-left" id="' . $row['a_ID'] . '">
                             <div class="product-main">
-                                <a href="#" class="mask"><img class="img-responsive zoom-img" style="width:100%" src=" '. $row['img'] .' " alt="" /></a>
+                                <a href="#" class="mask"><img class="img-responsive zoom-img" style="width:100%" src=" ' . $row['img'] . ' " alt="" /></a>
                                 <div class="product-bottom">
-                                    <h3>'.$row['mark'].'</h3>
-                                    <p>'.$row['m_model'].'</p>
+                                    <h3>' . $row['mark'] . '</h3>
+                                    <p>' . $row['m_model'] . '</p>
                                 </div>
                                 <div class="product-buttons">
                                     <a href="" class="btn ' . $_SESSION['lang'] . ' effect-button" data-sm-link-text=" ' . $lang['buttonHideText'] . '"><span> ' . $catalog['btn'] . '</span></a>
-                                    <div class="photo" data-title="'.$catalog['alt'].'">';  
+                                    <div class="photo" data-title="' . $catalog['alt'] . '">';
 
-                                    if(IsCarFavourite($row['a_ID']))
-                                    echo '<img src="/images/favourite-is.png" class="favourite is" tabindex="'. $row['a_ID'] .'">';
-                                    else
-                                    echo '<img src="/images/favourite-nop.png" class="favourite nope" tabindex="'. $row['a_ID'] .'">';
+                            if (IsCarFavourite($row['a_ID']))
+                                echo '<img src="/images/favourite-is.png" class="favourite is" tabindex="' . $row['a_ID'] . '">';
+                            else
+                                echo '<img src="/images/favourite-nop.png" class="favourite nope" tabindex="' . $row['a_ID'] . '">';
 
-                                echo '</div>
+                            echo '</div>
                                 </div>
                             </div>
                             <div class="clearfix"></div>
                         </div>';
                         }
-                        if($numrows<1)
-                        {
-                            echo '<h2 class="empty list text-center">'. $account['emp'] .'</h2>';
+                        if ($numrows < 1) {
+                            echo '<h2 class="empty list text-center">' . $account['emp'] . '</h2>';
                             echo "<script>$('#change1').children().css('display','none');</script>";
                         }
-                        ?>       
+                        ?>
                     </div>
                 </div>
                 <div class="clearfix"></div>

@@ -100,5 +100,4 @@ if(isset($_COOKIE['acc']))
     <?php require_once 'templates/footer.php' ?>
 
 </body>
-
 </html>
