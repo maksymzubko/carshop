@@ -1,7 +1,7 @@
-<?php require_once "app/config.php" ;
-if(isset($_COOKIE['acc']))
-{
-    header("Location: account.php"); exit;
+<?php require_once "app/config.php";
+if (isset($_COOKIE['acc'])) {
+    header("Location: account.php");
+    exit;
 }
 ?>
 <html>
@@ -43,7 +43,7 @@ if(isset($_COOKIE['acc']))
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="inputEmail"><?php echo $register['email'] ?></label>
-                        <input type="email" class="form-control" id="inputEmail" placeholder="<?php echo $register['email'] ?>"  name="email" required>
+                        <input type="email" class="form-control" id="inputEmail" placeholder="<?php echo $register['email'] ?>" name="email" required>
                         <div class="form-control-feedback"></div>
                     </div>
                     <div class="form-group col-md-6">
@@ -67,7 +67,7 @@ if(isset($_COOKIE['acc']))
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="inputSecondName"><?php echo $register['sur'] ?></label>
-                        <input type="text" class="form-control" id="inputSecondName" placeholder="<?php echo $register['sur'] ?>"  name="secondname">
+                        <input type="text" class="form-control" id="inputSecondName" placeholder="<?php echo $register['sur'] ?>" name="secondname">
                         <div class="form-control-feedback"></div>
                     </div>
                     <div class="form-group col-md-6">
@@ -100,4 +100,5 @@ if(isset($_COOKIE['acc']))
     <?php require_once 'templates/footer.php' ?>
 
 </body>
+
 </html>

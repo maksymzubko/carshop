@@ -51,32 +51,30 @@ if (!isset($_COOKIE['acc'])) {
                         <?php include 'app/functions.php';
                         $result = favouriteList();
                         $numrows = $result->num_rows;
-                        while ($row = $result->fetch_assoc()) 
-                        {
+                        while ($row = $result->fetch_assoc()) {
                             $secrow = getCarByID($row['auto_ID']);
                             echo '<div class="col-xs-12 col-sm-6 col-lg-4 col-md-4 product-left p-left" id="' . $secrow['a_ID'] . '">
                             <div class="product-main">
-                                <a href="#" class="mask"><img class="img-responsive zoom-img" style="width:100%" src=" '. $secrow['img'] .' " alt="" /></a>
+                                <a href="#" class="mask"><img class="img-responsive zoom-img" style="width:100%" src=" ' . $secrow['img'] . ' " alt="" /></a>
                                 <div class="product-bottom">
-                                    <h3>'.$secrow['mark'].'</h3>
-                                    <p>'.$secrow['m_model'].'</p>
+                                    <h3>' . $secrow['mark'] . '</h3>
+                                    <p>' . $secrow['m_model'] . '</p>
                                 </div>
                                 <div class="product-buttons">
                                     <a href="" class="btn ' . $_SESSION['lang'] . ' effect-button" data-sm-link-text=" ' . $lang['buttonHideText'] . '"><span> ' . $catalog['btn'] . '</span></a>
-                                    <div class="photo" data-title="'.$catalog['alt'].'">  
-                                    <img src="/images/favourite-is.png" class="favourite is" tabindex="'. $secrow['a_ID'] .'">
+                                    <div class="photo" data-title="' . $catalog['alt'] . '">  
+                                    <img src="/images/favourite-is.png" class="favourite is" tabindex="' . $secrow['a_ID'] . '">
                                 </div>
                                 </div>
                             </div>
                             <div class="clearfix"></div>
                         </div>';
                         }
-                        if($numrows<1)
-                        {
-                            echo '<h2 class="empty list text-center">'. $account['emp'] .'</h2>';
+                        if ($numrows < 1) {
+                            echo '<h2 class="empty list text-center">' . $account['emp'] . '</h2>';
                             echo "<script>$('#change1').children().css('display','none');</script>";
                         }
-                        ?>                    
+                        ?>
                     </div>
                 </div>
             </div>

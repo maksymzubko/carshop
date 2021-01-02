@@ -41,17 +41,17 @@ if (!isset($_COOKIE['acc'])) {
                     <div class="col-sm-12">
                         <div class="col-xs-12 col-sm-8 col-md-12">
                             <h2><?php
-                                    $name = $row['u_fname'] . ' ' . $row['u_name'];
-                                    echo $name; ?></h2>
+                                $name = $row['u_fname'] . ' ' . $row['u_name'];
+                                echo $name; ?></h2>
                             <p><strong><?php echo $account['role'] ?>: </strong>
-                            <span class="tags c"><?php echo $account['r1'] ?></span>
-                            <?php                       
-                            if(IsUserAdmin())
-                            echo '
-                            <button class="link"><span class="tags c">'. $account['r2'] .'</span></button>';
-                            else
-                            echo '<span class="tags d">'. $account['r2'] .'</span>';
-                            ?>
+                                <span class="tags c"><?php echo $account['r1'] ?></span>
+                                <?php
+                                if (IsUserAdmin())
+                                    echo '
+                            <button class="link"><span class="tags c">' . $account['r2'] . '</span></button>';
+                                else
+                                    echo '<span class="tags d">' . $account['r2'] . '</span>';
+                                ?>
                             </p>
                         </div>
                     </div>
@@ -77,8 +77,8 @@ if (!isset($_COOKIE['acc'])) {
                     </div>
                 </div>
                 <form id="logout" method="post">
-                <input name=logout class="hide" value="logout">
-                <button type="submit" name=logout class="log"><span class="psw"><i class="fa fa-times-circle"></i><a id="signout" name=logout><?php echo '   '. $account['exit'] ?></a></span></button>
+                    <input name=logout class="hide" value="logout">
+                    <button type="submit" name=logout class="log"><span class="psw"><i class="fa fa-times-circle"></i><a id="signout" name=logout><?php echo '   ' . $account['exit'] ?></a></span></button>
                 </form>
             </div>
         </div>

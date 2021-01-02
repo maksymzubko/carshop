@@ -2,13 +2,13 @@
 <html>
 
 <head>
-   <?php require_once "templates/head.php" ?>
+    <?php require_once "templates/head.php" ?>
     <title><?php echo $lang['home'] ?></title>
 </head>
 
 <body class="body_hide">
-    
-<?php require_once "templates/header.php" ?>
+
+    <?php require_once "templates/header.php" ?>
 
     <!--banner-start-->
     <div class="bnr" id="home">
@@ -71,7 +71,7 @@
     <div class="clearfix"></div>
     <!--about-end-->
 
-   <?php require_once "templates/footer.php" ?>
+    <?php require_once "templates/footer.php" ?>
 
     <!--Add some important scripts-->
     <script src="javascript/responsiveslides.min.js"></script>
