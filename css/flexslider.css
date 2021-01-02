@@ -195,7 +195,8 @@ li.clone {
 }
 .flex-control-thumbs img {
   width: 100%;
-  height: 58px;
+  height: auto;
+  max-height: 80px;
   display: block;
   opacity: .7;
   cursor: pointer;
@@ -214,9 +215,10 @@ li.clone {
   cursor: default;
 }
 .flex-control-thumbs img.flex-active {
-height: 65px;
+  max-height: 89px;
+  height: 89px;
 }
-.flex-control-thumbs li img {
+.flex-control-thumbs li img{
     padding: 0.5em;
 }
 /* ====================================================================================================================

@@ -1886,9 +1886,6 @@ div#data_paginate a:hover
 .tabs {
     margin-top: 4em;
 }
-.latestproducts {
-    margin-top: 3.5em;
-}
 .flexslider ul.flex-direction-nav{
 	display: flex;
 	margin: 10px 0;
@@ -1907,38 +1904,6 @@ div#data_paginate a:hover
     color: #000;
     margin: 0 0 0 0;
     font-family: 'BreeSerif-Regular';
-}
-.star-on {
-    padding-top: 1.3em;
-}
-.star-on ul {
-    float: left;
-    padding: 0;
-	margin: 0;
-}
-.star-on ul li {
-    vertical-align: sub;
-}
-ul.star-footer li {
-    display: inline-block;
-}
-.star-on a {
-    text-decoration: none;
-    font-size: 1em;
-    color: #000;
-}
-.star-on a:hover {
-    color: #73b6e1;
-}
-ul.star-footer li i {
-    height: 16px;
-    width: 16px;
-    background: url("../images/star.png") no-repeat;
-    display: inline-block;
-}
-.review {
-    float: left;
-    margin-left: 2em;
 }
 .single-para h5 {
     color: #000;
@@ -1980,11 +1945,22 @@ ul.menu_drop a.active img{
 .available ul select {
     outline: none;
     padding: 12px;
-    border: none;
-    background: #eeeeee;
-    width: 70%;
+	border: none;
+	color: white;
+    background: #383838;
+    width: 100%;
 	cursor: pointer;
+	transition: 0.5s;
 }
+
+.available ul select:hover{
+	background: #73b6e1;
+    text-decoration: none;
+}
+.available ul select:hover option{
+	background: #383838;
+}
+
 .available ul li.size-in select {
     margin-left: 16%;
 }
@@ -2005,26 +1981,9 @@ ul.tag-men li {
 ul.tag-men li span.women1 {
     margin-left: 9em;
 }
-a.add-cart {
-    text-decoration: none;
-    color: #fff;
-    background: #000;
-    padding: 0.4em 0.8em;
-    font-size: 1.15em;
-    text-transform: uppercase;
-    margin-top: 2em;
-    display: inline-block;
-}
-a.add-cart:hover {
-	background: #73b6e1;
-	transition: 0.5s all;
-	-webkit-transition: 0.5s all;
-	-o-transition: 0.5s all;
-	-moz-transition: 0.5s all;
-	-ms-transition: 0.5s all;
-}
 /*--starts-slide--*/
 .flexslider .thumb-image { 
+	/*margin: 0 auto;*/
 	max-height: 400px;
 	width: 305px; }
 

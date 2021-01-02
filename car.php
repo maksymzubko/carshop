@@ -24,19 +24,16 @@
     <div class="single contact ">
         <div class="container">
             <div class="single-main">
-                <div class="col-md-9 single-main-left">
+                <div class="col-md-12 single-main-left">
                     <div class="sngl-top">
                         <div class="col-md-5 single-top-left">
                             <div class="flexslider">
-                                <ul class="slides">
-                                    <li data-thumb="images/s-1.jpg">
-                                        <div class="thumb-image"> <img src="images/s-1.jpg" data-imagezoom="true" class="img-responsive" alt="" /> </div>
+                                <ul class="slides  text-center">
+                                    <li data-thumb="images/x.jpg">
+                                        <div class="thumb-image"> <img src="images/x.jpg" data-imagezoom="true" class="img-responsive" alt="" /> </div>
                                     </li>
-                                    <li data-thumb="images/s-2.jpg">
-                                        <div class="thumb-image"> <img src="images/s-2.jpg" data-imagezoom="true" class="img-responsive" alt="" /> </div>
-                                    </li>
-                                    <li data-thumb="images/s-0.jpg">
-                                        <div class="thumb-image"> <img src="images/s-0.jpg" data-imagezoom="true" class="img-responsive" alt="" /> </div>
+                                    <li data-thumb="images/x2.jpg">
+                                        <div class="thumb-image"> <img src="images/x2.jpg" data-imagezoom="true" class="img-responsive" alt="" /> </div>
                                     </li>
                                 </ul>
                             </div>
@@ -125,7 +122,7 @@
         });
         $(window).load(function() {
             $('.flexslider').flexslider({
-                animation: "slide",
+                animation: "fade",
                 controlNav: "thumbnails"
             });
         });
