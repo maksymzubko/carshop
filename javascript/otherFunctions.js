@@ -138,7 +138,7 @@ $(document).ready(function () {
 		})
 	});
 	$('.link').click(function () {
-		alert('Переход в админ панель');
+		window.location.href = '/admin/login.php';
 	});
 	$.getScript("/javascript/resize.js", function () {
 		new ResizeSensor(jQuery(elem), function () {

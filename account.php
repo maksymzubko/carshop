@@ -48,7 +48,7 @@ if (!isset($_COOKIE['acc'])) {
                             <?php                       
                             if(IsUserAdmin())
                             echo '
-                            <button class="link""><span class="tags c">'. $account['r2'] .'</span></button>';
+                            <button class="link"><span class="tags c">'. $account['r2'] .'</span></button>';
                             else
                             echo '<span class="tags d">'. $account['r2'] .'</span>';
                             ?>
