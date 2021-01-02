@@ -254,22 +254,37 @@ a.animated-button:link, a.animated-button:visited {
 .top-header {
 	background: #000;
 	overflow: hidden;
-    padding: 10px 0px;
-}
-
-.top-header .container {
-	margin: auto;
+	padding: 10px 0px;
+	font-family: 'Roboto';
 }
 
 .top-header-right {
-	margin-right: auto;
 	float: right;
 }
 .top-header-left {
 	float: left;
+	margin-left: 36px;
+}
+
+.titleSite {
+	margin: 0 auto;
+	
+}
+
+.titleSite a:hover h3{
+	color: #73b6e1;
+}
+
+.titleSite h3{
+	color: white;
+	margin-top: 3px;
+	margin-bottom: 0;
+	margin-left: 8px;
+	float: right;
 }
 
 .dropdown {
+	margin-right: 18px;
 	float: right;
 	overflow: hidden;
   }
@@ -324,7 +339,9 @@ a.animated-button:link, a.animated-button:visited {
   }
 
 .account-box {
-	float: right;
+	font-family: 'Roboto';
+	float: left;
+	margin-right: 20px;
 }
 
 .empty {
@@ -358,20 +375,23 @@ form#logout a:hover {
 	color: white;
 }
 
-.account-box.en label{
-	font-family: 'Heebo-Medium';
+.account-box a{
+	text-decoration: none;
 }
 
-.account-box.ru label, .account-box.ukr label{
-	font-family: 'Roboto-Medium';
+.account-box a label{
+	cursor: pointer;
+}
+
+.account-box a:hover label{
+	color: #73b6e1;
 }
 
 .account-box a img{
 	content: url(/images/account.png);
 }
 
-.account-box a img:hover{
-	color: #73b6e1;
+.account-box a:hover img{
 	content: url(/images/account-hover.png);
 }
 

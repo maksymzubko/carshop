@@ -1,41 +1,43 @@
 <?php 
 echo ' <!--header-start-->
 <div class="top-header">
-    <div class="container">
         <div class="top-header-main">
             <div class="top-header-left">
-                <div class="dropdown '. $_SESSION['lang'].' ">
-                    <button class="dropbtn">'. $lang['language'] . ' <i class="fa fa-caret-down"></i>
-                    </button>
-                    <div class="dropdown-content">
-                        <label class="lan" id="en">English</label>
-                        <label class="lan" id="ru">Русский</label>
-                        <label class="lan" id="ukr">Українська</label>
-                    </div>
-                </div>
+            <div class="titleSite">
+            <a href="index.php">
+            <img src="images/logo-mini.png" alt="" style="width:27px;height:30px" />
+                <h3><b>Carshop</b></h3>
+            </a>
+            </div>
             </div>
             <div class="top-header-right">
-                <div class="account-box '. $_SESSION['lang'] .'">';
+                <div class="account-box '. $_SESSION['lang'] .'">
+                    <a href="account.php">';
 
-            if(!isset($_COOKIE['acc']))
-            echo '<label>'. $lang['footerH3'] .'</label>';
-            else
-            echo '<label>'. $_COOKIE['name'] .'</label>';
+                        if(!isset($_COOKIE['acc']))
+                        echo '<label>'. $lang['footerH3'] .'</label>';
+                        else
+                        echo '<label>'. $_COOKIE['name'] .'</label>';
 
-                    echo '<a href="account.php">
+                        echo '
                         <img src="images/account.png" alt="" style="width:30px;height:30px" />
                     </a>
-                    <div class="clearfix"> </div>
+                </div>
+                <div class="dropdown '. $_SESSION['lang'].' ">
+                <button class="dropbtn">'. $lang['language'] . ' <i class="fa fa-caret-down"></i>
+                </button>
+                <div class="dropdown-content">
+                    <label class="lan" id="en">English</label>
+                    <label class="lan" id="ru">Русский</label>
+                    <label class="lan" id="ukr">Українська</label>
                 </div>
             </div>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </div>
-</div>
 </div>
 <div class="logo">
     <a href="index.php">
-        <h1><b>Prestigious cars</b></h1>
+        <h1><b>Carshop INC</b></h1>
     </a>
 </div>
 <div class="header-bottom">
@@ -61,5 +63,4 @@ echo ' <!--header-start-->
         </div>
     </div>
 </div>
-<!--header-end-->'
-?>
+<!--header-end-->';
