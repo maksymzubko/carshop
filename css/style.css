@@ -2024,9 +2024,13 @@ a.add-cart:hover {
 	-ms-transition: 0.5s all;
 }
 /*--starts-slide--*/
-.thumb-image { width: 305px; }
+.flexslider .thumb-image { 
+	max-height: 400px;
+	width: 305px; }
 
-.thumb-image > img { width: 100%; }
+	.flexslider .thumb-image > img { 
+	height: 400px;
+	width: 100%; }
 /*--end-slide--*/
 .menu_drop {
 	width: auto;

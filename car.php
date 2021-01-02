@@ -35,6 +35,9 @@
                                     <li data-thumb="images/s-2.jpg">
                                         <div class="thumb-image"> <img src="images/s-2.jpg" data-imagezoom="true" class="img-responsive" alt="" /> </div>
                                     </li>
+                                    <li data-thumb="images/s-0.jpg">
+                                        <div class="thumb-image"> <img src="images/s-0.jpg" data-imagezoom="true" class="img-responsive" alt="" /> </div>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
