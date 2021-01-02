@@ -3,14 +3,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <?php require_once "head.php" ?>
+    <?php require_once "templates/head.php" ?>
 
     <title><?php echo $lang['contact'] ?></title>
 </head>
 
 <body class="body_hide">
 
-    <?php require_once "header.php" ?>
+    <?php require_once "templates/header.php" ?>
 
     <!--Navigator start-->
     <div class="breadcrumb">
@@ -70,7 +70,7 @@
     </div>
     <!--map-end-->
 
-    <?php require_once "footer.php" ?>
+    <?php require_once "templates/footer.php" ?>
 </body>
 
 </html>
