@@ -31,4 +31,5 @@ else
             }
         }
 }
-    require_once "languages/" . $_SESSION['lang'] . ".php";
+    require "languages/" . $_SESSION['lang'] . ".php";
+?>

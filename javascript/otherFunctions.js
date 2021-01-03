@@ -60,6 +60,16 @@ $(document).ready(function () {
 	});
 	$('.phone').mask('+380 (00) 000 0000', { placeholder: "+___ (__) ___ ____" });
 	$('.lan').click(function (e) {
+		if(window.location.origin + window.location.pathname == "http://carshop.loft/car.php")
+		{
+		if(location.href.includes("&lang="))
+		{
+			location.href = location.href.split('&lang=')[0] + '&lang=' + e.target.id;
+		}
+		else
+		location.href = location.href + "&lang=" + e.target.id;
+		}
+		else
 		location.href = window.location.origin + window.location.pathname + "?lang=" + e.target.id;
 	});
 	$('#register').submit(function (e) {
@@ -136,6 +146,10 @@ $(document).ready(function () {
 				location.href = window.location.origin + "/account.php";
 			}
 		})
+	});
+	$('.lookcar').click(function (e) {
+		let id = $(this).parent().parent().parent().attr("id");
+				location.href = window.location.origin + "/car.php?id="+id;
 	});
 	$('.link').click(function () {
 		window.location.href = '/admin/login.php';

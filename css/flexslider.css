@@ -200,11 +200,6 @@ li.clone {
   display: block;
   opacity: .7;
   cursor: pointer;
-  -webkit-transition: all 1s ease;
-  -moz-transition: all 1s ease;
-  -ms-transition: all 1s ease;
-  -o-transition: all 1s ease;
-  transition: all 1s ease;
     border: 1px solid #D1CFCF;
 }
 .flex-control-thumbs img:hover {

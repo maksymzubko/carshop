@@ -103,11 +103,34 @@ function checkUser(array $data)
 
 function getCarByID(string $id)
 {
-    $query = "SELECT * FROM `auto` join images on a_image=imgID join models on a_model=m_id join marks on m_mark_ID=mark_ID where visible = 'Enabled' and a_ID = $id";
+    $query = "SELECT * FROM `auto` join images on img_a_ID = a_ID join models on a_model=m_id join marks on m_mark_ID=mark_ID join a_equipment on m_equip = e_ID where visible = 'Enabled' and a_ID = $id";
 
     $db = get_connection();
     $stmt = $db->query($query);
+    if($stmt->num_rows < 1)
+    return false;
+    else
     return $row = $stmt->fetch_assoc();
+}
+
+function getImagesAuto(string $id)
+{
+    $query = "SELECT * FROM `images` where img_a_ID = $id";
+
+    $db = get_connection();
+    $stmt = $db->query($query);
+
+    return $stmt;
+}
+
+function getColors(string $year,string $model)
+{
+    $query = "SELECT * FROM `auto` where a_model = $model and a_year = $year";
+
+    $db = get_connection();
+    $stmt = $db->query($query);
+
+    return $stmt;
 }
 
 function IsUserAdmin()
@@ -199,9 +222,17 @@ function favouriteList()
     return $db->query($query);
 }
 
+function getVideos(string $id)
+{
+    $query = "SELECT * FROM `videos` WHERE `auto_ID` = $id";
+
+    $db = get_connection();
+    return $db->query($query);
+}
+
 function getCarsList()
 {
-    $query = "SELECT * FROM `auto` join images on a_image=imgID join models on a_model=m_id join marks on m_mark_ID=mark_ID where visible = 'Enabled'";
+    $query = "SELECT * FROM `auto` join images on img_a_ID=a_ID join models on a_model=m_id join marks on m_mark_ID=mark_ID where visible = 'Enabled' and isMain = 'True'";
 
     $db = get_connection();
     return $db->query($query);

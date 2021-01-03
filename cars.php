@@ -92,7 +92,7 @@
                                     <p>' . $row['m_model'] . '</p>
                                 </div>
                                 <div class="product-buttons">
-                                    <a href="car.php" class="btn ' . $_SESSION['lang'] . ' effect-button" data-sm-link-text=" ' . $lang['buttonHideText'] . '"><span> ' . $catalog['btn'] . '</span></a>
+                                    <a class="btn ' . $_SESSION['lang'] . ' effect-button lookcar" data-sm-link-text=" ' . $lang['buttonHideText'] . '"><span> ' . $catalog['btn'] . '</span></a>
                                     <div class="photo" data-title="' . $catalog['alt'] . '">';
 
                             if (IsCarFavourite($row['a_ID']))

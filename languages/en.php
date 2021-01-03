@@ -88,4 +88,27 @@ $account = array(
         "c3"=>"Date",
         "c4"=>"Status"
     );
+    $car = array(
+    "car" => "Car #",
+    "ac1" => "Discription",
+    "ac2" => "Specifications",
+    "ac3" => "Helpful Links",
+    "c1"=>"Color",
+    "c2"=>"Equipment",
+    "mc1"=>"Capacity",
+    "mc2"=>"Body type",
+    "mc3"=>"Transmission",
+    "mc4"=>"Drive unit",
+    "mc5"=>"Fuel type",
+    "e1"=>"Seats",
+    "e2"=>"Window lifters",
+    "e3"=>"Climat control",
+    "e4"=>"Security",
+    "e5"=>"Cruis control",
+    "e6"=>"ESP",
+    "e7"=>"Airbags",
+    "b1"=>"Search in "
+    );
+
+    
 ?>
