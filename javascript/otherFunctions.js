@@ -58,6 +58,31 @@ $(document).ready(function () {
 			}
 		});
 	});
+	$('.testdrive_add').click(function () {
+		var id_car = window.location.href.replace("http://carshop.loft/car.php?id=", "").replace("#","");
+		$.ajax({
+			type: 'POST',
+			url: 'app/eventsHandler.php',
+			data: {
+				'car_ID': id_car,
+				'mytest': "ndtst"
+			}, success: function (result) {
+				swal(
+					"Успешно!",
+					"Вы успешно добавили машину! С вами свяжется наш сотрудник.",
+					"success",
+				);
+
+			}, error: function (xhr, status, error) {
+				let d = JSON.parse(xhr.responseText);
+				swal(
+					"Ошибка!",
+					d.error,
+					"error",
+				);
+			}
+		});
+	});
 	$('.phone').mask('+380 (00) 000 0000', { placeholder: "+___ (__) ___ ____" });
 	$('.lan').click(function (e) {
 		if(window.location.origin + window.location.pathname == "http://carshop.loft/car.php")
@@ -185,9 +210,9 @@ $(document).ready(function () {
 	function lang()
 	{
 		var temp = $('.memenu').attr("class");
-		if(temp.includes("en"))
+		if(temp.includes("memenu en"))
 		url = "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/English.json";
-		else if(temp.includes("ukr"))
+		else if(temp.includes("memenu ukr"))
 		url = "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json";
 		else 
 		url = "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json";

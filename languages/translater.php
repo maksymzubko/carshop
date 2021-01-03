@@ -111,4 +111,29 @@ function translateEquip(string $word)
         return $equipments[$word];
     }
 }
+
+function tranlateTestDrive(string $word)
+{
+    if ($_SESSION['lang'] == 'en')
+    return $word;
+else {
+    $status = array();
+
+    if ($_SESSION['lang'] == 'ru') {
+        $status = array(
+            "Waiting"=>"Ожидается",
+            "Success"=>"Подтверждено",
+            "Denied"=>"Отклонено"
+        );
+    } else {
+        $status = array(
+            "Waiting"=>"Перевіряється",
+            "Success"=>"Підтверждено",
+            "Denied"=>"Відхиленено"
+        );
+    }
+    return $status[$word];
+}
+  
+}
 ?>

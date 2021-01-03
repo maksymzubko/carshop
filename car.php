@@ -1,5 +1,21 @@
 <?php require_once 'app/config.php';
 require_once "app/eventsHandler.php";
+
+if (isset($_GET['id']) && !empty($_GET['id'])) {
+    $result = getCarByID($_GET['id']);
+    if (!$result) {
+        header("Location: ../cars.php");
+        exit;
+    } else {
+        $images = getImagesAuto($_GET['id']);
+        $colors = getColors($result['a_year'], $result['a_model']);
+        $videos = getVideos($_GET['id']);
+    }
+} 
+else {
+    header("Location: ../cars.php");
+    exit;
+}
 ?>
 <html>
 <head>
@@ -23,7 +39,7 @@ require_once "app/eventsHandler.php";
     <!--end-breadcrumbs-->
 
     <!--start-car-->
-    <div class="single contact ">
+    <div class="single contact <?php echo $_SESSION['lang'] ?>">
         <div class="container">
             <div class="single-main">
                 <div class="col-md-12 single-main-left">
@@ -62,7 +78,7 @@ require_once "app/eventsHandler.php";
                                         </select>
                                     </ul>
                                 </div>
-                                <a href="#" class="testdrive_add item_add">ADD TESTDRIVE</a>
+                                <a href="#" class="testdrive_add item_add"><?php echo $car['b2'] ?></a>
                             </div>
                         </div>
                         <div class="clearfix"> </div>

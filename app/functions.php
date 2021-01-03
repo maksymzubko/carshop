@@ -28,6 +28,20 @@ function validate(array $request)
     return $errors;
 }
 
+function validateTest(string $id)
+{
+    $user = $_COOKIE['acc'];
+
+    $query = "SELECT * FROM `testdrive` WHERE `uid` = $user and `car_ID` = $id";
+
+    $db = get_connection();
+    $result = $db->query($query);
+    if($result->num_rows > 0)
+    return false;
+    else
+    return true;
+}
+
 function isEmailAlreadyExists(string $email)
 {
     if (getUserByEmail($email)) {
@@ -169,7 +183,7 @@ function login(array $data)
     else
     {
         Setcookie('acc', $row['u_ID'], 0, "/");
-        setcookie('name', $row['u_name']. ' ' . $row['f_name'], 0, "/");
+        setcookie('name', $row['u_name']. ' ' . $row['u_fname'], 0, "/");
     }
 
     return $stmt;
@@ -210,6 +224,23 @@ function removeFromFavourite(array $data)
     $db = get_connection();
     $stmt = mysqli_query($db, $query);
     return $stmt;
+}
+
+function addToTestdrive(string $id)
+{
+    if(validateTest($id))
+    {
+    $user = $_COOKIE['acc'];
+
+    $query = "INSERT INTO `testdrive` (`uid`, `car_ID`,`status`,`date`) VALUES($user,$id, 'Waiting', CURDATE())";
+    $db = get_connection();
+    $stmt = $db -> query($query);
+    return $stmt;
+    }
+    else
+    {
+        return false;
+    }
 }
 
 function favouriteList()

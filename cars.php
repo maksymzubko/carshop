@@ -96,9 +96,9 @@
                                     <div class="photo" data-title="' . $catalog['alt'] . '">';
 
                             if (IsCarFavourite($row['a_ID']))
-                                echo '<img src="/images/favourite-is.png" class="favourite is" tabindex="' . $row['a_ID'] . '">';
+                                echo '<img class="favourite is" tabindex="' . $row['a_ID'] . '">';
                             else
-                                echo '<img src="/images/favourite-nop.png" class="favourite nope" tabindex="' . $row['a_ID'] . '">';
+                                echo '<img class="favourite nope" tabindex="' . $row['a_ID'] . '">';
 
                             echo '</div>
                                 </div>

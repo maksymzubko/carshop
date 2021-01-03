@@ -38,6 +38,9 @@ echo ' <!--information-start-->
                     <li><a href="favourite.php">
                             <p>'. $lang['faccp2'] .'</p>
                         </a></li>
+                        <li><a href="testdrives.php">
+                            <p>'. $testdrive['test'] .'</p>
+                        </a></li>
                 </ul>
             </div>
             <div class="col-xxs-12 col-xs-3 col-md-3 infor-left">

@@ -1923,6 +1923,13 @@ div#data_paginate a:hover
     line-height: 1.8em;
     margin: 1em 0 0 0;
 }
+.single.contact.en .single-main-left{
+font-family: 'Heebo';
+}
+.single.contact.ru .single-main-left, .single-contact.ukr .single-main-left{
+	font-family: 'Roboto';
+	}
+	
 .available {
     padding: 1em 0;
 }
@@ -2056,6 +2063,7 @@ ul {
 	position: relative;
 	font-size:18px;
 	color: black;
+	margin: 0 6px;
 }
 .menu_drop .row{
 	display: flex;
