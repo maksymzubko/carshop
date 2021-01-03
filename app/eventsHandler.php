@@ -9,9 +9,9 @@ if (!empty($_POST))
     header('Content-Type: application/json');
 
     if (isset($_POST['pass'])) {
-        $errors = checkUser($_POST);
+        $error = checkUser($_POST);
 
-        if (empty($errors)) {
+        if ($error=="") {
             if (login($_POST)) {
                 http_response_code(201);
                 echo json_encode([
@@ -30,15 +30,15 @@ if (!empty($_POST))
 
         echo json_encode([
             'success' => false,
-            'errors' => $errors
+            'error' => $error
         ]);
 
         exit();
     } 
     else if(isset($_POST['password'])) {
-        $errors = validate($_POST);
+        $error = validate($_POST);
 
-        if (empty($errors)) {
+        if ($error=="") {
             if (register($_POST)) {
                 http_response_code(201);
                 echo json_encode([
@@ -57,10 +57,30 @@ if (!empty($_POST))
 
         echo json_encode([
             'success' => false,
-            'errors' => $errors
+            'error' => $error
         ]);
 
         exit();
+    }
+    else if(isset($_POST['checkAccount'])) {
+        $error = validateAccount($_POST);
+
+        if ($error !="") {
+            http_response_code(500);
+            echo json_encode([
+                'success' => false,
+                'error' => $error
+            ]);
+            exit();
+        }
+        else
+        {
+            http_response_code(200);
+            echo json_encode([
+                'success' => true
+            ]);
+            exit();
+        }
     }
     else if (isset($_POST['logout'])) {
         logout();

@@ -6,7 +6,7 @@ function register(array $data)
 {
     $values = [
         $data['email'],
-        $pass = md5($data['password']),
+        $pass = encrypt($data['password']),
         $data['name'],
         $data['secondname'],
         $data['radi1'],
@@ -19,10 +19,24 @@ function register(array $data)
 
 function validate(array $request)
 {
-    $errors = [];
+    $errors = "";
 
-    if (isEmailAlreadyExists($request['email'])) {
-        $errors[]['email'] = 'Email уже используется';
+    if (isEmailAlreadyExists($request['email']))
+        $errors = 'Email уже используется';
+
+    return $errors;
+}
+
+function validateAccount()
+{
+    $errors = "";
+    if(isset($_COOKIE['acc']))
+    {
+        if(!wrongCoockie($_COOKIE['acc']))
+        {
+            $errors = 'Ваш ID не соответствует!';
+            logout();
+        }
     }
 
     return $errors;
@@ -30,7 +44,7 @@ function validate(array $request)
 
 function validateTest(string $id)
 {
-    $user = $_COOKIE['acc'];
+    $user = decrypt($_COOKIE['acc']);
 
     $query = "SELECT * FROM `testdrive` WHERE `uid` = $user and `car_ID` = $id";
 
@@ -39,6 +53,15 @@ function validateTest(string $id)
     if($result->num_rows > 0)
     return false;
     else
+    return true;
+}
+
+function wrongCoockie(string $coockie)
+{
+    if (!getAboutUser($coockie)) {
+        return false;
+    }
+
     return true;
 }
 
@@ -87,30 +110,41 @@ function getUsersList()
 
 function getAboutUser()
 {
-    $user = $_COOKIE['acc'];
+    $user = decrypt($_COOKIE['acc']);
 
     $query = "SELECT * FROM `users` WHERE `u_ID` = $user";
 
     $db = get_connection();
     $result = $db->query($query);
-    $row = $result -> fetch_assoc();
-    return $row;
+
+    if($result)
+    {
+        return $row = $result -> fetch_assoc();
+    }       
+    else
+        return false;
+    
 }
 
 function checkUser(array $data)
 {
-    $errors = [];
+    $errors = "";
 
     $login = $data['email'];
-    $pass = md5($data['pass']);
+    $pass = encrypt($data['pass']);
+    
+    $query="";
 
+    if(isset($_POST['loginAdmin']))
+    $query = "SELECT * FROM `users` WHERE `u_login` = '$login' and `u_pass` = '$pass' where u_roleID != 'Пользователь'";
+    else
     $query = "SELECT * FROM `users` WHERE `u_login` = '$login' and `u_pass` = '$pass'";
 
     $db = get_connection();
     $stmt = $db->query($query);
     $rowcount = $stmt->num_rows;
     if ($rowcount == 0) {
-        $errors[]['login'] = 'Проверьте правильность данных';
+        $errors = 'Проверьте правильность данных';
     }
     return $errors;
 }
@@ -149,7 +183,7 @@ function getColors(string $year,string $model)
 
 function IsUserAdmin()
 {
-    $user = $_COOKIE['acc'];
+    $user = decrypt($_COOKIE['acc']);
 
     $query = "SELECT * FROM `users` where u_roleID != 'Пользователь' and u_ID = $user";
 
@@ -162,29 +196,90 @@ function IsUserAdmin()
         return false;
 }
 
+function encrypt (string $word)
+{
+  
+// Store the cipher method 
+$ciphering = "AES-128-CTR"; 
+  
+// Use OpenSSl Encryption method 
+$iv_length = openssl_cipher_iv_length($ciphering); 
+$options = 0; 
+  
+// Non-NULL Initialization Vector for encryption 
+$encryption_iv = '1234567891011121'; 
+  
+// Store the encryption key 
+$encryption_key = "lJ2jKKmGPk"; 
+  
+// Use openssl_encrypt() function to encrypt the data 
+$encryption = openssl_encrypt($word, $ciphering, 
+            $encryption_key, $options, $encryption_iv); 
+  
+
+return $encryption;
+}
+
+function decrypt($word)
+{
+    // Non-NULL Initialization Vector for decryption 
+$decryption_iv = '1234567891011121'; 
+  
+// Store the cipher method 
+$ciphering = "AES-128-CTR"; 
+
+// Store the decryption key 
+$decryption_key = "lJ2jKKmGPk"; 
+  
+$options = 0; 
+
+// Use openssl_decrypt() function to decrypt the data 
+$decryption=openssl_decrypt ($word, $ciphering,  
+        $decryption_key, $options, $decryption_iv); 
+  
+return $decryption;
+}
+
 function login(array $data)
 {
     $login = $data['email'];
-    $pass = md5($data['pass']);
+    $pass = encrypt($data['pass']);
 
+    $query="";
+
+    if(isset($_POST['loginAdmin']))
+    $query = "SELECT * FROM `users` WHERE `u_login` = '$login' and `u_pass` = '$pass' where u_roleID != 'Пользователь'";
+    else
     $query = "SELECT * FROM `users` WHERE `u_login` = '$login' and `u_pass` = '$pass'";
 
     $db = get_connection();
     $stmt = $db->query($query);
     $row = $stmt->fetch_assoc();
 
-
-
-    if (isset($data['remember']))
+    if(isset($_POST['loginAdmin']))
     {
-        Setcookie('acc', $row['u_ID'], time() + 2678400, "/");
-        setcookie('name', $row['u_name']. ' ' . $row['u_fname'], time() + 2678400, "/");
-    }
-    else
+        if (isset($data['remember']))
+        {
+            Setcookie('accAdm', encrypt($row['u_ID']), time() + 2678400, "/");
+        }
+        else
+        {
+            Setcookie('accAdm', encrypt($row['u_ID']), 0, "/");
+        }
+    }else
     {
-        Setcookie('acc', $row['u_ID'], 0, "/");
-        setcookie('name', $row['u_name']. ' ' . $row['u_fname'], 0, "/");
+        if (isset($data['remember']))
+        {
+            Setcookie('acc', encrypt($row['u_ID']), time() + 2678400, "/");
+            setcookie('name', $row['u_name']. ' ' . $row['u_fname'], time() + 2678400, "/");
+        }
+        else
+        {
+            Setcookie('acc', encrypt($row['u_ID']), 0, "/");
+            setcookie('name', $row['u_name']. ' ' . $row['u_fname'], 0, "/");
+        }
     }
+    
 
     return $stmt;
 }
@@ -207,7 +302,7 @@ function isAuthorizated()
 function addToFavourite(array $data)
 {
     $car = $data['car_ID'];
-    $user = $_COOKIE['acc'];
+    $user = decrypt($_COOKIE['acc']);
 
     $query = "INSERT INTO `favourite` (`client_ID`, `auto_ID`) VALUES('$user','$car')";
     $db = get_connection();
@@ -218,7 +313,7 @@ function addToFavourite(array $data)
 function removeFromFavourite(array $data)
 {
     $car = $data['car_ID'];
-    $user = $_COOKIE['acc'];
+    $user = decrypt($_COOKIE['acc']);
 
     $query = "Delete from `favourite` where `auto_ID` = $car and `client_ID` = $user";
     $db = get_connection();
@@ -230,7 +325,7 @@ function addToTestdrive(string $id)
 {
     if(validateTest($id))
     {
-    $user = $_COOKIE['acc'];
+    $user = decrypt($_COOKIE['acc']);
 
     $query = "INSERT INTO `testdrive` (`uid`, `car_ID`,`status`,`date`) VALUES($user,$id, 'Waiting', CURDATE())";
     $db = get_connection();
@@ -245,7 +340,7 @@ function addToTestdrive(string $id)
 
 function favouriteList()
 {
-    $user = $_COOKIE['acc'];
+    $user = decrypt($_COOKIE['acc']);
 
     $query = "SELECT * FROM `favourite` WHERE `client_ID` = $user";
 
@@ -272,7 +367,7 @@ function getCarsList()
 function IsCarFavourite($car_ID)
 {
     if (isAuthorizated()) {
-        $user = $_COOKIE['acc'];
+        $user = decrypt($_COOKIE['acc']);
 
         $query = "Select * from `favourite` where `auto_ID` = $car_ID and `client_ID` = $user";
         $db = get_connection();

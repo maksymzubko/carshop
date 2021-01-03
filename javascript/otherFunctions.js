@@ -59,7 +59,7 @@ $(document).ready(function () {
 		});
 	});
 	$('.testdrive_add').click(function () {
-		var id_car = window.location.href.replace("http://carshop.loft/car.php?id=", "").replace("#","");
+		var id_car = window.location.href.replace("http://carshop.loft/car.php?id=", "").replace("#", "");
 		$.ajax({
 			type: 'POST',
 			url: 'app/eventsHandler.php',
@@ -85,17 +85,15 @@ $(document).ready(function () {
 	});
 	$('.phone').mask('+380 (00) 000 0000', { placeholder: "+___ (__) ___ ____" });
 	$('.lan').click(function (e) {
-		if(window.location.origin + window.location.pathname == "http://carshop.loft/car.php")
-		{
-		if(location.href.includes("&lang="))
-		{
-			location.href = location.href.split('&lang=')[0] + '&lang=' + e.target.id;
+		if (window.location.origin + window.location.pathname == "http://carshop.loft/car.php") {
+			if (location.href.includes("&lang=")) {
+				location.href = location.href.split('&lang=')[0] + '&lang=' + e.target.id;
+			}
+			else
+				location.href = location.href + "&lang=" + e.target.id;
 		}
 		else
-		location.href = location.href + "&lang=" + e.target.id;
-		}
-		else
-		location.href = window.location.origin + window.location.pathname + "?lang=" + e.target.id;
+			location.href = window.location.origin + window.location.pathname + "?lang=" + e.target.id;
 	});
 	$('#register').submit(function (e) {
 		var data = new FormData(this);
@@ -119,7 +117,7 @@ $(document).ready(function () {
 				let d = JSON.parse(xhr.responseText);
 				swal(
 					"Жаль!",
-					d.errors[0].email,
+					d.error,
 					"error",
 				);
 			}
@@ -147,7 +145,7 @@ $(document).ready(function () {
 				let d = JSON.parse(xhr.responseText);
 				swal(
 					"Жаль!",
-					d.errors[0].login,
+					d.error,
 					"error",
 				);
 			}
@@ -174,7 +172,7 @@ $(document).ready(function () {
 	});
 	$('.lookcar').click(function (e) {
 		let id = $(this).parent().parent().parent().attr("id");
-				location.href = window.location.origin + "/car.php?id="+id;
+		location.href = window.location.origin + "/car.php?id=" + id;
 	});
 	$('.link').click(function () {
 		window.location.href = '/admin/login.php';
@@ -205,44 +203,65 @@ $(document).ready(function () {
 
 	$(document).ready(function () {
 
-	var url;
+		function result() {
+			$.ajax({
+				type: 'POST',
+				url: 'app/eventsHandler.php',
+				data: {
+					'checkAccount': "check"
+				}, success: function (res) {
+					return true;
+				}, error: function (xhr, status, error) {
+					let d = JSON.parse(xhr.responseText);
+					swal({
+						title:"Ошибка!",
+						text:d.error,
+						type:"error",
+					});	
+					location.href = window.location.origin + "/login.php";
+					return false;
+				}
+			});
+		};
 
-	function lang()
-	{
-		var temp = $('.memenu').attr("class");
-		if(temp.includes("memenu en"))
-		url = "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/English.json";
-		else if(temp.includes("memenu ukr"))
-		url = "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json";
-		else 
-		url = "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json";
-	};
-		lang();
+		if (result()) {
+			var url;
 
-		 $('#data').DataTable({
-			"processing": true,
-			"serverSide": true,
-			"bSort": false,
-			"language": {
-				"url": url
-			},
-			"ajax": {
-				url: "app/eventsHandler.php",
-				data: { testdrive: 'getTest' },
-				type: "POST"
-			},
-			success: function (data, textStatus, jqXHR) {
-				$('#data').DataTable().ajax.reload();
-			},
-			error: function () {  // error handling
-				$(".data-grid-error").html("");
-				$("#data").append('<table class="data-grid-error"><tr><th colspan="3">No data found in the server</th></tr></table>');
-				$("#data_processing").css("display", "none");
-			}
+			function lang() {
+				var temp = $('.memenu').attr("class");
+				if (temp.includes("memenu en"))
+					url = "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/English.json";
+				else if (temp.includes("memenu ukr"))
+					url = "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json";
+				else
+					url = "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json";
+			};
+			lang();
 
-		});
+			$('#data').DataTable({
+				"processing": true,
+				"serverSide": true,
+				"bSort": false,
+				"language": {
+					"url": url
+				},
+				"ajax": {
+					url: "app/eventsHandler.php",
+					data: { testdrive: 'getTest' },
+					type: "POST"
+				},
+				success: function (data, textStatus, jqXHR) {
+					$('#data').DataTable().ajax.reload();
+				},
+				error: function () {  // error handling
+					$(".data-grid-error").html("");
+					$("#data").append('<table class="data-grid-error"><tr><th colspan="3">No data found in the server</th></tr></table>');
+					$("#data_processing").css("display", "none");
+				}
+			});
+		};
 	});
 });
-setTimeout(function () {
-	$('body').addClass('body_visible');
-}, 100);
+	setTimeout(function () {
+		$('body').addClass('body_visible');
+	}, 100);
