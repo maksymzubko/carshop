@@ -86,7 +86,7 @@
                         while ($row = $result->fetch_assoc()) {
                             echo '<div class="col-xs-12 col-sm-6 col-lg-6 col-md-6 product-left p-left" id="' . $row['a_ID'] . '">
                             <div class="product-main">
-                                <a href="#" class="mask"><img class="img-responsive zoom-img" style="width:100%" src=" ' . $row['img'] . ' " alt="" /></a>
+                                <div class="mask"><img class="img-responsive zoom-img" style="width:100%" src=" ' . $row['img'] . ' " alt="" /></div>
                                 <div class="product-bottom">
                                     <h3>' . $row['mark'] . '</h3>
                                     <p>' . $row['m_model'] . '</p>

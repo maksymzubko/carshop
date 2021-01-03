@@ -1522,6 +1522,11 @@ h1.head{
 	border:1px solid #ECEAEA;
 	margin: 5px 0px 5px 0px;
 }
+
+.product-main {
+	min-height: 388px;
+}
+
 .product {
     padding: 3em 0px 6em 0px;
 }
@@ -1625,6 +1630,8 @@ h1.head{
 	margin-top:30px;
 }
 img.zoom-img {
+	width: 380px;
+	height: 192px;
     -webkit-transform: scale(1, 1);
     -webkit-transition-timing-function: ease-out;
     -webkit-transition-duration: 250ms;
@@ -1633,7 +1640,7 @@ img.zoom-img {
     -moz-transition-duration: 250ms;
 	margin: 0 auto;
 }
-a.mask:hover img.zoom-img{
+div.mask:hover img.zoom-img{
     -webkit-transform: scale(1.05);
     -webkit-transition-timing-function: ease-out;
     -webkit-transition-duration: 700ms;
@@ -1643,12 +1650,14 @@ a.mask:hover img.zoom-img{
     overflow: hidden;
 	cursor:pointer;
 }
-a.mask {
+div.mask {
     text-decoration: none;
     overflow: hidden;
     display: block;
     padding: 12px 0px;
 }
+
+
 .product-main:hover .product-bottom h3 {
 	color:#73B6E1;
 	transition: 0.5s all ease;
