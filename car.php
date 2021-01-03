@@ -17,6 +17,7 @@ else {
     exit;
 }
 ?>
+<title><?php echo $car['car']; echo $result['a_ID']?></title>
 <html>
 <head>
     <?php require_once 'templates/head.php' ?>
@@ -29,8 +30,8 @@ else {
         <div class="container">
             <div class="breadcrumbs-main <?php echo $_SESSION['lang'] ?>">
                 <ol class="breadcrumb">
-                    <li><a href="index.php">Home</a></li>
-                    <li><a href="cars.php">Cars</a></li>
+                <li><a href="index.php"><?php echo $lang['home'] ?></a></li>
+                    <li ><?php echo $catalog['catalog'] ?></li>
                     <li class="active"><?php echo $car['car']; echo $result['a_ID']?></li>
                 </ol>
             </div>

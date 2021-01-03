@@ -53,7 +53,7 @@ function isEmailAlreadyExists(string $email)
 
 function insert(array $data)
 {
-    $query = "INSERT INTO `users` (u_login, u_pass, u_name, u_fname, u_sex, u_phone, u_roleID) VALUES('$data[0]', '$data[1]', '$data[2]', '$data[3]', '$data[4]', '$data[5]', '1')";
+    $query = "INSERT INTO `users` (u_login, u_pass, u_name, u_fname, u_sex, u_phone, u_roleID) VALUES('$data[0]', '$data[1]', '$data[2]', '$data[3]', '$data[4]', '$data[5]', 'Пользователь')";
     $db = get_connection();
     $stmt = mysqli_query($db, $query);
     return $stmt;
