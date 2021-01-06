@@ -34,12 +34,20 @@
                         <ul class="memenu <?php echo $_SESSION['lang'] ?> filters skyblue">
                             <li>
                                 <section class="sky-form">
-                                    <h4><?php echo $catalog['c1'] ?></h4>
+                                    <h4><?php include 'app/functions.php';
+                                     echo $catalog['c1'] ?></h4>
                                     <div class="row1 scroll-pane">
                                         <div class="col col-4">
-                                            <label class="checkbox"><input type="checkbox" name="checkbox"><i></i><?php echo $catalog['c2'] ?></label>
-                                            <label class="checkbox"><input type="checkbox" name="checkbox"><i></i><?php echo $catalog['c3'] ?></label>
-                                            <label class="checkbox"><input type="checkbox" name="checkbox"><i></i><?php echo $catalog['c4'] ?></label>
+                                            <?php 
+                                             $db = get_connection();
+                                             $query = "Select `cat_Caption` from categories group by `cat_Caption` order by `cat_Caption` asc";
+                                             $result = $db->query($query);
+
+                                             while($row = $result->fetch_assoc())
+                                             {
+                                                 echo '<label class="checkbox"><input type="checkbox" class="category common_selector" value = "'. $row['cat_Caption']  .'"><i></i>'. $row['cat_Caption'] .'</label>';
+                                             }
+                                            ?>                                                                         
                                         </div>
                                     </div>
                                 </section>
@@ -47,20 +55,27 @@
                                     <h4><?php echo $catalog['f1'] ?></h4>
                                     <div class="row1 scroll-pane">
                                         <div class="col col-4">
-                                            <label class="checkbox"><input type="checkbox" name="checkbox"><i></i><?php echo $catalog['f2'] ?></label>
-                                            <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Toyota</label>
-                                            <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>NISSAN</label>
-                                            <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Toyota</label>
-                                            <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>NISSAN</label>
+                                            <?php
+                                            $query = "Select mark from marks group by mark order by `mark` ASC";
+                                            $result = $db->query($query);
+
+                                            while($row = $result->fetch_assoc())
+                                             {
+                                                 echo '<label class="checkbox"><input type="checkbox" class="brand common_selector" value = "'. $row['mark']  .'"><i></i>'. $row['mark'] .'</label>';
+                                             }
+                                            ?>                                  
                                         </div>
                                     </div>
                                 </section>
                                 <section class="sky-form">
                                     <h4><?php echo $catalog['col'] ?></h4>
                                     <ul class="w_nav2">
-                                        <li><a class="color1" href="#"></a></li>
-                                        <li><a class="color2" href="#"></a></li>
-                                        <li><a class="color3" href="#"></a></li>
+                                        <li><a class="color color9 common_selector" id="Желтый" href="#" onclick="return false;"></a></li>
+                                        <li><a class="color color5 common_selector" id="Красный" href="#" onclick="return false;"></a></li>
+                                        <li><a class="color color1 common_selector" id="Синий" href="#" onclick="return false;"></a></li>
+                                        <li><a class="color color2 common_selector" id="Черный" href="#" onclick="return false;"></a></li>
+                                        <li><a class="color color10 common_selector" id="Белый" href="#" onclick="return false;"></a></li>
+                                        <li><a class="color color6 common_selector" id="Зеленый" href="#" onclick="return false;"></a></li>
                                     </ul>
                                 </section>
                             </li>
@@ -79,38 +94,7 @@
                         </h4>
                     </div>
                 <div class="col-md-9 cars-left">                  
-                    <div class="product">
-                        <?php include 'app/functions.php';
-                        $result = getCarsList();
-                        $numrows = $result->num_rows;
-                        while ($row = $result->fetch_assoc()) {
-                            echo '<div class="col-xs-12 col-sm-6 col-lg-6 col-md-6 product-left p-left" id="' . $row['a_ID'] . '">
-                            <div class="product-main">
-                                <div class="mask"><img class="img-responsive zoom-img" style="width:100%" src=" ' . $row['img'] . ' " alt="" /></div>
-                                <div class="product-bottom">
-                                    <h3>' . $row['mark'] . '</h3>
-                                    <p>' . $row['m_model'] . '</p>
-                                </div>
-                                <div class="product-buttons">
-                                    <a class="btn ' . $_SESSION['lang'] . ' effect-button lookcar" data-sm-link-text=" ' . $lang['buttonHideText'] . '"><span> ' . $catalog['btn'] . '</span></a>
-                                    <div class="photo" data-title="' . $catalog['alt'] . '">';
-
-                            if (IsCarFavourite($row['a_ID']))
-                                echo '<img class="favourite is" tabindex="' . $row['a_ID'] . '">';
-                            else
-                                echo '<img class="favourite nope" tabindex="' . $row['a_ID'] . '">';
-
-                            echo '</div>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>';
-                        }
-                        if ($numrows < 1) {
-                            echo '<h2 class="empty list text-center">' . $account['emp'] . '</h2>';
-                            echo "<script>$('#change1').children().css('display','none');</script>";
-                        }
-                        ?>
+                    <div class="product maincar">
                     </div>
                 </div>
             </div>

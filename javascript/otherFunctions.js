@@ -1,4 +1,56 @@
 $(document).ready(function () {
+
+	filterData();
+
+	$('.color').click(function(){
+		$(this).toggleClass('actived');
+	});
+
+	function filterData(){
+		$('.maincar').html('<div id="load" style=""></div>');
+		var action = 'fetch_data';
+		var brand = get_filter('brand');
+		var category = get_filter('category');
+		var color = get_filter('color');
+
+		$.ajax({
+			url:"/app/eventsHandler.php",
+			method:"POST",
+			dataType: "html",
+			data:{action:action, brand:brand, category:category, color:color},
+			success:function(xhr){
+				$('.maincar').html(xhr);
+				if(xhr=='<div class="text-center"><h3 class="none">No Data Found</h3></div>')
+				{
+					$('#change1').css('display','none');
+				}
+				sameDivs();
+			}
+		});
+	}
+
+	function get_filter(class_name)
+	{
+		var filter = [];
+		if(class_name=="color")
+		{
+			$(".actived").each(function(){
+				filter.push($(this).attr("id"));
+			});
+		}
+		else
+		{		
+		$('.'+class_name+':checked').each(function(){
+			filter.push($(this).val());
+		});
+		}
+		return filter;
+	}
+
+	$('.common_selector').click(function(){
+		filterData();
+	});
+
 	function setActive(value) {
 		if (window.location.pathname == "/index.php") {
 			$('#first').removeClass().addClass('grid active');
@@ -225,11 +277,15 @@ $(document).ready(function () {
 				}
 			}
 			else {
+				let tempElem = $(".none");
+				if(!tempElem)
+				{
 				if (width < 768) {
 					element.css('display', 'none');
 				} else {
 					element.css('display', 'block');
 				}
+			}
 			}
 			sameDivs();
 
@@ -259,11 +315,15 @@ $(document).ready(function () {
 				}
 			}
 			else {
+				let tempElem = $(".none");
+				if(!tempElem)
+				{
 				if (width < 768) {
 					element.css('display', 'none');
 				} else {
 					element.css('display', 'block');
 				}
+			}
 			}
 			sameDivs();
 
@@ -356,7 +416,7 @@ $(document).ready(function () {
 			let height = $(this).height();
 			console.log(height);
 			if (height > min)
-				min = height;
+				min = height+1;
 		});
 		function setDiv(min) {
 			$('.zoom-img').css("min-height", min);

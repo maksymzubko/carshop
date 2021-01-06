@@ -1075,6 +1075,26 @@ h1.head{
 	border-bottom: 2px solid;
 }
 
+.product {
+	text-align: justify;
+}
+
+.none_div
+{
+	margin: auto;
+	width: 100%;
+}
+
+.none{
+	display: block;
+}
+
+#load{
+	text-align: center;
+	background: url('/images/load.gif') no-repeat center;
+	height: 150px;
+}
+
 .w_sidebar{
 	border: 1px solid #EBEBEB;
 }
@@ -1086,14 +1106,24 @@ h1.head{
 	display: inline-block;
 }
 .w_nav2 li a{
+	transition: none;
 	display: block;
 	padding: 14px;
 }
+
+.w_nav2 li a.color{
+	border: 1px solid;
+}
+
+.w_nav2 li a.actived{
+	border: 2px solid #da0fc9;
+}
+
 .w_nav2 li a.color1{
 	background:	#0AA5E2;
 }
 .w_nav2 li a.color2{
-	background:	#40E0D0;
+	background:	black;
 }
 .w_nav2 li a.color3{
 	background:	#B03060;
@@ -1117,7 +1147,7 @@ h1.head{
 	background:	#FFD700;
 }
 .w_nav2 li a.color10{
-	background:	#9FA8AB;
+	background:	white;
 }
 .w_nav2 li a.color11{
 	background:	#C0C0C0;
@@ -1554,7 +1584,6 @@ h1.head{
 }
 
 .cars-left{
-	display: flex;
 }
 
 .header-bottom.disable{
