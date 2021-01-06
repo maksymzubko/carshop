@@ -29,10 +29,7 @@ $(document).ready(function () {
 					$('#change1').css('display','block');
 					elem = $(".product").children("div");
 				}
-				setTimeout(() => {
-					sameDivs();	
-				}, 100);
-				
+					sameDivs();			
 			}
 		});
 	}
