@@ -122,9 +122,9 @@ if (!empty($_POST))
     if($result)
     {
         $numrows = $result->num_rows;
+        require "../languages/" . $_SESSION['lang'] . ".php";
         if($numrows>0)
-        {
-            require "../languages/" . $_SESSION['lang'] . ".php";
+        {           
             while($row = $result->fetch_assoc())
             {
             $output .= '<div class="col-xs-12 col-sm-6 col-lg-6 col-md-6 product-left p-left" id="' . $row['a_ID'] . '">
@@ -153,7 +153,7 @@ if (!empty($_POST))
         }
         else
         {        
-            echo $output = '<div class="text-center"><h3 class="none">No Data Found</h3></div>';
+            echo $output = '<div class="text-center"><h3 class="none">'. $lang['ndata'] .'</h3></div>';
         }            
     }
     else

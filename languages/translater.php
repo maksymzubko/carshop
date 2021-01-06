@@ -29,6 +29,26 @@ function translateColor(string $word)
         return $colors[$word];
     }
 }
+
+function translateCategory(string $word){
+    if ($_SESSION['lang'] == 'ru')
+    return $word;
+else {
+    $cat = array();
+    if ($_SESSION['lang'] == 'ukr') {
+        $cat = array(
+            "Для семьи" => "Для сім'ї"
+        );
+    } else {
+        $cat = array(
+            "Для семьи" => "For family"
+        );
+    }
+
+    return $cat[$word];
+}
+}
+
 function translateEq(string $word)
 {
     if ($_SESSION['lang'] == 'ru')

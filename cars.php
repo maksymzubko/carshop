@@ -42,10 +42,10 @@
                                              $db = get_connection();
                                              $query = "Select `cat_Caption` from categories group by `cat_Caption` order by `cat_Caption` asc";
                                              $result = $db->query($query);
-
+                                            require 'languages/translater.php';
                                              while($row = $result->fetch_assoc())
                                              {
-                                                 echo '<label class="checkbox"><input type="checkbox" class="category common_selector" value = "'. $row['cat_Caption']  .'"><i></i>'. $row['cat_Caption'] .'</label>';
+                                                 echo '<label class="checkbox"><input type="checkbox" class="category common_selector" value = "'. $row['cat_Caption']  .'"><i></i>'. translateCategory($row['cat_Caption']) .'</label>';
                                              }
                                             ?>                                                                         
                                         </div>

@@ -17,7 +17,8 @@ $lang = array(
 "fstorep1"=>"Kharkiv",
 "fstorep2"=>"Klochkivska street, 188.",
 "footer"=>"All Rights Reserved",
-"buttonHideText"=>"Click here"
+"buttonHideText"=>"Click here",
+"ndata"=>"No Data Found!"
 );
 $index = array(
     "about1"=>"Warranty",
