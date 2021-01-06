@@ -108,7 +108,9 @@ $account = array(
     "e6"=>"ESP",
     "e7"=>"Airbags",
     "b1"=>"Search in ",
-    "b2"=>"ADD TESTDRIVE"
+    "b2"=>"ADD TESTDRIVE",
+    "prev"=>"Previous",
+    "next"=>"Next"
     );
 
     

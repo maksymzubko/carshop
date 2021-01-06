@@ -68,8 +68,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-9 cars-left">
-                    <div id="change1" class="sky-form-sort">
+                <div id="change1" class="sky-form-sort">
                         <h4>
                             <span>
                                 <input type="radio" id="t1" name="radio" checked><img class="img-rounded" style="width:25px; height:25px" src="images/grid-white.png">
@@ -79,6 +78,7 @@
                             </span>
                         </h4>
                     </div>
+                <div class="col-md-9 cars-left">                  
                     <div class="product">
                         <?php include 'app/functions.php';
                         $result = getCarsList();
@@ -113,7 +113,6 @@
                         ?>
                     </div>
                 </div>
-                <div class="clearfix"></div>
             </div>
         </div>
     </div>

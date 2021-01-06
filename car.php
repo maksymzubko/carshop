@@ -7,6 +7,9 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
         header("Location: ../cars.php");
         exit;
     } else {
+        if(isAuthorizated())
+        addLookCount();
+
         $images = getImagesAuto($_GET['id']);
         $colors = getColors($result['a_year'], $result['a_model']);
         $videos = getVideos($_GET['id']);
@@ -26,12 +29,12 @@ else {
     <?php require_once 'templates/header.php'; require 'languages/translater.php';?>
 
     <!--start-breadcrumbs-->
-    <div class="breadcrumbs">
+    <div class="breadcrumb">
         <div class="container">
             <div class="breadcrumbs-main <?php echo $_SESSION['lang'] ?>">
                 <ol class="breadcrumb">
                 <li><a href="index.php"><?php echo $lang['home'] ?></a></li>
-                    <li ><?php echo $catalog['catalog'] ?></li>
+                    <li><a href="cars.php"><?php echo $catalog['catalog'] ?></a></li>
                     <li class="active"><?php echo $car['car']; echo $result['a_ID']?></li>
                 </ol>
             </div>
@@ -48,11 +51,15 @@ else {
                         <div class="col-md-5 single-top-left">
                             <div class="flexslider">
                                 <ul class="slides  text-center">
-                                    <?php while($img = $images->fetch_assoc())
+                                    <?php $count = 0; while($img = $images->fetch_assoc())
                                     {
+                                        if($count==9)
+                                        break;
+                                        
                                         echo ' <li data-thumb="'. $img['img'] .'">
                                         <div class="thumb-image"> <img src="'. $img['img'] .'" data-imagezoom="true" class="img-responsive" alt="" /> </div>
                                     </li>';
+                                    $count++;
                                     }; ?>
                                 </ul>
                             </div>
@@ -158,9 +165,10 @@ else {
         });
         $(window).load(function() {
             $('.flexslider').flexslider({
-                directionNav: false,
+                directionNav: true,
                 animation: "fade",
-                controlNav: "thumbnails"
+                prevText: "<?php echo $car['prev'] ?>",
+                nextText: "<?php echo $car['next'] ?>"
             });
         });
     </script>

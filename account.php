@@ -41,8 +41,7 @@ if (!isset($_COOKIE['acc'])) {
                     <div class="col-sm-12">
                         <div class="col-xs-12 col-sm-8 col-md-12">
                             <h2><?php
-                                $name = $row['u_fname'] . ' ' . $row['u_name'];
-                                echo $name; ?></h2>
+                                echo $_COOKIE['name']; ?></h2>
                             <p><strong><?php echo $account['role'] ?>: </strong>
                                 <span class="tags c"><?php echo $account['r1'] ?></span>
                                 <?php
@@ -57,19 +56,19 @@ if (!isset($_COOKIE['acc'])) {
                     </div>
                     <div class="col-xs-12 divider text-center">
                         <div class="col-xs-12 col-sm-4 emphasis ">
-                            <h2><strong> 23 </strong></h2>
+                            <h2><strong> <?php echo $row['fav']?>  </strong></h2>
                             <p><small><?php echo $account['hd1'] ?></small></p>
                             <button class="btn <?php echo $_SESSION['lang'] ?> btn-block effect-button2" data-sm-link-text="<?php echo $lang['buttonHideText'] ?>" onclick="window.location.href='/favourite.php'"> <span><?php echo $lang['faccp2'] ?></span>
                             </button>
                         </div>
                         <div class="col-xs-12 col-sm-4 emphasis">
-                            <h2><strong>12</strong></h2>
+                            <h2><strong> <?php echo $row['test'] ?></strong></h2>
                             <p><small><?php echo $account['hd2'] ?></small></p>
                             <button class="btn <?php echo $_SESSION['lang'] ?> btn-block effect-button2" data-sm-link-text="<?php echo $lang['buttonHideText'] ?>" onclick="window.location.href='/testdrives.php'"> <span> <?php echo $account['b1'] ?></span>
                             </button>
                         </div>
                         <div class="col-xs-12 col-sm-4 emphasis">
-                            <h2><strong>245</strong></h2>
+                            <h2><strong><?php echo $row['viewCount'] ?></strong></h2>
                             <p><small><?php echo $account['hd3'] ?></small></p>
                             <button class="btn <?php echo $_SESSION['lang'] ?> btn-block effect-button2" data-sm-link-text="<?php echo $lang['buttonHideText'] ?>" onclick="window.location.href='/cars.php'"> <span><?php echo $account['b2'] ?></span>
                             </button>
@@ -78,7 +77,7 @@ if (!isset($_COOKIE['acc'])) {
                 </div>
                 <form id="logout" method="post">
                     <input name=logout class="hide" value="logout">
-                    <button type="submit" name=logout class="log"><span class="psw"><i class="fa fa-times-circle"></i><a id="signout" name=logout><?php echo '   ' . $account['exit'] ?></a></span></button>
+                    <button type="submit" name=logout class="log <?php echo $_SESSION['lang'] ?>"><span class="psw"><i class="fa fa-times-circle"></i><a id="signout" name=logout><?php echo '   ' . $account['exit'] ?></a></span></button>
                 </form>
             </div>
         </div>

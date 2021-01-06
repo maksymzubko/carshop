@@ -20,7 +20,7 @@ if (isset($_COOKIE['acc'])) {
     <?php require_once 'templates/header.php' ?>
 
     <!--start-breadcrumbs-->
-    <div class="breadcrumbs">
+    <div class="breadcrumb">
         <div class="container">
             <div class="breadcrumbs-main <?php echo $_SESSION['lang'] ?>">
                 <ol class="breadcrumb">

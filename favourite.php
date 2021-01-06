@@ -36,8 +36,7 @@ if (!isset($_COOKIE['acc'])) {
         <div class="container">
             <div class="cars-top">
                 <h1 class="head"><?php echo $lang['faccp2'] ?></h1>
-                <div class="col-sm-12 col-md-12 cars-left">
-                    <div id="change1" class="sky-form-sort">
+                <div id="change1" class="sky-form-sort">
                         <h4>
                             <span>
                                 <input type="radio" id="t3" name="radio" checked><img class="img-rounded" style="width:25px; height:25px" src="images/3x3-white.png">
@@ -47,13 +46,14 @@ if (!isset($_COOKIE['acc'])) {
                             </span>
                         </h4>
                     </div>
+                <div class="col-sm-12 col-md-12 cars-left">
                     <div class="product">
                         <?php include 'app/functions.php';
                         $result = favouriteList();
                         $numrows = $result->num_rows;
                         while ($row = $result->fetch_assoc()) {
                             $secrow = getCarByID($row['auto_ID']);
-                            echo '<div class="col-xs-12 col-sm-6 col-lg-4 col-md-4 product-left p-left" id="' . $secrow['a_ID'] . '">
+                            echo '<div class="col-xs-12 col-sm-6 col-lg-4 col-md-6 product-left p-left" id="' . $secrow['a_ID'] . '">
                             <div class="product-main">
                                 <a href="#" class="mask"><img class="img-responsive zoom-img" style="width:100%" src=" ' . $secrow['img'] . ' " alt="" /></a>
                                 <div class="product-bottom">

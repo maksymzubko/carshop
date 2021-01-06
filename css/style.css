@@ -1,3 +1,4 @@
+
 body{
 	background:#fff;
 	font-family: 'Playfair Display', serif;
@@ -97,7 +98,6 @@ a.animated-button:link, a.animated-button:visited {
   }
 
   .btn.ru, .btn.ukr {
-	font-size: 12px;
 	font-family: 'Roboto-Bold';
   }
 
@@ -256,19 +256,29 @@ a.animated-button:link, a.animated-button:visited {
 	overflow: hidden;
 	padding: 10px 0px;
 	font-family: 'Roboto';
+	position: sticky;
+	top: 0px;
+	z-index: 999;
+}
+
+.top-header-main {
+	display: flex;
+	align-items: center;
 }
 
 .top-header-right {
-	float: right;
+margin-left: auto;
 }
 .top-header-left {
-	float: left;
 	margin-left: 36px;
 }
 
 .titleSite {
 	margin: 0 auto;
-	
+}
+
+.mainLogo:hover img{
+	content: url('/images/logo-mini-hover.png');
 }
 
 .titleSite a:hover h3{
@@ -288,10 +298,10 @@ a.animated-button:link, a.animated-button:visited {
 	float: right;
 	overflow: hidden;
   }
-  .dropdown.ru, .dropdown.ukr {
+  .dropdown.ru .dropdown-content.acc, .dropdown.ukr .dropdown-content.acc{
 	font-family: 'Roboto';
   }
-  .dropdown.en {
+  .dropdown.en .dropdown-content.acc{
 	font-family: 'Heebo';
   }
   
@@ -306,9 +316,9 @@ a.animated-button:link, a.animated-button:visited {
 	margin: 0;
   }
   
-  .dropdown:hover .dropbtn {
+  /*.dropdown:hover .dropbtn {
 	background-color: #337ab7;
-  }
+  }*/
   
   .dropdown-content {
 	font-family: 'Roboto';
@@ -319,18 +329,33 @@ a.animated-button:link, a.animated-button:visited {
 	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 	z-index: 1;
   }
+
+  .dropdown-content a:hover {
+	  color: black;
+  }
   
   .dropdown-content label {
 	float: none;
 	color: black;
+	margin: 0;
 	padding: 12px 16px;
 	text-decoration: none;
 	display: block;
 	text-align: left;
   }
   
+  .dropdown-content label.hr{
+	  border-top: 1px solid;
+	  align-content: center;
+  }
+
+  .dropdown-content label.hr:hover{
+	border-top: 1px solid black;
+}
+
   .dropdown-content label:hover {
 	cursor: pointer;
+	color: #73b6e1;
 	background-color: #ddd;
   }
   
@@ -342,20 +367,16 @@ a.animated-button:link, a.animated-button:visited {
 	font-family: 'Roboto';
 	float: left;
 	margin-right: 20px;
+	display: flex;
+	align-items: center;
 }
 
 .empty {
 	font-weight: bold;
 }
 
-.account.ru button.log, .account.ukr button.log{
-	float: right;
-	margin-right: 5em;
-}
-
-.account.en button.log{
-	float: right;
-	margin-right: 8em;
+.account button.log{
+	margin-top: 2em;
 }
 
 form#logout a:hover {
@@ -370,7 +391,7 @@ form#logout a:hover {
 	margin-top:4%;
 }
 
-.account-box label{
+.account-box label.lab{
 	margin-right: 6px;
 	color: white;
 }
@@ -524,6 +545,12 @@ font-family: 'Roboto', serif;
 	padding-right: 10px;
 }
 
+.header{
+	margin: 0 auto;
+}
+.header .memenu a{
+	color: white;
+}
 @media (max-width:320px){
 	.top-header-left {
 		padding: 0;
@@ -559,9 +586,6 @@ font-family: 'Roboto', serif;
 	.p-left {
 		width: 100% !important;
 		margin-top:15px !important;
-	}
-	.p-left:nth-child(1){
-		margin-top:0px !important;
 	}
 	.p-left img{
 		width:50%;
@@ -900,7 +924,7 @@ figure.effect-mouse:hover p,figure.effect-mouse:hover h2 {
 }
 .breadcrumb {
     background: none;
-	margin: 0;
+	margin:0;
 }
 .breadcrumb > li {
     display: inline-block;
@@ -1029,7 +1053,7 @@ figure.effect-mouse:hover p,figure.effect-mouse:hover h2 {
   /*cars-catalog*/
 .cars-catalog{
 	font-family: 'Heebo';
-	padding:6em 0px;
+	padding:3em 0px;
 }
 
 .cars-catalog-favourite{
@@ -1513,22 +1537,32 @@ h1.head{
 
 /*--product-starts--*/
 .product-left {
-    text-align: center;
-
+	text-align: center;
+	align-items: stretch;
 }
 .product-main {
 	font-family: 'Heebo';
     padding: 1em 0px 5px 0px;
 	border:1px solid #ECEAEA;
 	margin: 5px 0px 5px 0px;
-}
-
-.product-main {
-	min-height: 388px;
+	
 }
 
 .product {
-    padding: 3em 0px 6em 0px;
+	padding: 3em 0px 6em 0px;
+
+}
+
+.cars-left{
+	display: flex;
+}
+
+.header-bottom.disable{
+	display: none;
+}
+
+.header-bottom .top-nav a{
+	color: black;
 }
 
 .product-bottom {
@@ -1559,19 +1593,19 @@ h1.head{
 .product-buttons .photo{
 	margin-left: auto;
 	position: relative;
-	display: inline-block; /* Строчно-блочный элемент */
+	display: inline-block; 
 }
 
 .product-buttons .photo:hover::after{
-	content: attr(data-title); /* Выводим текст */
-    position: absolute; /* Абсолютное позиционирование */
-    left: 50%; top: 80%; /* Положение подсказки */
-    z-index: 1; /* Отображаем подсказку поверх других элементов */
-    background: rgba(61, 197, 221, 0.9); /* Полупрозрачный цвет фона */
+	content: attr(data-title);
+    position: absolute; 
+    left: 50%; top: 80%; 
+    z-index: 1; 
+    background: rgba(61, 197, 221, 0.9); 
 	border-radius: 4px;
-    font-size: 11px; /* Размер текста подсказки */
-    padding: 5px 10px; /* Поля */
-    border: 1px solid #333; /* Параметры рамки */
+    font-size: 11px; 
+    padding: 5px 10px; 
+    border: 1px solid #333;
 }
 .product-buttons.en .photo:hover::after{
 	font-family: 'Heebo';
@@ -1581,11 +1615,16 @@ h1.head{
 	font-family: 'Roboto';
 }
 
+/*
+images/favourite2-is.png -- star
+images/favourite-is.png -- heart
+*/
+
 .product-buttons img.favourite.is {
-	content: url("/images/favourite2-is.png");
+	content: url("/images/favourite-is.png");
 }
 .product-buttons img.favourite.nope {
-	content: url("/images/favourite2.png");
+	content: url("/images/favourite.png");
 }
 .product-buttons img.favourite:focus {
 	outline: 0;
@@ -1621,17 +1660,21 @@ h1.head{
 	width: 170px;
 	height: 55px;
 }
+.product-buttons .btn.ru span, .product-buttons .btn.ukr span{
+	font-size: 12px;
+}
 .product-buttons img.favourite.nope:hover{
-	content: url("/images/favourite2-hover.png");
+	content: url("/images/favourite-hover.png");
 }
 .product-buttons img.favourite.is:hover{	
-	content: url("/images/favourite2-hover.png");}
+	content: url("/images/favourite-hover.png");}
 .product-one:nth-child(2){
 	margin-top:30px;
 }
+
+
 img.zoom-img {
-	width: 380px;
-	height: 192px;
+	height: auto;
     -webkit-transform: scale(1, 1);
     -webkit-transition-timing-function: ease-out;
     -webkit-transition-duration: 250ms;
@@ -1651,6 +1694,7 @@ div.mask:hover img.zoom-img{
 	cursor:pointer;
 }
 div.mask {
+	position: relative;
     text-decoration: none;
     overflow: hidden;
     display: block;
@@ -2040,8 +2084,8 @@ ul.menu_drop li.item3{
 }
 
 .menu_drop img.icon{
-	height: 25px;
-	width: 25px;
+	height: 28px;
+	width: 28px;
 }
 
 ul {

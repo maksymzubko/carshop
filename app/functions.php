@@ -50,7 +50,7 @@ function validateTest(string $id)
 
     $db = get_connection();
     $result = $db->query($query);
-    if($result->num_rows > 0)
+    if($result)
     return false;
     else
     return true;
@@ -112,7 +112,7 @@ function getAboutUser()
 {
     $user = decrypt($_COOKIE['acc']);
 
-    $query = "SELECT * FROM `users` WHERE `u_ID` = $user";
+    $query = "SELECT `u_ID`,`u_login`,`u_name`,`u_fname`,(SELECT COUNT(d_ID) FROM testdrive WHERE uid=$user) as `test`, `viewCount`, (SELECT COUNT(client_ID) FROM favourite WHERE client_ID=$user) as `fav` FROM `users` join views on `u_ID`=`viewUser` join testdrive on `u_ID` = `uid` join favourite on u_ID = client_ID WHERE `u_ID` = $user GROUP BY u_ID";
 
     $db = get_connection();
     $result = $db->query($query);
@@ -151,7 +151,7 @@ function checkUser(array $data)
 
 function getCarByID(string $id)
 {
-    $query = "SELECT * FROM `auto` join images on img_a_ID = a_ID join models on a_model=m_id join marks on m_mark_ID=mark_ID join a_equipment on m_equip = e_ID where visible = 'Enabled' and a_ID = $id";
+    $query = "SELECT * FROM `auto` join images on img_a_ID = a_ID join models on a_model=m_id join marks on m_mark_ID=mark_ID join a_equipment on m_equip = e_ID where visible = 'Enabled' and a_ID = $id and isMain = 'True'";
 
     $db = get_connection();
     $stmt = $db->query($query);
@@ -308,6 +308,26 @@ function addToFavourite(array $data)
     $db = get_connection();
     $stmt = mysqli_query($db, $query);
     return $stmt;
+}
+
+function addLookCount(){
+
+    $user = decrypt($_COOKIE['acc']);
+
+    $db = get_connection();
+
+    $query = "Select * From `views` where `viewUser` = $user";
+    $stmt = $db -> query($query);
+
+    if($stmt->num_rows == 0)
+    {
+        $query = "INSERT INTO `views` (`viewUser`, `viewCount`) VALUES('$user','0')";
+        $stmt = mysqli_query($db, $query);
+    }
+
+    $query = "Update `views` set `viewCount` = `viewCount` + 1 where `viewUser` = $user";
+    
+    $stmt = mysqli_query($db, $query);
 }
 
 function removeFromFavourite(array $data)
