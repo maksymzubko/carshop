@@ -1,14 +1,21 @@
 <html>
     <head>
 
-    <!-- Bootstrap core CSS -->
-    <link href="../css/bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/bootstrap.css">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/all.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
+<link rel="stylesheet" href="../css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css">
 
-    <!-- Custom styles for this template -->
-    <link href="../css/style.css" rel="stylesheet">
-
-    <script src="../javascript/jquery-1.11.0.min.js"></script>
-    <script src="../javascript/functionsForPanel.js"></script>
+<!-- Import javascript -->
+<script type="text/javascript" src="../javascript/jquery-1.11.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+<script type="text/javascript" src="../javascript/bootstrap.min.js"></script>
+<script type="text/javascript" src="../javascript/metisMenu.min.js"></script>
+<script type="text/javascript" src="../javascript/all.js"></script>
+<script type="text/javascript" src="../javascript/otherFunctions.js"></script>
+<script type="text/javascript" src="../javascript/jquery.mask.js"></script>'
   </head>
   <?php 
       if(isset($_COOKIE['accAdm']))

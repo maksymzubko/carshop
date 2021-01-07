@@ -1,4 +1,5 @@
 $(document).ready(function () {
+	
 	let fav = $('.favourite');
 	let but = $('.lookcar');
 	let t1 = $('#t1'); let t2 = $('#t2'); let t3 = $('#t3');
@@ -31,8 +32,9 @@ $(document).ready(function () {
 			method: "POST",
 			dataType: "html",
 			data: { action: action, brand: brand, category: category, color: color },
-			success: function (xhr) {
+			success: function (xhr) {	
 				$('.maincar').html(xhr);
+
 				if (xhr.includes('none')) {
 					$('#change1').css('display', 'none');
 				}
@@ -49,13 +51,43 @@ $(document).ready(function () {
 				sameDivs();
 			}
 		});
+	 
 	}
+
+	$('.navbar-toggle-sidebar').click(function () {
+		$('.navbar-nav').toggleClass('slide-in');
+		$('.side-body').toggleClass('body-slide-in');
+		$('#search').removeClass('in').addClass('collapse').slideUp(200);
+	});
+
+	$('#search-trigger').click(function () {
+		$('.navbar-nav').removeClass('slide-in');
+		$('.side-body').removeClass('body-slide-in');
+		$('.search-input').focus();
+	});
+
+   $('#admin').submit(function (e) {
+        e.preventDefault();
+        var email = $('#inputEmail').val();
+        var pass = $('#inputPassword').val();
+            $.ajax({
+                type: 'POST',
+                url: '../app/eventsHandler.php',
+                data: {'email':email, 'pass':pass, 'loginAdmin': 'yes'},
+                success: function (xhr) {
+                    location.href = window.location.origin + window.location.pathname.replace("/login.php","/panel.php");
+                },
+                error: function (xhr, status, error) {
+                    let d = JSON.parse(xhr.responseText);
+                }
+            })
+        });
 
 	if (window.location.pathname == "/cars.php") {
 		filterData();
 	}
 
-	function setActive(value) {
+	function setActive() {
 		if (window.location.pathname == "/index.php") {
 			$('#first').removeClass().addClass('grid active');
 			$('#first2').removeClass().addClass('grid active');

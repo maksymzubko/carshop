@@ -4603,6 +4603,11 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
 .breadcrumb > li {
   display: inline-block;
 }
+.breadcrumb > li:nth-child(1) + li:before {
+  padding: 0 5px;
+  color: #ccc;
+  content: ">>>\00a0";
+}
 .breadcrumb > li + li:before {
   padding: 0 5px;
   color: #ccc;
