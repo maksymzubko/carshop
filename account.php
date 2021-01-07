@@ -77,7 +77,7 @@ if (!isset($_COOKIE['acc'])) {
                 </div>
                 <form id="logout" method="post">
                     <input name=logout class="hide" value="logout">
-                    <button type="submit" name=logout class="log <?php echo $_SESSION['lang'] ?>"><span class="psw"><i class="fa fa-times-circle"></i><a id="signout" name=logout><?php echo '   ' . $account['exit'] ?></a></span></button>
+                    <button type="submit" name=logout class="logout <?php echo $_SESSION['lang'] ?>"><span class="psw"><i class="fa fa-times-circle"></i><a id="signout" name=logout><?php echo '   ' . $account['exit'] ?></a></span></button>
                 </form>
             </div>
         </div>

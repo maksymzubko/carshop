@@ -22,7 +22,7 @@ function validate(array $request)
     $errors = "";
 
     if (isEmailAlreadyExists($request['email']))
-        $errors = 'Email уже используется';
+        $errors = 'Email уже используется!';
 
     return $errors;
 }
@@ -34,7 +34,7 @@ function validateAccount()
     {
         if(!wrongCoockie($_COOKIE['acc']))
         {
-            $errors = 'Ваш ID не соответствует!';
+            $errors = 'Ваш ID не корректный!';
             logout();
         }
     }
@@ -144,7 +144,7 @@ function checkUser(array $data)
     $stmt = $db->query($query);
     $rowcount = $stmt->num_rows;
     if ($rowcount == 0) {
-        $errors = 'Проверьте правильность данных';
+        $errors = 'Проверьте правильность данных!';
     }
     return $errors;
 }

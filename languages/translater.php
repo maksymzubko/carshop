@@ -30,29 +30,68 @@ function translateColor(string $word)
     }
 }
 
-function translateCategory(string $word){
+function translateAction(string $words)
+{
     if ($_SESSION['lang'] == 'ru')
-    return $word;
-else {
-    $cat = array();
-    if ($_SESSION['lang'] == 'ukr') {
-        $cat = array(
-            "Для семьи" => "Для сім'ї",
-            "Спорткар" => "Спорткар",
-            "Внедорожник" => "Позашляховик",
-            "Кроссовер" => "Кроссовер"
-        );
-    } else {
-        $cat = array(
-            "Для семьи" => "For family",
-            "Спорткар" => "Sportcar",
-            "Внедорожник" => "SUV",
-            "Кроссовер" => "Crossover"
-        );
-    }
+        return $words;
+    else {
+        $action = array();
+        if ($_SESSION['lang'] == 'ukr') {
+            $action = array(
+                "Необходимо быть авторизорованым!" => "Необхідно буди зарєєстрованим!",
+                "Вы уже заказывали тест драйв этой машини!" => "Вы вже замовляли тест драйв цього авто!",
+                "Проверьте правильность данных!" => "Перевірте правильність даних!",
+                "Email уже используется!" => "Email вже використовується!",
+                "Ваш ID не корректный!"=>"Ваш ID не коректний!",
+                "Вы успешно авторизированы!"=>"Ви успішно авторизовані!",
+                "Вы успешно вышли!"=>"Ви успішно вийшли!",
+                "Действие выполнено!"=>"Дія виконана!",
+                "Вы успешно добавили машину! С вами свяжется наш сотрудник."=>"Ви успішно додали авто! З вами зв'яжеться наш співробітник.",
+                "Вы успешно зарегистрированы!"=>"Ви успішно зареєстровані!"
+            );
+        } else {
+            $action = array(
+                "Необходимо быть авторизорованым!" => "You must be logged in!",
+                "Вы уже заказывали тест драйв этой машини!" => "You already ordered this car!",
+                "Проверьте правильность данных!" => "Check correctness data!",
+                "Email уже используется!" => "Email already using!",
+                "Ваш ID не соответствует!"=>"Your ID not correct!",
+                "Вы успешно авторизированы!"=>"You success logged in!",
+                "Вы успешно вышли!"=>"You succes logged out!",
+                "Действие выполнено!"=>"Action complited!",
+                "Вы успешно добавили машину! С вами свяжется наш сотрудник."=>"You have successfully added a car! Our employee will contact you.",
+                "Вы успешно зарегистрированы!"=>"You are registered successfully!"
+            );
+        }
 
-    return $cat[$word];
+        return $action[$words];
+    }
 }
+
+function translateCategory(string $word)
+{
+    if ($_SESSION['lang'] == 'ru')
+        return $word;
+    else {
+        $cat = array();
+        if ($_SESSION['lang'] == 'ukr') {
+            $cat = array(
+                "Для семьи" => "Для сім'ї",
+                "Спорткар" => "Спорткар",
+                "Внедорожник" => "Позашляховик",
+                "Кроссовер" => "Кроссовер"
+            );
+        } else {
+            $cat = array(
+                "Для семьи" => "For family",
+                "Спорткар" => "Sportcar",
+                "Внедорожник" => "SUV",
+                "Кроссовер" => "Crossover"
+            );
+        }
+
+        return $cat[$word];
+    }
 }
 
 function translateEq(string $word)
@@ -141,25 +180,24 @@ function translateEquip(string $word)
 function tranlateTestDrive(string $word)
 {
     if ($_SESSION['lang'] == 'en')
-    return $word;
-else {
-    $status = array();
+        return $word;
+    else {
+        $status = array();
 
-    if ($_SESSION['lang'] == 'ru') {
-        $status = array(
-            "Waiting"=>"Ожидается",
-            "Success"=>"Подтверждено",
-            "Denied"=>"Отклонено"
-        );
-    } else {
-        $status = array(
-            "Waiting"=>"Перевіряється",
-            "Success"=>"Підтверждено",
-            "Denied"=>"Відхиленено"
-        );
+        if ($_SESSION['lang'] == 'ru') {
+            $status = array(
+                "Waiting" => "Ожидается",
+                "Success" => "Подтверждено",
+                "Denied" => "Отклонено"
+            );
+        } else {
+            $status = array(
+                "Waiting" => "Перевіряється",
+                "Success" => "Підтверждено",
+                "Denied" => "Відхиленено"
+            );
+        }
+        return $status[$word];
     }
-    return $status[$word];
-}
-  
 }
 ?>
