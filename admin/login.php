@@ -8,12 +8,12 @@
     <link href="../css/style.css" rel="stylesheet">
 
     <script src="../javascript/jquery-1.11.0.min.js"></script>
-
+    <script src="../javascript/functionsForPanel.js"></script>
   </head>
   <?php 
-      if(isset($_COOKIE['acc_admin']))
+      if(isset($_COOKIE['accAdm']))
       {
-          header('Location: /panel.php');
+          header('Location: /admin/panel.php');
           exit;
       }
       ?>
@@ -33,30 +33,6 @@
     </form>
     </div>
 
-    <script>$('#admin').submit(function (e) {
-    var email = $('#inputEmail').val();
-    var pass = $('#inputPassword').val();
-		$.ajax({
-			type: 'POST',
-			url: '../app/eventsHandler.php',
-			data: {'email':email, 'pass':pass, 'loginAdmin': 'yes'},
-			success: function (response) {
-				swal(
-					"Отлично!",
-					"Вы успешно вошли!",
-					"success",
-				);
-				location.href = window.location.origin + "/account.php";
-			},
-			error: function (xhr, status, error) {
-				let d = JSON.parse(xhr.responseText);
-				swal(
-					"Жаль!",
-					d.error,
-					"error",
-				);
-			}
-		})
-	});</script>
+    <script></script>
 </body>
 </html>

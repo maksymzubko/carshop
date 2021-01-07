@@ -136,14 +136,13 @@ function checkUser(array $data)
     $query="";
 
     if(isset($_POST['loginAdmin']))
-    $query = "SELECT * FROM `users` WHERE `u_login` = '$login' and `u_pass` = '$pass' where u_roleID != 'Пользователь'";
+    $query = "SELECT * FROM `users` WHERE `u_login` = '$login' and `u_pass` = '$pass' and u_roleID != 'Пользователь'";
     else
     $query = "SELECT * FROM `users` WHERE `u_login` = '$login' and `u_pass` = '$pass'";
 
     $db = get_connection();
     $stmt = $db->query($query);
-    $rowcount = $stmt->num_rows;
-    if ($rowcount == 0) {
+    if (!$stmt) {
         $errors = 'Проверьте правильность данных!';
     }
     return $errors;
@@ -248,7 +247,7 @@ function login(array $data)
     $query="";
 
     if(isset($_POST['loginAdmin']))
-    $query = "SELECT * FROM `users` WHERE `u_login` = '$login' and `u_pass` = '$pass' where u_roleID != 'Пользователь'";
+    $query = "SELECT * FROM `users` WHERE `u_login` = '$login' and `u_pass` = '$pass' and u_roleID != 'Пользователь'";
     else
     $query = "SELECT * FROM `users` WHERE `u_login` = '$login' and `u_pass` = '$pass'";
 

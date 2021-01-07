@@ -29,7 +29,7 @@ if (!empty($_POST)) {
     //ACTION WHEN WE TRY LOGIN//
     if (isset($_POST['pass'])) {
         $error = checkUser($_POST);
-
+        
         if ($error == "" && login($_POST)) {
             sendResponse([
                 'success' => true,
