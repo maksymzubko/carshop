@@ -20,7 +20,7 @@ $(document).ready(function () {
 			data:{action:action, brand:brand, category:category, color:color},
 			success:function(xhr){
 				$('.maincar').html(xhr);
-				if(xhr=='<div class="text-center"><h3 class="none">No Data Found</h3></div>')
+				if(xhr.includes('none'))
 				{
 					$('#change1').css('display','none');
 				}

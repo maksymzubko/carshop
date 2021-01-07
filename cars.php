@@ -43,10 +43,23 @@
                                              $query = "Select `cat_Caption` from categories group by `cat_Caption` order by `cat_Caption` asc";
                                              $result = $db->query($query);
                                             require 'languages/translater.php';
+                                            $arr = array();
+                                            $rows = array();
                                              while($row = $result->fetch_assoc())
-                                             {
-                                                 echo '<label class="checkbox"><input type="checkbox" class="category common_selector" value = "'. $row['cat_Caption']  .'"><i></i>'. translateCategory($row['cat_Caption']) .'</label>';
+                                             {  
+                                                 array_push($arr,translateCategory($row['cat_Caption']));                                             
                                              }
+
+                                            asort($arr);
+
+                                            $result = $db->query($query);
+
+                                             foreach($arr as $val)
+                                             {
+                                                $row = $result->fetch_assoc();
+                                                echo '<label class="checkbox"><input type="checkbox" class="category common_selector" value = "'. $row['cat_Caption']  .'"><i></i>'. $val .'</label>';
+                                             }
+                                             
                                             ?>                                                                         
                                         </div>
                                     </div>

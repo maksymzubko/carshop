@@ -925,6 +925,7 @@ figure.effect-mouse:hover p,figure.effect-mouse:hover h2 {
 .breadcrumb {
     background: none;
 	margin:0;
+	padding-top: 15px;
 }
 .breadcrumb > li {
     display: inline-block;
@@ -1087,6 +1088,7 @@ h1.head{
 
 .none{
 	display: block;
+	margin-top: 7em;
 }
 
 #load{
