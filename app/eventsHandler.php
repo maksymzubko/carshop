@@ -29,11 +29,11 @@ if (!empty($_POST)) {
     //ACTION WHEN WE TRY LOGIN//
     if (isset($_POST['pass'])) {
         $error = checkUser($_POST);
-        
+
         if ($error == "" && login($_POST)) {
             sendResponse([
                 'success' => true,
-                'successmsg'=> translateAction("Вы успешно авторизированы!")
+                'successmsg' => translateAction("Вы успешно авторизированы!")
             ]);
         } else {
             sendResponse([
@@ -49,7 +49,7 @@ if (!empty($_POST)) {
         if ($error == "" && register($_POST)) {
             sendResponse([
                 'success' => true,
-                'successmsg'=>translateAction("Вы успешно зарегистрированы!")
+                'successmsg' => translateAction("Вы успешно зарегистрированы!")
             ]);
         } else {
             sendResponse([
@@ -78,7 +78,7 @@ if (!empty($_POST)) {
         logout();
         sendResponse([
             'success' => true,
-            'successmsg'=>translateAction("Вы успешно вышли!")
+            'successmsg' => translateAction("Вы успешно вышли!")
         ]);
     }
     //ACTION FILTER//
@@ -138,26 +138,54 @@ if (!empty($_POST)) {
                     echo $output = '<div class="text-center"><h3 class="none">' . $lang['ndata'] . '</h3></div>';
                 }
             } else {
-                echo $output = '<div class="text-center"><h3 class="none">'. $lang['ndata'] .'</h3></div>';
+                echo $output = '<div class="text-center"><h3 class="none">' . $lang['ndata'] . '</h3></div>';
             }
-        } else
-            exit();
+        } else {
+            if ($_POST['action'] == "getAllTests") {
+                $output = getAllTests("status = 'Waiting'");
+                if($output['recordsFiltered'] == 0)
+                {
+                    http_response_code(500);
+                    echo json_encode($output);
+                }
+                else
+                {
+                    $output["success"] = true; 
+                    echo json_encode($output);
+                }
+                
+            }else if (isset($_POST['action']) == "edit") {
+                if (isset($_POST['status'])) {
+                    $db = get_connection();
+        
+                    $d_ID  = $_POST['d_ID'];
+                    $status  = $_POST['status'];
+        
+                    $query = "
+         UPDATE testdrive SET status = '" . $_POST["status"] . "' WHERE d_ID = '" . $_POST["d_ID"] . "'
+         ";
+                    $statement = $db->query($query);
+
+                    echo json_encode($_POST);
+                }
+            }
+        }
         //ACTION WITH ADD/DELETE FAVOURITE CAR//
-    } else if (isset($_POST['need']) &&  isset($_POST['car_ID'])) {
+    }  else if (isset($_POST['need']) &&  isset($_POST['car_ID'])) {
         if (isAuthorizated()) {
             if ($_POST['need'] == "0") {
                 addToFavourite($_POST);
                 sendResponse([
                     'success' => true,
-                    'successmsg'=>translateAction("Действие выполнено!")
+                    'successmsg' => translateAction("Действие выполнено!")
                 ]);
             } else {
                 removeFromFavourite($_POST);
                 sendResponse([
                     'success' => true,
-                    'successmsg'=>translateAction("Действие выполнено!")
+                    'successmsg' => translateAction("Действие выполнено!")
                 ]);
-            }          
+            }
         } else {
             sendResponse([
                 'success' => false,
@@ -176,7 +204,7 @@ if (!empty($_POST)) {
             if (addToTestdrive($_POST['car_ID'])) {
                 sendResponse([
                     'success' => true,
-                    'successmsg'=>translateAction("Вы успешно добавили машину! С вами свяжется наш сотрудник.")
+                    'successmsg' => translateAction("Вы успешно добавили машину! С вами свяжется наш сотрудник.")
                 ]);
                 exit();
             } else {
@@ -193,5 +221,4 @@ if (!empty($_POST)) {
         }
     }
 }
-
 ?>

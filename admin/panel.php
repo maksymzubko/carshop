@@ -46,10 +46,10 @@
         <div id="page-wrapper">
             <div class="container-fluid">
                 <!--Navigator start-->
-                <div class="breadcrumb">
+                <div class="breadcrumb ">
                     <div class="container-fluid">
                         <div class="breadcrumbs-main">
-                            <ol class="breadcrumb">
+                            <ol class="breadcrumb admin">
                                 <li>
                                     <h5>You are here</h5>
                                 </li>

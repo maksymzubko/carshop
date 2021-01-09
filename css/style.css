@@ -916,7 +916,7 @@ figure.effect-mouse:hover p,figure.effect-mouse:hover h2 {
 .breadcrumb.admin > li:nth-child(1) + li:before {
     padding: 0 5px;
     color: #ccc;
-    content: "->\00a0";
+    content: ">>>\00a0";
 }
 .breadcrumbs-main {
     border: 1px solid #D6D6D6;

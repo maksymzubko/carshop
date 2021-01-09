@@ -4603,11 +4603,6 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
 .breadcrumb > li {
   display: inline-block;
 }
-.breadcrumb > li:nth-child(1) + li:before {
-  padding: 0 5px;
-  color: #ccc;
-  content: ">>>\00a0";
-}
 .breadcrumb > li + li:before {
   padding: 0 5px;
   color: #ccc;
@@ -4663,10 +4658,10 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
 .pagination > .active > a:focus,
 .pagination > .active > span:focus {
   z-index: 2;
-  color: #fff;
+  color: white;
   cursor: default;
-  background-color: #337ab7;
-  border-color: #337ab7;
+  background-color: rgb(216, 216, 216);
+  border-color: gray;
 }
 .pagination > .disabled > span,
 .pagination > .disabled > span:hover,

@@ -142,7 +142,7 @@ function checkUser(array $data)
 
     $db = get_connection();
     $stmt = $db->query($query);
-    if (!$stmt) {
+    if ($stmt -> num_rows < 1) {
         $errors = 'Проверьте правильность данных!';
     }
     return $errors;
@@ -401,7 +401,88 @@ function IsCarFavourite($car_ID)
     }
 }
 
-function getTest(array $d, $where)
+function getStats()
+{
+    $query = "Select COUNT(a_ID), 
+    (SELECT COUNT(d_ID) FROM testdrive where status = 'Waiting') as `requests`, 
+    (SELECT COUNT(d_ID) FROM testdrive) as `alldreq` from auto";
+
+        $db = get_connection();
+        $stmt = mysqli_query($db, $query);
+        
+        $rowcount = $stmt->num_rows;
+        if($rowcount>0)
+        return $stmt->fetch_assoc();
+        else
+        return false;
+}
+
+function getAllTests($where)
+{
+$db = get_connection();
+
+$column = array("d_ID","u_fname","u_name" , "car_ID" ,"mark", "m_model", "date", "status");
+
+$query = "SELECT * FROM testdrive JOIN users on `uid` = u_ID JOIN `auto` on car_ID = a_ID JOIN models on a_model = m_ID JOIN marks on m_mark_ID = mark_ID where $where";
+if(isset($_POST["search"]["value"]))
+{
+ $query .= '  OR ('.$where.' and (u_name LIKE "%'.$_POST["search"]["value"].'%"  OR u_fname LIKE "%'.$_POST["search"]["value"].'%"  OR mark LIKE "%'.$_POST["search"]["value"].'%" OR m_model LIKE "%'.$_POST["search"]["value"].'%"  OR date LIKE "%'.$_POST["search"]["value"].'%" ))';
+}
+
+if(isset($_POST["order"]))
+{
+ $query .= 'ORDER BY '.$column[$_POST['order']['0']['column']].' '.$_POST['order']['0']['dir'].' ';
+}
+else
+{
+ $query .= 'ORDER BY d_ID ASC ';
+}
+$query1 = '';
+
+if($_POST["length"] != -1)
+{
+ $query1 = 'LIMIT ' . $_POST['start'] . ', ' . $_POST['length'];
+}
+
+$statement = $db->query($query);
+
+$number_filter_row = $statement->num_rows;
+
+$statement = $db->query($query . $query1);
+
+$data = array();
+
+while($row = $statement->fetch_assoc()){
+    $sub_array = array();
+    $sub_array[] = $row["d_ID"];
+    $sub_array[] = $row['u_fname'];
+    $sub_array[] = $row['u_name'];
+    $sub_array[] = $row['car_ID'];
+    $sub_array[] = $row['mark'];
+    $sub_array[] = $row['m_model'];
+    $sub_array[] = $row['date'];
+    $sub_array[] = $row['status'];
+    $data[] = $sub_array;
+}
+
+function count_all_data_test($conn)
+{
+ $query = "SELECT * FROM testdrive";
+ $statement = $conn->query($query);
+ return $statement->num_rows;
+}
+
+return $output = array(
+ 'draw'   => intval($_POST['draw']),
+ 'recordsTotal' => count_all_data_test($db),
+ 'recordsFiltered' => $number_filter_row,
+ 'data'   => $data
+);
+
+}
+
+
+function getTest($where)
 {
     $db = get_connection();
 
