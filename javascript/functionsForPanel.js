@@ -73,6 +73,7 @@ $(document).ready(function () {
 				data: { action: 'getVisible' },
 				type: "POST",
 				error: function () {
+					$('div.buttons-shown').hide();
 					$("div.row").eq(2).hide();
 					$("#data tbody").eq(4).html("");
 					$("div.row").eq(4).prepend('<h1 class="text-center">No data found in the server</h1>');
@@ -103,6 +104,79 @@ $(document).ready(function () {
 				deleteButton: false,
 			});
 		});
+
+		$('#shownall').click(function (e) {
+			$.ajax({
+				type: 'POST',
+				url: '../app/eventsHandler.php',
+				data: { 'visible': "Enabled", 'action':'edit' },
+				success: function (xhr) {
+					$('#data').DataTable().ajax.reload();
+				}
+			})
+		});
+
+		$('#hideall').click(function (e) {
+			$.ajax({
+				type: 'POST',
+				url: '../app/eventsHandler.php',
+				data: { 'visible': "Disabled", 'action':'edit' },
+				success: function (xhr) {
+					$('#data').DataTable().ajax.reload();
+				}
+			})
+		});
+	}else if (window.location.href.includes("users.php")) {
+		var dataTable = $('#data').DataTable({
+			"processing": true,
+			"serverSide": true,
+			"order": [],
+			"ajax": {
+				url: "../app/eventsHandler.php",
+				data: { action: 'getUsers' },
+				type: "POST",
+				error: function () {
+					$("div.row").eq(2).hide();
+					$("#data tbody").eq(4).html("");
+					$("div.row").eq(4).prepend('<h1 class="text-center">No data found in the server</h1>');
+					$("#data_processing").css("display", "none");
+				}
+			}
+		});
+	}else if (window.location.href.includes("testdrives.php")) {
+		var dataTable = $('#data').DataTable({
+			"processing": true,
+			"serverSide": true,
+			"order": [],
+			"ajax": {
+				url: "../app/eventsHandler.php",
+				data: { action: 'getAllTests2' },
+				type: "POST",
+				error: function () {
+					$("div.row").eq(2).hide();
+					$("#data tbody").eq(4).html("");
+					$("div.row").eq(4).prepend('<h1 class="text-center">No data found in the server</h1>');
+					$("#data_processing").css("display", "none");
+				}
+			}
+		});
+	}else if (window.location.href.includes("cars.php")) {
+		var dataTable = $('#data').DataTable({
+			"processing": true,
+			"serverSide": true,
+			"order": [],
+			"ajax": {
+				url: "../app/eventsHandler.php",
+				data: { action: 'getAuto' },
+				type: "POST",
+				error: function () {
+					$("div.row").eq(2).hide();
+					$("#data tbody").eq(4).html("");
+					$("div.row").eq(4).prepend('<h1 class="text-center">No data found in the server</h1>');
+					$("#data_processing").css("display", "none");
+				}
+			}
+		});
 	}
 
 	$('.logout').click(function (e) {
@@ -115,6 +189,7 @@ $(document).ready(function () {
 			}
 		})
 	});
+
 
 });
 setTimeout(function () {

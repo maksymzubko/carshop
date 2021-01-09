@@ -4,6 +4,7 @@
     <?php require_once 'head.php' ?>
 </head>
 <title>Main panel</title>
+
 <body>
     <?php require_once 'header.php' ?>
     <div id="wrapper">
@@ -13,22 +14,16 @@
             <div class="sidebar-nav navbar-collapse">
                 <ul class="nav" id="side-menu">
                     <li>
-                        <a href="#"><i class="fa fa-user fa-fw"></i> Users<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="">Change</a>
-                            </li>
-                        </ul>
+                        <a class="active" href="#"><i class="fa fa-user fa-fw"></i> Main panel</a>
                     </li>
                     <li>
-                        <a href="testdrive.php"><i class="fa fa-car fa-fw"></i> Testdrives <?php require '../app/functions.php'; 
-                        $res = getStats();
-                        if($res)
-                        {
-                            if($res['requests'] != 0)
-                            echo '<span class="notify">'.$res['requests'].'</span>';
-                             } ?></a>
-                    </a>
+                        <a href="testdrive.php"><i class="fa fa-car fa-fw"></i> Testdrives <?php require '../app/functions.php';
+                                                                                            $res = getStats();
+                                                                                            if ($res) {
+                                                                                                if ($res['requests'] != 0)
+                                                                                                    echo '<span class="notify">' . $res['requests'] . '</span>';
+                                                                                            } ?></a>
+                        </a>
                     </li>
                     <li>
                         <a href="showncars.php"><i class="fa fa-edit fa-fw"></i> Visible settings</a>
@@ -37,13 +32,13 @@
                         <a href="#"><i class="fa fa-wrench fa-fw"></i> Tables<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a href=""> Users</a>
+                                <a href="users.php"> Users</a>
                             </li>
                             <li>
-                                <a href=""> Testdrives</a>
+                                <a href="testdrives.php"> Testdrives</a>
                             </li>
                             <li>
-                                <a href=""> Cars</a>
+                                <a href="cars.php"> Cars</a>
                             </li>
                         </ul>
                     </li>
@@ -86,7 +81,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <a href="#">
+                            <a href="testdrives.php">
                                 <div class="panel-footer">
                                     <span class="pull-left">View Details</span>
                                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -109,7 +104,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <a href="#">
+                            <a href="cars.php">
                                 <div class="panel-footer">
                                     <span class="pull-left">View Details</span>
                                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -132,7 +127,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <a href="#">
+                            <a href="testdrive.php">
                                 <div class="panel-footer">
                                     <span class="pull-left">View Details</span>
                                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -150,3 +145,4 @@
 </body>
 
 </html>
+?>

@@ -249,7 +249,7 @@ function login(array $data)
     if(isset($_POST['loginAdmin']))
     $query = "SELECT * FROM `users` WHERE `u_login` = '$login' and `u_pass` = '$pass' and u_roleID != 'Пользователь'";
     else
-    $query = "SELECT * FROM `users` WHERE `u_login` = '$login' and `u_pass` = '$pass'";
+    $query = "SELECT * FROM `users` WHERE `u_login` = '$login' and `u_pass` = '$pass' and u_roleID = 'Пользователь'";
 
     $db = get_connection();
     $stmt = $db->query($query);
@@ -260,10 +260,12 @@ function login(array $data)
         if (isset($data['remember']))
         {
             Setcookie('accAdm', encrypt($row['u_ID']), time() + 2678400, "/");
+            setcookie('nameAdm', $row['u_name'] , time() + 2678400, "/");
         }
         else
         {
             Setcookie('accAdm', encrypt($row['u_ID']), 0, "/");
+            setcookie('nameAdm', $row['u_name'], 0, "/");
         }
     }else
     {
@@ -473,16 +475,9 @@ while($row = $statement->fetch_assoc()){
     $data[] = $sub_array;
 }
 
-function count_all_data_test($conn)
-{
- $query = "SELECT * FROM testdrive";
- $statement = $conn->query($query);
- return $statement->num_rows;
-}
-
 return $output = array(
  'draw'   => intval($_POST['draw']),
- 'recordsTotal' => count_all_data_test($db),
+ 'recordsTotal' => count_all_data($db, "testdrive"),
  'recordsFiltered' => $number_filter_row,
  'data'   => $data
 );
@@ -493,7 +488,9 @@ function getVisible()
 {
 $db = get_connection();
 
-$column = array("a_ID","img", "mark", "m_model", "visible");
+//$column = array("a_ID","img", "mark", "m_model", "visible");
+
+$column = array("a_ID","img", "visible");
 
 $query = "SELECT * FROM auto join images on img_a_ID = a_ID join models on a_model=m_id join marks on m_mark_ID = mark_ID where isMain = 'True'";
 
@@ -526,23 +523,16 @@ $data = array();
 while($row = $statement->fetch_assoc()){
     $sub_array = array();
     $sub_array[] = $row["a_ID"];
-    $sub_array[] = "<img src = ../".$row['img']." width = '150px'>";
-    $sub_array[] = $row['mark'];
-    $sub_array[] = $row['m_model'];
+    $sub_array[] = "<img class='center' src = ../".$row['img']." width = '250px'>";
+   // $sub_array[] = $row['mark'];
+   // $sub_array[] = $row['m_model'];
     $sub_array[] = $row['visible'];
     $data[] = $sub_array;
 }
 
-function count_all_data_vis($db)
-{
- $query = "SELECT * FROM auto";
- $statement = $db->query($query);
- return $statement->num_rows;
-}
-
 $output = array(
  'draw'   => intval($_POST['draw']),
- 'recordsTotal' => count_all_data_vis($db),
+ 'recordsTotal' => count_all_data($db, "auto"),
  'recordsFiltered' => $number_filter_row,
  'data'   => $data
 );
@@ -550,58 +540,122 @@ $output = array(
 return $output;
 }
 
-function getTest($where)
+function getUsers($where = "u_roleID = 'Пользователь'")
+{
+$db = get_connection();
+
+$column = array("u_ID", "u_name", "u_fname", "u_login", "u_pass", "u_phone","u_sex","u_roleID");
+
+$query = "SELECT * FROM users where $where";
+
+if(isset($_POST["search"]["value"]))
+{
+ $query .= ' OR ('.$where.' and (u_name LIKE "%'.$_POST["search"]["value"].'%"  OR u_fname LIKE "%'.$_POST["search"]["value"].'%"  OR u_sex LIKE "%'.$_POST["search"]["value"].'%" OR u_phone LIKE "%'.$_POST["search"]["value"].'%"  OR u_login LIKE "%'.$_POST["search"]["value"].'%" OR u_roleID LIKE "%'.$_POST["search"]["value"].'%" ))';
+}
+
+if(isset($_POST["order"]))
+{
+ $query .= 'ORDER BY '.$column[$_POST['order']['0']['column']].' '.$_POST['order']['0']['dir'].' ';
+}
+else
+{
+ $query .= 'ORDER BY u_ID ASC ';
+}
+$query1 = '';
+
+if($_POST["length"] != -1)
+{
+ $query1 = 'LIMIT ' . $_POST['start'] . ', ' . $_POST['length'];
+}
+
+$statement = $db->query($query);
+
+$number_filter_row = $statement->num_rows;
+
+$statement = $db->query($query . $query1);
+
+$data = array();
+
+while($row = $statement->fetch_assoc()){
+    $sub_array = array();
+    $sub_array[] = $row["u_ID"];
+    $sub_array[] = $row['u_name'];
+    $sub_array[] = $row['u_fname'];
+    $sub_array[] = $row['u_login'];
+    $sub_array[] = decrypt($row['u_pass']);
+    $sub_array[] = $row['u_phone'];
+    $sub_array[] = $row['u_sex'];
+    $sub_array[] = $row['u_roleID'];
+    $data[] = $sub_array;
+}
+
+$output = array(
+ 'draw'   => intval($_POST['draw']),
+ 'recordsTotal' => count_all_data($db, "users"),
+ 'recordsFiltered' => $number_filter_row,
+ 'data'   => $data
+);
+
+return $output;
+}
+
+function getAuto($where = "isMain = 'True'")
 {
     $db = get_connection();
 
-    $column = array("car_ID", "mark", "m_model", "date", "status");
+    $column = array("a_ID","img", "mark", "m_model", "a_color","a_year","a_count");
 
-    $query = "SELECT * FROM testdrive JOIN users on `uid` = u_ID JOIN `auto` on car_ID = a_ID JOIN models on a_model = m_ID JOIN marks on m_mark_ID = mark_ID where $where";
-    if (isset($_POST["search"]["value"])) {
-        $query .= '  OR (' . $where . ' and (mark LIKE "%' . $_POST["search"]["value"] . '%" OR m_model LIKE "%' . $_POST["search"]["value"] . '%"  OR date LIKE "%' . $_POST["search"]["value"] . '%" ))';
-    }
+$query = "SELECT * FROM auto join images on img_a_ID = a_ID join models on a_model=m_id join marks on m_mark_ID = mark_ID where $where";
 
-    if (isset($_POST["order"])) {
-        $query .= 'ORDER BY ' . $column[$_POST['order']['0']['column']] . ' ' . $_POST['order']['0']['dir'] . ' ';
-    } else {
-        $query .= 'ORDER BY date DESC ';
-    }
-    $query1 = '';
+if(isset($_POST["search"]["value"]))
+{
+ $query .= ' OR ('.$where.' and (mark LIKE "%'.$_POST["search"]["value"].'%"  OR m_model LIKE "%'.$_POST["search"]["value"].'%"  OR a_color LIKE "%'.$_POST["search"]["value"].'%" OR a_year LIKE "%'.$_POST["search"]["value"].'%" OR a_count LIKE "%'.$_POST["search"]["value"].'%"))';
+}
+if(isset($_POST["order"]))
+{
+ $query .= 'ORDER BY '.$column[$_POST['order']['0']['column']].' '.$_POST['order']['0']['dir'].' ';
+}
+else
+{
+ $query .= 'ORDER BY a_ID ASC ';
+}
+$query1 = '';
 
-    if ($_POST["length"] != -1) {
-        $query1 = 'LIMIT ' . $_POST['start'] . ', ' . $_POST['length'];
-    }
+if($_POST["length"] != -1)
+{
+ $query1 = 'LIMIT ' . $_POST['start'] . ', ' . $_POST['length'];
+}
 
-    $statement = $db->query($query);
+$statement = $db->query($query);
+$number_filter_row = $statement->num_rows;
 
-    $number_filter_row = $statement->num_rows;
+$statement = $db->query($query . $query1);
 
-    $statement = $db->query($query . $query1);
+$data = array();
 
-    $data = array();
+while($row = $statement->fetch_assoc()){
+    $sub_array = array();
+    $sub_array[] = $row["a_ID"];
+    $sub_array[] = "<img class='center' src = ../".$row['img']." width = '150px'>";
+    $sub_array[] = $row['mark'];
+    $sub_array[] = $row['m_model'];
+    $sub_array[] = $row['a_color'];
+    $sub_array[] = $row['a_year'];
+    $sub_array[] = $row['a_count'];
+    $data[] = $sub_array;
+}
 
-    while ($row = $statement->fetch_assoc()) {
-        $sub_array = array();
-        $sub_array[] = $row['mark'];
-        $sub_array[] = $row['m_model'];
-        $sub_array[] = $row['date'];
-        $sub_array[] = $row['status'];
-        $data[] = $sub_array;
-    }
-
-    function count_all_data($conn)
-    {
-        $query = "SELECT * FROM testdrive";
-        $statement = $conn->query($query);
-        return $statement->num_rows;
-    }
-
-    $output = array(
+    return $output = array(
         'draw'   => intval($_POST['draw']),
-        'recordsTotal' => count_all_data($db),
+        'recordsTotal' => count_all_data($db, "auto"),
         'recordsFiltered' => $number_filter_row,
         'data'   => $data
     );
+}
 
-    echo json_encode($output);
+function count_all_data($conn, $from)
+{
+    $query = "SELECT * FROM ". $from;
+    $statement = $conn->query($query);
+    return $statement->num_rows;
 }

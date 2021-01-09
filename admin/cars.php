@@ -2,7 +2,7 @@
 
 <head>
     <?php require_once 'head.php' ?>
-    <title>Testdrive</title>
+    <title>Shown cars</title>
 </head>
 
 <body>
@@ -17,18 +17,17 @@
                         <a href="panel.php"><i class="fa fa-user fa-fw"></i> Main panel</a>
                     </li>
                     <li>
-                        <a class="active" href="testdrive.php"><i class="fa fa-car fa-fw"></i> Testdrives  <?php require '../app/functions.php'; 
-                        $res = getStats();
-                        if($res)
-                        {
-                            if($res['requests'] != 0)
-                            echo '<span class="notify">'.$res['requests'].'</span>';
-                             } ?></a>
+                        <a href="testdrive.php"><i class="fa fa-car fa-fw"></i> Testdrives <?php require '../app/functions.php';
+                                                                                            $res = getStats();
+                                                                                            if ($res) {
+                                                                                                if ($res['requests'] != 0)
+                                                                                                    echo '<span class="notify">' . $res['requests'] . '</span>';
+                                                                                            } ?></a>
                     </li>
                     <li>
                         <a href="showncars.php"><i class="fa fa-edit fa-fw"></i> Visible settings</a>
                     </li>
-                    <li>
+                    <li class="active">
                         <a href="#"><i class="fa fa-wrench fa-fw"></i> Tables<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
@@ -38,7 +37,7 @@
                                 <a href="testdrives.php"> Testdrives</a>
                             </li>
                             <li>
-                                <a href="cars.php"> Cars</a>
+                                <a class="active" href="#"> Cars</a>
                             </li>
                         </ul>
                     </li>
@@ -56,7 +55,8 @@
                                     <h5>You are here</h5>
                                 </li>
                                 <li><a href="panel.php">Admin main</a></li>
-                                <li class="active">Testdrive</li>
+                                <li class="active">Tables</li>
+                                <li class="active">Cars</li>
                             </ol>
                         </div>
                     </div>
@@ -64,27 +64,26 @@
                 <!--Navigator end-->
                 <div class="row">
                     <div class="col-lg-12">
-                        <h1 class="page-header top">Testdrive</h1>
+                        <h1 class="page-header top">Cars</h1>
                     </div>
                 </div>
                 <!-- /.row -->
                 <div class="row">
                     <div class="col-lg-12 col-md-12 test">
                         <div class="panel panel-default">
-                            <div class="panel-heading">Waiting Result</div>
+                            <div class="panel-heading">Cars list</div>
                             <div class="panel-body">
                                 <div class="table-responsive">
                                     <table id="data" class="table table-bordered table-striped" style="width:100%">
                                         <thead>
                                             <tr>
                                                 <th>#ID</th>
-                                                <th>Last Name</th>
-                                                <th>First Name</th>
-                                                <th>#CarID</th>
+                                                <th>Image</th>
                                                 <th>Mark</th>
                                                 <th>Model</th>
-                                                <th>Date</th>
-                                                <th>Status</th>
+                                                <th>Color</th>
+                                                <th>Year</th>
+                                                <th>Count</th>
                                             </tr>
                                         </thead>
                                         <tbody class="body"></tbody>

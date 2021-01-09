@@ -14,12 +14,7 @@
             <div class="sidebar-nav navbar-collapse">
                 <ul class="nav" id="side-menu">
                     <li>
-                        <a href="#"><i class="fa fa-user fa-fw"></i> Users<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="">Change</a>
-                            </li>
-                        </ul>
+                        <a href="panel.php"><i class="fa fa-user fa-fw"></i> Main panel</a>
                     </li>
                     <li>
                         <a href="testdrive.php"><i class="fa fa-car fa-fw"></i> Testdrives <?php require '../app/functions.php';
@@ -30,19 +25,19 @@
                                                                                 } ?></a>
                     </li>
                     <li>
-                        <a href="showncars.php"><i class="fa fa-edit fa-fw"></i> Visible settings</a>
+                        <a class="active" href="#"><i class="fa fa-edit fa-fw"></i> Visible settings</a>
                     </li>
                     <li>
                         <a href="#"><i class="fa fa-wrench fa-fw"></i> Tables<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a href=""> Users</a>
+                                <a href="users.php"> Users</a>
                             </li>
                             <li>
-                                <a href=""> Testdrives</a>
+                                <a href="testdrives.php"> Testdrives</a>
                             </li>
                             <li>
-                                <a href=""> Cars</a>
+                                <a href="cars.php"> Cars</a>
                             </li>
                         </ul>
                     </li>
@@ -77,14 +72,17 @@
                         <div class="panel panel-default">
                             <div class="panel-heading">Need change visible some car?</div>
                             <div class="panel-body">
+                            <div class="buttons-shown">
+                            <button id="shownall">Shown all</button>  <button id="hideall">Hide all</button>
+                            </div>
                                 <div class="table-responsive">
                                     <table id="data" class="table table-bordered table-striped" style="width:100%">
                                         <thead>
                                             <tr>
                                                 <th>#ID</th>
                                                 <th>Image</th>
-                                                <th>Mark</th>
-                                                <th>Model</th>
+                                              <!--  <th>Mark</th>
+                                                <th>Model</th> -->
                                                 <th>Visible</th>
                                             </tr>
                                         </thead>

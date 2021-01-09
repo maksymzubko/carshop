@@ -15,7 +15,7 @@ echo '
             <div class="account-box">
                 <div class="dropdown ">
                     <button class="dropbtn">';
-                        echo '<label class="lab"> Acc</label>';
+                        echo '<label class="lab"> Admin '.$_COOKIE['nameAdm'].'</label>';
                         echo '
                         <img src="../images/account.png" alt="" style="width:30px;height:30px" /> <i
                             class="fa fa-caret-down"></i>

@@ -11,12 +11,23 @@ a{
 #wrapper {
     width: 100%;
 }
-
+.sidebar ul > li > a.active {
+background-color: black;
+}
+.center{
+    display: block;
+    margin: 0 auto;
+}
 @font-face {
     font-family: 'Heebo';
     src:url(/fonts/Heebo-Regular.ttf) format('truetype');
 }
-
+.buttons-shown{
+    margin-bottom: 15px;
+}
+.buttons-shown button{
+    margin: 0 5px 0 0;
+}
 .breadcrumb {
     padding: 8px 15px;
     margin-bottom: 0px;
@@ -121,7 +132,7 @@ h1.page-header.top{
     position: relative;
     display: block;
     padding: 10px 15px;
-    margin: 10px 0;
+    /*margin: 10px 0;*/
 }
 
 .navbar-top-links>li>a {
@@ -178,7 +189,9 @@ h1.page-header.top{
     padding-right: 0;
     padding-left: 0;
 }
-
+.sidebar ul li:nth-child(1){
+    border-bottom: 2px solid;
+}
 .sidebar .sidebar-search {
     padding: 15px;
 }
@@ -188,7 +201,7 @@ h1.page-header.top{
 }
 
 .sidebar ul li a.active {
-    background-color: #eee;
+    background-color: black;
 }
 
 .sidebar .arrow {
