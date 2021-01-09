@@ -17,6 +17,17 @@ a{
     src:url(/fonts/Heebo-Regular.ttf) format('truetype');
 }
 
+.breadcrumb {
+    padding: 8px 15px;
+    margin-bottom: 0px;
+    list-style: none;
+    background-color: #fffffffb; 
+    border-radius: 4px;
+}
+.breadcrumb > .active {
+    color: #C3C3C3;
+    font-size: 16px;
+}
 .notify{
     background-color: rgb(199, 42, 42);
     color: white;

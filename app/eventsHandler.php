@@ -154,7 +154,19 @@ if (!empty($_POST)) {
                     echo json_encode($output);
                 }
                 
-            }else if (isset($_POST['action']) == "edit") {
+            }else if($_POST['action'] == "getVisible"){
+                $output = getVisible();
+                if($output['recordsFiltered'] == 0)
+                {
+                    http_response_code(500);
+                    echo json_encode($output);
+                }
+                else
+                {
+                    echo json_encode($output);
+                }
+            }
+            else if (isset($_POST['action']) == "edit") {
                 if (isset($_POST['status'])) {
                     $db = get_connection();
         
@@ -168,6 +180,20 @@ if (!empty($_POST)) {
 
                     echo json_encode($_POST);
                 }
+                else if (isset($_POST['visible'])) {
+                    $db = get_connection();
+        
+                    $d_ID  = $_POST['a_ID'];
+                    $vis  = $_POST['visible'];
+        
+                    $query = "
+         UPDATE auto SET visible = '" . $_POST["visible"] . "' WHERE a_ID = '" . $_POST["a_ID"] . "'
+         ";
+                    $statement = $db->query($query);
+
+                    echo json_encode($_POST);
+                }
+                
             }
         }
         //ACTION WITH ADD/DELETE FAVOURITE CAR//

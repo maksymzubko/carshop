@@ -403,7 +403,7 @@ function IsCarFavourite($car_ID)
 
 function getStats()
 {
-    $query = "Select COUNT(a_ID), 
+    $query = "Select COUNT(a_ID) as `cars`, 
     (SELECT COUNT(d_ID) FROM testdrive where status = 'Waiting') as `requests`, 
     (SELECT COUNT(d_ID) FROM testdrive) as `alldreq` from auto";
 
@@ -481,6 +481,66 @@ return $output = array(
 
 }
 
+function getVisible()
+{
+$db = get_connection();
+
+$column = array("a_ID","img", "mark", "m_model", "visible");
+
+$query = "SELECT * FROM auto join images on img_a_ID = a_ID join models on a_model=m_id join marks on m_mark_ID = mark_ID where isMain = 'True'";
+
+if(isset($_POST["search"]["value"]))
+{
+ $query .= ' and (mark LIKE "%'.$_POST["search"]["value"].'%"  OR m_model LIKE "%'.$_POST["search"]["value"].'%") ';
+}
+if(isset($_POST["order"]))
+{
+ $query .= 'ORDER BY '.$column[$_POST['order']['0']['column']].' '.$_POST['order']['0']['dir'].' ';
+}
+else
+{
+ $query .= 'ORDER BY a_ID ASC ';
+}
+$query1 = '';
+
+if($_POST["length"] != -1)
+{
+ $query1 = 'LIMIT ' . $_POST['start'] . ', ' . $_POST['length'];
+}
+
+$statement = $db->query($query);
+$number_filter_row = $statement->num_rows;
+
+$statement = $db->query($query . $query1);
+
+$data = array();
+
+while($row = $statement->fetch_assoc()){
+    $sub_array = array();
+    $sub_array[] = $row["a_ID"];
+    $sub_array[] = "<img src = ../".$row['img']." width = '150px'>";
+    $sub_array[] = $row['mark'];
+    $sub_array[] = $row['m_model'];
+    $sub_array[] = $row['visible'];
+    $data[] = $sub_array;
+}
+
+function count_all_data_vis($db)
+{
+ $query = "SELECT * FROM auto";
+ $statement = $db->query($query);
+ return $statement->num_rows;
+}
+
+$output = array(
+ 'draw'   => intval($_POST['draw']),
+ 'recordsTotal' => count_all_data_vis($db),
+ 'recordsFiltered' => $number_filter_row,
+ 'data'   => $data
+);
+
+return $output;
+}
 
 function getTest($where)
 {

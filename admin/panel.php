@@ -21,10 +21,17 @@
                         </ul>
                     </li>
                     <li>
-                        <a href=""><i class="fa fa-car fa-fw"></i> Testdrives</a>
+                        <a href="testdrive.php"><i class="fa fa-car fa-fw"></i> Testdrives <?php require '../app/functions.php'; 
+                        $res = getStats();
+                        if($res)
+                        {
+                            if($res['requests'] != 0)
+                            echo '<span class="notify">'.$res['requests'].'</span>';
+                             } ?></a>
+                    </a>
                     </li>
                     <li>
-                        <a href=""><i class="fa fa-edit fa-fw"></i> Visible settings</a>
+                        <a href="showncars.php"><i class="fa fa-edit fa-fw"></i> Visible settings</a>
                     </li>
                     <li>
                         <a href="#"><i class="fa fa-wrench fa-fw"></i> Tables<span class="fa arrow"></span></a>
@@ -74,7 +81,7 @@
                                         <i class="fa fa-tasks fa-5x"></i>
                                     </div>
                                     <div class="col-xs-9 text-right">
-                                        <div class="huge">123</div>
+                                        <div class="huge"><?php echo $res['alldreq'] ?></div>
                                         <div>Total testdrives order</div>
                                     </div>
                                 </div>
@@ -97,7 +104,7 @@
                                         <i class="fa fa-car fa-5x"></i>
                                     </div>
                                     <div class="col-xs-9 text-right">
-                                        <div class="huge">123</div>
+                                        <div class="huge"><?php echo $res['cars'] ?></div>
                                         <div>Cars in system</div>
                                     </div>
                                 </div>
@@ -120,7 +127,7 @@
                                         <i class="fa fa-bell fa-5x"></i>
                                     </div>
                                     <div class="col-xs-9 text-right">
-                                        <div class="huge">123</div>
+                                        <div class="huge"><?php echo $res['requests'] ?></div>
                                         <div>New testdrives!</div>
                                     </div>
                                 </div>

@@ -5,7 +5,7 @@ echo '
     <div class="top-header-main">
         <div class="top-header-left">
             <div class="titleSite">
-                <a class="mainLogo" href="index.php">
+                <a class="mainLogo" href="../index.php">
                     <img src="../images/logo-mini.png" alt="" style="width:27px;height:30px" />
                     <h3><b>Carshop</b></h3>
                 </a>
