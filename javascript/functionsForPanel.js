@@ -189,8 +189,6 @@ $(document).ready(function () {
 			}
 		})
 	});
-
-
 });
 setTimeout(function () {
 	$('body').addClass('body_visible');
