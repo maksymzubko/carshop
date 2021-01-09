@@ -3,7 +3,7 @@
 <head>
     <?php require_once 'head.php' ?>
 </head>
-
+<title>Main panel</title>
 <body>
     <?php require_once 'header.php' ?>
     <div id="wrapper">
@@ -60,7 +60,7 @@
                                 <li>
                                     <h5>You are here</h5>
                                 </li>
-                                <li><a href="index.php">Admin main</a></li>
+                                <li class="active">Admin main</li>
                             </ol>
                         </div>
                     </div>

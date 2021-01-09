@@ -105,6 +105,17 @@ $(document).ready(function () {
 		});
 	}
 
+	$('.logout').click(function (e) {
+		$.ajax({
+			type: 'POST',
+			url: '../app/eventsHandler.php',
+			data: { 'logout': "need" },
+			success: function (xhr) {
+				location.href = location.href;
+			}
+		})
+	});
+
 });
 setTimeout(function () {
 	$('body').addClass('body_visible');

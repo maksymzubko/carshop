@@ -2,6 +2,7 @@
 
 <head>
     <?php require_once 'head.php' ?>
+    <title>Shown cars</title>
 </head>
 
 <body>

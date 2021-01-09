@@ -2,6 +2,7 @@
 
 <head>
     <?php require_once 'head.php' ?>
+    <title>Testdrive</title>
 </head>
 
 <body>
@@ -26,7 +27,7 @@
                         if($res)
                         {
                             if($res['requests'] != 0)
-                            echo '<span class="notify">'.$res['cars'].'</span>';
+                            echo '<span class="notify">'.$res['requests'].'</span>';
                              } ?></a>
                     </li>
                     <li>

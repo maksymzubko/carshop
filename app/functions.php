@@ -285,8 +285,16 @@ function login(array $data)
 
 function logout()
 {
+    if(isset($_COOKIE['accAdm']))
+    {
+    setcookie('accAdm', null, time() - 9999, "/");
+    setcookie('nameAdm', null, time() - 9999, "/");
+    }
+    else
+    {
     setcookie('acc', null, time() - 9999, "/");
     setcookie('name', null, time() - 9999, "/");
+    }
 }
 
 

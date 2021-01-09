@@ -78,7 +78,12 @@ $(document).ready(function () {
                     location.href = window.location.origin + window.location.pathname.replace("/login.php","/panel.php");
                 },
                 error: function (xhr, status, error) {
-                    let d = JSON.parse(xhr.responseText);
+					let d = JSON.parse(xhr.responseText);
+					swal(
+						errorMessage,
+						d.error,
+						"error",
+					);
                 }
             })
         });
