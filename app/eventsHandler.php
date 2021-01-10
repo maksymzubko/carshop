@@ -25,7 +25,6 @@ if (!empty($_POST)) {
     header('Content-Type: application/json');
     require "../languages/" . $_SESSION['lang'] . ".php";
     require "../languages/translater.php";
-
     //ACTION WHEN WE TRY LOGIN//
     if (isset($_POST['pass'])) {
         $error = checkUser($_POST);
@@ -143,119 +142,138 @@ if (!empty($_POST)) {
         } else {
             if ($_POST['action'] == "getAllTests") {
                 $output = getAllTests("status = 'Waiting'");
-                if($output['recordsFiltered'] == 0)
-                {
+                if ($output['recordsFiltered'] == 0) {
                     http_response_code(500);
                     echo json_encode($output);
-                }
-                else
-                {
-                    $output["success"] = true; 
+                } else {
+                    $output["success"] = true;
                     echo json_encode($output);
                 }
-                
-            }else if($_POST['action'] == "getAllTests2")
-            {
+            } else if ($_POST['action'] == "getAllTests2") {
                 $output = getAllTests("status IN ('Waiting','Success', 'Denied')");
-                if($output['recordsFiltered'] == 0)
-                {
+                if ($output['recordsFiltered'] == 0) {
                     http_response_code(500);
                     echo json_encode($output);
-                }
-                else
-                {
-                    $output["success"] = true; 
+                } else {
+                    $output["success"] = true;
                     echo json_encode($output);
                 }
-            }else if($_POST['action'] == "getVisible"){
+            } else if ($_POST['action'] == "getVisible") {
                 $output = getVisible();
-                if($output['recordsFiltered'] == 0)
-                {
+                if ($output['recordsFiltered'] == 0) {
                     http_response_code(500);
                     echo json_encode($output);
-                }
-                else
-                {
+                } else {
                     echo json_encode($output);
                 }
-            }else if($_POST['action'] == "getAuto"){
+            } else if ($_POST['action'] == "getAuto") {
                 $output = getAuto();
-                if($output['recordsFiltered'] == 0)
-                {
+                if ($output['recordsFiltered'] == 0) {
                     http_response_code(500);
                     echo json_encode($output);
+                } else {
+                    echo json_encode($output);
+                }
+            } else if ($_POST['action'] == "getIDs") {
+                $output;
+                if($_POST['move'] == 1)
+                {
+                $output = getUsersList(1);
                 }
                 else
                 {
-                    echo json_encode($output);
+                $output = getUsersList(2);
                 }
-            }else if (isset($_POST['action']) == "getUsers")
-            {
+                if ($output->num_rows == 0) {
+                    http_response_code(500);
+                } else {
+                    http_response_code(200);
+                    $data = array();
+                    $outputText = '';
+                    while($row = $output->fetch_assoc())
+                    {
+                        $temp = array();
+                        $temp['u_ID'] = $row['u_ID'];
+                        $temp['u_login'] = $row['u_login'];
+                        $temp['u_name'] = $row['u_name'];
+                        $temp['u_fname'] = $row['u_fname'];
+                        $outputText .=  '<li class="drplist">'. $row['u_ID'] .'</li>';
+                        $data[] = $temp;
+                    }
+                    echo json_encode(array(
+                        'html'=> $outputText,
+                        'data' => $data
+                    ));
+                }
+            } else if ($_POST['action'] == "updateU") {
+                $output = updateUser($_POST['uid']);
+                if ($output == "0") {
+                    http_response_code(500);
+                } else {
+                    http_response_code(200);
+                }
+            } else if ($_POST['action'] == "deleteAdm") {
+                $output = deleteUser($_POST['uid']);
+                if ($output == "0") {
+                    http_response_code(500);
+                } else {
+                    http_response_code(200);
+                }
+            }else if (isset($_POST['action']) == "getUsers") {
                 $output = getUsers();
-                if($output['recordsFiltered'] == 0)
-                {
+                if ($output['recordsFiltered'] == 0) {
                     http_response_code(500);
                     echo json_encode($output);
-                }
-                else
-                {
+                } else {
                     echo json_encode($output);
                 }
-            }
-            else if (isset($_POST['action']) == "edit") {
+            }else if (isset($_POST['action']) == "edit") {
                 if (isset($_POST['status'])) {
                     $db = get_connection();
-        
+
                     $d_ID  = $_POST['d_ID'];
                     $status  = $_POST['status'];
-        
+
                     $query = "
          UPDATE testdrive SET status = '" . $_POST["status"] . "' WHERE d_ID = '" . $_POST["d_ID"] . "'
          ";
                     $statement = $db->query($query);
 
                     echo json_encode($_POST);
-                }
-                else if (isset($_POST['visible'])) {
+                } else if (isset($_POST['visible'])) {
                     $db = get_connection();
-                    if($_POST['visible'] == 'Enabled')
-                    {                                              
+                    if ($_POST['visible'] == 'Enabled') {
                         $vis  = $_POST['visible'];
-                        
+
                         $query = "
                         UPDATE auto SET visible = '" . $_POST["visible"] . "'";
                         $statement = $db->query($query);
-                        
+
                         echo json_encode($_POST);
-                    }
-                    else if($_POST['visible'] == 'Disabled')
-                    {
+                    } else if ($_POST['visible'] == 'Disabled') {
                         $vis  = $_POST['visible'];
-                        
+
                         $query = "
                         UPDATE auto SET visible = '" . $_POST["visible"] . "'";
                         $statement = $db->query($query);
-                        
+
                         echo json_encode($_POST);
-                    }
-                    else
-                    {                      
+                    } else {
                         $d_ID  = $_POST['a_ID'];
                         $vis  = $_POST['visible'];
-                        
+
                         $query = "
                         UPDATE auto SET visible = '" . $_POST["visible"] . "' WHERE a_ID = '" . $_POST["a_ID"] . "'
                         ";
                         $statement = $db->query($query);
-                        
+
                         echo json_encode($_POST);
                     }
                 }
-                
             }
         }
         //ACTION WITH ADD/DELETE FAVOURITE CAR//
-    }  else if (isset($_POST['need']) &&  isset($_POST['car_ID'])) {
+    } else if (isset($_POST['need']) &&  isset($_POST['car_ID'])) {
         if (isAuthorizated()) {
             if ($_POST['need'] == "0") {
                 addToFavourite($_POST);

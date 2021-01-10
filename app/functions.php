@@ -100,9 +100,14 @@ function getUserByEmail(string $email)
     return false;
 }
 
-function getUsersList()
+function getUsersList($where)
 {
+    if(!$where)
     $query = "SELECT * FROM `users` ORDER BY `u_ID` DESC";
+    else if($where == 1)
+    $query = "SELECT * FROM `users` where u_roleID = 'Пользователь' ORDER BY `u_ID` DESC";
+    else if($where == 2)
+    $query = "SELECT * FROM `users` where u_roleID = 'Администратор' ORDER BY `u_ID` DESC";
 
     $db = get_connection();
     return $db->query($query);
@@ -425,6 +430,30 @@ function getStats()
         return $stmt->fetch_assoc();
         else
         return false;
+}
+
+function updateUser($id)
+{
+    $query = "Update users set u_roleID = 'Администратор' where u_ID = $id";
+
+        $db = get_connection();
+        $stmt = mysqli_query($db, $query);
+        if(mysqli_affected_rows($db) > 0)
+        return "1";
+        else
+        return "0";
+}
+
+function deleteUser($id)
+{
+    $query = "Delete from users where u_ID = $id";
+
+        $db = get_connection();
+        $stmt = mysqli_query($db, $query);
+        if(mysqli_affected_rows($db) > 0)
+        return "1";
+        else
+        return "0";
 }
 
 function getAllTests($where)

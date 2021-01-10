@@ -109,7 +109,7 @@ $(document).ready(function () {
 			$.ajax({
 				type: 'POST',
 				url: '../app/eventsHandler.php',
-				data: { 'visible': "Enabled", 'action':'edit' },
+				data: { 'visible': "Enabled", 'action': 'edit' },
 				success: function (xhr) {
 					$('#data').DataTable().ajax.reload();
 				}
@@ -120,13 +120,13 @@ $(document).ready(function () {
 			$.ajax({
 				type: 'POST',
 				url: '../app/eventsHandler.php',
-				data: { 'visible': "Disabled", 'action':'edit' },
+				data: { 'visible': "Disabled", 'action': 'edit' },
 				success: function (xhr) {
 					$('#data').DataTable().ajax.reload();
 				}
 			})
 		});
-	}else if (window.location.href.includes("users.php")) {
+	} else if (window.location.href.includes("users.php")) {
 		var dataTable = $('#data').DataTable({
 			"processing": true,
 			"serverSide": true,
@@ -143,7 +143,7 @@ $(document).ready(function () {
 				}
 			}
 		});
-	}else if (window.location.href.includes("testdrives.php")) {
+	} else if (window.location.href.includes("testdrives.php")) {
 		var dataTable = $('#data').DataTable({
 			"processing": true,
 			"serverSide": true,
@@ -160,7 +160,7 @@ $(document).ready(function () {
 				}
 			}
 		});
-	}else if (window.location.href.includes("cars.php")) {
+	} else if (window.location.href.includes("cars.php")) {
 		var dataTable = $('#data').DataTable({
 			"processing": true,
 			"serverSide": true,
@@ -178,6 +178,119 @@ $(document).ready(function () {
 			}
 		});
 	}
+	else if (window.location.href.includes("panel.php")) {
+		$(document).ready(function () {
+			let id;
+			let arr = [];
+			function getIDs(move) {
+				$.ajax({
+					url: "/app/eventsHandler.php",
+					method: "POST",
+					dataType: "html",
+					data: { action: 'getIDs', move: move },
+					success: function (xhr) {
+						$('updadm').show();
+						$('.button').html("<div class='btn-group'><button class='btn btn-primary dropdown-toggle' type='button' id='about-us' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>Select ID<span class='caret'></span></button><ul class='dropdown-menu mod'></ul></div>");
+						let data = JSON.parse(xhr);
+						$("ul.mod").html(data.html);
+						$('.drplist').click(function () {
+							id = $(this).text();
+							for (let i = 0; i < data.data.length; i++) {
+								if (data.data[i].u_ID == id) {
+									$('.info').show();
+
+									$('.info label#id').html("ID: " + id);
+									$('.info label#name').html("Name: " + data.data[i].u_name);
+									$('.info label#sname').html("Second Name: " + data.data[i].u_fname);
+									$('.info label#email').html("Email: " + data.data[i].u_login);
+								}
+							}
+						});
+					},
+					error: function () {
+						$('.button').html("<h2>No data found!</h2>");
+					}
+				});
+			};
+			$('.expmod').click(function () {
+
+				$('.info').hide();
+				$('#exampleModalLabel').html("Add new ADMIN");
+				$('.apdadm').html("Update to admin");
+				getIDs(1);
+				$('.apdadm').click(function () {
+					if (id == undefined) {
+						swal(
+							"Error result",
+							"Select ID!",
+							"error",
+						);
+					}
+					else {
+						$.ajax({
+							url: "/app/eventsHandler.php",
+							method: "POST",
+							dataType: "html",
+							data: { action: 'updateU', uid: id },
+							success: function (xhr) {
+								swal(
+									"Success!",
+									"User was updated to ADMIN!",
+									"success",
+								);
+								$('#exampleModal').modal('hide');
+							},
+							error: function () {
+								swal(
+									"Error!",
+									"User was'nt updated to ADMIN!",
+									"error",
+								);
+							}
+						});
+					}
+				});
+			});
+			$('.remadm').click(function () {
+				$('.info').hide();
+				getIDs(0);
+				$('#exampleModalLabel').html("Remove ADMIN");
+				$('.apdadm').html("Delete admin");
+				$('.apdadm').click(function () {
+					if (id == undefined) {
+						swal(
+							"Error result",
+							"Select ID!",
+							"error",
+						);
+					}
+					else {
+						$.ajax({
+							url: "/app/eventsHandler.php",
+							method: "POST",
+							dataType: "html",
+							data: { action: 'deleteAdm', uid: id },
+							success: function (xhr) {
+								swal(
+									"Success!",
+									"User was deleted!",
+									"success",
+								);
+								$('#exampleModal').modal('hide');
+							},
+							error: function () {
+								swal(
+									"Error!",
+									"User was'nt deleted!",
+									"error",
+								);
+							}
+						});
+					}
+				});
+			});
+		});
+	}
 
 	$('.logout').click(function (e) {
 		$.ajax({
@@ -189,6 +302,7 @@ $(document).ready(function () {
 			}
 		})
 	});
+
 });
 setTimeout(function () {
 	$('body').addClass('body_visible');

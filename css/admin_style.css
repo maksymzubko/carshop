@@ -128,6 +128,42 @@ h1.page-header.top{
     font-size: 16px;
     margin: 0;
 } 
+ul.dropdown-menu.mod{
+    margin-left: -20px;
+}
+
+.drplist{
+    text-align: center;
+    font-size: 16px;
+    margin-bottom: 2px ;
+    border-bottom: 1px solid;
+    cursor: pointer;
+}
+.modalcontent{
+    margin: 5px;
+    display: block;
+}
+.modal-dialog{
+    margin-top: 10%;
+}
+.modalcontent .button{
+    margin: 10px 0;
+text-align: center;
+}
+.modalcontent .info{
+    text-align: center;
+    margin-top: 2em;
+}
+
+.info label{
+    padding: 5px;
+    border: 1px solid;
+    margin-right: 1px;
+    font-size: 14px;
+}
+.drplist:hover{
+    background-color: #e6e0e0;
+}
 .nav > li > a {
     position: relative;
     display: block;
