@@ -1,23 +1,49 @@
 $(document).ready(function () {
-	
+
 	let fav = $('.favourite');
 	let but = $('.lookcar');
 	let t1 = $('#t1'); let t2 = $('#t2'); let t3 = $('#t3');
 	let input = $('input:radio[name="radio"]');
+	let priceTest = 0;
+
+	let block;
+	let blockDates = [];
+	let id_car;
+	let engWords, ruWords, uaWords;
+
+	if (window.location.href.includes('car.php')) {
+		id_car = window.location.href.replace("http://carshop.loft/car.php?id=", "").replace("#", "").split('&lang=')[0];
+		$.ajax({
+			type: 'POST',
+			url: 'app/eventsHandler.php',
+			data: {
+				'action': "getBlock",
+				'car_ID': id_car
+			}, success: function (xhr) {
+				priceTest = parseInt(xhr.tprice);
+				if (xhr.dates != undefined) {
+					xhr.dates.forEach(element => {
+						blockDates.push(element.split(':')[0]);
+					});
+					block = xhr.block;
+				}
+				engWords = { "errorMessage": "Error!", "successMessage": "Success!", "questionMessage": "Are you sure?", "btnCancel": "Cancel", "qu1": "It will cost '" + priceTest + "'grn (pay on arrival), do you agree?", "qu2": "Choose date" };
+				ruWords = { "errorMessage": "Ошибка!", "successMessage": "Успех!", "questionMessage": "Вы уверены?", "btnCancel": "Отмена", "qu1": "Это будет стоить '" + priceTest + "'грн (оплата по приезду), вы согласны?", "qu2": "Выберите дату" };
+				uaWords = { "errorMessage": "Помилка!", "successMessage": "Успіх!", "questionMessage": "Ви впевнені?", "btnCancel": "Відміна", "qu1": "Це буде коштувати '" + priceTest + "'грн (оплата по приїзду), ви згодні?", "qu2": "Виберіть дату" };
+			}
+		});
+	}
+	else
+	{
+		engWords = { "errorMessage": "Error!", "successMessage": "Success!", "questionMessage": "Are you sure?", "btnCancel": "Cancel", "qu1": "It will cost '" + priceTest + "'grn (pay on arrival), do you agree?", "qu2": "Choose date" };
+				ruWords = { "errorMessage": "Ошибка!", "successMessage": "Успех!", "questionMessage": "Вы уверены?", "btnCancel": "Отмена", "qu1": "Это будет стоить '" + priceTest + "'грн (оплата по приезду), вы согласны?", "qu2": "Выберите дату" };
+				uaWords = { "errorMessage": "Помилка!", "successMessage": "Успіх!", "questionMessage": "Ви впевнені?", "btnCancel": "Відміна", "qu1": "Це буде коштувати '" + priceTest + "'грн (оплата по приїзду), ви згодні?", "qu2": "Виберіть дату" };
+	}
 
 	let currentLang = getCookie('lang');
-	let errorMessage; let succesMessage;
-	if (currentLang == "en") {
-		errorMessage = "Error!";
-		succesMessage = "Success!";
-	}
-	else if (currentLang == "ukr") {
-		errorMessage = "Помилка!";
-		succesMessage = "Успіх!";
-	}
-	else {
-		errorMessage = "Ошибка!";
-		succesMessage = "Успех!";
+
+	function w(str) {
+		return (currentLang == "en") ? engWords[str] : (currentLang == "ru") ? ruWords[str] : uaWords[str];
 	}
 
 	function filterData() {
@@ -32,7 +58,7 @@ $(document).ready(function () {
 			method: "POST",
 			dataType: "html",
 			data: { action: action, brand: brand, category: category, color: color },
-			success: function (xhr) {	
+			success: function (xhr) {
 				$('.maincar').html(xhr);
 
 				if (xhr.includes('none')) {
@@ -51,7 +77,7 @@ $(document).ready(function () {
 				sameDivs();
 			}
 		});
-	 
+
 	}
 
 	$('.navbar-toggle-sidebar').click(function () {
@@ -66,27 +92,27 @@ $(document).ready(function () {
 		$('.search-input').focus();
 	});
 
-   $('#admin').submit(function (e) {
-        e.preventDefault();
-        var email = $('#inputEmail').val();
-        var pass = $('#inputPassword').val();
-            $.ajax({
-                type: 'POST',
-                url: '../app/eventsHandler.php',
-                data: {'email':email, 'pass':pass, 'loginAdmin': 'yes'},
-                success: function (xhr) {
-                    location.href = window.location.origin + window.location.pathname.replace("/login.php","/panel.php");
-                },
-                error: function (xhr, status, error) {
-					let d = JSON.parse(xhr.responseText);
-					swal(
-						errorMessage,
-						d.error,
-						"error",
-					);
-                }
-            })
-        });
+	$('#admin').submit(function (e) {
+		e.preventDefault();
+		var email = $('#inputEmail').val();
+		var pass = $('#inputPassword').val();
+		$.ajax({
+			type: 'POST',
+			url: '../app/eventsHandler.php',
+			data: { 'email': email, 'pass': pass, 'loginAdmin': 'yes' },
+			success: function (xhr) {
+				location.href = window.location.origin + window.location.pathname.replace("/login.php", "/panel.php");
+			},
+			error: function (xhr, status, error) {
+				let d = JSON.parse(xhr.responseText);
+				Swal.fire(
+					w("errorMessage"),
+					d.error,
+					"error",
+				);
+			}
+		})
+	});
 
 	if (window.location.pathname == "/cars.php") {
 		filterData();
@@ -171,8 +197,8 @@ $(document).ready(function () {
 				'car_ID': id_car,
 				'need': need
 			}, success: function (xhr) {
-				swal(
-					succesMessage,
+				Swal.fire(
+					w("succesMessage"),
 					xhr.successmsg,
 					"success",
 				);
@@ -186,8 +212,8 @@ $(document).ready(function () {
 
 			}, error: function (xhr, status, error) {
 				let d = JSON.parse(xhr.responseText);
-				swal(
-					errorMessage,
+				Swal.fire(
+					w("errorMessage"),
 					d.error,
 					"error",
 				);
@@ -195,181 +221,265 @@ $(document).ready(function () {
 		});
 	}
 
-	$('.testdrive_add').click(function () {
-		var id_car = window.location.href.replace("http://carshop.loft/car.php?id=", "").replace("#", "");
-		$.ajax({
-			type: 'POST',
-			url: 'app/eventsHandler.php',
-			data: {
-				'car_ID': id_car,
-				'mytest': "ndtst"
-			}, success: function (xhr) {
-				swal(
-					succesMessage,
-					xhr.successmsg,
-					"success",
-				);
+	function formatDate(datestr) {
+		var date = new Date(datestr);
+		date.setHours(date.getHours() - 2);
+		var day = date.getDate(); day = day > 9 ? day : "0" + day;
+		var month = date.getMonth() + 1; month = month > 9 ? month : "0" + month;
+		var full = date.getFullYear() + "-" + month + "-" + day;
+		return full;
+	}
 
-			}, error: function (xhr, status, error) {
-				let d = JSON.parse(xhr.responseText);
-				swal(
-					errorMessage,
-					d.error,
-					"error",
-				);
-			}
-		});
-	});
-	$('.phone').mask('+380 (00) 000 0000', { placeholder: "+___ (__) ___ ____" });
-	$('.lan').click(function (e) {
-		if (window.location.origin + window.location.pathname == "http://carshop.loft/car.php") {
-			if (location.href.includes("&lang=")) {
-				location.href = location.href.split('&lang=')[0] + '&lang=' + e.target.id;
-			}
-			else
-				location.href = location.href + "&lang=" + e.target.id;
+
+	$('.testdrive_add').click(function async() {
+		if (block == true) {
+			Swal.fire(
+				w("errorMessage"),
+				"",
+				"error"
+			);
 		}
-		else
-			location.href = window.location.origin + window.location.pathname + "?lang=" + e.target.id;
-	});
-	$('#register').submit(function (e) {
-		var data = new FormData(this);
-		e.preventDefault();
-		$.ajax({
-			type: 'POST',
-			url: 'app/eventsHandler.php',
-			data: data,
-			cache: false,
-			contentType: false,
-			processData: false,
-			success: function (response) {
-				swal(
-					succesMessage,
-					xhr.successmsg,
-					"success",
-				);
-				location.href = window.location.origin + "/account.php";
-			},
-			error: function (xhr, status, error) {
-				let d = JSON.parse(xhr.responseText);
-				swal(
-					errorMessage,
-					d.error,
-					"error",
-				);
+		else {
+			Swal.fire(
+				{
+					title: w("questionMessage"),
+					text: w("qu1"),
+					icon: "question",
+					showCancelButton: true,
+					cancelButtonText: w("btnCancel")
+				}).then(async function name(result) {
+					if (result.isConfirmed) {
+						Swal.fire(
+							{
+								title: w("qu2"),
+								input: 'text',
+								inputPlaceholder: w("qu2"),
+								inputAttributes: {
+									required: true,
+									autofocus: false,
+									readonly: true
+								},
+								inputValidator: (value) => {
+									if (!value) {
+										return 'You need to write something!'
+									}
+								}
+								, didOpen: function () {
+									$('.swal2-input').datetimepicker({
+										daysOfWeekDisabled: [6],
+										startDate: new Date(),
+										minView: 1,
+										format: "yyyy-mm-dd hh:00",
+										language: currentLang,
+										hoursDisabled: [0, 1, 2, 3, 4, 5, 6, 7, 8, 20, 21, 22, 23],
+										clearBtn: true,
+										onRenderHour: function (date) {
+											if ($('.disabled').attr('class') != undefined && $('.disabled').attr('class').includes('active'))
+												$('span.disabled').removeClass('active');
+											if (blockDates.indexOf(formatDate(date) + " " + date.getUTCHours()) > -1) {
+												return ['disabled'];
+											}
+										},
+										onRenderMinute: function (date) {
+											if ($('.disabled').attr('class') != undefined && $('.disabled').attr('class').includes('active'))
+												$('.disabled').removeClass('active');
+											if (blockDates.indexOf(formatDate(date) + " " + date.getUTCHours()) > -1) {
+												return ['disabled'];
+											}
+										}
+									});
+								}
+							}).then((result) => {
+								if (result.isConfirmed) {
+									$.ajax({
+										type: 'POST',
+										url: 'app/eventsHandler.php',
+										data: {
+											'car_ID': id_car,
+											'mytest': "ndtst",
+											'date': result.value
+										}, success: function (xhr) {
+											Swal.fire(
+												w("succesMessage"),
+												xhr.successmsg,
+												"success",
+											);
+
+										}, error: function (xhr, status, error) {
+											let d = JSON.parse(xhr.responseText);
+											Swal.fire(
+												w("errorMessage"),
+												d.error,
+												"error",
+											);
+										}
+									});
+								}
+							})
+					}
+				})
 			}
-		})
-	});
-	$('#login').submit(function (e) {
-		var data = new FormData(this);
-		e.preventDefault();
-		$.ajax({
-			type: 'POST',
-			url: 'app/eventsHandler.php',
-			data: data,
-			cache: false,
-			contentType: false,
-			processData: false,
-			success: function (xhr) {
-				swal(
-					succesMessage,
-					xhr.successmsg,
-					"success",
-				);
-				location.href = window.location.origin + "/account.php";
-			},
-			error: function (xhr, status, error) {
-				let d = JSON.parse(xhr.responseText);
-				swal(
-					errorMessage,
-					d.error,
-					"error",
-				);
-			}
-		})
-	});
-	$('.logout').click(function (e) {
-		$.ajax({
-			type: 'POST',
-			url: 'app/eventsHandler.php',
-			data: { 'logout': "need" },
-			success: function (xhr) {
-				location.href = location.href;
-			}
-		})
-	});
-	$.getScript("/javascript/resize.js", function () {
-		new ResizeSensor(jQuery(elem), function () {
 		});
-		$(window).resize(function () {
-			let element = $("#change1");
-			let width = document.documentElement.clientWidth;
-			if (window.location.pathname == "/favourite.php") {
-				if (width < 1183) {
+$('.phone').mask('+380 (00) 000 0000', { placeholder: "+___ (__) ___ ____" });
+$('.lan').click(function (e) {
+	if (window.location.origin + window.location.pathname == "http://carshop.loft/car.php") {
+		let link = location.href;
+		if (link.includes("&lang=")) {
+			link = link.split('&lang=')[0] + '&lang=' + e.target.id;
+			if (link.includes('#')) {
+				link = link.split('#')[0];
+			}
+			location.href = link;
+		}
+		else {
+			if (location.href.includes('#')) {
+				link = link.split('#')[0];
+			}
+			location.href = link + "&lang=" + e.target.id;
+		}
+
+	}
+	else
+		location.href = window.location.origin + window.location.pathname + "?lang=" + e.target.id;
+});
+$('#register').submit(function (e) {
+	var data = new FormData(this);
+	e.preventDefault();
+	$.ajax({
+		type: 'POST',
+		url: 'app/eventsHandler.php',
+		data: data,
+		cache: false,
+		contentType: false,
+		processData: false,
+		success: function (response) {
+			Swal.fire(
+				w("succesMessage"),
+				xhr.successmsg,
+				"success",
+			);
+			location.href = window.location.origin + "/account.php";
+		},
+		error: function (xhr, status, error) {
+			let d = JSON.parse(xhr.responseText);
+			Swal.fire(
+				w("errorMessage"),
+				d.error,
+				"error",
+			);
+		}
+	})
+});
+$('#login').submit(function (e) {
+	var data = new FormData(this);
+	e.preventDefault();
+	$.ajax({
+		type: 'POST',
+		url: 'app/eventsHandler.php',
+		data: data,
+		cache: false,
+		contentType: false,
+		processData: false,
+		success: function (xhr) {
+			Swal.fire(
+				w("succesMessage"),
+				xhr.successmsg,
+				"success",
+			);
+			location.href = window.location.origin + "/account.php";
+		},
+		error: function (xhr, status, error) {
+			let d = JSON.parse(xhr.responseText);
+			Swal.fire(
+				w("errorMessage"),
+				d.error,
+				"error",
+			);
+		}
+	})
+});
+$('.logout').click(function (e) {
+	$.ajax({
+		type: 'POST',
+		url: 'app/eventsHandler.php',
+		data: { 'logout': "need" },
+		success: function (xhr) {
+			window.location.href = location.href.replace('#',"");
+		}
+	})
+});
+$.getScript("/javascript/resize.js", function () {
+	new ResizeSensor(jQuery(elem), function () {
+	});
+	$(window).resize(function () {
+		let element = $("#change1");
+		let width = document.documentElement.clientWidth;
+		if (window.location.pathname == "/favourite.php") {
+			if (width < 1183) {
+				element.css('display', 'none');
+			} else {
+				element.css('display', 'block');
+			}
+		}
+		else {
+			let tempElem = $(".none");
+			if (!tempElem) {
+				if (width < 768) {
 					element.css('display', 'none');
 				} else {
 					element.css('display', 'block');
 				}
 			}
-			else {
-				let tempElem = $(".none");
-				if (!tempElem) {
-					if (width < 768) {
-						element.css('display', 'none');
-					} else {
-						element.css('display', 'block');
-					}
-				}
-			}
-			sameDivs();
-
-			let element1 = $(".header1");
-			let element2 = $(".header-bottom");
-
-			if (width < 952) {
-
-				element1.hide();
-				element2.show();
-
-				setActive();
-			}
-			else {
-				element1.show();
-				element2.hide();
-			}
-		});
-	});
-
-	if (getCookie('acc') != undefined) {
-		if (result()) {
-			var url;
-
-			lang(url);
-			if (window.location.pathname == "/testdrives.php") {
-				$('#data').DataTable({
-					"processing": true,
-					"serverSide": true,
-					"bSort": false,
-					"language": {
-						"url": url
-					},
-					"ajax": {
-						url: "app/eventsHandler.php",
-						data: { testdrive: 'getTest' },
-						type: "POST"
-					},
-					success: function (data, textStatus, jqXHR) {
-						$('#data').DataTable().ajax.reload();
-					},
-					error: function () {  // error handling
-						$(".data-grid-error").html("");
-						$("#data").append('<table class="data-grid-error"><tr><th colspan="3">No data found in the server</th></tr></table>');
-						$("#data_processing").css("display", "none");
-					}
-				});
-			};
 		}
-	};
+		sameDivs();
+
+		let element1 = $(".header1");
+		let element2 = $(".header-bottom");
+
+		if (width < 952) {
+
+			element1.hide();
+			element2.show();
+
+			setActive();
+		}
+		else {
+			element1.show();
+			element2.hide();
+		}
+	});
+});
+
+if (getCookie('acc') != undefined) {
+	if (result()) {
+		var url;
+
+		lang(url);
+		if (window.location.pathname == "/testdrives.php") {
+			$('#data').DataTable({
+				"processing": true,
+				"serverSide": true,
+				"bSort": false,
+				"language": {
+					"url": url
+				},
+				"ajax": {
+					url: "app/eventsHandler.php",
+					data: { testdrive: 'getTest' },
+					type: "POST"
+				},
+				success: function (data, textStatus, jqXHR) {
+					$('#data').DataTable().ajax.reload();
+				},
+				error: function () {  // error handling
+					$(".data-grid-error").html("");
+					$("#data").append('<table class="data-grid-error"><tr><th colspan="3">No data found in the server</th></tr></table>');
+					$("#data_processing").css("display", "none");
+				}
+			});
+		};
+	}
+};
 });
 setTimeout(function () {
 	$('body').addClass('body_visible');
@@ -469,11 +579,11 @@ function result() {
 			return true;
 		}, error: function (xhr, status, error) {
 			let d = JSON.parse(xhr.responseText);
-			swal({
-				title: errorMessage,
-				text: d.error,
-				type: "error",
-			});
+			Swal.fire(
+				w("errorMessage"),
+				d.error,
+				"error",
+			);
 			location.href = window.location.origin + "/login.php";
 			return false;
 		}

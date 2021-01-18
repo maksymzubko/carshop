@@ -46,11 +46,11 @@ function validateTest(string $id)
 {
     $user = decrypt($_COOKIE['acc']);
 
-    $query = "SELECT * FROM `testdrive` WHERE `uid` = $user and `car_ID` = $id";
+    $query = "SELECT * FROM `testdrive` WHERE `uid` = $user and `car_ID` = $id and status != 'Denied'";
 
     $db = get_connection();
     $result = $db->query($query);
-    if($result)
+    if($result->num_rows > 0)
     return false;
     else
     return true;
@@ -244,6 +244,37 @@ $decryption=openssl_decrypt ($word, $ciphering,
 return $decryption;
 }
 
+
+function getTestCar($car)
+{
+    $query = "SELECT `date`, `uid` FROM `testdrive` where car_ID = $car and status != 'Denied'";
+
+    $db = get_connection();
+    $stmt = $db->query($query);
+
+    $arr = array();
+    $res = false;
+    if (($stmt->num_rows) > 0)
+    {              
+            $test = array();
+            while($row = $stmt->fetch_assoc())
+            {
+                if($row['uid']==decrypt($_COOKIE['acc']))
+                $res = true;
+
+                $test[] = $row["date"];              
+            }
+            $arr["dates"] = $test;
+    }
+
+    $query = "select t_price from auto where a_ID = $car";
+    $stmt = $db->query($query);
+    $row = $stmt->fetch_assoc();
+    $arr["tprice"] = $row["t_price"];
+    $arr["block"] = $res;
+    return $arr;
+}
+
 function login(array $data)
 {
     $login = $data['email'];
@@ -259,8 +290,9 @@ function login(array $data)
     $db = get_connection();
     $stmt = $db->query($query);
     $row = $stmt->fetch_assoc();
-
-    if(isset($_POST['loginAdmin']))
+    if($stmt->num_rows > 0)
+    {
+    if(isset($_POST['loginAdmin']) && $row)
     {
         if (isset($data['remember']))
         {
@@ -285,7 +317,7 @@ function login(array $data)
             setcookie('name', $row['u_name']. ' ' . $row['u_fname'], 0, "/");
         }
     }
-    
+}
 
     return $stmt;
 }
@@ -355,13 +387,13 @@ function removeFromFavourite(array $data)
     return $stmt;
 }
 
-function addToTestdrive(string $id)
+function addToTestdrive(string $id, string $date)
 {
     if(validateTest($id))
     {
     $user = decrypt($_COOKIE['acc']);
 
-    $query = "INSERT INTO `testdrive` (`uid`, `car_ID`,`status`,`date`) VALUES($user,$id, 'Waiting', CURDATE())";
+    $query = "INSERT INTO `testdrive` (`uid`, `car_ID`,`status`,`date`) VALUES($user,$id, 'Waiting', '$date')";
     $db = get_connection();
     $stmt = $db -> query($query);
     return $stmt;

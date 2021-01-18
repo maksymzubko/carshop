@@ -23,7 +23,13 @@ function sendResponse(array $res)
 //IF WE HAVE A POST REQUEST//
 if (!empty($_POST)) {
     header('Content-Type: application/json');
-    require "../languages/" . $_SESSION['lang'] . ".php";
+    $lang;
+    if(!isset($_SESSION['lang']))
+    $lang = 'ru';
+    else
+    $lang = $_SESSION['lang'];
+
+    require "../languages/" . $lang . ".php";
     require "../languages/translater.php";
     //ACTION WHEN WE TRY LOGIN//
     if (isset($_POST['pass'])) {
@@ -219,6 +225,10 @@ if (!empty($_POST)) {
                 } else {
                     http_response_code(200);
                 }
+            }else if (isset($_POST['action']) == "getBlock") {
+                http_response_code(200);
+                $output = getTestCar($_POST['car_ID']);
+                echo json_encode($output);
             }else if (isset($_POST['action']) == "getUsers") {
                 $output = getUsers();
                 if ($output['recordsFiltered'] == 0) {
@@ -298,12 +308,12 @@ if (!empty($_POST)) {
     } else if (isset($_POST['testdrive'])) {
         $user = decrypt($_COOKIE['acc']);
         $where = 'u_ID = ' . $user . '';
-        getTest(array('need' => 'yes'), $where);
+       // getTest(array('need' => 'yes'), $where);
         exit();
         //ACTION ADD TO TESTDRIVE//
     } else if (isset($_POST['mytest']) == "ndtst") {
         if (isAuthorizated()) {
-            if (addToTestdrive($_POST['car_ID'])) {
+            if (addToTestdrive($_POST['car_ID'], $_POST['date'])) {
                 sendResponse([
                     'success' => true,
                     'successmsg' => translateAction("Вы успешно добавили машину! С вами свяжется наш сотрудник.")

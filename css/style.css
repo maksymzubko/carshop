@@ -911,7 +911,9 @@ figure.effect-mouse:hover p,figure.effect-mouse:hover h2 {
 	-ms-transform: translate3d(0,0,0);
 	transform: translate3d(0,0,0);
 }
-
+.datetimepicker, .swal2-container{
+	font-family: 'Roboto';
+}
 /*top-navigator*/
 .breadcrumb.admin > li:nth-child(1) + li:before {
     padding: 0 5px;
