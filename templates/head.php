@@ -10,6 +10,7 @@ echo '    <!-- Import css -->
 <link rel="stylesheet" href="css/sweetalert2.min.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css">
 <link rel="stylesheet" href="css/bootstrap-datetimepicker.css">
+<link rel="shortcut icon" href="images/logo-mini.png">
 
 <!-- Import javascript -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
