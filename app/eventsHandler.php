@@ -226,9 +226,21 @@ if (!empty($_POST)) {
                     http_response_code(200);
                 }
             }else if (isset($_POST['action']) == "getBlock") {
-                http_response_code(200);
-                $output = getTestCar($_POST['car_ID']);
-                echo json_encode($output);
+                if(isAuthorizated())
+                {
+                    $output = getTestCar($_POST['car_ID']);
+                    $output["eq"] = translateAction("Вы уже заказывали тест драйв этой машини!");
+                    http_response_code(200);
+                    echo json_encode($output);
+                }
+                else
+                {
+                    sendResponse([
+                        'success' => false,
+                        'block' => true,
+                        'error' => translateAction("Необходимо быть авторизорованым!")
+                    ]);
+                }
             }else if (isset($_POST['action']) == "getUsers") {
                 $output = getUsers();
                 if ($output['recordsFiltered'] == 0) {

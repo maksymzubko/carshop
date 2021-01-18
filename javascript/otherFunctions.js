@@ -7,6 +7,7 @@ $(document).ready(function () {
 	let priceTest = 0;
 
 	let block;
+	let blockText;
 	let blockDates = [];
 	let id_car;
 	let engWords, ruWords, uaWords;
@@ -26,18 +27,26 @@ $(document).ready(function () {
 						blockDates.push(element.split(':')[0]);
 					});
 					block = xhr.block;
-				}
+					if(block == true)
+					blockText = xhr.eq;
+					
+				}engWords = { "errorMessage": "Error!", "successMessage": "Success!", "questionMessage": "Are you sure?", "btnCancel": "Cancel", "qu1": "It will cost '" + priceTest + "'grn (pay on arrival), do you agree?", "qu2": "Choose date" };
+				ruWords = { "errorMessage": "Ошибка!", "successMessage": "Успех!", "questionMessage": "Вы уверены?", "btnCancel": "Отмена", "qu1": "Это будет стоить '" + priceTest + "'грн (оплата по приезду), вы согласны?", "qu2": "Выберите дату" };
+				uaWords = { "errorMessage": "Помилка!", "successMessage": "Успіх!", "questionMessage": "Ви впевнені?", "btnCancel": "Відміна", "qu1": "Це буде коштувати '" + priceTest + "'грн (оплата по приїзду), ви згодні?", "qu2": "Виберіть дату" };
+				
+			}, error:function (xhr) {
 				engWords = { "errorMessage": "Error!", "successMessage": "Success!", "questionMessage": "Are you sure?", "btnCancel": "Cancel", "qu1": "It will cost '" + priceTest + "'grn (pay on arrival), do you agree?", "qu2": "Choose date" };
 				ruWords = { "errorMessage": "Ошибка!", "successMessage": "Успех!", "questionMessage": "Вы уверены?", "btnCancel": "Отмена", "qu1": "Это будет стоить '" + priceTest + "'грн (оплата по приезду), вы согласны?", "qu2": "Выберите дату" };
 				uaWords = { "errorMessage": "Помилка!", "successMessage": "Успіх!", "questionMessage": "Ви впевнені?", "btnCancel": "Відміна", "qu1": "Це буде коштувати '" + priceTest + "'грн (оплата по приїзду), ви згодні?", "qu2": "Виберіть дату" };
+				blockText = JSON.parse(xhr.responseText).error;
+				block = JSON.parse(xhr.responseText).block;
 			}
 		});
 	}
-	else
-	{
+	else {
 		engWords = { "errorMessage": "Error!", "successMessage": "Success!", "questionMessage": "Are you sure?", "btnCancel": "Cancel", "qu1": "It will cost '" + priceTest + "'grn (pay on arrival), do you agree?", "qu2": "Choose date" };
-				ruWords = { "errorMessage": "Ошибка!", "successMessage": "Успех!", "questionMessage": "Вы уверены?", "btnCancel": "Отмена", "qu1": "Это будет стоить '" + priceTest + "'грн (оплата по приезду), вы согласны?", "qu2": "Выберите дату" };
-				uaWords = { "errorMessage": "Помилка!", "successMessage": "Успіх!", "questionMessage": "Ви впевнені?", "btnCancel": "Відміна", "qu1": "Це буде коштувати '" + priceTest + "'грн (оплата по приїзду), ви згодні?", "qu2": "Виберіть дату" };
+		ruWords = { "errorMessage": "Ошибка!", "successMessage": "Успех!", "questionMessage": "Вы уверены?", "btnCancel": "Отмена", "qu1": "Это будет стоить '" + priceTest + "'грн (оплата по приезду), вы согласны?", "qu2": "Выберите дату" };
+		uaWords = { "errorMessage": "Помилка!", "successMessage": "Успіх!", "questionMessage": "Ви впевнені?", "btnCancel": "Відміна", "qu1": "Це буде коштувати '" + priceTest + "'грн (оплата по приїзду), ви згодні?", "qu2": "Виберіть дату" };
 	}
 
 	let currentLang = getCookie('lang');
@@ -235,7 +244,7 @@ $(document).ready(function () {
 		if (block == true) {
 			Swal.fire(
 				w("errorMessage"),
-				"",
+				blockText,
 				"error"
 			);
 		}
@@ -318,168 +327,168 @@ $(document).ready(function () {
 							})
 					}
 				})
-			}
-		});
-$('.phone').mask('+380 (00) 000 0000', { placeholder: "+___ (__) ___ ____" });
-$('.lan').click(function (e) {
-	if (window.location.origin + window.location.pathname == "http://carshop.loft/car.php") {
-		let link = location.href;
-		if (link.includes("&lang=")) {
-			link = link.split('&lang=')[0] + '&lang=' + e.target.id;
-			if (link.includes('#')) {
-				link = link.split('#')[0];
-			}
-			location.href = link;
 		}
-		else {
-			if (location.href.includes('#')) {
-				link = link.split('#')[0];
-			}
-			location.href = link + "&lang=" + e.target.id;
-		}
-
-	}
-	else
-		location.href = window.location.origin + window.location.pathname + "?lang=" + e.target.id;
-});
-$('#register').submit(function (e) {
-	var data = new FormData(this);
-	e.preventDefault();
-	$.ajax({
-		type: 'POST',
-		url: 'app/eventsHandler.php',
-		data: data,
-		cache: false,
-		contentType: false,
-		processData: false,
-		success: function (response) {
-			Swal.fire(
-				w("succesMessage"),
-				xhr.successmsg,
-				"success",
-			);
-			location.href = window.location.origin + "/account.php";
-		},
-		error: function (xhr, status, error) {
-			let d = JSON.parse(xhr.responseText);
-			Swal.fire(
-				w("errorMessage"),
-				d.error,
-				"error",
-			);
-		}
-	})
-});
-$('#login').submit(function (e) {
-	var data = new FormData(this);
-	e.preventDefault();
-	$.ajax({
-		type: 'POST',
-		url: 'app/eventsHandler.php',
-		data: data,
-		cache: false,
-		contentType: false,
-		processData: false,
-		success: function (xhr) {
-			Swal.fire(
-				w("succesMessage"),
-				xhr.successmsg,
-				"success",
-			);
-			location.href = window.location.origin + "/account.php";
-		},
-		error: function (xhr, status, error) {
-			let d = JSON.parse(xhr.responseText);
-			Swal.fire(
-				w("errorMessage"),
-				d.error,
-				"error",
-			);
-		}
-	})
-});
-$('.logout').click(function (e) {
-	$.ajax({
-		type: 'POST',
-		url: 'app/eventsHandler.php',
-		data: { 'logout': "need" },
-		success: function (xhr) {
-			window.location.href = location.href.replace('#',"");
-		}
-	})
-});
-$.getScript("/javascript/resize.js", function () {
-	new ResizeSensor(jQuery(elem), function () {
 	});
-	$(window).resize(function () {
-		let element = $("#change1");
-		let width = document.documentElement.clientWidth;
-		if (window.location.pathname == "/favourite.php") {
-			if (width < 1183) {
-				element.css('display', 'none');
-			} else {
-				element.css('display', 'block');
+	$('.phone').mask('+380 (00) 000 0000', { placeholder: "+___ (__) ___ ____" });
+	$('.lan').click(function (e) {
+		if (window.location.origin + window.location.pathname == "http://carshop.loft/car.php") {
+			let link = location.href;
+			if (link.includes("&lang=")) {
+				link = link.split('&lang=')[0] + '&lang=' + e.target.id;
+				if (link.includes('#')) {
+					link = link.split('#')[0];
+				}
+				location.href = link;
 			}
+			else {
+				if (location.href.includes('#')) {
+					link = link.split('#')[0];
+				}
+				location.href = link + "&lang=" + e.target.id;
+			}
+
 		}
-		else {
-			let tempElem = $(".none");
-			if (!tempElem) {
-				if (width < 768) {
+		else
+			location.href = window.location.origin + window.location.pathname + "?lang=" + e.target.id;
+	});
+	$('#register').submit(function (e) {
+		var data = new FormData(this);
+		e.preventDefault();
+		$.ajax({
+			type: 'POST',
+			url: 'app/eventsHandler.php',
+			data: data,
+			cache: false,
+			contentType: false,
+			processData: false,
+			success: function (response) {
+				Swal.fire(
+					w("succesMessage"),
+					xhr.successmsg,
+					"success",
+				);
+				location.href = window.location.origin + "/account.php";
+			},
+			error: function (xhr, status, error) {
+				let d = JSON.parse(xhr.responseText);
+				Swal.fire(
+					w("errorMessage"),
+					d.error,
+					"error",
+				);
+			}
+		})
+	});
+	$('#login').submit(function (e) {
+		var data = new FormData(this);
+		e.preventDefault();
+		$.ajax({
+			type: 'POST',
+			url: 'app/eventsHandler.php',
+			data: data,
+			cache: false,
+			contentType: false,
+			processData: false,
+			success: function (xhr) {
+				Swal.fire(
+					w("succesMessage"),
+					xhr.successmsg,
+					"success",
+				);
+				location.href = window.location.origin + "/account.php";
+			},
+			error: function (xhr, status, error) {
+				let d = JSON.parse(xhr.responseText);
+				Swal.fire(
+					w("errorMessage"),
+					d.error,
+					"error",
+				);
+			}
+		})
+	});
+	$('.logout').click(function (e) {
+		$.ajax({
+			type: 'POST',
+			url: 'app/eventsHandler.php',
+			data: { 'logout': "need" },
+			success: function (xhr) {
+				window.location.href = location.href.replace('#', "");
+			}
+		})
+	});
+	$.getScript("/javascript/resize.js", function () {
+		new ResizeSensor(jQuery(elem), function () {
+		});
+		$(window).resize(function () {
+			let element = $("#change1");
+			let width = document.documentElement.clientWidth;
+			if (window.location.pathname == "/favourite.php") {
+				if (width < 1183) {
 					element.css('display', 'none');
 				} else {
 					element.css('display', 'block');
 				}
 			}
-		}
-		sameDivs();
-
-		let element1 = $(".header1");
-		let element2 = $(".header-bottom");
-
-		if (width < 952) {
-
-			element1.hide();
-			element2.show();
-
-			setActive();
-		}
-		else {
-			element1.show();
-			element2.hide();
-		}
-	});
-});
-
-if (getCookie('acc') != undefined) {
-	if (result()) {
-		var url;
-
-		lang(url);
-		if (window.location.pathname == "/testdrives.php") {
-			$('#data').DataTable({
-				"processing": true,
-				"serverSide": true,
-				"bSort": false,
-				"language": {
-					"url": url
-				},
-				"ajax": {
-					url: "app/eventsHandler.php",
-					data: { testdrive: 'getTest' },
-					type: "POST"
-				},
-				success: function (data, textStatus, jqXHR) {
-					$('#data').DataTable().ajax.reload();
-				},
-				error: function () {  // error handling
-					$(".data-grid-error").html("");
-					$("#data").append('<table class="data-grid-error"><tr><th colspan="3">No data found in the server</th></tr></table>');
-					$("#data_processing").css("display", "none");
+			else {
+				let tempElem = $(".none");
+				if (!tempElem) {
+					if (width < 768) {
+						element.css('display', 'none');
+					} else {
+						element.css('display', 'block');
+					}
 				}
-			});
-		};
-	}
-};
+			}
+			sameDivs();
+
+			let element1 = $(".header1");
+			let element2 = $(".header-bottom");
+
+			if (width < 952) {
+
+				element1.hide();
+				element2.show();
+
+				setActive();
+			}
+			else {
+				element1.show();
+				element2.hide();
+			}
+		});
+	});
+
+	if (getCookie('acc') != undefined) {
+		if (result()) {
+			var url;
+
+			lang(url);
+			if (window.location.pathname == "/testdrives.php") {
+				$('#data').DataTable({
+					"processing": true,
+					"serverSide": true,
+					"bSort": false,
+					"language": {
+						"url": url
+					},
+					"ajax": {
+						url: "app/eventsHandler.php",
+						data: { testdrive: 'getTest' },
+						type: "POST"
+					},
+					success: function (data, textStatus, jqXHR) {
+						$('#data').DataTable().ajax.reload();
+					},
+					error: function () {  // error handling
+						$(".data-grid-error").html("");
+						$("#data").append('<table class="data-grid-error"><tr><th colspan="3">No data found in the server</th></tr></table>');
+						$("#data_processing").css("display", "none");
+					}
+				});
+			};
+		}
+	};
 });
 setTimeout(function () {
 	$('body').addClass('body_visible');
