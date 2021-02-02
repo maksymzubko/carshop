@@ -31,10 +31,14 @@ if (!empty($_POST)) {
 
     require "../languages/" . $lang . ".php";
     require "../languages/translater.php";
+
     //ACTION WHEN WE TRY LOGIN//
     if (isset($_POST['pass'])) {
-        $error = checkUser($_POST);
+        if(isset($_POST['loginAdmin']))
+        {
 
+        }
+        $error = checkUser($_POST);
         if ($error == "" && login($_POST)) {
             sendResponse([
                 'success' => true,

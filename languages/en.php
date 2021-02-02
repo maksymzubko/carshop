@@ -58,6 +58,7 @@ $account = array(
     "hd1"=>"Auto in Favourite",
     "hd2"=>"Test-drives",
     "hd3"=>"Viewed auto",
+    "hd4"=>"We love you",
     "b1"=>"View my test-drives",
     "b2"=>"Continue view cars",
     "emp"=>"List is empty",
