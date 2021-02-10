@@ -59,7 +59,7 @@ if (!isset($_COOKIE['acc'])) {
                         </div>
                         <div class="col-xs-12 col-sm-4 emphasis">
                             <h2><strong><?php echo $account['hd4'] ?></strong></h2>
-                            <p><small><?php echo $account['hd3'] ?></small></p>
+                            <p><small>😍</small></p>
                             <button class="btn <?php echo $_SESSION['lang'] ?> btn-block effect-button2" data-sm-link-text="<?php echo $lang['buttonHideText'] ?>" onclick="window.location.href='/cars.php'"> <span><?php echo $account['b2'] ?></span>
                             </button>
                         </div>

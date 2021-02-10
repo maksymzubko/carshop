@@ -1,5 +1,29 @@
 $(document).ready(function () {
 
+	function result() {
+		$.ajax({
+			type: 'POST',
+			url: '../app/eventsHandler.php',
+			data: {
+				'checkAccount': "check",
+				'role': "admin"
+			}, success: function (res) {
+				return true;
+			}, error: function (xhr, status, error) {
+				let d = JSON.parse(xhr.responseText);
+				Swal.fire(
+					"Помилка!",
+					d.error,
+					"error",
+				);
+				location.href = window.location.origin + "/login.php";
+				return false;
+			}
+		});
+	};
+
+	result();
+
 	$('#side-menu').metisMenu();
 
 	if (window.location.href.includes("testdrive.php")) {
@@ -180,115 +204,25 @@ $(document).ready(function () {
 	}
 	else if (window.location.href.includes("panel.php")) {
 		$(document).ready(function () {
-			let id;
-			let arr = [];
-			function getIDs(move) {
-				$.ajax({
-					url: "/app/eventsHandler.php",
-					method: "POST",
-					dataType: "html",
-					data: { action: 'getIDs', move: move },
-					success: function (xhr) {
-						$('updadm').show();
-						$('.button').html("<div class='btn-group'><button class='btn btn-primary dropdown-toggle' type='button' id='about-us' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>Select ID<span class='caret'></span></button><ul class='dropdown-menu mod'></ul></div>");
-						let data = JSON.parse(xhr);
-						$("ul.mod").html(data.html);
-						$('.drplist').click(function () {
-							id = $(this).text();
-							for (let i = 0; i < data.data.length; i++) {
-								if (data.data[i].u_ID == id) {
-									$('.info').show();
+			$(".expmod").click(function () {
 
-									$('.info label#id').html("ID: " + id);
-									$('.info label#name').html("Name: " + data.data[i].u_name);
-									$('.info label#sname').html("Second Name: " + data.data[i].u_fname);
-									$('.info label#email').html("Email: " + data.data[i].u_login);
-								}
-							}
-						});
-					},
-					error: function () {
-						$('.button').html("<h2>No data found!</h2>");
+				Swal.fire({
+					title: 'Enter your IP address',
+					input: 'text',
+					inputLabel: 'Your IP address',
+					inputValue: inputValue,
+					showCancelButton: true,
+					inputValidator: (value) => {
+						if (!value) {
+							return 'You need to write something!'
+						}
 					}
-				});
-			};
-			$('.expmod').click(function () {
+				})
 
-				$('.info').hide();
-				$('#exampleModalLabel').html("Add new ADMIN");
-				$('.apdadm').html("Update to admin");
-				getIDs(1);
-				$('.apdadm').click(function () {
-					if (id == undefined) {
-						swal(
-							"Error result",
-							"Select ID!",
-							"error",
-						);
-					}
-					else {
-						$.ajax({
-							url: "/app/eventsHandler.php",
-							method: "POST",
-							dataType: "html",
-							data: { action: 'updateU', uid: id },
-							success: function (xhr) {
-								swal(
-									"Success!",
-									"User was updated to ADMIN!",
-									"success",
-								);
-								$('#exampleModal').modal('hide');
-							},
-							error: function () {
-								swal(
-									"Error!",
-									"User was'nt updated to ADMIN!",
-									"error",
-								);
-							}
-						});
-					}
-				});
-			});
-			$('.remadm').click(function () {
-				$('.info').hide();
-				getIDs(0);
-				$('#exampleModalLabel').html("Remove ADMIN");
-				$('.apdadm').html("Delete admin");
-				$('.apdadm').click(function () {
-					if (id == undefined) {
-						swal(
-							"Error result",
-							"Select ID!",
-							"error",
-						);
-					}
-					else {
-						$.ajax({
-							url: "/app/eventsHandler.php",
-							method: "POST",
-							dataType: "html",
-							data: { action: 'deleteAdm', uid: id },
-							success: function (xhr) {
-								swal(
-									"Success!",
-									"User was deleted!",
-									"success",
-								);
-								$('#exampleModal').modal('hide');
-							},
-							error: function () {
-								swal(
-									"Error!",
-									"User was'nt deleted!",
-									"error",
-								);
-							}
-						});
-					}
-				});
-			});
+				if (ipAddress) {
+					Swal.fire(`Your IP address is ${ipAddress}`)
+				}
+			})
 		});
 	}
 
@@ -296,7 +230,7 @@ $(document).ready(function () {
 		$.ajax({
 			type: 'POST',
 			url: '../app/eventsHandler.php',
-			data: { 'logout': "need" },
+			data: { 'logout': "need", role: "admin" },
 			success: function (xhr) {
 				location.href = location.href;
 			}

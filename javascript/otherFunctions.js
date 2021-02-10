@@ -5,7 +5,7 @@ $(document).ready(function () {
 	let t1 = $('#t1'); let t2 = $('#t2'); let t3 = $('#t3');
 	let input = $('input:radio[name="radio"]');
 	let priceTest = 0;
-
+	let resultAsync = result();
 	let block;
 	let blockText;
 	let blockDates = [];
@@ -108,7 +108,7 @@ $(document).ready(function () {
 		$.ajax({
 			type: 'POST',
 			url: '../app/eventsHandler.php',
-			data: { 'email': email, 'pass': pass, 'loginAdmin': 'yes' },
+			data: { 'email': email, 'pass': pass, 'role': 'admin' },
 			success: function (xhr) {
 				location.href = window.location.origin + window.location.pathname.replace("/login.php", "/panel.php");
 			},
@@ -411,7 +411,7 @@ $(document).ready(function () {
 		$.ajax({
 			type: 'POST',
 			url: 'app/eventsHandler.php',
-			data: { 'logout': "need" },
+			data: { 'logout': "need", "role":"user"},
 			success: function (xhr) {
 				window.location.href = location.href.replace('#', "");
 			}
@@ -460,10 +460,9 @@ $(document).ready(function () {
 	});
 
 	if (getCookie('acc') != undefined) {
-		if (result()) {
-			var url;
-
-			lang(url);
+		if (resultAsync) 
+		{
+			var url = lang();
 			if (window.location.pathname == "/testdrives.php") {
 				$('#data').DataTable({
 					"processing": true,
@@ -536,13 +535,13 @@ function getCookie(name) {
 	));
 	return matches ? decodeURIComponent(matches[1]) : undefined;
 }
-function lang(value) {
+function lang() {
 	if (getCookie('lang') == 'en')
-		value = "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/English.json";
+		return "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/English.json";
 	else if (getCookie('lang') == 'ukr')
-		value = "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json";
+	return"//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json";
 	else
-		value = "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json";
+	return "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json";
 };
 function get_filter(class_name) {
 	var filter = [];
@@ -579,11 +578,17 @@ function sameDivs() {
 	setDiv(min);
 }
 function result() {
+	if(location.href.includes("login.php"))
+	{
+
+	}
+	else
 	$.ajax({
 		type: 'POST',
 		url: 'app/eventsHandler.php',
 		data: {
-			'checkAccount': "check"
+			'checkAccount': "check",
+			'role': "user"
 		}, success: function (res) {
 			return true;
 		}, error: function (xhr, status, error) {

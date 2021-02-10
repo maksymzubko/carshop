@@ -23,9 +23,8 @@ function sendResponse(array $res)
 //IF WE HAVE A POST REQUEST//
 if (!empty($_POST)) {
     header('Content-Type: application/json');
-    $lang;
     if(!isset($_SESSION['lang']))
-    $lang = 'ru';
+    $lang = "ru";
     else
     $lang = $_SESSION['lang'];
 
@@ -33,11 +32,8 @@ if (!empty($_POST)) {
     require "../languages/translater.php";
 
     //ACTION WHEN WE TRY LOGIN//
-    if (isset($_POST['pass'])) {
-        if(isset($_POST['loginAdmin']))
-        {
-
-        }
+    function actionLogin()
+    {
         $error = checkUser($_POST);
         if ($error == "" && login($_POST)) {
             sendResponse([
@@ -51,14 +47,24 @@ if (!empty($_POST)) {
             ]);
         }
     }
-    //ACTION WHEN WE TRY REGISTER//
-    else if (isset($_POST['password'])) {
-        $error = validate($_POST);
 
-        if ($error == "" && register($_POST)) {
+    //ACTION WHEN WE TRY REGISTER//
+    function actionRegister()
+    {
+        if(isset($_POST['unique']))
+        $temp = "admin";
+        else
+        $temp = "user";
+
+        $error = validate($_POST,$temp);
+
+        if ($error == "" && register($_POST, $temp)) {
+
+            $succesmsg = ($temp == "user") ? translateAction("Вы успешно зарегистрированы!") : "Ви успішно додали модератора!";
+
             sendResponse([
                 'success' => true,
-                'successmsg' => translateAction("Вы успешно зарегистрированы!")
+                'successmsg' => $succesmsg
             ]);
         } else {
             sendResponse([
@@ -68,8 +74,9 @@ if (!empty($_POST)) {
         }
     }
     //ACTION FOR CHECK ?VALIDEACCOUNTID//
-    else if (isset($_POST['checkAccount'])) {
-        $error = validateAccount($_POST);
+    function actionValidate(string $role)
+    {
+        $error = validateAccount($role);
 
         if ($error != "") {
             sendResponse([
@@ -82,224 +89,188 @@ if (!empty($_POST)) {
             ]);
         }
     }
+
     //ACTION WHEN USER LOGOUT//
-    else if (isset($_POST['logout'])) {
-        logout();
+    function logoutFromAccount(string $role)
+    {
+        logout($role);
+        $succesmsg = ($role == "user") ? translateAction("Вы успешно вышли!") : "Ви успішно вийшли!";
         sendResponse([
             'success' => true,
-            'successmsg' => translateAction("Вы успешно вышли!")
+            'successmsg' => $succesmsg
         ]);
     }
-    //ACTION FILTER//
-    else if (isset($_POST['action'])) {
-        if ($_POST['action'] == "fetch_data") {
+
+    function actionFirst()
+    {
+        $output = getAllTests("status = 'Waiting'");
+            if ($output['recordsFiltered'] == 0) {
+                http_response_code(500);
+                echo json_encode($output);
+            } else {
+                $output["success"] = true;
+                echo json_encode($output);
+            }
+    }
+
+    function actionSecond()
+    {
+        $output = getAllTests("status IN ('Waiting','Success', 'Denied')");
+        if ($output['recordsFiltered'] == 0) {
+            http_response_code(500);
+            echo json_encode($output);
+        } else {
+            $output["success"] = true;
+            echo json_encode($output);
+        }
+    }
+    function actionThird()
+    {
+        $output = getVisible();
+        if ($output['recordsFiltered'] == 0) {
+            http_response_code(500);
+            echo json_encode($output);
+        } else {
+            echo json_encode($output);
+        }
+    }
+    
+    function actionFourth()
+    {
+        $output = getAuto();
+        if ($output['recordsFiltered'] == 0) {
+            http_response_code(500);
+            echo json_encode($output);
+        } else {
+            echo json_encode($output);
+        }
+    }
+    function actionFifth()
+    {
+        if($_POST['move'] == 1)
+        {
+        $output = getUsersList(1);
+        }
+        else
+        {
+        $output = getUsersList(2);
+        }
+        if ($output->num_rows == 0) {
+            http_response_code(500);
+        } else {
+            http_response_code(200);
+            $data = array();
+            $outputText = '';
+            while($row = $output->fetch_assoc())
+            {
+                $temp = array();
+                $temp['u_ID'] = $row['u_ID'];
+                $temp['u_login'] = $row['u_login'];
+                $temp['u_name'] = $row['u_name'];
+                $temp['u_fname'] = $row['u_fname'];
+                $outputText .=  '<li class="drplist">'. $row['u_ID'] .'</li>';
+                $data[] = $temp;
+            }
+            echo json_encode(array(
+                'html'=> $outputText,
+                'data' => $data
+            ));
+        }
+    }
+    function actionSixth()
+    {
+        $output = updateUser($_POST['uid']);
+        if ($output == "0") {
+            http_response_code(500);
+        } else {
+            http_response_code(200);
+        }
+    }
+    function actionSeventh()
+    {
+        $output = deleteUser($_POST['uid']);
+        if ($output == "0") {
+            http_response_code(500);
+        } else {
+            http_response_code(200);
+        }
+    }
+    function actionEighth()
+    {
+        if(isAuthorizated())
+        {
+            $output = getTestCar($_POST['car_ID']);
+            $output["eq"] = translateAction("Вы уже заказывали тест драйв этой машини!");
+            http_response_code(200);
+            echo json_encode($output);
+        }
+        else
+        {
+            sendResponse([
+                'success' => false,
+                'block' => true,
+                'error' => translateAction("Необходимо быть авторизорованым!")
+            ]);
+        }
+    }
+    function actionNinth()
+    {
+        $output = getUsers();
+        if ($output['recordsFiltered'] == 0) {
+            http_response_code(500);
+            echo json_encode($output);
+        } else {
+            echo json_encode($output);
+        }
+    }
+    function actionTenth()
+    {
+        if (isset($_POST['status'])) {
             $db = get_connection();
 
-            $query = "SELECT * FROM `auto` join images on img_a_ID=a_ID join models on a_model=m_id join categories on c_ID = cat_ID join marks on m_mark_ID=mark_ID where visible = 'Enabled' and isMain = 'True'";
+            $d_ID  = $_POST['d_ID'];
+            $status  = $_POST['status'];
 
-            if (isset($_POST['category']) && !empty($_POST['category'])) {
-                $cat_filter = implode("','", $_POST['category']);
+            $query = "
+ UPDATE testdrive SET status = '" . $_POST["status"] . "' WHERE d_ID = '" . $_POST["d_ID"] . "'
+ ";
+            $statement = $db->query($query);
 
-                $query .= " AND cat_Caption IN('" . $cat_filter . "')";
-            }
+            echo json_encode($_POST);
+        } else if (isset($_POST['visible'])) {
+            $db = get_connection();
+            if ($_POST['visible'] == 'Enabled') {
+                $vis  = $_POST['visible'];
 
-            if (isset($_POST['brand']) && !empty($_POST['brand'])) {
-                $brand_filter = implode("','", $_POST['brand']);
+                $query = "
+                UPDATE auto SET visible = '" . $_POST["visible"] . "'";
+                $statement = $db->query($query);
 
-                $query .= " AND mark IN('" . $brand_filter . "')";
-            }
+                echo json_encode($_POST);
+            } else if ($_POST['visible'] == 'Disabled') {
+                $vis  = $_POST['visible'];
 
-            if (isset($_POST['color']) && !empty($_POST['color'])) {
-                $color_filter = implode("','", $_POST['color']);
+                $query = "
+                UPDATE auto SET visible = '" . $_POST["visible"] . "'";
+                $statement = $db->query($query);
 
-                $query .= " AND a_color IN('" . $color_filter . "')";
-            }
-            $result = $db->query($query);
-            $output = "";
-            if ($result) {
-                $numrows = $result->num_rows;
-                if ($numrows > 0) {
-                    while ($row = $result->fetch_assoc()) {
-                        $output .= '<div class="col-xs-12 col-sm-6 col-lg-6 col-md-6 product-left p-left" id="' . $row['a_ID'] . '">
-                <div class="product-main">
-                <div class="mask"><img class="img-responsive zoom-img" style="width:100%" src=" ' . $row['img'] . ' " alt="" /></div>
-                <div class="product-bottom">
-                    <h3>' . $row['mark'] . '</h3>
-                    <p>' . $row['m_model'] . '</p>
-                </div>
-                <div class="product-buttons">
-                    <a class="btn ' . $_SESSION['lang'] . ' effect-button lookcar" data-sm-link-text=" ' . $lang['buttonHideText'] . '"><span> ' . $catalog['btn'] . '</span></a>
-                    <div class="photo" data-title="' . $catalog['alt'] . '">';
-
-                        if (IsCarFavourite($row['a_ID']))
-                            $output .= ' <img class="favourite is" tabindex="' . $row['a_ID'] . '">';
-                        else
-                            $output .= '<img class="favourite nope" tabindex="' . $row['a_ID'] . '">';
-
-                        $output .= '</div>
-                </div>
-                </div>
-                <div class="clearfix"></div>
-                </div>';
-                    }
-                    echo $output;
-                } else {
-                    echo $output = '<div class="text-center"><h3 class="none">' . $lang['ndata'] . '</h3></div>';
-                }
+                echo json_encode($_POST);
             } else {
-                echo $output = '<div class="text-center"><h3 class="none">' . $lang['ndata'] . '</h3></div>';
-            }
-        } else {
-            if ($_POST['action'] == "getAllTests") {
-                $output = getAllTests("status = 'Waiting'");
-                if ($output['recordsFiltered'] == 0) {
-                    http_response_code(500);
-                    echo json_encode($output);
-                } else {
-                    $output["success"] = true;
-                    echo json_encode($output);
-                }
-            } else if ($_POST['action'] == "getAllTests2") {
-                $output = getAllTests("status IN ('Waiting','Success', 'Denied')");
-                if ($output['recordsFiltered'] == 0) {
-                    http_response_code(500);
-                    echo json_encode($output);
-                } else {
-                    $output["success"] = true;
-                    echo json_encode($output);
-                }
-            } else if ($_POST['action'] == "getVisible") {
-                $output = getVisible();
-                if ($output['recordsFiltered'] == 0) {
-                    http_response_code(500);
-                    echo json_encode($output);
-                } else {
-                    echo json_encode($output);
-                }
-            } else if ($_POST['action'] == "getAuto") {
-                $output = getAuto();
-                if ($output['recordsFiltered'] == 0) {
-                    http_response_code(500);
-                    echo json_encode($output);
-                } else {
-                    echo json_encode($output);
-                }
-            } else if ($_POST['action'] == "getIDs") {
-                $output;
-                if($_POST['move'] == 1)
-                {
-                $output = getUsersList(1);
-                }
-                else
-                {
-                $output = getUsersList(2);
-                }
-                if ($output->num_rows == 0) {
-                    http_response_code(500);
-                } else {
-                    http_response_code(200);
-                    $data = array();
-                    $outputText = '';
-                    while($row = $output->fetch_assoc())
-                    {
-                        $temp = array();
-                        $temp['u_ID'] = $row['u_ID'];
-                        $temp['u_login'] = $row['u_login'];
-                        $temp['u_name'] = $row['u_name'];
-                        $temp['u_fname'] = $row['u_fname'];
-                        $outputText .=  '<li class="drplist">'. $row['u_ID'] .'</li>';
-                        $data[] = $temp;
-                    }
-                    echo json_encode(array(
-                        'html'=> $outputText,
-                        'data' => $data
-                    ));
-                }
-            } else if ($_POST['action'] == "updateU") {
-                $output = updateUser($_POST['uid']);
-                if ($output == "0") {
-                    http_response_code(500);
-                } else {
-                    http_response_code(200);
-                }
-            } else if ($_POST['action'] == "deleteAdm") {
-                $output = deleteUser($_POST['uid']);
-                if ($output == "0") {
-                    http_response_code(500);
-                } else {
-                    http_response_code(200);
-                }
-            }else if (isset($_POST['action']) == "getBlock") {
-                if(isAuthorizated())
-                {
-                    $output = getTestCar($_POST['car_ID']);
-                    $output["eq"] = translateAction("Вы уже заказывали тест драйв этой машини!");
-                    http_response_code(200);
-                    echo json_encode($output);
-                }
-                else
-                {
-                    sendResponse([
-                        'success' => false,
-                        'block' => true,
-                        'error' => translateAction("Необходимо быть авторизорованым!")
-                    ]);
-                }
-            }else if (isset($_POST['action']) == "getUsers") {
-                $output = getUsers();
-                if ($output['recordsFiltered'] == 0) {
-                    http_response_code(500);
-                    echo json_encode($output);
-                } else {
-                    echo json_encode($output);
-                }
-            }else if (isset($_POST['action']) == "edit") {
-                if (isset($_POST['status'])) {
-                    $db = get_connection();
+                $d_ID  = $_POST['a_ID'];
+                $vis  = $_POST['visible'];
 
-                    $d_ID  = $_POST['d_ID'];
-                    $status  = $_POST['status'];
+                $query = "
+                UPDATE auto SET visible = '" . $_POST["visible"] . "' WHERE a_ID = '" . $_POST["a_ID"] . "'
+                ";
+                $statement = $db->query($query);
 
-                    $query = "
-         UPDATE testdrive SET status = '" . $_POST["status"] . "' WHERE d_ID = '" . $_POST["d_ID"] . "'
-         ";
-                    $statement = $db->query($query);
-
-                    echo json_encode($_POST);
-                } else if (isset($_POST['visible'])) {
-                    $db = get_connection();
-                    if ($_POST['visible'] == 'Enabled') {
-                        $vis  = $_POST['visible'];
-
-                        $query = "
-                        UPDATE auto SET visible = '" . $_POST["visible"] . "'";
-                        $statement = $db->query($query);
-
-                        echo json_encode($_POST);
-                    } else if ($_POST['visible'] == 'Disabled') {
-                        $vis  = $_POST['visible'];
-
-                        $query = "
-                        UPDATE auto SET visible = '" . $_POST["visible"] . "'";
-                        $statement = $db->query($query);
-
-                        echo json_encode($_POST);
-                    } else {
-                        $d_ID  = $_POST['a_ID'];
-                        $vis  = $_POST['visible'];
-
-                        $query = "
-                        UPDATE auto SET visible = '" . $_POST["visible"] . "' WHERE a_ID = '" . $_POST["a_ID"] . "'
-                        ";
-                        $statement = $db->query($query);
-
-                        echo json_encode($_POST);
-                    }
-                }
+                echo json_encode($_POST);
             }
         }
-        //ACTION WITH ADD/DELETE FAVOURITE CAR//
-    } else if (isset($_POST['need']) &&  isset($_POST['car_ID'])) {
+    } 
+
+    function actionWithCars()
+    {
         if (isAuthorizated()) {
             if ($_POST['need'] == "0") {
                 addToFavourite($_POST);
@@ -320,14 +291,24 @@ if (!empty($_POST)) {
                 'error' => translateAction("Необходимо быть авторизорованым!")
             ]);
         }
-        //ACTION LIST OF USER TESTDRIVES//
-    } else if (isset($_POST['testdrive'])) {
-        $user = decrypt($_COOKIE['acc']);
+    }
+
+    function testDrive()
+    {
+        $user = getCoockie("id","user");
         $where = 'u_ID = ' . $user . '';
-       // getTest(array('need' => 'yes'), $where);
+        $output = getAllTests($where);
+        if ($output['recordsFiltered'] == 0) {
+            http_response_code(500);
+            echo json_encode($output);
+        } else {
+            echo json_encode($output);
+        }
         exit();
-        //ACTION ADD TO TESTDRIVE//
-    } else if (isset($_POST['mytest']) == "ndtst") {
+    }
+
+    function actionWithTestDrive()
+    {
         if (isAuthorizated()) {
             if (addToTestdrive($_POST['car_ID'], $_POST['date'])) {
                 sendResponse([
@@ -346,6 +327,73 @@ if (!empty($_POST)) {
                 'success' => false,
                 'error' => translateAction("Необходимо быть авторизорованым!")
             ]);
+        }
+    }
+
+        //switch funtions//
+        switch(isset($_POST))
+        {
+            case isset($_POST["pass"]): 
+                actionLogin();
+                break;
+            case isset($_POST["password"]):
+                actionRegister();
+                break;
+            case isset($_POST["checkAccount"]):
+                actionValidate($_POST['role']);
+                break;
+            case isset($_POST["logout"]):
+                logoutFromAccount($_POST['role']);
+                break;
+            case isset($_POST["need"]):
+                actionWithCars();
+                break;
+            case isset($_POST["testdrive"]):
+                testDrive();
+                break;
+            case isset($_POST["ndtst"]):
+                actionWithTestDrive();
+                break;
+        }
+
+    if(isset($_POST['action']))
+    {
+        switch($_POST['action'])
+        {
+            case 'fetch_data':
+                $lang = (!isset($_SESSION['lang'])) ? "ru" : $_SESSION['lang'];
+                filterAuto($lang);
+                break;
+            case 'getAllTests':
+                actionFirst();
+                break;
+            case 'getAllTests2':
+                actionSecond();
+                break;
+            case 'getVisible':
+                actionThird();
+                break;
+            case 'getAuto':
+                actionFourth();
+                break;
+            case 'getIDs':
+                actionFifth();
+                break;
+            case 'updateU':
+                actionSixth();
+                break;
+            case 'deleteAdm':
+                actionSeventh();
+                break;    
+            case 'getBlock':
+                actionEighth();
+                break;
+            case 'getUsers':
+                actionNinth();
+                break;
+            case 'edit':
+                actionTenth();
+                break;
         }
     }
 }

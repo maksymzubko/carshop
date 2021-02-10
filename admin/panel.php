@@ -153,7 +153,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <a href="" class="expmod" data-toggle="modal" data-target="#exampleModal">
+                            <a href="" class="expmod">
                                 <div class="panel-footer">
                                     <span class="pull-left">Add new Admin</span>
                                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -172,7 +172,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <a href="" class="remadm" data-toggle="modal" data-target="#exampleModal">
+                            <a href="" class="remadm">
                                 <div class="panel-footer">
                                     <span class="pull-left">Remove Admin</span>
                                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -215,47 +215,9 @@
                                 <div class="panel-footer">
                                     <span class="pull-left">Edit images</span>
                                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-
                                     <div class="clearfix"></div>
                                 </div>
                             </a>
-                        </div>
-                    </div>
-                </div>
-                <!-- Modal -->
-                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Update to ADMIN</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="modalcontent">
-                                    <div class="button">
-                                        <div class="btn-group">
-                                            <button class="btn btn-primary dropdown-toggle" type="button" id="about-us" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                Select ID
-                                                <span class="caret"></span>
-                                            </button>
-                                            <ul class="dropdown-menu mod">
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="info" style="display: none;">
-                                        <div>
-
-                                        </div>
-                                        <label id="id"></label><label id="name"></label><label id="sname"></label><label id="email"></label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary apdadm">Update to Admin</button>
                         </div>
                     </div>
                 </div>
