@@ -1,5 +1,16 @@
 $(document).ready(function () {
 
+	const Toast = Swal.mixin({
+		toast: true,
+		position: 'top-end',
+		showConfirmButton: false,
+		timer: 4000,
+		timerProgressBar: true,
+		didOpen: (toast) => {
+			toast.addEventListener('click', Swal.close)
+		}
+	});
+
 	function result() {
 		$.ajax({
 			type: 'POST',
@@ -221,6 +232,7 @@ $(document).ready(function () {
 			checkAdminRole();
 
 			let uniqtext, logintext, passtext;
+			let firstID;
 			//actionAddNewModerator
 			$(".expmod").click(function () {
 				let isExist = false;
@@ -240,7 +252,7 @@ $(document).ready(function () {
 							}
 							else
 								if (unique.length != 6) {
-									Swal.showValidationMessage(`Унікальний номер = 6 чисел`)
+									Swal.showValidationMessage(`Унікальний номер повинен бути з 6 цифр`)
 								}
 								else
 									if (unique) {
@@ -254,22 +266,34 @@ $(document).ready(function () {
 												},
 												success: function (xhr) {
 													uniqtext = xhr.uniq; logintext = xhr.login; passtext = xhr.pass;
-													Swal.fire({
-														icon: "info",
-														title: 'Дані користувача',
-														html: "<div class='usermain'><div class='userinfo'><label>Ун.номер: <input id='uniq' readonly=true value =" + uniqtext + "></input></label><label>Логін: <input id='login' readonly=true value =" + logintext + "></input></label><label>Пароль: <input id='pass' readonly=true value =" + passtext + "></input></label></div><div class='copy'></div></div>",
-														confirmButtonText: 'Закрити',
-														allowOutsideClick: false,
-														didOpen: () => {
-															$('.copy').click(function () {
-																let text = "";
-																text += uniqtext + ":";
-																text += logintext + ":";
-																text += passtext + ";";
-																copyUserData(text);
-															})
+													Toast.fire({
+														title: "Користувача зареєстровано!",
+														icon: "success",
+														timer: 2000,
+														position: "top",
+														didClose: () => {
+															Swal.fire({
+																icon: "info",
+																title: 'Дані користувача',
+																html: "<div class='usermain'><div class='userinfo'><label>Ун.номер: <input id='uniq' readonly=true value =" + uniqtext + "></input></label><label>Логін: <input id='login' readonly=true value =" + logintext + "></input></label><label>Пароль: <input id='pass' readonly=true value =" + passtext + "></input></label></div><div data-tooltip='Скопіювати' class='copy'></div></div>",
+																confirmButtonText: 'Закрити',
+																allowOutsideClick: false,
+																customClass: {
+																	validationMessage: 'swal2-confirm-message'
+																},
+																didOpen: () => {
+																	$('.copy').click(function () {
+																		let text = "";
+																		text += uniqtext + ":";
+																		text += logintext + ":";
+																		text += passtext + ";";
+																		copyUserData(text, Swal);
+																	})
+																}
+															});
 														}
 													});
+
 												},
 												error: function (xhr) {
 													Swal.fire({
@@ -300,7 +324,7 @@ $(document).ready(function () {
 			//actionRemoveModerator
 			$('.remadm').click(function () {
 
-				var numbers, numbersObject;
+				var numbers;
 				$.ajax({
 					type: 'POST',
 					url: '../../app/eventsHandler.php',
@@ -345,6 +369,7 @@ $(document).ready(function () {
 							})
 						}
 					}).then(function (result) {
+						let numberEnter = result.value;
 						if (result.isConfirmed) {
 							Swal.fire({
 								icon: "question",
@@ -360,14 +385,14 @@ $(document).ready(function () {
 										url: '../../app/eventsHandler.php',
 										data: {
 											'action': "deleteAdm",
-											'unique': result.value
+											'unique': numberEnter
 										},
 										success: function (xhr) {
-											Swal.fire(
-												"Успіх",
-												"Модератора #" + result.value + " було видалено!",
-												"success"
-											);
+											Toast.fire({
+												title: "Модератора #" + numberEnter + " було видалено!",
+												icon: "success",
+												position: "top"
+											});
 										},
 										error: function () {
 											//empty
@@ -382,8 +407,487 @@ $(document).ready(function () {
 					})
 				}
 			})
+			//actionBlockUser
+			$('.blockuser').click(function () {
+
+				var numbers;
+				$.ajax({
+					type: 'POST',
+					url: '../../app/eventsHandler.php',
+					data: {
+						'listOfUsers': "get"
+					},
+					success: function (xhr) {
+						let temp = JSON.parse(xhr.data);
+						numbers = temp.ids;
+						swaladd();
+					},
+					error: function () {
+						Swal.fire(
+							"Дивно",
+							"Жодного користувача не знайдено в базі!",
+							"error"
+						);
+					}
+				})
+
+				function swaladd(str) {
+					Swal.fire({
+						icon: "question",
+						title: 'Заблокувати користувача',
+						input: 'select',
+						inputOptions: {
+							'Номера': numbers
+
+						},
+						inputPlaceholder: 'Виберіть користувача',
+						confirmButtonText: 'Заблокувати',
+						focusConfirm: false,
+						showCancelButton: true,
+						cancelButtonText: "Закрити",
+						allowOutsideClick: false,
+						inputValidator: (value) => {
+							return new Promise((resolve) => {
+								if (!value) {
+									resolve('Виберіть користувача');
+								}
+								else { resolve(); }
+							})
+						}
+					}).then(function (result) {
+						let numberEnter = result.value;
+						if (result.isConfirmed) {
+							Swal.fire({
+								title: "Заблокувати користувача",
+								confirmButtonText:'Заблокувати',
+								showCancelButton: true,
+								input: 'text',
+								inputPlaceholder: 'Уведіть причину блокування',
+								cancelButtonText: "Закрити",
+								allowOutsideClick: false,
+								inputValidator: (value) => {
+									return new Promise((resolve) => {
+										if (!value) {
+											resolve('Уведіть причину блокування!');
+										}
+										else if(value.length < 10)
+										{
+											resolve('Будь-ласка опишіть детальніше!');
+										}
+										else { resolve(); }
+									})
+								}
+							}).then(function (result){
+								if(result.isConfirmed)
+								{
+									let desc = result.value;
+									Swal.fire({
+										icon: "question",
+										title: 'Ви впевнені?',
+										confirmButtonText: 'Так',
+										focusConfirm: false,
+										showCancelButton: true,
+										cancelButtonText: "Назад"
+									}).then(function (result) {
+										if (result.isConfirmed) {
+											$.ajax({
+												type: 'POST',
+												url: '../../app/eventsHandler.php',
+												data: {
+													'blockUser': "block",
+													'uid': numberEnter,
+													'desc':desc
+												},
+												success: function (xhr) {
+													Toast.fire({
+														title: "Користувача #" + numberEnter + " було заблоковано! Причина: "+desc+"",
+														icon: "success",
+														position: "top"
+													});
+												},
+												error: function () {
+													Toast.fire({
+														title: "Користувача невдалось заблокувати",
+														icon: "error",
+														position: "top"
+													});
+												}
+											})
+										}
+										else {
+											swaladd();
+										}
+									})
+								}							
+							})
+						}
+					})
+				}
+			})
+			//actionEditLinks
+			$('.editlinks').click(function () {
+				var cars;
+				$.ajax({
+					type: 'POST',
+					url: '../../app/eventsHandler.php',
+					data: {
+						'getCarsList': "get"
+					},
+					success: function (xhr) {
+						cars = JSON.parse(xhr[0]).IDs;
+						swaladd();
+					},
+					error: function () {
+						Swal.fire(
+							"Помилка",
+							"Жодного авто не знайдено в базі!",
+							"error"
+						);
+					}
+				});
+
+				function swaladd(str) {
+					Swal.fire({
+						icon: "question",
+						title: 'Редагувати посилання',
+						input: 'select',
+						inputOptions: {
+							'ID`s': cars
+
+						},
+						inputPlaceholder: 'Виберіть авто',
+						confirmButtonText: 'Обрати',
+						focusConfirm: false,
+						showCancelButton: true,
+						cancelButtonText: "Закрити",
+						allowOutsideClick: false,
+						inputValidator: (value) => {
+							return new Promise((resolve) => {
+								if (!value) {
+									resolve('Виберіть авто');
+								}
+								else { resolve(); }
+							})
+						}
+					}).then(function (result) {
+						if (result.isConfirmed) {
+							let carid = result.value;
+							$.ajax({
+								type: 'POST',
+								url: '../../app/eventsHandler.php',
+								data: {
+									'getVideosList': "get",
+									'carID': result.value
+								},
+								success: function (xhr) {
+									let arrayOfLinks;
+
+									let newList, oldLinks;
+
+									count = JSON.parse(xhr[0]).count;
+									arrayOfLinks = JSON.parse(xhr[0]).links;
+									let lVal = Object.values(arrayOfLinks);
+									let lKeys = Object.keys(arrayOfLinks);
+
+									let htmlCode = "<div class=multiple-inputs-div>";
+									htmlCode += "<div class='main-inputs'>"
+									for (let i = 0; i < 10; i++) {
+										let data = lVal[i] == undefined ? "" : lVal[i];
+										let id = lKeys[i] == undefined ? "a" + i + "" : lKeys[i];
+
+										htmlCode += '<input type="text" id=' + id + '  class="link" class="swal2-input" placeholder="Посилання" value ="' + data + '" maxlength = 300></input>';
+									}
+
+									htmlCode += "</div></div>";
+									showSwalInputs();
+									function showSwalInputs() {
+										Swal.fire({
+											title: "Редагування посилань",
+											html: htmlCode,
+											allowOutsideClick: false,
+											showCancelButton: true,
+											showDenyButton: true,
+											denyButtonText: "Назад",
+											denyButtonColor: "gray",
+											cancelButtonColor: "#E94D6A",
+											cancelButtonText: "Закрити",
+											confirmButtonText: "Оновити",
+											preConfirm: () => {
+
+												let countToEdit = 0;
+												var myMapOlds = new Map();
+												var myMapNew = new Map();
+												$('.link').each(function (index) {
+													let itemID = $(this).attr("id");
+													let itemValue = $(this).val();
+
+													if (itemID.includes('a')) {
+														if (itemValue != "") {
+															myMapNew.set(index, itemValue);
+															countToEdit++;
+														}
+													}
+													else {
+														myMapOlds.set(itemID, itemValue);
+														countToEdit++;
+													}
+												})
+
+												newList = Object.fromEntries(myMapNew);
+												oldLinks = Object.fromEntries(myMapOlds);
+
+												if (JSON.stringify(newList) == JSON.stringify({})) {
+													if (JSON.stringify(arrayOfLinks) === JSON.stringify(oldLinks)) {
+														Swal.showValidationMessage("Потрібно змінити або додати хоча-б 1 елемент");
+														return;
+													}
+												}
+
+
+												$.ajax({
+													type: 'POST',
+													url: '../../app/eventsHandler.php',
+													data: {
+														'updateVideosLinks': "upd",
+														'linksNew': newList,
+														'linksOld': oldLinks,
+														'carID': carid,
+														'countToEdit': countToEdit
+													},
+													success: function () {
+														Toast.fire({
+															title: "Данні змінено!",
+															icon: "success",
+															timer: 4000,
+															position: "top",
+														})
+													},
+													error: function () {
+														Swal.fire({
+															icon: "error",
+															title: 'На жаль, щось пішло не за планом. Спробувати ще раз?',
+															confirmButtonText: 'Так',
+															focusConfirm: false,
+															showCancelButton: true,
+															cancelButtonText: "Ні",
+															allowOutsideClick: false
+														}).then(function (result) {
+															if (result.isConfirmed) {
+																showSwalInputs();
+															}
+														})
+													}
+												})
+											}
+										}).then(function (result){
+											if(result.isDenied)
+											{
+												swaladd();
+											}
+										})
+									}
+								}, error: function () {
+									//empty
+								}
+							})
+						}
+					})
+				}
+			})
+			//actionEditPhotos
+			$('.editphotos').click(function () {
+				var cars;
+				$.ajax({
+					type: 'POST',
+					url: '../../app/eventsHandler.php',
+					data: {
+						'getCarsList': "get"
+					},
+					success: function (xhr) {
+						cars = JSON.parse(xhr[0]).IDs;
+						swaladd();
+					},
+					error: function () {
+						Swal.fire(
+							"Помилка",
+							"Жодного авто не знайдено в базі!",
+							"error"
+						);
+					}
+				});
+
+				function swaladd(str) {
+					Swal.fire({
+						icon: "question",
+						title: 'Редагувати фото',
+						input: 'select',
+						inputOptions: {
+							'ID`s': cars
+
+						},
+						inputPlaceholder: 'Виберіть авто',
+						confirmButtonText: 'Обрати',
+						focusConfirm: false,
+						showCancelButton: true,
+						cancelButtonText: "Закрити",
+						allowOutsideClick: false,
+						inputValidator: (value) => {
+							return new Promise((resolve) => {
+								if (!value) {
+									resolve('Виберіть авто');
+								}
+								else { resolve(); }
+							})
+						}
+					}).then(function (result) {
+						if (result.isConfirmed) {
+							let carid = result.value;
+							$.ajax({
+								type: 'POST',
+								url: '../../app/eventsHandler.php',
+								data: {
+									'getPhotosList': "get",
+									'carID': result.value
+								},
+								success: function (xhr) {
+									let arrayOfLinks;
+
+									let newList, oldLinks;
+
+									count = JSON.parse(xhr[0]).count;
+									arrayOfLinks = JSON.parse(xhr[0]).links;
+									let lVal = Object.values(arrayOfLinks);
+									let lKeys = Object.keys(arrayOfLinks);
+
+									let htmlCode = "<div class=multiple-inputs-div>";
+									htmlCode += "<div class='main-inputs'>"
+									for (let i = 0; i < 9; i++) {
+										let data = lVal[i] == undefined ? "notimage.png" : lVal[i];
+										let id = lKeys[i] == undefined ? "a" + i + "" : lKeys[i].replace("'", "").replace("'", "");
+
+										data = (data == "notimage.png") ? data : fileExists("../images/" + data) == true ? data : "notimage.png";
+
+										i == 0 ? firstID = id : "";
+										i == 0 ? htmlCode += '<div class="flex" id="' + id + '"><div>Головне зображення:<input type="text" class="link swal2-input" placeholder="Зображення" value ="' + ((data == "notimage.png") ? "" : data) + '" readonly=true maxlength = 300></input> <input type="file" class="fileInput"></input></div><div class="fleximage "><img height="65px" style="margin-left:4px;margin-top:23px" width="115px" src=../images/' + data + '></div></div><hr>' : htmlCode += '<div class="flex" id="' + id + '"><div><input type="text" class="link swal2-input" placeholder="Зображення" value ="' + ((data == "notimage.png") ? "" : data) + '" readonly=true maxlength = 300></input> <input type="file" class="fileInput"></input></div><div class="fleximage ' + ((data == "notimage.png") ? "" : "withcontent") + '"><img height="65px" width="115px" src=../images/' + data + '></div></div>';
+									}
+
+									htmlCode += "</div></div>";
+									showSwalInputs();
+									function showSwalInputs() {
+										Swal.fire({
+											title: "Редагування зображень",
+											html: htmlCode,
+											allowOutsideClick: false,
+											showCancelButton: true,
+											showDenyButton: true,
+											denyButtonText: "Назад",
+											denyButtonColor: "gray",
+											cancelButtonColor: "#E94D6A",
+											cancelButtonText: "Закрити",
+											confirmButtonText: "Оновити",
+											didOpen: () => {
+
+												var tem = Swal.getContainer();
+												$(tem).children().css('width', '35em');
+
+												$('.fileInput').change(function (obj) {
+													fileHandler(obj.target, Swal, $(this).parent().parent().attr("id"));
+												})
+
+												$('.withcontent').click(function (e) {
+													if (e.offsetX > 115) {
+														let element = $(e.target).parents().eq(0).attr("id");
+														$("div#" + element + " .fileInput").val('');
+														$("div#" + element + " .link").val('');
+														let image = $("#" + element + " .fleximage img");
+														image.attr("src", "../images/notimage.png");
+														image.parent().toggleClass("withcontent");
+													}
+												})
+
+
+											},
+											preConfirm: () => {
+												let countToEdit = 0;
+												var myMapOlds = new Map();
+												var myMapNew = new Map();
+												$('.link').each(function (index) {
+													let itemID = $(this).parent().parent().attr("id");
+													let itemValue = $(this).val();
+
+													if (itemID.includes('a')) {
+														if (itemValue != "") {
+															myMapNew.set(index, itemValue);
+															countToEdit++;
+														}
+													}
+													else {
+														myMapOlds.set(itemID, itemValue);
+														countToEdit++;
+													}
+												})
+
+												newList = Object.fromEntries(myMapNew);
+												oldLinks = Object.fromEntries(myMapOlds);
+												if (JSON.stringify(newList) === JSON.stringify({})) {
+													if (JSON.stringify(arrayOfLinks) === JSON.stringify(oldLinks)) {
+														Swal.showValidationMessage("Потрібно змінити або додати хоча-б 1 елемент");
+														return;
+													}
+												}
+
+												$.ajax({
+													type: 'POST',
+													url: '../../app/eventsHandler.php',
+													data: {
+														'updatePhotos': "upd",
+														'linksNew': newList,
+														'linksOld': oldLinks,
+														'carID': carid,
+														'countToEdit': countToEdit
+													},
+													success: function (xhr) {
+														Toast.fire({
+															title: "Данні змінено!",
+															icon: "success",
+															timer: 4000,
+															position: "top"
+														});
+													},
+													error: function () {
+														Swal.fire({
+															icon: "error",
+															title: 'На жаль, щось пішло не за планом. Спробувати ще раз?',
+															confirmButtonText: 'Так',
+															focusConfirm: false,
+															showCancelButton: true,
+															cancelButtonText: "Ні",
+															allowOutsideClick: false
+														}).then(function (result) {
+															if (result.isConfirmed) {
+																showSwalInputs();
+															}
+														})
+													}
+												})
+											}
+										}).then(function (result){
+											if(result.isDenied)
+											{
+												swaladd();
+											}
+										})
+									}
+								}, error: function () {
+									//empty
+								}
+							})
+						}
+					})
+				}
+			})
 			//copy to clipboard
-			function copyUserData(text) {
+			function copyUserData(text, Swal) {
 				const el = document.createElement('input');
 				el.value = text;
 				el.setAttribute('readonly', '');
@@ -394,11 +898,58 @@ $(document).ready(function () {
 				document.execCommand('copy');
 				document.body.removeChild(el);
 
-				Swal.fire(
-					"Успіх",
-					"Данні користувача #" + uniqtext + " успішно скопійовані до буферу обміну!",
-					"success"
-				);
+				Swal.showValidationMessage("<i class='fa fa-check-circle'></i> Данні скопійовані до буферу обміну!");
+				let msg = $('.swal2-validation-message');
+				msg.show();
+				msg.toggleClass('swal2-validation-message');
+
+				setTimeout(() => msg.hide(), 4000);
+
+				//Toast.fire({
+				//	title:"Данні користувача #" + uniqtext + " успішно скопійовані до буферу обміну!",
+				//	icon:"success"
+				//});
+			}
+			//func for check isFileExist
+			function fileExists(url) {
+				if (url) {
+					var req = new XMLHttpRequest();
+					req.open('GET', url, false);
+					req.send();
+					if (req.status == 200)
+						return true
+					else
+						return false;
+				} else {
+					return false;
+				}
+			}
+			//func for work with files
+			function fileHandler(file, Swal, DivID) {
+
+				let fileInfo = file.files[0];
+				const path = '../images/' + fileInfo.name;
+
+				if (fileInfo.size > 10000000) {
+					$("#" + DivID + " .fileInput").val('');
+					return Swal.showValidationMessage("Файл " + fileInfo.name + " перевищує допустимий розмір (10МБ)");
+				}
+
+				if (!fileInfo.name.includes('.jpg') && !fileInfo.name.includes('.png')) {
+					$("#" + DivID + " .fileInput").val('');
+					return Swal.showValidationMessage("Файл повинен бути формату 'jpg' або 'png'");
+				}
+
+				if (!fileExists(path)) {
+					$("#" + DivID + " .fileInput").val('');
+					return Swal.showValidationMessage("Файл " + fileInfo.name + " не було знайдено!");
+				}
+
+				$("#" + DivID + " .link").val(fileInfo.name);
+				let image = $("#" + DivID + " .fleximage img");
+				image.attr("src", "../images/" + fileInfo.name);
+				if (DivID != firstID)
+					image.parent().toggleClass("withcontent");
 			}
 		});
 	}

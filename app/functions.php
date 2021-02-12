@@ -351,19 +351,6 @@ function isAuthorizated()
         return false;
 }
 
-function getUsersList($where)
-{
-    if (!$where)
-        $query = "SELECT * FROM `users` ORDER BY `u_ID` DESC";
-    else if ($where == 1)
-        $query = "SELECT * FROM `users` where u_roleID = 'Пользователь' ORDER BY `u_ID` DESC";
-    else if ($where == 2)
-        $query = "SELECT * FROM `users` where u_roleID = 'Администратор' ORDER BY `u_ID` DESC";
-
-    $db = get_connection();
-    return $db->query($query);
-}
-
 function getAboutUser()
 {
     $coockie = json_decode($_COOKIE['acc'], true);
@@ -422,7 +409,7 @@ function getCarByID(string $id)
 
 function getImagesAuto(string $id)
 {
-    $query = "SELECT * FROM `images` where img_a_ID = $id";
+    $query = "SELECT * FROM `images` where `img_a_ID` = $id";
 
     $db = get_connection();
     $stmt = $db->query($query);
@@ -522,6 +509,131 @@ function getVideos(string $id)
     return $db->query($query);
 }
 
+function getPhotos(string $id)
+{
+    $query = "SELECT * FROM `images` WHERE `img_a_ID` = $id Order by `isMain` desc";
+
+    $db = get_connection();
+    return $db->query($query);
+}
+
+function isExistElement($element, $name)
+{
+    $element == "video" ? $query = "SELECT * FROM `videos` WHERE `v_link` = $name" : $query = "SELECT * FROM `images` WHERE `img` = 'images/'$name";;
+
+    $db = get_connection();
+    $result = $db->query($query);
+
+    if ($result) {
+        if ($result->num_rows > 0)
+            return true;
+        else
+            return false;
+    } else
+        return false;
+}
+
+function UpdatePhotos()
+{
+    $countToEdit = $_POST['countToEdit'];
+    $countOfEdited = 0;
+
+    $db = get_connection();
+
+    if (isset($_POST['linksOld'])) {
+        $arrOld = $_POST['linksOld'];
+        $arrKeys = array_keys($arrOld);
+        for ($a = 0; $a < count($arrKeys); $a++) {
+
+            if ($arrOld[$arrKeys[$a]] == "") {
+                $query = "Delete from `images` where imgID = $arrKeys[$a]";
+                $db->query($query);
+
+                if (mysqli_affected_rows($db) == 1);
+                $countOfEdited++;
+            }
+            if (!isExistElement("photo", $arrOld[$arrKeys[$a]])) {
+                $query = "Update `images` set img = 'images/" . $arrOld[$arrKeys[$a]] . "' where imgID = $arrKeys[$a]";
+
+                $db->query($query);
+
+                if (mysqli_affected_rows($db) == 1);
+                $countOfEdited++;
+            } else
+                $countOfEdited++;
+        }
+    }
+
+    $carID = $_POST['carID'];
+    if (isset($_POST['linksNew'])) {
+        $arrNew = array_unique(array_values($_POST['linksNew']));
+        for ($a = 0; $a < count($arrNew); $a++) {
+
+            if (isExistElement("photo", $arrOld[$arrKeys[$a]])) {
+                $countOfEdited++;
+                continue;
+            }
+
+            $query = "INSERT into `images` (`img_a_ID`,`imgName`,`img`,`isMain`) values ('$carID', '$arrNew[$a]','images/$arrNew[$a]','False')";
+            $db->query($query);
+            if (mysqli_affected_rows($db) == 1);
+            $countOfEdited++;
+        }
+    }
+
+    if ($countOfEdited == $countToEdit)
+        return true;
+    else
+        return false;
+}
+
+function UpdateVideos()
+{
+    $countToEdit = $_POST['countToEdit'];
+    $countOfEdited = 0;
+
+    $db = get_connection();
+
+    if (isset($_POST['linksOld'])) {
+        $arrOld = $_POST['linksOld'];
+        $arrKeys = array_keys($arrOld);
+        for ($a = 0; $a < count($arrKeys); $a++) {
+            if ($arrOld[$arrKeys[$a]] == "") {
+                $query = "Delete from `videos` where link_ID = $arrKeys[$a]";
+                $db->query($query);
+
+                if (mysqli_affected_rows($db) == 1);
+                $countOfEdited++;
+            }
+            if (!isExistElement("video", $arrOld[$arrKeys[$a]])) {
+                $query = "Update `videos` set v_link = '" . $arrOld[$arrKeys[$a]] . "' where link_ID = $arrKeys[$a]";
+
+                $db->query($query);
+
+                if (mysqli_affected_rows($db) == 1);
+                $countOfEdited++;
+            } else
+                $countOfEdited++;
+        }
+    }
+
+    $carID = $_POST['carID'];
+    if (isset($_POST['linksNew'])) {
+        $arrNew = array_unique(array_values($_POST['linksNew']));
+        for ($a = 0; $a < count($arrNew); $a++) {
+            $query = "INSERT into `videos` (`auto_ID`,`v_link`) values ('$carID', '$arrNew[$a]')";
+            $db->query($query);
+            if (mysqli_affected_rows($db) == 1);
+            $countOfEdited++;
+        }
+    }
+
+    if ($countOfEdited == $countToEdit)
+        return true;
+    else
+        return false;
+}
+
 function getCarsList()
 {
     $query = "SELECT * FROM `auto` join images on img_a_ID=a_ID join models on a_model=m_id join marks on m_mark_ID=mark_ID where visible = 'Enabled' and isMain = 'True'";
@@ -567,6 +679,27 @@ function getStats()
 function generateRandomString($length = 15)
 {
     return substr(str_shuffle(str_repeat($x = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil($length / strlen($x)))), 1, $length);
+}
+
+function getUsersList()
+{
+    $query = "Select * from `users` where `u_ID` not in (Select u_ID from blacklist)";
+
+    $db = get_connection();
+    $result = $db->query($query);
+
+    $arr = array();
+    if ($result->num_rows > 0) {
+        $arr['result'] = true;
+        $arrSecond = array();
+        while ($row = $result->fetch_assoc()) {
+            $arrSecond[$row['u_ID']] = $row['u_ID']." - ( ".$row['u_name'].", ".$row['u_fname']." )";
+        }
+        $arr['ids'] = $arrSecond;
+    } else
+        $arr['result'] = false;
+
+    return $arr;
 }
 
 function getModersList()
@@ -652,6 +785,18 @@ function deleteUser(string $id, string $role)
         return "0";
 }
 
+function blockUser()
+{
+    $query = "INSERT into `blacklist` (`u_ID`,`d_DESC`) values ('".$_POST['uid']."', '".$_POST['desc']."')";
+
+    $db = get_connection();
+    $stmt = mysqli_query($db, $query);
+    if (mysqli_affected_rows($db) > 0)
+        return "1";
+    else
+        return "0";
+}
+
 function getAllTests($where)
 {
     $db = get_connection();
@@ -659,6 +804,7 @@ function getAllTests($where)
     $column = array("d_ID", "u_fname", "u_name", "car_ID", "mark", "m_model", "date", "status");
 
     $query = "SELECT * FROM testdrive JOIN users on `uid` = u_ID JOIN `auto` on car_ID = a_ID JOIN models on a_model = m_ID JOIN marks on m_mark_ID = mark_ID where $where ";
+
     if ($_POST["search"]["value"] != "") {
         $query .= '  OR (' . $where . ' and (u_name LIKE "%' . $_POST["search"]["value"] . '%"  OR u_fname LIKE "%' . $_POST["search"]["value"] . '%"  OR mark LIKE "%' . $_POST["search"]["value"] . '%" OR m_model LIKE "%' . $_POST["search"]["value"] . '%"  OR date LIKE "%' . $_POST["search"]["value"] . '%" )) ';
     }
@@ -684,7 +830,7 @@ function getAllTests($where)
 
     while ($row = $statement->fetch_assoc()) {
         $sub_array = array();
-        if ($where == "status IN ('Waiting','Success', 'Denied')") {
+        if ($where == "status IN ('Waiting','Success', 'Denied')" || $where == "status = 'Waiting'") {
             $sub_array[] = $row["d_ID"];
             $sub_array[] = $row['u_fname'];
             $sub_array[] = $row['u_name'];

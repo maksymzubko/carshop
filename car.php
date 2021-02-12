@@ -7,11 +7,9 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
         header("Location: ../cars.php");
         exit;
     } else {
-        if(isAuthorizated())
-
-        $images = getImagesAuto($_GET['id']);
-        $colors = getColors($result['a_year'], $result['a_model']);
-        $videos = getVideos($_GET['id']);
+            $images = getImagesAuto($_GET['id']);
+            $colors = getColors($result['a_year'], $result['a_model']);
+            $videos = getVideos($_GET['id']);
     }
 } 
 else {

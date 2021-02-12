@@ -15,14 +15,14 @@ echo '
             <div class="account-box">
                 <div class="dropdown ">
                     <button class="dropbtn">';
-                        echo '<label class="lab"> Admin </label>';
+                        echo '<label class="lab"> Адмін </label>';
                         echo '
                         <img src="../images/account.png" alt="" style="width:30px;height:30px" /> <i
                             class="fa fa-caret-down"></i>
                     </button>
                     <div class="dropdown-content acc">';
-                        echo '<a href="../index.php"><label class="acclog" id="acc"> Main page </label></a>
-                        <a class="logout"><label class="hr"> Logout </label></a>';
+                        echo '<a href="../index.php"><label class="acclog" id="acc"> Головна сайту </label></a>
+                        <a class="logout"><label class="hr"> Вийти </label></a>';
                         echo '
                     </div>
                 </div>

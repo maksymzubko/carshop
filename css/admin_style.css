@@ -1,10 +1,10 @@
 body{
-    font-family: 'Heebo';
+    font-family: 'Roboto';
     background-color: #f8f8f8;
 }
 
 a{
-    font-family: 'Heebo';
+    font-family: 'Roboto';
     font-size: 16px;
 }
 
@@ -19,8 +19,8 @@ background-color: black;
     margin: 0 auto;
 }
 @font-face {
-    font-family: 'Heebo';
-    src:url(/fonts/Heebo-Regular.ttf) format('truetype');
+    font-family: 'Roboto';
+    src:url(/fonts/Roboto-Regular.ttf) format('truetype');
 }
 .buttons-shown{
     margin-bottom: 15px;
@@ -134,10 +134,68 @@ background-color: black;
     display: block;
 }
 
+[data-tooltip]{
+    position: relative;
+}
+
+.notShow{
+    display: none;
+}
+
+.flex{
+    display: flex;
+}
+.flex:not(:first-child)
+{
+    margin: 10px 0;
+}
+
+.fleximage{
+    margin-left: auto;
+}
+
+.fleximage img{
+    border: 1px solid;
+    border-radius: 4px;
+}
+
+[data-tooltip]::after{
+    content: attr(data-tooltip);
+    position: absolute;
+    width: 100px;
+    left: 0; right: 0;
+    color:rgb(44, 21, 255);
+    pointer-events: none;
+    opacity: 0;
+    transition: 1s;
+}
+.withcontent:first-child::after{
+    content: '';
+}
+.withcontent::after{
+content: "X";
+position: absolute;
+margin-left: 4px;
+margin-top: -3px;
+cursor: pointer;
+}
+
+.withcontent:hover::after{
+    color: rgba(225, 78, 78, 0.7);
+    font-weight: bold;
+}
+
+[data-tooltip]:hover::after
+{
+    opacity: 1;
+    top:1em;
+}
 
 .copy{
 content: url(../images/icons/copy.svg);
-width: 35px;
+width: 35px; height: 35px;
+margin: auto;
+position: relative;
 }
 
 .copy:hover{
@@ -320,6 +378,38 @@ div#OR {
     padding-left: 52px;
 }
 
+.multiple-inputs-div {
+    display: block;
+}
+
+.swal2-confirm-message{
+    display: none;
+    align-items: center;
+    justify-content: center;
+    margin: 0 -2.7em;
+    padding: .625em;
+    overflow: hidden;
+    background: #98ffcc;
+    color: #666;
+    font-size: 1em;
+    font-weight: 300;
+}
+
+.swal2-confirm-message i {
+  margin: 0 .4em;
+  color: #57bd8a;
+  font-size: 1.4em;
+}
+
+.multiple-inputs-div .plus {
+    float: right;
+    font-size: 25px;
+    font-weight: bold;
+    border: 1px solid;
+    padding: 0px 6px;
+    margin-bottom: 10px;
+}
+
 @media(min-width:768px) {
     .sidebar {
         z-index: 1;
@@ -374,11 +464,11 @@ opacity: 0.35;
     background-color: #5cb85c;
 }
 
-.panel-green a {
+.panel-green .pointer {
     color: #5cb85c;
 }
 
-.panel-green a:hover {
+.panel-green .pointer:hover {
     color: #3d8b3d;
 }
 
@@ -392,11 +482,11 @@ opacity: 0.35;
     background-color: #d9534f;
 }
 
-.panel-red a {
+.panel-red .pointer {
     color: #d9534f;
 }
 
-.panel-red a:hover {
+.panel-red .pointer:hover {
     color: #b52b27;
 }
 
@@ -410,10 +500,10 @@ opacity: 0.35;
     background-color: #f0ad4e;
 }
 
-.panel-yellow a {
+.panel-yellow .pointer {
     color: #f0ad4e;
 }
 
-.panel-yellow a:hover {
+.panel-yellow .pointer:hover {
     color: #df8a13;
 }
