@@ -179,20 +179,25 @@ if (!empty($_POST)) {
     }
     function actionSixth()
     {
-        $output = updateUser($_POST['uid']);
-        if ($output == "0") {
-            http_response_code(500);
-        } else {
+        $output = makeAdmin($_POST['unique']);
+        if ($output['result'] == true) {
             http_response_code(200);
+            echo json_encode($output);
+        } else {
+            http_response_code(500);
         }
     }
     function actionSeventh()
     {
-        $output = deleteUser($_POST['uid']);
+        $output = deleteUser($_POST['unique'], "admin");
         if ($output == "0") {
-            http_response_code(500);
+            sendResponse([
+                'success'=>false
+            ]);
         } else {
-            http_response_code(200);
+            sendResponse([
+                'success'=>true
+            ]);
         }
     }
     function actionEighth()
@@ -307,6 +312,33 @@ if (!empty($_POST)) {
         exit();
     }
 
+    function actionGetListOfModers()
+    {
+        $res = getModersList();
+        if($res['result']==true)
+        sendResponse([
+            'success'=>true,
+            'data'=>json_encode($res)
+        ]);
+        else
+        sendResponse([
+            'success'=>false
+        ]);
+    }
+
+    function actionGetAdminRole()
+    {
+        $res = getAdminRole();
+        if($res == 1)
+        sendResponse([
+            'success'=>true
+        ]);
+        else
+        sendResponse([
+            'success'=>false
+        ]);
+    }
+
     function actionWithTestDrive()
     {
         if (isAuthorizated()) {
@@ -333,6 +365,12 @@ if (!empty($_POST)) {
         //switch funtions//
         switch(isset($_POST))
         {
+            case isset($_POST["listOfModers"]):
+                actionGetListOfModers();
+                break;
+            case isset($_POST["adminRole"]):
+                actionGetAdminRole();
+                break;
             case isset($_POST["pass"]): 
                 actionLogin();
                 break;

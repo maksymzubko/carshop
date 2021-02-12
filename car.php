@@ -8,7 +8,6 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
         exit;
     } else {
         if(isAuthorizated())
-        addLookCount();
 
         $images = getImagesAuto($_GET['id']);
         $colors = getColors($result['a_year'], $result['a_model']);

@@ -63,7 +63,7 @@ function getCoockie(string $entity, string $role)
     $admin = isset($_COOKIE['accAdm']) ? json_decode($_COOKIE['accAdm'], true) : null;
     $user = isset($_COOKIE['acc']) ? json_decode($_COOKIE['acc'], true) : null;
 
-    return ($role=="user") ? ($entity == "name" ?  $user['name'] : decrypt($user['id'])) : decrypt($admin['id']);
+    return ($role == "user") ? ($entity == "name" ?  $user['name'] : decrypt($user['id'])) : decrypt($admin['id']);
 }
 
 //filter
@@ -185,12 +185,11 @@ function login(array $data)
 
     $db = get_connection();
     $stmt = $db->query($query);
-    $row = $stmt->fetch_assoc();
     if ($stmt->num_rows > 0) {
+        $row = $stmt->fetch_assoc();
         if (isset($_POST['role']) && $row) {
             $arr = array("id" => encrypt(($row['adm_ID'])), "role" => $row['adm_ROLE']);
-                setcookie('accAdm', json_encode($arr), 0, "/");
-            }
+            setcookie('accAdm', json_encode($arr), 0, "/");
         } else {
             $arr = array("id" => encrypt($row['u_ID']), "name" => $row['u_name'] . ' ' . $row['u_fname']);
             if (isset($data['remember'])) {
@@ -199,6 +198,7 @@ function login(array $data)
                 setcookie('acc', json_encode($arr), 0, "/");
             }
         }
+    }
 
     return $stmt;
 }
@@ -220,7 +220,7 @@ function validate(array $request, string $role)
 
         $result = $db->query($query);
 
-        if ($result)
+        if ($result->num_rows > 0)
             return $result;
         else
             return false;
@@ -234,7 +234,21 @@ function validate(array $request, string $role)
 
         $result = $db->query($query);
 
-        if ($result)
+        if ($result->num_rows > 0)
+            return $result;
+        else
+            return false;
+    }
+
+    function isLoginAlreadyExists(string $login)
+    {
+        $query = "SELECT * FROM admins WHERE adm_LOG = '$login'";
+
+        $db = get_connection();
+
+        $result = $db->query($query);
+
+        if ($result->num_rows > 0)
             return $result;
         else
             return false;
@@ -244,9 +258,17 @@ function validate(array $request, string $role)
         if (isEmailAlreadyExists($request['email']))
             $errors = 'Email уже используется!';
 
-    if ($role == "admin")
-        if (isUniqueNumber($request['unique']))
-            $errors = 'Цей номер вже зареєстровано!';
+    if ($role == "admin") {
+        if (isset($request['unique'])) {
+            if (isUniqueNumber($request['unique']))
+                $errors = 'Exception1';
+        }
+
+        if (isset($request['login'])) {
+            if (isLoginAlreadyExists($request['login']))
+                $errors = 'Exception2';
+        }
+    }
 
     return $errors;
 }
@@ -449,7 +471,7 @@ function getTestCar($car)
 function addToFavourite(array $data)
 {
     $car = $data['car_ID'];
-    $user = getCoockie("id","user");
+    $user = getCoockie("id", "user");
 
     $query = "INSERT INTO `favourite` (`client_ID`, `auto_ID`) VALUES('$user','$car')";
     $db = get_connection();
@@ -460,7 +482,7 @@ function addToFavourite(array $data)
 function removeFromFavourite(array $data)
 {
     $car = $data['car_ID'];
-    $user = getCoockie("id","user");
+    $user = getCoockie("id", "user");
 
     $query = "Delete from `favourite` where `auto_ID` = $car and `client_ID` = $user";
     $db = get_connection();
@@ -471,7 +493,7 @@ function removeFromFavourite(array $data)
 function addToTestdrive(string $id, string $date)
 {
     if (validateTest($id)) {
-        $user = getCoockie("id","user");
+        $user = getCoockie("id", "user");
 
         $query = "INSERT INTO `testdrive` (`uid`, `car_ID`,`status`,`date`) VALUES($user,$id, 'Waiting', '$date')";
         $db = get_connection();
@@ -484,7 +506,7 @@ function addToTestdrive(string $id, string $date)
 
 function favouriteList()
 {
-    $user = getCoockie("id","user");
+    $user = getCoockie("id", "user");
 
     $query = "SELECT * FROM `favourite` join images on img_a_ID = auto_ID WHERE `client_ID` = $user and `isMain` = 'True'";
 
@@ -511,7 +533,7 @@ function getCarsList()
 function IsCarFavourite($car_ID)
 {
     if (isAuthorizated()) {
-        $user = getCoockie("id","user");
+        $user = getCoockie("id", "user");
 
         $query = "Select * from `favourite` where `auto_ID` = $car_ID and `client_ID` = $user";
         $db = get_connection();
@@ -542,21 +564,85 @@ function getStats()
         return false;
 }
 
-function makeAdmin(array $info)
+function generateRandomString($length = 15)
 {
-    $query = 'INSERT INTO `admins`(`adm_UNI`, `adm_LOG`, `adm_PASS`, `adm_ROLE`) VALUES ($info["unique"], $info["login"], $info["password"], "Moder")';
+    return substr(str_shuffle(str_repeat($x = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil($length / strlen($x)))), 1, $length);
+}
+
+function getModersList()
+{
+    $query = "Select `adm_UNI` from `admins` where adm_ROLE = 'Moder'";
+
+    $db = get_connection();
+    $result = $db->query($query);
+
+    $arr = array();
+    if ($result->num_rows > 0) {
+        $arr['result'] = true;
+        $arrSecond = array();
+        while ($row = $result->fetch_assoc()) {
+            $arrSecond[$row['adm_UNI']] = $row['adm_UNI'];
+        }
+        $arr['uniq'] = $arrSecond;
+    } else
+        $arr['result'] = false;
+
+    return $arr;
+}
+
+function getAdminRole()
+{
+    $user = getCoockie("id", "admin");
+
+    $query = "Select `adm_ROLE` from `admins` where adm_ID = $user";
+
+    $db = get_connection();
+    $result = $db->query($query);
+
+    $row = $result->fetch_assoc();
+    if ($row['adm_ROLE'] == "Moder")
+        return 0;
+    else
+        return 1;
+}
+
+function makeAdmin(string $uniq)
+{
+    $error = validate($_POST, "admin");
+    if ($error == "Exception1") {
+        return array(
+            "result" => false
+        );
+    }
+    $login = generateRandomString();
+    $pass = generateRandomString();
+    $loginIsExists = false;
+
+    while ($loginIsExists == true) {
+        $error = validate(array("login" => $login), "admin");
+        $error == "Exception2" ? $loginIsExists = true : $loginIsExists = false;
+    }
+
+    $query = "INSERT INTO `admins`(`adm_UNI`, `adm_LOG`, `adm_PASS`, `adm_ROLE`) VALUES ('$uniq', '$login', '$pass', 'Moder')";
 
     $db = get_connection();
     $stmt = mysqli_query($db, $query);
     if (mysqli_affected_rows($db) > 0)
-        return "1";
+        return array(
+            "uniq" => $uniq,
+            "login" => $login,
+            "pass" => $pass,
+            "result" => true
+        );
     else
-        return "0";
+        return array(
+            "result" => false
+        );
 }
 
-function deleteUser(string $id,string $role)
+function deleteUser(string $id, string $role)
 {
-    $query = ($role == "user") ? "Delete from users where u_ID = $id" : "Delete from admins where adm_ID = $id";
+    $query = ($role == "user") ? "Delete from users where u_ID = $id" : "Delete from admins where adm_UNI = $id";
 
     $db = get_connection();
     $stmt = mysqli_query($db, $query);
@@ -597,14 +683,13 @@ function getAllTests($where)
     $data = array();
 
     while ($row = $statement->fetch_assoc()) {
-        $sub_array = array();     
-        if($where == "status IN ('Waiting','Success', 'Denied')")
-        {
+        $sub_array = array();
+        if ($where == "status IN ('Waiting','Success', 'Denied')") {
             $sub_array[] = $row["d_ID"];
             $sub_array[] = $row['u_fname'];
             $sub_array[] = $row['u_name'];
             $sub_array[] = $row['car_ID'];
-        }        
+        }
         $sub_array[] = $row['mark'];
         $sub_array[] = $row['m_model'];
         $sub_array[] = $row['date'];

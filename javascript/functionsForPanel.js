@@ -204,25 +204,202 @@ $(document).ready(function () {
 	}
 	else if (window.location.href.includes("panel.php")) {
 		$(document).ready(function () {
-			$(".expmod").click(function () {
 
-				Swal.fire({
-					title: 'Enter your IP address',
-					input: 'text',
-					inputLabel: 'Your IP address',
-					inputValue: inputValue,
-					showCancelButton: true,
-					inputValidator: (value) => {
-						if (!value) {
-							return 'You need to write something!'
+			function checkAdminRole() {
+				$.ajax({
+					type: 'POST',
+					url: '../../app/eventsHandler.php',
+					data: {
+						'adminRole': "check"
+					},
+					error: function (xhr) {
+						$('.addNewAdmin').removeClass('panel-primary').addClass('panel-disabled');
+						$('.removeAdmin').removeClass('panel-primary').addClass('panel-disabled');
+					}
+				})
+			}
+			checkAdminRole();
+
+			let uniqtext, logintext, passtext;
+			//actionAddNewModerator
+			$(".expmod").click(function () {
+				let isExist = false;
+				function swaladd(str) {
+					Swal.fire({
+						icon: "question",
+						title: 'Реєстрація',
+						html: `<input type="text" id="unique" class="swal2-input" placeholder="Унікальний номер" maxlength = 6>`,
+						confirmButtonText: 'Зареєструвати нового модера',
+						focusConfirm: false,
+						showCancelButton: true,
+						cancelButtonText: "Закрити",
+						preConfirm: () => {
+							const unique = Swal.getPopup().querySelector('#unique').value
+							if (!unique) {
+								Swal.showValidationMessage(`Будь-ласка уведіть унікальний номер юзера`)
+							}
+							else
+								if (unique.length != 6) {
+									Swal.showValidationMessage(`Унікальний номер = 6 чисел`)
+								}
+								else
+									if (unique) {
+										return new Promise(function (resolve) {
+											$.ajax({
+												type: 'POST',
+												url: '../../app/eventsHandler.php',
+												data: {
+													'action': "updateU",
+													'unique': unique
+												},
+												success: function (xhr) {
+													uniqtext = xhr.uniq; logintext = xhr.login; passtext = xhr.pass;
+													Swal.fire({
+														icon: "info",
+														title: 'Дані користувача',
+														html: "<div class='usermain'><div class='userinfo'><label>Ун.номер: <input id='uniq' readonly=true value =" + uniqtext + "></input></label><label>Логін: <input id='login' readonly=true value =" + logintext + "></input></label><label>Пароль: <input id='pass' readonly=true value =" + passtext + "></input></label></div><div class='copy'></div></div>",
+														confirmButtonText: 'Закрити',
+														allowOutsideClick: false,
+														didOpen: () => {
+															$('.copy').click(function () {
+																let text = "";
+																text += uniqtext + ":";
+																text += logintext + ":";
+																text += passtext + ";";
+																copyUserData(text);
+															})
+														}
+													});
+												},
+												error: function (xhr) {
+													Swal.fire({
+														icon: "error",
+														title: 'Помилка',
+														text: 'Такий унікальний номер вже зареєcтровано! Бажаєте спробувати ще раз?',
+														showCancelButton: true,
+														confirmButtonText: 'Так',
+														cancelButtonText: 'Ні',
+														allowOutsideClick: false
+													}).then((result) => { if (result.isConfirmed) { swaladd(isExist); } })
+												}
+											})
+										})
+									}
+							return { unique: unique }
+						},
+						allowOutsideClick: false
+					}).then((result) => {
+						if (result.isConfirmed) {
+
 						}
+					})
+
+				}
+				swaladd(isExist);
+			})
+			//actionRemoveModerator
+			$('.remadm').click(function () {
+
+				var numbers, numbersObject;
+				$.ajax({
+					type: 'POST',
+					url: '../../app/eventsHandler.php',
+					data: {
+						'listOfModers': "get"
+					},
+					success: function (xhr) {
+						let temp = JSON.parse(xhr.data);
+						numbers = temp.uniq;
+						swaladd();
+					},
+					error: function () {
+						Swal.fire(
+							"Дивно",
+							"Жодного модератора не знайдено в базі!",
+							"error"
+						);
 					}
 				})
 
-				if (ipAddress) {
-					Swal.fire(`Your IP address is ${ipAddress}`)
+				function swaladd(str) {
+					Swal.fire({
+						icon: "question",
+						title: 'Видалити модератора',
+						input: 'select',
+						inputOptions: {
+							'Номера': numbers
+
+						},
+						inputPlaceholder: 'Виберіть модератора',
+						confirmButtonText: 'Видалити',
+						focusConfirm: false,
+						showCancelButton: true,
+						cancelButtonText: "Закрити",
+						allowOutsideClick: false,
+						inputValidator: (value) => {
+							return new Promise((resolve) => {
+								if (!value) {
+									resolve('Виберіть модератора');
+								}
+								else { resolve(); }
+							})
+						}
+					}).then(function (result) {
+						if (result.isConfirmed) {
+							Swal.fire({
+								icon: "question",
+								title: 'Ви впевнені?',
+								confirmButtonText: 'Так',
+								focusConfirm: false,
+								showCancelButton: true,
+								cancelButtonText: "Назад"
+							}).then(function (result) {
+								if (result.isConfirmed) {
+									$.ajax({
+										type: 'POST',
+										url: '../../app/eventsHandler.php',
+										data: {
+											'action': "deleteAdm",
+											'unique': result.value
+										},
+										success: function (xhr) {
+											Swal.fire(
+												"Успіх",
+												"Модератора #" + result.value + " було видалено!",
+												"success"
+											);
+										},
+										error: function () {
+											//empty
+										}
+									})
+								}
+								else {
+									swaladd();
+								}
+							})
+						}
+					})
 				}
 			})
+			//copy to clipboard
+			function copyUserData(text) {
+				const el = document.createElement('input');
+				el.value = text;
+				el.setAttribute('readonly', '');
+				el.style.position = 'absolute';
+				el.style.left = '-9999px';
+				document.body.appendChild(el);
+				el.select();
+				document.execCommand('copy');
+				document.body.removeChild(el);
+
+				Swal.fire(
+					"Успіх",
+					"Данні користувача #" + uniqtext + " успішно скопійовані до буферу обміну!",
+					"success"
+				);
+			}
 		});
 	}
 

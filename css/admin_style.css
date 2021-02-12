@@ -108,6 +108,46 @@ background-color: black;
     margin: 0;
 }
 
+.pointer {
+    cursor: pointer;
+    font-size: 15px;
+    color: #337ab7;
+}
+
+.usermain{
+    display: flex;
+}
+
+.userinfo {
+    text-align: left;
+    float: left;
+}
+
+.userinfo label{
+    margin: 15px 0;
+    font-size: 25px;
+}
+
+.userinfo label>input
+{
+    margin: 0;
+    display: block;
+}
+
+
+.copy{
+content: url(../images/icons/copy.svg);
+width: 35px;
+}
+
+.copy:hover{
+    cursor: pointer;
+}
+
+.pointer:hover{
+    color: cadetblue;
+}
+
 .navbar-top-links li {
     display: inline-block;
 }
@@ -296,6 +336,28 @@ div#OR {
 
 .panel {
     margin-right: 5px;
+}
+
+.panel-disabled {
+    pointer-events: none;
+    cursor: default;
+    border-color: rgba(0, 0, 0, 0.3);
+}
+.panel-disabled .panel-heading, .panel-disabled .panel-footer {
+opacity: 0.35;
+}
+.panel-disabled .panel-heading{
+    background-color: #337ab7;
+    color: white;
+}
+.panel-disabled::after{
+    font: 23px normal bold;
+    text-shadow: -1px 1px 4px rgb(255, 255, 255);
+    color: rgb(44, 21, 255);
+    top: 35%;
+    left: 10%;
+    position: absolute;
+    content: 'Немає доступу!';
 }
 
 .huge {

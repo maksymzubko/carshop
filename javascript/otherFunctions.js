@@ -1,11 +1,35 @@
 $(document).ready(function () {
 
+	const Toast = Swal.mixin({
+		toast: true,
+		position: 'top-end',
+		showConfirmButton: false,
+		timer: 4000,
+		timerProgressBar: true,
+		didOpen: (toast) => {
+			toast.addEventListener('click', Swal.close)
+		  }
+	});
+
+	const Toast2 = Swal.mixin({
+		toast: true,
+		position: 'center',
+		showConfirmButton: false,
+		timer: 3000,
+		timerProgressBar: true,
+		didOpen: (toast) => {
+			toast.addEventListener('click', Swal.close)
+		  }
+	});
+
+	result();
+
 	let fav = $('.favourite');
 	let but = $('.lookcar');
 	let t1 = $('#t1'); let t2 = $('#t2'); let t3 = $('#t3');
 	let input = $('input:radio[name="radio"]');
 	let priceTest = 0;
-	let resultAsync = result();
+	let resultAsync;
 	let block;
 	let blockText;
 	let blockDates = [];
@@ -27,14 +51,14 @@ $(document).ready(function () {
 						blockDates.push(element.split(':')[0]);
 					});
 					block = xhr.block;
-					if(block == true)
-					blockText = xhr.eq;
-					
-				}engWords = { "errorMessage": "Error!", "successMessage": "Success!", "questionMessage": "Are you sure?", "btnCancel": "Cancel", "qu1": "It will cost '" + priceTest + "'grn (pay on arrival), do you agree?", "qu2": "Choose date" };
+					if (block == true)
+						blockText = xhr.eq;
+
+				} engWords = { "errorMessage": "Error!", "successMessage": "Success!", "questionMessage": "Are you sure?", "btnCancel": "Cancel", "qu1": "It will cost '" + priceTest + "'grn (pay on arrival), do you agree?", "qu2": "Choose date" };
 				ruWords = { "errorMessage": "Ошибка!", "successMessage": "Успех!", "questionMessage": "Вы уверены?", "btnCancel": "Отмена", "qu1": "Это будет стоить '" + priceTest + "'грн (оплата по приезду), вы согласны?", "qu2": "Выберите дату" };
 				uaWords = { "errorMessage": "Помилка!", "successMessage": "Успіх!", "questionMessage": "Ви впевнені?", "btnCancel": "Відміна", "qu1": "Це буде коштувати '" + priceTest + "'грн (оплата по приїзду), ви згодні?", "qu2": "Виберіть дату" };
-				
-			}, error:function (xhr) {
+
+			}, error: function (xhr) {
 				engWords = { "errorMessage": "Error!", "successMessage": "Success!", "questionMessage": "Are you sure?", "btnCancel": "Cancel", "qu1": "It will cost '" + priceTest + "'grn (pay on arrival), do you agree?", "qu2": "Choose date" };
 				ruWords = { "errorMessage": "Ошибка!", "successMessage": "Успех!", "questionMessage": "Вы уверены?", "btnCancel": "Отмена", "qu1": "Это будет стоить '" + priceTest + "'грн (оплата по приезду), вы согласны?", "qu2": "Выберите дату" };
 				uaWords = { "errorMessage": "Помилка!", "successMessage": "Успіх!", "questionMessage": "Ви впевнені?", "btnCancel": "Відміна", "qu1": "Це буде коштувати '" + priceTest + "'грн (оплата по приїзду), ви згодні?", "qu2": "Виберіть дату" };
@@ -206,11 +230,10 @@ $(document).ready(function () {
 				'car_ID': id_car,
 				'need': need
 			}, success: function (xhr) {
-				Swal.fire(
-					w("succesMessage"),
-					xhr.successmsg,
-					"success",
-				);
+				Toast.fire({
+					icon:"success",
+					title:xhr.successmsg
+			});
 				if (need == 0)
 					elem.removeClass().addClass('favourite is');
 				else
@@ -221,11 +244,10 @@ $(document).ready(function () {
 
 			}, error: function (xhr, status, error) {
 				let d = JSON.parse(xhr.responseText);
-				Swal.fire(
-					w("errorMessage"),
-					d.error,
-					"error",
-				);
+				Toast.fire({
+					icon:"error",
+					title:d.error				
+				});
 			}
 		});
 	}
@@ -362,20 +384,18 @@ $(document).ready(function () {
 			contentType: false,
 			processData: false,
 			success: function (response) {
-				Swal.fire(
-					w("succesMessage"),
-					xhr.successmsg,
-					"success",
-				);
+				Toast2.fire({
+					title:xhr.successmsg,
+					icon:"success"
+				});
 				location.href = window.location.origin + "/account.php";
 			},
 			error: function (xhr, status, error) {
 				let d = JSON.parse(xhr.responseText);
-				Swal.fire(
-					w("errorMessage"),
-					d.error,
-					"error",
-				);
+				Toast2.fire({
+					title:d.error,
+					icon:"error"
+				});
 			}
 		})
 	});
@@ -390,7 +410,7 @@ $(document).ready(function () {
 			contentType: false,
 			processData: false,
 			success: function (xhr) {
-				Swal.fire(
+				Toast2.fire(
 					w("succesMessage"),
 					xhr.successmsg,
 					"success",
@@ -399,11 +419,10 @@ $(document).ready(function () {
 			},
 			error: function (xhr, status, error) {
 				let d = JSON.parse(xhr.responseText);
-				Swal.fire(
-					w("errorMessage"),
-					d.error,
-					"error",
-				);
+				Toast2.fire({
+					title:d.error,
+					icon:"error"
+				});
 			}
 		})
 	});
@@ -411,7 +430,7 @@ $(document).ready(function () {
 		$.ajax({
 			type: 'POST',
 			url: 'app/eventsHandler.php',
-			data: { 'logout': "need", "role":"user"},
+			data: { 'logout': "need", "role": "user" },
 			success: function (xhr) {
 				window.location.href = location.href.replace('#', "");
 			}
@@ -460,8 +479,6 @@ $(document).ready(function () {
 	});
 
 	if (getCookie('acc') != undefined) {
-		if (resultAsync) 
-		{
 			var url = lang();
 			if (window.location.pathname == "/testdrives.php") {
 				$('#data').DataTable({
@@ -486,7 +503,6 @@ $(document).ready(function () {
 					}
 				});
 			};
-		}
 	};
 });
 setTimeout(function () {
@@ -539,9 +555,9 @@ function lang() {
 	if (getCookie('lang') == 'en')
 		return "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/English.json";
 	else if (getCookie('lang') == 'ukr')
-	return"//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json";
+		return "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Ukranian.json";
 	else
-	return "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json";
+		return "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json";
 };
 function get_filter(class_name) {
 	var filter = [];
@@ -578,29 +594,30 @@ function sameDivs() {
 	setDiv(min);
 }
 function result() {
-	if(location.href.includes("login.php"))
-	{
+	if (location.href.includes("login.php")) {
 
 	}
 	else
-	$.ajax({
-		type: 'POST',
-		url: 'app/eventsHandler.php',
-		data: {
-			'checkAccount': "check",
-			'role': "user"
-		}, success: function (res) {
-			return true;
-		}, error: function (xhr, status, error) {
-			let d = JSON.parse(xhr.responseText);
-			Swal.fire(
-				w("errorMessage"),
-				d.error,
-				"error",
-			);
-			location.href = window.location.origin + "/login.php";
-			return false;
-		}
-	});
+	if(getCookie('acc') != undefined)
+		$.ajax({
+			type: 'POST',
+			url: 'app/eventsHandler.php',
+			data: {
+				'checkAccount': "check",
+				'role': "user"
+			}, success: function (res) {
+				return true;
+				resultAsync = true;
+			}, error: function (xhr, status, error) {
+				let d = JSON.parse(xhr.responseText);
+				Swal.fire(
+					w("errorMessage"),
+					d.error,
+					"error",
+				);
+				location.href = window.location.origin + "/login.php";
+				return false;
+			}
+		});
 };
 

@@ -145,7 +145,7 @@
                 </div>
                 <div class="row">
                     <div class="col-lg-2 col-md-3 col-xs-6">
-                        <div class="panel panel-primary">
+                        <div class="panel panel-primary addNewAdmin">
                             <div class="panel-heading">
                                 <div class="row">
                                     <div class="col-xs-3">
@@ -153,18 +153,18 @@
                                     </div>
                                 </div>
                             </div>
-                            <a href="" class="expmod">
+                            <div class="expmod pointer">
                                 <div class="panel-footer">
-                                    <span class="pull-left">Add new Admin</span>
+                                    <span class="pull-left">Додати нового модератора</span>
                                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
 
                                     <div class="clearfix"></div>
                                 </div>
-                            </a>
+                            </div>
                         </div>
                     </div>
                     <div class="col-lg-2 col-md-3 col-xs-6">
-                        <div class="panel panel-primary">
+                        <div class="panel panel-primary removeAdmin">
                             <div class="panel-heading">
                                 <div class="row">
                                     <div class="col-xs-3">
@@ -172,14 +172,14 @@
                                     </div>
                                 </div>
                             </div>
-                            <a href="" class="remadm">
+                            <div class="remadm pointer">
                                 <div class="panel-footer">
-                                    <span class="pull-left">Remove Admin</span>
+                                    <span class="pull-left">Видалити модератора</span>
                                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
 
                                     <div class="clearfix"></div>
                                 </div>
-                            </a>
+                            </div>
                         </div>
                     </div>
                     <div class="col-lg-2 col-md-3 col-xs-6">
