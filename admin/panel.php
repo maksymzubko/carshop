@@ -240,6 +240,24 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-lg-2 col-md-3 col-xs-6">
+                        <div class="panel panel-yellow">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-ban fa-5x"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="newtestdrive pointer">
+                                <div class="panel-footer">
+                                    <span class="pull-left">Оформлення нового тест-драйву</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

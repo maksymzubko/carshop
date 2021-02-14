@@ -43,47 +43,47 @@ if (isset($_COOKIE['acc'])) {
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="inputEmail"><?php echo $register['email'] ?></label>
-                        <input type="email" class="form-control" id="inputEmail" placeholder="<?php echo $register['email'] ?>" name="email" required>
+                        <input type="email" class="form-control" autocomplete="OFF" id="inputEmail" placeholder="<?php echo $register['email'] ?>" name="email" required>
                         <div class="form-control-feedback"></div>
                     </div>
                     <div class="form-group col-md-6">
                         <label for="inputPhone"><?php echo $register['phone'] ?></label>
-                        <input type="tel" class="form-control phone" id="phone" placeholder="<?php echo $register['phone'] ?>" name="phone" required>
+                        <input type="tel" value="+380" maxlength="13" autocomplete="OFF" class="form-control phone" id="phone" placeholder="<?php echo $register['phone'] ?>" name="phone" required>
                         <div class="form-control-feedback"></div>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="inputName"><?php echo $register['name'] ?></label>
-                        <input type="text" class="form-control" id="inputName" placeholder="<?php echo $register['name'] ?>" name="name" required>
+                        <input type="text" class="form-control" autocomplete="OFF" id="inputName" placeholder="<?php echo $register['name'] ?>" name="name" required>
                         <div class="form-control-feedback"></div>
                     </div>
                     <div class="form-group col-md-6">
                         <label><?php echo $register['pass'] ?></label>
-                        <input type="password" class="form-control" id="inputPassword1" placeholder="<?php echo $register['pass'] ?>" name=password required>
+                        <input type="password" class="form-control" autocomplete="OFF" id="inputPassword1" placeholder="<?php echo $register['pass'] ?>" name=password required>
                         <div class="form-control-feedback"></div>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="inputSecondName"><?php echo $register['sur'] ?></label>
-                        <input type="text" class="form-control" id="inputSecondName" placeholder="<?php echo $register['sur'] ?>" name="secondname">
+                        <input type="text" class="form-control" autocomplete="OFF" id="inputSecondName" placeholder="<?php echo $register['sur'] ?>" name="secondname">
                         <div class="form-control-feedback"></div>
                     </div>
                     <div class="form-group col-md-6">
                         <label for="inputPassword4"><?php echo $register['apass'] ?></label>
-                        <input type="password" class="form-control" id="inputPassword2" placeholder="<?php echo $register['apass'] ?>" required name=password2>
+                        <input type="password" class="form-control" autocomplete="OFF" id="inputPassword2" placeholder="<?php echo $register['apass'] ?>" required name=password2>
                         <div class="form-control-feedback"></div>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" id="inlineradio1" name="radi1" value="Male" checked>
+                        <input class="form-check-input" type="radio"  autocomplete="OFF" id="inlineradio1" name="radi1" value="Male" checked>
                         <label class="form-check-label"><?php echo $register['m1'] ?></label>
                         <div class="form-control-feedback"></div>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" id="inlineradio2" name="radi1" value="Female">
+                        <input class="form-check-input" type="radio" autocomplete="OFF" id="inlineradio2" name="radi1" value="Female">
                         <label class="form-check-label"><?php echo $register['m2'] ?></label>
                         <div class="form-control-feedback"></div>
                     </div>

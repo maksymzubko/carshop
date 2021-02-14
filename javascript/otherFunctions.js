@@ -351,7 +351,25 @@ $(document).ready(function () {
 				})
 		}
 	});
-	$('.phone').mask('+380 (00) 000 0000', { placeholder: "+___ (__) ___ ____" });
+	function phone(elem) {
+		$(elem).bind('keydown', function (e) {
+			if (e.keyCode == 8) {
+				let start = $(this).prop('selectionStart');
+				let end = $(this).prop('selectionEnd');
+				if ($(this).val().length == 4)
+					e.preventDefault();
+				else if (start != end)
+					e.preventDefault();
+				else
+					return;
+			}
+			else if ((e.keyCode >= 48 && e.keyCode <= 57) || (e.keyCode >= 96 && e.keyCode <= 105)) {
+				return;
+			}
+			else e.preventDefault();
+		})
+	}
+	phone($('.phone'));
 	$('.lan').click(function (e) {
 		if (window.location.origin + window.location.pathname == "http://carshop.loft/car.php") {
 			let link = location.href;
@@ -374,30 +392,30 @@ $(document).ready(function () {
 			location.href = window.location.origin + window.location.pathname + "?lang=" + e.target.id;
 	});
 	$('#register').submit(function (e) {
-		var data = new FormData(this);
-		e.preventDefault();
-		$.ajax({
-			type: 'POST',
-			url: 'app/eventsHandler.php',
-			data: data,
-			cache: false,
-			contentType: false,
-			processData: false,
-			success: function (response) {
-				Toast2.fire({
-					title:xhr.successmsg,
-					icon:"success"
-				});
-				location.href = window.location.origin + "/account.php";
-			},
-			error: function (xhr, status, error) {
-				let d = JSON.parse(xhr.responseText);
-				Toast2.fire({
-					title:d.error,
-					icon:"error"
-				});
-			}
-		})
+			var data = new FormData(this);
+			e.preventDefault();
+			$.ajax({
+				type: 'POST',
+				url: 'app/eventsHandler.php',
+				data: data,
+				cache: false,
+				contentType: false,
+				processData: false,
+				success: function (xhr) {
+					Toast2.fire({
+						title:xhr.successmsg,
+						icon:"success"
+					});
+					location.href = window.location.origin + "/account.php";
+				},
+				error: function (xhr, status, error) {
+					let d = JSON.parse(xhr.responseText);
+					Toast2.fire({
+						title:d.error,
+						icon:"error"
+					});
+				}
+			})
 	});
 	$('#login').submit(function (e) {
 		var data = new FormData(this);

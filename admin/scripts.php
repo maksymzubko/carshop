@@ -9,5 +9,7 @@
 <script type="text/javascript" src="../javascript/metisMenu.min.js"></script>
 <script type="text/javascript" src="../javascript/jquery.mask.js"></script>
 <script type="text/javascript" src="../javascript/functionsForPanel.js"></script>
+<script type="text/javascript" src="../javascript/jquery.mask.js"></script>
+<script type="text/javascript" src="../javascript/bootstrap-datetimepicker.js"></script>
 <script src="../javascript/sweetalert2.min.js"></script>
 ' ?>

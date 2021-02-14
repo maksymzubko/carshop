@@ -349,6 +349,10 @@ div#OR {
     border-bottom: 1px solid #e7e7e7;
 }
 
+.activeInput{
+    border: 2px solid red;
+}
+
 .sidebar ul li a.active {
     background-color: black;
 }
@@ -380,6 +384,14 @@ div#OR {
 
 .multiple-inputs-div {
     display: block;
+}
+
+input[type="tel"]{
+    -moz-user-select: -moz-none;
+    -o-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
 }
 
 .swal2-confirm-message{
@@ -480,6 +492,20 @@ opacity: 0.35;
     border-color: #d9534f;
     color: #fff;
     background-color: #d9534f;
+}
+
+.newUser{
+    width: 60%;
+    margin-right: 20px;
+}
+.selectUser{
+    width: 40%;
+    border-left: 3px inset #77777717;
+    margin-left: 20px;
+}
+
+.selectUser .swal2-select{
+    width: 80%;
 }
 
 .panel-red .pointer {

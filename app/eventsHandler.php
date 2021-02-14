@@ -211,6 +211,25 @@ if (!empty($_POST)) {
             ]);
         }
     }
+
+    function actionGetTestsDrive(){
+        $output = getTestCar($_POST['car_ID']);
+        if($output["block"])
+        {
+            sendResponse([
+                'success'=>false,
+                'error'=>'Цей юзер вже замовив тест-драйв цього авто!'
+            ]);
+        }
+        else
+        {
+            sendResponse([
+                'success'=>true,
+                'data'=>$output
+            ]);
+        }
+    }
+
     function actionNinth()
     {
         $output = getUsers();
@@ -463,19 +482,64 @@ if (!empty($_POST)) {
     function actionUpdateVideos()
     {
         $result = UpdateVideos();
-
-        if ($result)
+        $data = $result["data"] == "" ? "null" : $result["data"];
+        if ($result["success"]==true)
             sendResponse([
-                'success' => true
+                'success' => true,
+                'data'=>$data
             ]);
         else
             sendResponse([
-                'success' => false
+                'success' => false,
+                'data'=>$data
             ]);
+    }
+
+    function actionCreateTestDrive(){
+            if (addToTestdrive($_POST['car_ID'], $_POST['date'])) {
+                sendResponse([
+                    'success' => true
+                ]);
+            }else{
+                sendResponse([
+                    'success'=>false
+                ]);
+            }
+    }
+
+    function actionRegNewUser()
+    {
+        $result = registerNewUser();
+        if ($result["success"]==true)
+            sendResponse([
+               'success' => true,
+                'data'=>$result['id']
+            ]);
+        else if(isset($result["id"]))
+        {
+            sendResponse([
+                'success' => true,
+                 'data'=>$result['id']
+             ]);
+        }else
+        {
+            $data = $result["error"] == "" ? "null" : $result["error"];
+            sendResponse([
+                'success' => false,
+                'data'=>$data
+            ]);
+        }
+       
     }
 
     //switch funtions//
     switch (isset($_POST)) {
+        case isset($_POST["createnNewTest"]):
+            actionCreateTestDrive();
+            break;
+        case isset($_POST["registerNewUser"]):
+            actionRegNewUser();
+            break;
         case isset($_POST["blockUser"]):
             actionBlockUser();
             break;
@@ -555,6 +619,9 @@ if (!empty($_POST)) {
                 break;
             case 'getBlock':
                 actionEighth();
+                break;
+            case 'getBlockA':
+                actionGetTestsDrive();
                 break;
             case 'getUsers':
                 actionNinth();
