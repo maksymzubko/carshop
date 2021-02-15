@@ -29,7 +29,7 @@
                         <a href="showncars.php"><i class="fa fa-edit fa-fw"></i> Налаштування відображення</a>
                     </li>
                     <li>
-                        <a href="#"><i class="fa fa-wrench fa-fw"></i> Таблиці<span class="fa arrow"></span></a>
+                        <a href="#"><i class="fas fa-table fa-fw"></i> Таблиці<i class="arrow"></i></a>
                         <ul class="nav nav-second-level">
                             <li>
                                 <a href="users.php"> Користувачі</a>
@@ -122,10 +122,12 @@
                                         <i class="fa fa-bell fa-5x"></i>
                                     </div>
                                     <div class="col-xs-9 text-right">
-                                        <div class="huge"><?php $res = $res['requests']; echo $res; ?></div>
-                                        <?php if($res != 0) 
-                                        {echo '<div>Нові тест драйви!</div>'; }
-                                            ?>
+                                        <div class="huge"><?php $res = $res['requests'];
+                                                            echo $res; ?></div>
+                                        <?php if ($res != 0) {
+                                            echo '<div>Нові тест драйви!</div>';
+                                        }
+                                        ?>
                                     </div>
                                 </div>
                             </div>
@@ -142,10 +144,10 @@
                 </div>
                 <div class="row">
                     <div class="col-lg-12">
-                        <h1 class="page-header top">Кнопки швидкого доступу</h1>
+                        <h1 class="page-header top">Робота з користувачами</h1>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row buttons">
                     <div class="col-lg-2 col-md-3 col-xs-6">
                         <div class="panel panel-primary addNewAdmin">
                             <div class="panel-heading">
@@ -185,11 +187,55 @@
                         </div>
                     </div>
                     <div class="col-lg-2 col-md-3 col-xs-6">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fas fa-user-lock fa-5x"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="blockuser pointer">
+                                <div class="panel-footer">
+                                    <span class="pull-left">Заблокувати користувача</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header top">Робота з авто</h1>
+                    </div>
+                </div>
+                <div class="row buttons">
+                    <div class="col-lg-2 col-md-3 col-xs-6">
                         <div class="panel panel-green">
                             <div class="panel-heading">
                                 <div class="row">
                                     <div class="col-xs-3">
-                                        <i class="fa fa-youtube fa-5x"></i>
+                                        <i class="fas fa-plus-circle fa-5x"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="addcar pointer">
+                                <div class="panel-footer">
+                                    <span class="pull-left">Додати авто</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-3 col-xs-6">
+                        <div class="panel panel-green">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fab fa-youtube fa-5x"></i>
                                     </div>
                                 </div>
                             </div>
@@ -209,7 +255,7 @@
                             <div class="panel-heading">
                                 <div class="row">
                                     <div class="col-xs-3">
-                                        <i class="fa fa-picture-o fa-5x"></i>
+                                        <i class="fas fa-images fa-5x"></i>
                                     </div>
                                 </div>
                             </div>
@@ -222,30 +268,19 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-2 col-md-3 col-xs-6">
-                        <div class="panel panel-yellow">
-                            <div class="panel-heading">
-                                <div class="row">
-                                    <div class="col-xs-3">
-                                        <i class="fa fa-ban fa-5x"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="blockuser pointer">
-                                <div class="panel-footer">
-                                    <span class="pull-left">Заблокувати користувача</span>
-                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                    <div class="clearfix"></div>
-                                </div>
-                            </div>
-                        </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header top">Робота з тестдрайвами</h1>
                     </div>
+                </div>
+                <div class="row buttons">
                     <div class="col-lg-2 col-md-3 col-xs-6">
                         <div class="panel panel-yellow">
                             <div class="panel-heading">
                                 <div class="row">
                                     <div class="col-xs-3">
-                                        <i class="fa fa-ban fa-5x"></i>
+                                        <i class="fas fa-car-side fa-5x"></i>
                                     </div>
                                 </div>
                             </div>
@@ -259,8 +294,10 @@
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
+    </div>
     </div>
     <?php require_once 'scripts.php' ?>
 </body>

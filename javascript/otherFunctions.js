@@ -54,14 +54,20 @@ $(document).ready(function () {
 					if (block == true)
 						blockText = xhr.eq;
 
-				} engWords = { "errorMessage": "Error!", "successMessage": "Success!", "questionMessage": "Are you sure?", "btnCancel": "Cancel", "qu1": "It will cost '" + priceTest + "'grn (pay on arrival), do you agree?", "qu2": "Choose date" };
-				ruWords = { "errorMessage": "Ошибка!", "successMessage": "Успех!", "questionMessage": "Вы уверены?", "btnCancel": "Отмена", "qu1": "Это будет стоить '" + priceTest + "'грн (оплата по приезду), вы согласны?", "qu2": "Выберите дату" };
-				uaWords = { "errorMessage": "Помилка!", "successMessage": "Успіх!", "questionMessage": "Ви впевнені?", "btnCancel": "Відміна", "qu1": "Це буде коштувати '" + priceTest + "'грн (оплата по приїзду), ви згодні?", "qu2": "Виберіть дату" };
+				}priceTextRU = (priceTest == 0) ? "Тест драйв этой машини - бесплатен" : "Это будет стоить '" + priceTest + "'грн (оплата по приезду), вы согласны?";
+				priceTextENG = (priceTest == 0) ? "Test drive is free" : "It will cost '" + priceTest + "'uan (pay on arrival), do you agree?";
+				priceTextUA = (priceTest == 0) ? "Тест драйв цього авто безкоштовний" : "Це буде коштувати '" + priceTest + "'грн (оплата по приїзду), ви згодні?";
+				engWords = { "errorMessage": "Error!", "successMessage": "Success!", "questionMessage": "Are you sure?", "btnCancel": "Cancel", "qu1": priceTextENG, "qu2": "Choose date" };
+				ruWords = { "errorMessage": "Ошибка!", "successMessage": "Успех!", "questionMessage": "Вы уверены?", "btnCancel": "Отмена", "qu1": priceTextRU, "qu2": "Выберите дату" };
+				uaWords = { "errorMessage": "Помилка!", "successMessage": "Успіх!", "questionMessage": "Ви впевнені?", "btnCancel": "Відміна", "qu1": priceTextUA, "qu2": "Виберіть дату" };
 
 			}, error: function (xhr) {
-				engWords = { "errorMessage": "Error!", "successMessage": "Success!", "questionMessage": "Are you sure?", "btnCancel": "Cancel", "qu1": "It will cost '" + priceTest + "'grn (pay on arrival), do you agree?", "qu2": "Choose date" };
-				ruWords = { "errorMessage": "Ошибка!", "successMessage": "Успех!", "questionMessage": "Вы уверены?", "btnCancel": "Отмена", "qu1": "Это будет стоить '" + priceTest + "'грн (оплата по приезду), вы согласны?", "qu2": "Выберите дату" };
-				uaWords = { "errorMessage": "Помилка!", "successMessage": "Успіх!", "questionMessage": "Ви впевнені?", "btnCancel": "Відміна", "qu1": "Це буде коштувати '" + priceTest + "'грн (оплата по приїзду), ви згодні?", "qu2": "Виберіть дату" };
+				priceTextRU = (priceTest == 0) ? "Тест драйв этой машини - безплатен" : "Это будет стоить '" + priceTest + "'грн (оплата по приезду), вы согласны?";
+				priceTextENG = (priceTest == 0) ? "Test drive is free" : "It will cost '" + priceTest + "'uan (pay on arrival), do you agree?";
+				priceTextUA = (priceTest == 0) ? "Тест драйв цього авто безкоштовний" : "Це буде коштувати '" + priceTest + "'грн (оплата по приїзду), ви згодні?";
+				engWords = { "errorMessage": "Error!", "successMessage": "Success!", "questionMessage": "Are you sure?", "btnCancel": "Cancel", "qu1": priceTextENG, "qu2": "Choose date" };
+				ruWords = { "errorMessage": "Ошибка!", "successMessage": "Успех!", "questionMessage": "Вы уверены?", "btnCancel": "Отмена", "qu1": priceTextRU, "qu2": "Выберите дату" };
+				uaWords = { "errorMessage": "Помилка!", "successMessage": "Успіх!", "questionMessage": "Ви впевнені?", "btnCancel": "Відміна", "qu1": priceTextUA, "qu2": "Виберіть дату" };
 				blockText = JSON.parse(xhr.responseText).error;
 				block = JSON.parse(xhr.responseText).block;
 			}
@@ -593,6 +599,7 @@ function get_filter(class_name) {
 }
 function sameDivs() {
 	let min = 0;
+	let width = 0;
 	let arr = [];
 	function del() {
 		$('.zoom-img').each(function () {
@@ -603,6 +610,7 @@ function sameDivs() {
 	$('.zoom-img').each(function () {
 		let height = $(this).height();
 		arr.push($(this).height());
+		width = $(this).width();
 		if (height > min)
 			min = height + 1;
 	});

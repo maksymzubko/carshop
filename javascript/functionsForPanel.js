@@ -219,6 +219,15 @@ $(document).ready(function () {
 	}
 	else if (window.location.href.includes("panel.php")) {
 		$(document).ready(function () {
+			$.getScript("../javascript/resize.js", function () {
+				let elem = $('.buttons').children('div');
+				$(window).resize(() => {
+					sameDivs();
+				})
+			});
+			$(window).load(() => {
+				sameDivs();
+			})
 
 			function checkAdminRole() {
 				$.ajax({
@@ -844,7 +853,7 @@ $(document).ready(function () {
 
 												$.ajax({
 													type: 'POST',
-													url: '../../app/eventsHandler.php',
+													url: '../app/eventsHandler.php',
 													data: {
 														'updatePhotos': "upd",
 														'linksNew': newList,
@@ -1036,8 +1045,8 @@ $(document).ready(function () {
 														$('.main').css('display', 'none');
 														Swal.resetValidationMessage();
 														Swal.showLoading();
-														$('.swal2-actions button').each((index,value)=>{
-															$(value).css('display','none')
+														$('.swal2-actions button').each((index, value) => {
+															$(value).css('display', 'none')
 														});
 														$.ajax({
 															type: 'POST',
@@ -1047,14 +1056,14 @@ $(document).ready(function () {
 																'car_ID': carID,
 																'userID': userID
 															}, success: function (xhr) {
-																setTimeout(changeStation,2000)
-																function changeStation(){
+																setTimeout(changeStation, 2000)
+																function changeStation() {
 																	Swal.hideLoading();
 																	$('.main').css('display', 'block');
-																	$('.swal2-actions button').each((index,value)=>{$(value).css('display','flex')});
-																	$('.data').prop('disabled',false);
-																	$('.data').css('border','2px solid red');
-																}	
+																	$('.swal2-actions button').each((index, value) => { $(value).css('display', 'flex') });
+																	$('.data').prop('disabled', false);
+																	$('.data').css('border', '2px solid red');
+																}
 
 																if (xhr.dates != undefined) {
 																	xhr.dates.forEach(element => {
@@ -1065,15 +1074,15 @@ $(document).ready(function () {
 																		blockText = xhr.error;
 																}
 															}, error: (xhr) => {
-																setTimeout(changeStation,2000);
-																function changeStation(){
-																$('.main').css('display', 'block');
-																$('.car').val('');
-																$('.swal2-actions button').each((index,value)=>{$(value).css('display','flex')});
-																Swal.showValidationMessage(JSON.parse(xhr.responseText).error);
-																Swal.hideLoading();
-																$('.data').prop('disabled',true);
-																$('.data').css('border','1px solid #d9d9d9');
+																setTimeout(changeStation, 2000);
+																function changeStation() {
+																	$('.main').css('display', 'block');
+																	$('.car').val('');
+																	$('.swal2-actions button').each((index, value) => { $(value).css('display', 'flex') });
+																	Swal.showValidationMessage(JSON.parse(xhr.responseText).error);
+																	Swal.hideLoading();
+																	$('.data').prop('disabled', true);
+																	$('.data').css('border', '1px solid #d9d9d9');
 																}
 															}
 														});
@@ -1175,7 +1184,7 @@ $(document).ready(function () {
 
 											$.ajax({
 												type: 'POST',
-												url: '../../app/eventsHandler.php',
+												url: '../app/eventsHandler.php',
 												data: {
 													'registerNewUser': "register",
 													'name': userData[0],
@@ -1184,7 +1193,7 @@ $(document).ready(function () {
 												},
 												success: function (xhr) {
 													userID = xhr.data;
-													setTimeout(newTestDrive,5000);
+													setTimeout(newTestDrive, 5000);
 												},
 												error: function (xhr) {
 													let response = JSON.parse(xhr.responseText);
@@ -1221,8 +1230,6 @@ $(document).ready(function () {
 				var full = date.getFullYear() + "-" + month + "-" + day;
 				return full;
 			}
-
-
 			function changeInput(names) {
 				names.forEach((element) => {
 					$(element).bind('keydown', function (e) {
@@ -1325,7 +1332,9 @@ $(document).ready(function () {
 				}
 			}
 			//func for work with files
-			function fileHandler(file, Swal, DivID) {
+			async function fileHandler(file, Swal, DivID) {
+
+				Swal.resetValidationMessage();
 
 				let fileInfo = file.files[0];
 				const path = '../images/' + fileInfo.name;
@@ -1345,14 +1354,316 @@ $(document).ready(function () {
 					return Swal.showValidationMessage("Файл " + fileInfo.name + " не було знайдено!");
 				}
 
+				let boolIal = true;
+				const result = await $.ajax({
+					type: 'POST',
+					url: '../app/eventsHandler.php',
+					data: {
+						'getImageSize': "get",
+						'image':fileInfo.name
+					},
+					success: () => {
+						boolIal = false;
+					},
+					error: function (xhr) {
+						boolIal = false;
+						return Swal.showValidationMessage("Файл " + fileInfo.name + " має недопустимі розміри!");	
+					}
+				})
+
+				while(boolIal){}
+
 				$("#" + DivID + " .link").val(fileInfo.name);
+				$("#" + DivID + " .link").attr("value", fileInfo.name);
 				let image = $("#" + DivID + " .fleximage img");
 				image.attr("src", "../images/" + fileInfo.name);
 				if (DivID != firstID) {
+					Swal.resetValidationMessage();
 					image.parent().toggleClass("withcontent");
 					deletephoto();
 				}
 			}
+			//func addcar
+			$('.addcar').click(async () => {
+
+				let htmlCode = '<div class="main">'
+					+ '<div style="text-align:justify; margin:25px 0" class="attention"><p><font color="red">*</font> - обов`язкові для заповнення</p></div>'
+					+ '<div class="marka">'
+					+ '<div class="required"><select class="swal2-select "><option value="" disabled selected>Виберіть марку авто</option><optgroup label="Марки"></optgroup></select></div></div>'
+					+ '<div class="aboutcar hide"><div class="required"><select  class="swal2-select "><option value="" disabled selected>Виберіть модель авто</option><optgroup label="Моделі"></optgroup></select></div>'
+					+ '<div class="required"><select  class="swal2-select"><option value="" disabled selected>Виберіть колір авто</option>><optgroup label="Кольори"><option value="Белый">Білий</option><option value="Черный">Чорний</option><option value="Синий">Синій</option><option value="Красный">Червоний</option><option value="Желтый">Жовтий</option><option value="Зеленый">Зелений</option></optgroup></select></div>'
+					+ '<div class="required"><select  class="swal2-select"><option value="" disabled selected>Виберіть рік авто</option><optgroup label="Роки">';
+
+
+				for (let i = 0; i < 21; i++) {
+					let value = 2021 - i;
+					htmlCode += '<option value=' + value + '>' + value + '</option>';
+				}
+				htmlCode += '</optgroup></select></div>'
+					+ '<div class="required"><select class="swal2-select"><option disabled value="">Виберіть категорію</option><optgroup label="Категорії"><option value="1">Для родини</option><option value="2">Спорткар</option><option value="3">Позашляховик</option><option value="4">Кросовер</option></optgroup></select></div>'
+					+ '<input placeholder = "Ціна за тест драйв" class="swal2-input price"></div>';
+
+				const steps = ['Данні', 'Фото'];
+				const values = [];
+				let currentStep;
+
+				const swalQueueStep = Swal.mixin({
+					confirmButtonText: 'Далі',
+					showDenyButton: true,
+					denyButtonText: 'Назад',
+					progressSteps: steps,
+					showCancelButton: true,
+					progressSteps: ['Данні', 'Фото'],
+					allowOutsideClick: false
+				})
+
+				isLoaded = false;
+				let marks = new Map(), models = new Map();
+
+				let first = {
+					title: 'Заповніть данні щодо авто',
+					showDenyButton: false,
+					html: htmlCode,
+					currentProgressStep: 0,
+					didOpen: () => {
+
+						if (!isLoaded) {
+							function ToggleAll(boolian) {
+								$('div.main').toggleClass('hide');
+								$('swal2-actions').find('button').eq(0).toggleClass('hide');
+								if (boolian) {
+									let title = $(Swal.getHeader()).find('.swal2-title');
+									title.html('Загрузка');
+									Swal.showLoading();
+								}
+								else {
+									let title = $(Swal.getHeader()).find('.swal2-title');
+									title.html('Заповніть данні щодо авто');
+									Swal.hideLoading();
+								}
+							}
+
+							ToggleAll(true);
+
+							$.ajax({
+								type: 'POST',
+								url: '../app/eventsHandler.php',
+								data: {
+									'getMarksModels': "get"
+								},
+								success: function (xhr) {
+									function Alert() {
+										ToggleAll(false);
+										let data = xhr.data;
+										Object.entries(data).forEach(([key, value]) => {
+											let id = Object.values(value)[0];
+											let modelsList = Object.values(value)[1];
+											models.set(id, modelsList);
+											let marksd = $('div.marka select optgroup');
+											$(marksd).append($('<option>', {
+												value: id,
+												text: key
+											}));
+										});
+
+									}
+									setTimeout(Alert, 2000);
+									isLoaded = true;
+								},
+								error: function (xhr) {
+									Toast.fire({
+										icon:"error",
+										title:xhr.error,
+										position:"top"
+									})
+								}
+							})
+						}
+
+						$('div.marka select').change((e) => {
+							let tempValue = $(e.target).val();
+							if (tempValue != null) {
+								Swal.resetValidationMessage();
+								models.forEach((value, key) => {
+									if (key == tempValue) {
+										let model = $('div.aboutcar select optgroup').eq(0);
+										if (Object.values(value) == "") {
+											Swal.showValidationMessage('На жаль, в базі поки що немає моделей цього авто!');
+											$('.aboutcar').removeClass('hide').addClass('hide');
+											$(e.target).val("");
+											return;
+										}
+										else {
+											$(model).html('');
+											Object.entries(value).forEach(([key, value]) => {
+												$(model).append($('<option>', {
+													value: key,
+													text: value
+												}));
+											})
+											$('div.aboutcar select').val('');
+											$('.aboutcar').removeClass('hide');
+										}
+									}
+								})
+
+							}
+							else
+								$('div main div.aboutcar').toggleClass('hide');
+						})
+
+						const content = Swal.getHeader();
+						$(content).find('.swal2-progress-step').css('width', '4em');
+						if (values.length != 0) {
+							const content = Swal.getContent();
+							const inputs = $(content).find('div.required select');
+							let valuesTemp;
+							inputs.each((index, value) => {
+								$(value).val(values[index]);
+							});
+							const input = $(content).find('div input.price');
+							$(input).val(values[values.length - 1]);
+						}
+					},
+					preConfirm: () => {
+						const content = Swal.getContent();
+						const inputs = $(content).find('div.required select');
+						let valuesTemp = [];
+						inputs.each((index, value) => {
+							let vl = $(value).val();
+							if (vl != null)
+								valuesTemp.push(vl);
+							else {
+								valuesTemp = [];
+								Swal.showValidationMessage('Потрібно обрати всі поля!');
+								return false;
+							}
+						});
+						const input = $(content).find('div input.price');
+						if (valuesTemp.length != 0) {
+							values.length = 0;
+							valuesTemp.forEach((value, index) => {
+								values.push(valuesTemp[index]);
+							})
+							values.push(input.val());
+							htmlCode = "<div class='main'>" + $('.main').html() + "</div>";
+						}
+					}
+				};
+
+				let htmlSecond = "<div class='main-inputs'>" + '<div id=0 class="flex"><div><input type="text" class="link swal2-input" placeholder="Зображення" value ="" readonly=true maxlength = 300></input> <input type="file" class="fileInput"></input></div><div class="fleximage big"><img height="85px" width="135px" src=../images/notimage.png></div></div>';
+
+				let file = "";
+
+				let second = {
+					title: 'Виберіть фото авто',
+					showDenyButton: true,
+					html: htmlSecond,
+					currentProgressStep: 1,
+					didOpen: () => {
+						file != "" ? $('.link').val(file) : $('.swal-input').val();
+						const content = Swal.getHeader();
+
+						$(content).find('.swal2-progress-step').css('width', '4em');
+						$(Swal.getContainer()).find('.swal2-popup').css('width', '35em');
+
+						
+
+						$('.fileInput').change(function (obj) {
+							fileHandler(obj.target, Swal, 0);
+							let _val = $('.link').val();
+							file = _val;
+						})
+						deletephoto();
+					},
+					preConfirm: () => {
+						htmlSecond = "<div class='main-inputs'>" + $('.main-inputs').html() + "</div>";
+
+					},
+					preDeny: () => {
+						htmlSecond = "<div class='main-inputs'>" + $('.main-inputs').html() + "</div>";
+					}
+				}
+
+				for (currentStep = 0; currentStep < steps.length;) {
+
+					console.log(htmlCode);
+					first["html"] = htmlCode;
+					second["html"] = htmlSecond;
+					console.log(htmlSecond);
+					const result = currentStep == 0 ? await swalQueueStep.fire(first) : await swalQueueStep.fire(second);
+
+					if (result.value) {
+						if (currentStep == 0) {
+							currentStep++;
+						} else
+							if (currentStep == 1) {
+								Swal.fire({
+									title: "Додаємо авто",
+									showCancelButton: true,
+									didOpen: () => {
+										if (values.length == 6 && file != "") {
+											$('swal2-actions').find('button').eq(0).toggleClass('hide');
+											let title = $(Swal.getHeader()).find('.swal2-title');
+											let _text = 'Додаємо авто';
+											let counter = 0;
+											Swal.showLoading();
+											function _temp() {
+												if (counter == 3) {
+													_text = "Додаємо авто";
+													title.html(_text);
+													counter = 0;
+												}
+												_text += ".";
+												title.html(_text);
+												counter++;
+											}
+											const interval = setInterval(_temp, 300);
+
+											$.ajax({
+												type: 'POST',
+												url: '../app/eventsHandler.php',
+												data: {
+													'registerNewCar': "reg",
+													'color': values[2],
+													'category': values[4],
+													'year': values[3],
+													'model': values[1],
+													'price': values[5],
+													'photo': file
+												},
+												success: function (xhr) {
+													function Alert() {
+														Toast.fire({
+															icon:"success",
+															title:"Авто успішно додано!",
+															position: "top"
+														});
+													}
+													setTimeout(Alert, 2000);
+												},
+												error: function (xhr) {
+													Toast.fire({
+														icon:"error",
+														title:xhr.error,
+														position: "top"
+													});
+												}
+											})
+										}
+									}
+								});
+								break;
+							}
+					}
+					else if (result.isDenied) {
+						currentStep--;
+					}
+					else {
+						break;
+					}
+				}
+			})
 		});
 	}
 
@@ -1368,6 +1679,49 @@ $(document).ready(function () {
 	});
 
 });
+function sameDivs() {
+	let min = 0;
+	let arr = [];
+	function del() {
+		$('.buttons .panel').each(function () {
+			$(this).css("min-height", "");
+		});
+		$('.buttons .panel').each(function () {
+			let height = $(this).height();
+			arr.push($(this).height());
+			if (height > min)
+				min = height + 1;
+		});
+		function setDiv(min) {
+			$('.buttons .panel').css("min-height", min);
+		}
+		setDiv(min);
+	}
+	del();
+
+	function del2() {
+		min = 0;
+		arr = [];
+		$('.buttons .panel .pointer').each(function () {
+			$(this).css("min-height", "");
+		});
+		$('.buttons .panel .panel-footer').each(function () {
+			$(this).css("height", "");
+		});
+		$('.buttons .panel .pointer').each(function () {
+			let height = $(this).height();
+			arr.push($(this).height());
+			if (height > min)
+				min = height + 1;
+		});
+		function setDiv(min) {
+			$('.buttons .panel .pointer').css("min-height", min);
+			$('.buttons .panel .panel-footer').css("height", min);
+		}
+		setDiv(min);
+	}
+	del2();
+}
 setTimeout(function () {
 	$('body').addClass('body_visible');
 }, 100);

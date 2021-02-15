@@ -14,30 +14,31 @@
             <div class="sidebar-nav navbar-collapse">
                 <ul class="nav" id="side-menu">
                     <li>
-                        <a href="panel.php"><i class="fa fa-user fa-fw"></i> Main panel</a>
+                        <a href="panel.php"><i class="fa fa-user fa-fw"></i> Головна</a>
                     </li>
                     <li>
-                        <a href="testdrive.php"><i class="fa fa-car fa-fw"></i> Testdrives <?php require '../app/functions.php';
+                        <a href="testdrive.php"><i class="fa fa-car fa-fw"></i> Тест-драйви <?php require '../app/functions.php';
                                                                                             $res = getStats();
                                                                                             if ($res) {
                                                                                                 if ($res['requests'] != 0)
                                                                                                     echo '<span class="notify">' . $res['requests'] . '</span>';
                                                                                             } ?></a>
+                        </a>
                     </li>
                     <li>
-                        <a href="showncars.php"><i class="fa fa-edit fa-fw"></i> Visible settings</a>
+                        <a href="showncars.php"><i class="fa fa-edit fa-fw"></i> Налаштування відображення</a>
                     </li>
                     <li class="active">
-                        <a href="#"><i class="fa fa-wrench fa-fw"></i> Tables<span class="fa arrow"></span></a>
+                        <a href="#"><i class="fas fa-table fa-fw"></i> Таблиці<i class="arrow"></i></a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a href="users.php"> Users</a>
+                                <a href="users.php"> Користувачі</a>
                             </li>
                             <li>
-                                <a href="testdrives.php"> Testdrives</a>
+                                <a href="testdrives.php"> Тест-драйви</a>
                             </li>
                             <li>
-                                <a class="active" href="#"> Cars</a>
+                                <a class="active" href="cars.php"> Автівки</a>
                             </li>
                         </ul>
                     </li>
@@ -47,16 +48,16 @@
         <div id="page-wrapper">
             <div class="container-fluid">
                 <!--Navigator start-->
-                <div class="breadcrumb admin">
+                <div class="breadcrumb ">
                     <div class="container-fluid">
                         <div class="breadcrumbs-main">
                             <ol class="breadcrumb admin">
                                 <li>
-                                    <h5>You are here</h5>
+                                    <h5>Ви тут</h5>
                                 </li>
-                                <li><a href="panel.php">Admin main</a></li>
-                                <li class="active">Tables</li>
-                                <li class="active">Cars</li>
+                                <li><a href="panel.php">Адмін головна</a></li>
+                                <li class="active">Таблиці</li>
+                                <li class="active">Автівки</li>
                             </ol>
                         </div>
                     </div>

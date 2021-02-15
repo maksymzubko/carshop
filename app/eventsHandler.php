@@ -58,13 +58,20 @@ if (!empty($_POST)) {
 
         $error = validate($_POST, $temp);
 
-        if ($error == "" && register($_POST, $temp)) {
+        $regResponse = register($_POST, $temp);
+
+        if ($error == "" && $regResponse) {
 
             $succesmsg = ($temp == "user") ? translateAction("Вы успешно зарегистрированы!") : "Ви успішно додали модератора!";
 
             sendResponse([
                 'success' => true,
                 'successmsg' => $succesmsg
+            ]);
+        } else if($error == "" && !$regResponse) {
+            sendResponse([
+                'success' => false,
+                'error' => translateAction("Пользователь уже зарегистрирован!")
             ]);
         } else {
             sendResponse([
@@ -143,34 +150,6 @@ if (!empty($_POST)) {
             echo json_encode($output);
         } else {
             echo json_encode($output);
-        }
-    }
-    function actionFifth()
-    {
-        if ($_POST['move'] == 1) {
-            $output = getUsersList(1);
-        } else {
-            $output = getUsersList(2);
-        }
-        if ($output->num_rows == 0) {
-            http_response_code(500);
-        } else {
-            http_response_code(200);
-            $data = array();
-            $outputText = '';
-            while ($row = $output->fetch_assoc()) {
-                $temp = array();
-                $temp['u_ID'] = $row['u_ID'];
-                $temp['u_login'] = $row['u_login'];
-                $temp['u_name'] = $row['u_name'];
-                $temp['u_fname'] = $row['u_fname'];
-                $outputText .=  '<li class="drplist">' . $row['u_ID'] . '</li>';
-                $data[] = $temp;
-            }
-            echo json_encode(array(
-                'html' => $outputText,
-                'data' => $data
-            ));
         }
     }
     function actionSixth()
@@ -283,6 +262,25 @@ if (!empty($_POST)) {
 
                 echo json_encode($_POST);
             }
+        }
+    }
+
+    function actionGetMarkModelsList()
+    {
+        $result = getMarkModelsList();
+        if($result["success"])
+        {
+            sendResponse([
+                'success'=>true,
+                'data'=>$result['data']
+            ]);
+        }
+        else
+        {
+            sendResponse([
+               'success'=>false,
+               'error'=>$result['error'] 
+            ]);
         }
     }
 
@@ -532,8 +530,62 @@ if (!empty($_POST)) {
        
     }
 
+    function actionRegisterNewCar()
+    {
+        $result = registerNewCar();
+
+        if($result['success'])
+        {
+            sendResponse([
+                'success'=>true
+            ]);
+        }
+        else
+        {
+            sendResponse([
+                'success'=>false,
+                'error'=>$result['error']
+            ]);
+        }
+       
+    }
+
+    function actionGetImageSize(){
+        $data = getimagesize("../images/".$_POST['image']);
+        if($data[0]>1025)
+        sendResponse([
+            "success"=>false
+        ]);
+        else if($data[1]>1025)
+        sendResponse([
+            "success"=>false
+        ]);
+        else if($data[1]>=$data[0])
+        sendResponse([
+            "success"=>false
+        ]);
+        else
+        if(($data[0]-$data[1])>660)
+        sendResponse([
+            "success"=>false
+        ]);
+        else
+        sendResponse([
+            "success"=>true
+        ]);
+    }
+
     //switch funtions//
     switch (isset($_POST)) {
+        case isset($_POST["getImageSize"]):
+            actionGetImageSize();
+            break;
+        case isset($_POST["registerNewCar"]):
+            actionRegisterNewCar();
+            break;
+        case isset($_POST["getMarksModels"]):
+            actionGetMarkModelsList();
+            break;
         case isset($_POST["createnNewTest"]):
             actionCreateTestDrive();
             break;
@@ -607,9 +659,6 @@ if (!empty($_POST)) {
                 break;
             case 'getAuto':
                 actionFourth();
-                break;
-            case 'getIDs':
-                actionFifth();
                 break;
             case 'updateU':
                 actionSixth();

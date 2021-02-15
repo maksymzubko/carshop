@@ -154,10 +154,16 @@ background-color: black;
     margin-left: auto;
 }
 
+.fleximage.big img{
+    margin-left: 12px;
+    margin-top: -5px;
+}
+
 .fleximage img{
     border: 1px solid;
     border-radius: 4px;
 }
+
 
 [data-tooltip]::after{
     content: attr(data-tooltip);
@@ -361,12 +367,21 @@ div#OR {
     float: right;
 }
 
-.sidebar .fa.arrow:before {
-    content: "\f104";
+@font-face{
+    font-family: "Font Awesome 5 Free-Regular-400";
+    src: url(../fonts/Font\ Awesome\ 5\ Free-Solid-900.otf);
 }
 
-.sidebar .active>a>.fa.arrow:before {
-    content: "\f107";
+.sidebar i.arrow::after {
+    font-family: "Font Awesome 5 Free-Regular-400";
+    content: "\f137";
+    font-weight: 900; /* Fix version 5.0.9 */
+}
+
+.sidebar .active>a>i.arrow::after {
+    font-family: "Font Awesome 5 Free-Regular-400";
+    content: "\f13a";
+    font-weight: 900; /* Fix version 5.0.9 */
 }
 
 .sidebar .nav-second-level li,
@@ -438,6 +453,36 @@ input[type="tel"]{
 
 .panel {
     margin-right: 5px;
+}
+
+.panel-footer{
+    position: relative;
+}
+.buttons .panel-footer .pull-right {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+}
+
+.main div {
+  position: relative;
+}
+
+.marka select, .aboutcar select {
+    width: 80%;
+    position: relative;
+}
+
+.main .aboutcar .price {
+    width: 80%;
+}
+
+.main div div.required::after {
+position: absolute;
+top:0;
+left: 42px;
+content: "*";
+color: red;
 }
 
 .panel-disabled {

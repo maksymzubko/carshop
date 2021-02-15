@@ -121,6 +121,7 @@ function filterAuto(string $lang)
                 <div class="clearfix"></div>
                 </div>';
             }
+            $output .= "<script>sameDivs();</script>";
             echo $output;
         } else {
             echo $output = '<div class="text-center"><h3 class="none">' . $lang['ndata'] . '</h3></div>';
@@ -135,8 +136,7 @@ function register(array $data, string $role)
 {
     $values = array();
 
-    if ($role == "user")
-    {      
+    if ($role == "user") {
         $values = [
             $data['email'],
             encrypt($data['password']),
@@ -146,41 +146,37 @@ function register(array $data, string $role)
             $c = $data['phone'],
             "d" => "1"
         ];
-
-    }      
-    else
+    } else
         $values = [
             $data['login'],
             encrypt($data['password']),
             $data['number']
         ];
-    
-    function insert(array $data, string $role )
+
+    function insert(array $data, string $role)
     {
         if ($role == "user") {
-            $response = isUserAlreadyExist($data[2],$data[3],$data[5]);
+            $response = isUserAlreadyExist($data[2], $data[3], $data[5]);
             function ifEmptyEmail($id)
             {
                 $query = "Select u_login from users where u_ID = $id";
-                $db=get_connection();
-                
+                $db = get_connection();
+
                 $result = $db->query($query);
                 $row = $result->fetch_assoc();
-                if($row['u_login']==null)
-                return true;
+                if ($row['u_login'] == null)
+                    return true;
                 else
-                return false;
+                    return false;
             }
-            if(isset($response["id"]))
-            {
+            if (isset($response["id"])) {
                 $id = $response["id"];
-                if(ifEmptyEmail($id))
-                $query = "Update users set u_login = '$data[0]', u_pass='$data[1]',u_sex = '$data[4]' where u_ID = $id";
+                if (ifEmptyEmail($id))
+                    $query = "Update users set u_login = '$data[0]', u_pass='$data[1]',u_sex = '$data[4]' where u_ID = $id";
                 else
-                return;
-            }
-            else
-            $query = "INSERT INTO `users` (u_login, u_pass, u_name, u_fname, u_sex, u_phone) VALUES('$data[0]', '$data[1]', '$data[2]', '$data[3]', '$data[4]', '$data[5]')";
+                    return;
+            } else
+                $query = "INSERT INTO `users` (u_login, u_pass, u_name, u_fname, u_sex, u_phone) VALUES('$data[0]', '$data[1]', '$data[2]', '$data[3]', '$data[4]', '$data[5]')";
 
             $db = get_connection();
             $stmt = mysqli_query($db, $query);
@@ -239,8 +235,7 @@ function validate(array $request, string $role)
     $errors = "";
 
     $res = strlen($request['phone']) != 13 ? $errors = "Количество цифр в номере равно 13!" : false;
-    if($res)
-    {
+    if ($res) {
         return $errors;
     }
 
@@ -309,7 +304,7 @@ function validateLogin(array $login)
 {
     $errors = "";
 
-    if (isUserHasBeenBlock($login['email'],"email"))
+    if (isUserHasBeenBlock($login['email'], "email"))
         $errors = 'Этот email был заблокирован';
 
     return $errors;
@@ -317,20 +312,18 @@ function validateLogin(array $login)
 
 function isUserHasBeenBlock(string $data, $by)
 {
-    $query = $by=="email" ? "SELECT u_login FROM `blacklist` join users on blacklist.u_ID = users.u_ID WHERE u_login = '$data'" : "SELECT d_DESC FROM `blacklist` join users on blacklist.u_ID = users.u_ID WHERE users.u_ID = '$data'";
+    $query = $by == "email" ? "SELECT u_login FROM `blacklist` join users on blacklist.u_ID = users.u_ID WHERE u_login = '$data'" : "SELECT d_DESC FROM `blacklist` join users on blacklist.u_ID = users.u_ID WHERE users.u_ID = '$data'";
 
     $db = get_connection();
 
     $result = $db->query($query);
 
-    if ($result->num_rows > 0)
-    {
-        if($by == "email")
+    if ($result->num_rows > 0) {
+        if ($by == "email")
             return true;
         else
             return $row = $result->fetch_assoc();
-    }       
-    else
+    } else
         return false;
 }
 
@@ -364,7 +357,7 @@ function validateAccount(string $role)
 
 function validateTest(string $id)
 {
-    $user = isset($_POST['userID']) ? $_POST['userID'] : getCoockie("id","user");
+    $user = isset($_POST['userID']) ? $_POST['userID'] : getCoockie("id", "user");
 
     $query = "SELECT * FROM `testdrive` WHERE `uid` = $user and `car_ID` = $id and status != 'Denied'";
 
@@ -389,7 +382,7 @@ function isAuthorizated()
 
 function getAboutUser()
 {
-    $user = getCoockie("id","user");
+    $user = getCoockie("id", "user");
 
     $query = "SELECT `u_ID`,`u_login`,`u_name`,`u_fname`,(SELECT COUNT(d_ID) FROM testdrive WHERE uid=$user) as `test`, (SELECT COUNT(client_ID) FROM favourite WHERE client_ID=$user) as `fav` FROM `users` join testdrive on `u_ID` = `uid` join favourite on u_ID = client_ID WHERE `u_ID` = $user GROUP BY u_ID";
 
@@ -422,12 +415,48 @@ function checkUser(array $data)
         $errors = 'Проверьте правильность данных!';
     } else {
         if (!isset($_POST['loginAdmin'])) {
-            if (isUserHasBeenBlock($login,"email"))
+            if (isUserHasBeenBlock($login, "email"))
                 $errors = 'Ваш email был заблокирован!';
         }
     }
 
     return $errors;
+}
+
+function getMarkModelsList()
+{
+    $query = "Select * from marks group by mark";
+    $resultArray = array();
+
+    $db = get_connection();
+
+    $result = $db->query($query);
+    if ($result->num_rows < 1) {
+        $resultArray = array('success' => false, 'error' => 'На жаль база марок авто порожня!');
+    } else {
+        $arr = array();
+        while ($row = $result->fetch_assoc()) {
+            $id = $row['mark_ID'];
+            $query = "Select m_id, m_model from models where m_mark_ID = '$id'";
+
+            $result2 = $db->query($query);
+            if ($result2->num_rows < 1) {
+                $arr[$row["mark"]] = array("id" => $id, "models" => "");
+            } else {
+                $isConfirm = true;
+                $tempArray = array();
+                while ($row2 = $result2->fetch_assoc()) {
+                    $tempArray[$row2["m_id"]] = $row2["m_model"];
+                }
+                $arr[$row["mark"]] = array("id" => $id, "models" => $tempArray);
+            }
+        }
+
+        if ($isConfirm) {
+            $resultArray = array('success' => true, 'data' => $arr);
+        }
+    }
+    return $resultArray;
 }
 
 function getCarByID(string $id)
@@ -528,6 +557,82 @@ function addToTestdrive(string $id, string $date)
     }
 }
 
+function registerNewCar()
+{
+
+    $values = ([
+        0 => $_POST['color'],
+        1 => $_POST['category'],
+        2 => $_POST['year'],
+        3 => $_POST['model'],
+        4 => $_POST['price']
+    ]);
+
+    function isCarExist($data)
+    {
+        $query = "Select a_ID from auto where a_color = '$data[0]' and c_ID = '$data[1]' and a_year = '$data[2]' and a_model = '$data[3]'";
+
+        $db = get_connection();
+
+        $result = $db->query($query);
+        if ($result->num_rows > 0)
+        {
+            $row = $result->fetch_assoc();
+            return $row["a_ID"];
+        }
+        else
+            return false;
+    }
+
+
+    $_res = isCarExist($values);
+
+    $db = get_connection();
+
+    if ($_res) {
+        $query = "Update auto set `a_count` = `a_count` + 1, t_price = '$values[4]' where a_ID = $_res";
+
+        $counter = 0;
+
+        $result = $db->query($query);
+        if (mysqli_affected_rows($db) == 1)
+            $counter++;
+
+        $img = $_POST['photo'];
+        $query = "Update images set img = 'images/$img' where img_a_ID = $_res and isMain = 'True'";
+        $result = $db->query($query);
+
+        if (mysqli_affected_rows($db) == 1)
+            $counter++;
+
+        if ($counter == 2)
+            return array('success' => true);
+        else
+            return array('success' => false, 'error' => 'Щось пішло не так!');
+    } else {
+        $query = "INSERT INTO `auto`(`a_color`, `c_ID`, `a_year`, `a_model`, `a_count`, `t_price`, `visible`) VALUES ('$values[0]','$values[1]','$values[2]','$values[3]','1','$values[4]','Enabled')";
+
+        $counter = 0;
+        $result = $db->query($query);
+        if (mysqli_affected_rows($db) == 1)
+            $counter++;
+
+        $id = $db->insert_id;
+        $img = $_POST['photo'];
+
+        $query = "INSERT INTO `images`(`img_a_ID`, `img`, `isMain`) VALUES ($id,'images/$img','True')";
+        $result = $db->query($query);
+
+        if (mysqli_affected_rows($db) == 1)
+            $counter++;
+
+        if ($counter == 2)
+            return array('success' => true);
+        else
+            return array('success' => false, 'error' => 'Не вдалось додати авто!');
+    }
+}
+
 function favouriteList()
 {
     $user = getCoockie("id", "user");
@@ -611,7 +716,7 @@ function UpdatePhotos()
                 continue;
             }
 
-            $query = "INSERT into `images` (`img_a_ID`,`imgName`,`img`,`isMain`) values ('$carID', '$arrNew[$a]','images/$arrNew[$a]','False')";
+            $query = "INSERT into `images` (`img_a_ID`,`img`,`isMain`) values ('$carID','images/$arrNew[$a]','False')";
             $db->query($query);
             if (mysqli_affected_rows($db) == 1);
             $countOfEdited++;
@@ -625,54 +730,51 @@ function UpdatePhotos()
 }
 
 function isUserAlreadyExist($name, $fname, $phone)
-    {
-        $query = "Select * from users where u_name = '$name' and u_fname = '$fname' and u_phone = '$phone'";
+{
+    $query = "Select * from users where u_name = '$name' and u_fname = '$fname' and u_phone = '$phone'";
 
-        $db = get_connection();
+    $db = get_connection();
 
-        $result = $db->query($query);
+    $result = $db->query($query);
 
-        if($result->num_rows>0)
-        {
-            $row = $result->fetch_assoc();
-            $id = $row['u_ID'];
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $id = $row['u_ID'];
 
-            $response = isUserHasBeenBlock($id,"id");
+        $response = isUserHasBeenBlock($id, "id");
 
-            if($response)
-            return array (
-                'success'=>true,
-                'error'=>$response['d_DESC']
+        if ($response)
+            return array(
+                'success' => true,
+                'error' => $response['d_DESC']
             );
-            else
-            return array('success'=>true,'id'=>$id);
-        }
         else
-        return array('success'=>false);
-    }
+            return array('success' => true, 'id' => $id);
+    } else
+        return array('success' => false);
+}
 
-function registerNewUser(){
+function registerNewUser()
+{
 
-    $name = $_POST['name']; $fname = $_POST['fname']; $phone = $_POST['phone'];
-    $response = isUserAlreadyExist($name,$fname, $phone);
+    $name = $_POST['name'];
+    $fname = $_POST['fname'];
+    $phone = $_POST['phone'];
+    $response = isUserAlreadyExist($name, $fname, $phone);
 
-    if($response['success']==true)
-    {
-        $response['success']=false;
+    if ($response['success'] == true) {
+        $response['success'] = false;
         return $response;
-    }   
-    else
-    {
+    } else {
         $query = "Insert into users (`u_name`,`u_fname`,`u_phone`) values ('$name','$name', '$phone')";
 
         $db = get_connection();
 
         $result = $db->query($query);
 
-        if(mysqli_affected_rows($db) == 1)
-        {
-            return array('success'=>true, 'id'=>$db->insert_id);
-        }   
+        if (mysqli_affected_rows($db) == 1) {
+            return array('success' => true, 'id' => $db->insert_id);
+        }
     }
 }
 
@@ -687,10 +789,10 @@ function UpdateVideos()
         $theURL = "https://www.googleapis.com/youtube/v3/videos?id=$link&key=$apiforyoutube&part=status&json";
 
         $headers = file($theURL);
-        if(count($headers) == 23)
-        return true;
+        if (count($headers) == 23)
+            return true;
         else
-        return false;
+            return false;
     }
 
     $countToEdit = $_POST['countToEdit'];
@@ -711,21 +813,17 @@ function UpdateVideos()
                 $countOfEdited++;
             }
             if (!isExistElement("video", $arrOld[$arrKeys[$a]])) {
-                if(isLinkValide($arrOld[$arrKeys[$a]])==true)
-                    {
-                        $query = "Update `videos` set v_link = '" . $arrOld[$arrKeys[$a]] . "' where link_ID = $arrKeys[$a]";
+                if (isLinkValide($arrOld[$arrKeys[$a]]) == true) {
+                    $query = "Update `videos` set v_link = '" . $arrOld[$arrKeys[$a]] . "' where link_ID = $arrKeys[$a]";
 
-                        $db->query($query);
+                    $db->query($query);
 
-                        if (mysqli_affected_rows($db) == 1);
-                        $countOfEdited++;
-                    }
-                    else
-                    {
-                        $arrFailed[] = $arrOld[$arrKeys[$a]];  
-                        $countOfEdited++;
-                    }
-               
+                    if (mysqli_affected_rows($db) == 1);
+                    $countOfEdited++;
+                } else {
+                    $arrFailed[] = $arrOld[$arrKeys[$a]];
+                    $countOfEdited++;
+                }
             } else
                 $countOfEdited++;
         }
@@ -735,25 +833,22 @@ function UpdateVideos()
     if (isset($_POST['linksNew'])) {
         $arrNew = array_unique(array_values($_POST['linksNew']));
         for ($a = 0; $a < count($arrNew); $a++) {
-            if(isLinkValide($arrNew[$a]) == true)
-                {
-                    $query = "INSERT into `videos` (`auto_ID`,`v_link`) values ('$carID', '$arrNew[$a]')";
-                    $db->query($query);
-                    if (mysqli_affected_rows($db) == 1);
-                    $countOfEdited++;
-                }
-                else
-                {
-                    $arrFailed[] = $arrOld[$arrKeys[$a]];    
-                    $countOfEdited++;             
-                }       
+            if (isLinkValide($arrNew[$a]) == true) {
+                $query = "INSERT into `videos` (`auto_ID`,`v_link`) values ('$carID', '$arrNew[$a]')";
+                $db->query($query);
+                if (mysqli_affected_rows($db) == 1);
+                $countOfEdited++;
+            } else {
+                $arrFailed[] = $arrOld[$arrKeys[$a]];
+                $countOfEdited++;
+            }
         }
     }
 
     if ($countOfEdited == $countToEdit)
-        return array("success"=>true, "data"=>$arrFailed);
+        return array("success" => true, "data" => $arrFailed);
     else
-        return array("success"=>false, "data"=>$arrFailed);
+        return array("success" => false, "data" => $arrFailed);
 }
 
 function getCarsList()
