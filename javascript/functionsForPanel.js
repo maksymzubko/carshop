@@ -39,6 +39,87 @@ $(document).ready(function () {
 
 	result();
 
+	let fileName = "";
+	//actionondeletephoto
+	function deletephoto() {
+		$('.withcontent').click(function (e) {
+			if (e.offsetX > 115) {
+				let element = $(e.target).parents().eq(0).attr("id");
+				$("div#" + element + " .fileInput").val('');
+				$("div#" + element + " .link").val('');
+				let image = $("#" + element + " .fleximage img");
+				image.attr("src", "../images/notimage.png");
+				image.parent().toggleClass("withcontent");
+			}
+		})
+	}
+
+	//func for check isFileExist
+	function fileExists(url) {
+		if (url) {
+			var req = new XMLHttpRequest();
+			req.open('GET', url, false);
+			req.send();
+			if (req.status == 200)
+				return true
+			else
+				return false;
+		} else {
+			return false;
+		}
+	}
+	//func for work with files
+	async function fileHandler(file, Swal, DivID) {
+
+		Swal.resetValidationMessage();
+
+		let fileInfo = file.files[0];
+		const path = '../images/' + fileInfo.name;
+
+		if (fileInfo.size > 10000000) {
+			$("#" + DivID + " .fileInput").val('');
+			return Swal.showValidationMessage("Файл " + fileInfo.name + " перевищує допустимий розмір (10МБ)");
+		}
+
+		if (!fileInfo.name.includes('.jpg') && !fileInfo.name.includes('.png')) {
+			$("#" + DivID + " .fileInput").val('');
+			return Swal.showValidationMessage("Файл повинен бути формату 'jpg' або 'png'");
+		}
+
+		if (!fileExists(path)) {
+			$("#" + DivID + " .fileInput").val('');
+			return Swal.showValidationMessage("Файл " + fileInfo.name + " не було знайдено!");
+		}
+
+		let boolIal = true;
+		const result = await $.ajax({
+			type: 'POST',
+			url: '../app/eventsHandler.php',
+			data: {
+				'getImageSize': "get",
+				'image': fileInfo.name
+			},
+			success: (xhr) => {
+				boolIal = false;
+			},
+			error: function (xhr) {
+				boolIal = false;
+				return Swal.showValidationMessage("Файл " + fileInfo.name + " має недопустимі розміри!");
+			}
+		}).done(() => {
+			if (!boolIal) {
+				$("#" + DivID + " .link").val(fileInfo.name);
+				$("#" + DivID + " .link").attr("value", fileInfo.name);
+				let image = $("#" + DivID + " .fleximage img");
+				image.attr("src", "../images/" + fileInfo.name);
+				Swal.resetValidationMessage();
+				image.parent().toggleClass("withcontent");
+				deletephoto();
+			}
+		})
+
+	}
+
 	function formatDate(datestr) {
 		var date = new Date(datestr);
 		date.setHours(date.getHours() - 2);
@@ -1010,87 +1091,6 @@ $(document).ready(function () {
 			}
 		});
 
-		let fileName = "";
-		//actionondeletephoto
-		function deletephoto() {
-			$('.withcontent').click(function (e) {
-				if (e.offsetX > 115) {
-					let element = $(e.target).parents().eq(0).attr("id");
-					$("div#" + element + " .fileInput").val('');
-					$("div#" + element + " .link").val('');
-					let image = $("#" + element + " .fleximage img");
-					image.attr("src", "../images/notimage.png");
-					image.parent().toggleClass("withcontent");
-				}
-			})
-		}
-
-		//func for check isFileExist
-		function fileExists(url) {
-			if (url) {
-				var req = new XMLHttpRequest();
-				req.open('GET', url, false);
-				req.send();
-				if (req.status == 200)
-					return true
-				else
-					return false;
-			} else {
-				return false;
-			}
-		}
-		//func for work with files
-		async function fileHandler(file, Swal, DivID) {
-
-			Swal.resetValidationMessage();
-
-			let fileInfo = file.files[0];
-			const path = '../images/' + fileInfo.name;
-
-			if (fileInfo.size > 10000000) {
-				$("#" + DivID + " .fileInput").val('');
-				return Swal.showValidationMessage("Файл " + fileInfo.name + " перевищує допустимий розмір (10МБ)");
-			}
-
-			if (!fileInfo.name.includes('.jpg') && !fileInfo.name.includes('.png')) {
-				$("#" + DivID + " .fileInput").val('');
-				return Swal.showValidationMessage("Файл повинен бути формату 'jpg' або 'png'");
-			}
-
-			if (!fileExists(path)) {
-				$("#" + DivID + " .fileInput").val('');
-				return Swal.showValidationMessage("Файл " + fileInfo.name + " не було знайдено!");
-			}
-
-			let boolIal = true;
-			const result = await $.ajax({
-				type: 'POST',
-				url: '../app/eventsHandler.php',
-				data: {
-					'getImageSize': "get",
-					'image': fileInfo.name
-				},
-				success: (xhr) => {
-					boolIal = false;
-				},
-				error: function (xhr) {
-					boolIal = false;
-					return Swal.showValidationMessage("Файл " + fileInfo.name + " має недопустимі розміри!");
-				}
-			}).done(() => {
-				if (!boolIal) {
-					$("#" + DivID + " .link").val(fileInfo.name);
-					$("#" + DivID + " .link").attr("value", fileInfo.name);
-					let image = $("#" + DivID + " .fleximage img");
-					image.attr("src", "../images/" + fileInfo.name);
-					Swal.resetValidationMessage();
-					image.parent().toggleClass("withcontent");
-					deletephoto();
-				}
-			})
-
-		}
-
 		dataTable.on('draw', function () {
 			$('img.auto').click((el) => {
 				let isExist = $(el.target).hasClass('show-img');
@@ -1453,7 +1453,7 @@ $(document).ready(function () {
 			$(window).load(() => {
 				sameDivs();
 			})
-
+			let fileName = "";
 			function checkAdminRole() {
 				$.ajax({
 					type: 'POST',
@@ -1761,6 +1761,10 @@ $(document).ready(function () {
 															language: "ua",
 															hoursDisabled: [0, 1, 2, 3, 4, 5, 6, 7, 8, 20, 21, 22, 23],
 															clearBtn: true,
+															onHide: () => {
+																$('swal2-input').blur();
+															},
+												
 															onRenderHour: function (date) {
 																if ($('.disabled').attr('class') != undefined && $('.disabled').attr('class').includes('active'))
 																	$('span.disabled').removeClass('active');
@@ -1775,6 +1779,9 @@ $(document).ready(function () {
 																	return ['disabled'];
 																}
 															}
+														});
+														$('.swal2-input').change(() => {
+															$('.swal2-input').datetimepicker('hide');
 														});
 													}
 												})
@@ -2002,14 +2009,17 @@ $(document).ready(function () {
 				let first = {
 					title: 'Заповніть данні щодо авто',
 					showDenyButton: false,
+					cancelButtonText: "Закрити",
 					html: htmlCode,
 					currentProgressStep: 0,
 					didOpen: () => {
 
+						$('.swal2-progress-step').css("width","4em");
 						if (!isLoaded) {
 							function ToggleAll(boolian) {
 								$('div.main').toggleClass('hide');
-								$('swal2-actions').find('button').eq(0).toggleClass('hide');
+								$('.swal2-confirm').toggleClass('hide');
+								$('.swal2-cancel').toggleClass('hide');
 								if (boolian) {
 									let title = $(Swal.getHeader()).find('.swal2-title');
 									title.html('Загрузка');
@@ -2091,8 +2101,6 @@ $(document).ready(function () {
 								$('div main div.aboutcar').toggleClass('hide');
 						})
 
-						const content = Swal.getHeader();
-						$(content).find('.swal2-progress-step').css('width', '4em');
 						if (values.length != 0) {
 							const content = Swal.getContent();
 							const inputs = $(content).find('div.required select');
@@ -2139,11 +2147,9 @@ $(document).ready(function () {
 					currentProgressStep: 1,
 					didOpen: () => {
 						fileName != "" ? $('.link').val(fileName) : $('.swal-input').val();
-						const content = Swal.getHeader();
 
-						$(content).find('.swal2-progress-step').css('width', '4em');
-						$(Swal.getContainer()).find('.swal2-popup').css('width', '35em');
-
+						$('.swal2-progress-step').css("width","4em");
+						$('.swal2-popup').css("width","35em");
 						$('.fileInput').change(function (obj) {
 							fileHandler(obj.target, Swal, 0);
 						})
@@ -2162,10 +2168,8 @@ $(document).ready(function () {
 
 				for (currentStep = 0; currentStep < steps.length;) {
 
-					console.log(htmlCode);
 					first["html"] = htmlCode;
 					second["html"] = htmlSecond;
-					console.log(htmlSecond);
 					const result = currentStep == 0 ? await swalQueueStep.fire(first) : await swalQueueStep.fire(second);
 
 					if (result.value) {
