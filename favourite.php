@@ -61,7 +61,7 @@ if (!isset($_COOKIE['acc'])) {
                                     <p>' . $secrow['m_model'] . '</p>
                                 </div>
                                 <div class="product-buttons">
-                                    <a href="" class="btn ' . $_SESSION['lang'] . ' effect-button" data-sm-link-text=" ' . $lang['buttonHideText'] . '"><span> ' . $catalog['btn'] . '</span></a>
+                                    <a href="" class="btn ' . $_SESSION['lang'] . ' effect-button lookcar" data-sm-link-text=" ' . $lang['buttonHideText'] . '"><span> ' . $catalog['btn'] . '</span></a>
                                     <div class="photo" data-title="' . $catalog['alt'] . '">  
                                     <img src="/images/favourite-is.png" class="favourite is" tabindex="' . $secrow['a_ID'] . '">
                                 </div>

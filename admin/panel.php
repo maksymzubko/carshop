@@ -144,11 +144,11 @@
                 </div>
                 <div class="row">
                     <div class="col-lg-12">
-                        <h1 class="page-header top">Робота з користувачами</h1>
+                        <h1 class="page-header top">Швидкі команди</h1>
                     </div>
                 </div>
                 <div class="row buttons">
-                    <div class="col-lg-2 col-md-3 col-xs-6">
+                    <div class="col-lg-4 col-md-6 col-xs-6">
                         <div class="panel panel-primary addNewAdmin">
                             <div class="panel-heading">
                                 <div class="row">
@@ -167,51 +167,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-2 col-md-3 col-xs-6">
-                        <div class="panel panel-primary removeAdmin">
-                            <div class="panel-heading">
-                                <div class="row">
-                                    <div class="col-xs-3">
-                                        <i class="fa fa-user-times fa-5x"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="remadm pointer">
-                                <div class="panel-footer">
-                                    <span class="pull-left">Видалити модератора</span>
-                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-
-                                    <div class="clearfix"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-2 col-md-3 col-xs-6">
-                        <div class="panel panel-primary">
-                            <div class="panel-heading">
-                                <div class="row">
-                                    <div class="col-xs-3">
-                                        <i class="fas fa-user-lock fa-5x"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="blockuser pointer">
-                                <div class="panel-footer">
-                                    <span class="pull-left">Заблокувати користувача</span>
-                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                    <div class="clearfix"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h1 class="page-header top">Робота з авто</h1>
-                    </div>
-                </div>
-                <div class="row buttons">
-                    <div class="col-lg-2 col-md-3 col-xs-6">
+                    <div class="col-lg-4 col-md-6 col-xs-6">
                         <div class="panel panel-green">
                             <div class="panel-heading">
                                 <div class="row">
@@ -230,52 +186,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-2 col-md-3 col-xs-6">
-                        <div class="panel panel-green">
-                            <div class="panel-heading">
-                                <div class="row">
-                                    <div class="col-xs-3">
-                                        <i class="fab fa-youtube fa-5x"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="editlinks pointer">
-                                <div class="panel-footer">
-                                    <span class="pull-left">Редактор посилань</span>
-                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-
-                                    <div class="clearfix"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-2 col-md-3 col-xs-6">
-                        <div class="panel panel-green">
-                            <div class="panel-heading">
-                                <div class="row">
-                                    <div class="col-xs-3">
-                                        <i class="fas fa-images fa-5x"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="editphotos pointer">
-                                <div class="panel-footer">
-                                    <span class="pull-left">Редактор зображень</span>
-                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                    <div class="clearfix"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h1 class="page-header top">Робота з тестдрайвами</h1>
-                    </div>
-                </div>
-                <div class="row buttons">
-                    <div class="col-lg-2 col-md-3 col-xs-6">
+                    <div class="col-lg-4 col-md-6 col-xs-6">
                         <div class="panel panel-yellow">
                             <div class="panel-heading">
                                 <div class="row">
@@ -294,7 +205,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>

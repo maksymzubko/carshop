@@ -12,7 +12,6 @@ echo '    <!-- Import css -->
 <link rel="stylesheet" href="css/bootstrap-datetimepicker.css">
 <link rel="shortcut icon" href="images/logo-mini.png">
 
-<!-- Import javascript -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
 <script type="text/javascript" src="javascript/all.js"></script>
 <script type="text/javascript" src="javascript/jquery-1.11.0.min.js"></script>
@@ -27,6 +26,5 @@ echo '    <!-- Import css -->
 <script src="javascript/jquery.tabledit.min.js"></script>
 <script src="javascript/jquery.easydropdown.js"></script>
 <script src="javascript/imagezoom.js"></script>
-<script src="javascript/sweetalert2.min.js"></script>
-';
+<script src="javascript/sweetalert2.min.js"></script>';
 ?>

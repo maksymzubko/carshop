@@ -37,7 +37,7 @@ $(document).ready(function () {
 	let engWords, ruWords, uaWords;
 
 	if (window.location.href.includes('car.php')) {
-		id_car = window.location.href.replace("http://carshop.loft/car.php?id=", "").replace("#", "").split('&lang=')[0];
+		id_car = window.location.href.replace(window.location.href.substr(0,window.location.href.indexOf("=")),"").replace("=","").replace("#", "").split('&lang=')[0];
 		$.ajax({
 			type: 'POST',
 			url: 'app/eventsHandler.php',
@@ -99,7 +99,6 @@ $(document).ready(function () {
 			data: { action: action, brand: brand, category: category, color: color },
 			success: function (xhr) {
 				$('.maincar').html(xhr);
-
 				if (xhr.includes('none')) {
 					$('#change1').css('display', 'none');
 				}
@@ -114,7 +113,7 @@ $(document).ready(function () {
 				but.click(button);
 				fav.click(favourite);
 				sameDivs();
-			}
+			},
 		});
 
 	}
@@ -212,14 +211,8 @@ $(document).ready(function () {
 
 	function button() {
 		let id = $(this).parent().parent().parent().attr("id");
-		location.href = window.location.origin + "/car.php?id=" + id;
-		$.ajax({
-			type: 'POST',
-			url: 'app/eventsHandler.php',
-			data: {
-				'addLookCount': ""
-			}
-		});
+		let link = window.location.origin+"/car.php?id=" + id;
+		window.location.href.replace(link);
 	};
 	function favourite() {
 		var elem = $(this);
@@ -292,7 +285,6 @@ $(document).ready(function () {
 								input: 'text',
 								inputPlaceholder: w("qu2"),
 								inputAttributes: {
-									required: true,
 									autofocus: false,
 									readonly: true
 								},
@@ -330,7 +322,7 @@ $(document).ready(function () {
 								if (result.isConfirmed) {
 									$.ajax({
 										type: 'POST',
-										url: 'app/eventsHandler.php',
+										url: '../app/eventsHandler.php',
 										data: {
 											'car_ID': id_car,
 											'mytest': "ndtst",
@@ -342,7 +334,7 @@ $(document).ready(function () {
 												"success",
 											);
 
-										}, error: function (xhr, status, error) {
+										}, error: function (xhr) {
 											let d = JSON.parse(xhr.responseText);
 											Swal.fire(
 												w("errorMessage"),
@@ -501,12 +493,13 @@ $(document).ready(function () {
 			}
 		});
 	});
-
 	if (getCookie('acc') != undefined) {
+		let reload = true;
 			var url = lang();
 			if (window.location.pathname == "/testdrives.php") {
+				let success = true;
 				$('#data').DataTable({
-					"processing": true,
+					"processing":true,
 					"serverSide": true,
 					"bSort": false,
 					"language": {
@@ -514,16 +507,18 @@ $(document).ready(function () {
 					},
 					"ajax": {
 						url: "app/eventsHandler.php",
-						data: { testdrive: 'getTest' },
-						type: "POST"
-					},
-					success: function (data, textStatus, jqXHR) {
-						$('#data').DataTable().ajax.reload();
-					},
-					error: function () {  // error handling
-						$(".data-grid-error").html("");
-						$("#data").append('<table class="data-grid-error"><tr><th colspan="3">No data found in the server</th></tr></table>');
-						$("#data_processing").css("display", "none");
+						data: { testdrive: 'getAllTests' },
+						type: "POST"	,
+						success: (xhr)=>{
+							if(reload)
+							$('#data').DataTable().ajax.reload();
+							reload = false;
+						},
+						error: (xhr) => {
+							$(".data-grid-error").html("");
+							$("#data_wrapper").append('<h2 style="text-align:center">No data found in the server<h2>');
+							$("#data_processing").css("display", "none");
+						}				
 					}
 				});
 			};

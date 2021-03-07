@@ -65,31 +65,35 @@
                 <!--Navigator end-->
                 <div class="row">
                     <div class="col-lg-12">
-                        <h1 class="page-header top">Testdrives</h1>
+                        <h1 class="page-header top">Тестдрайв</h1>
                     </div>
                 </div>
                 <!-- /.row -->
                 <div class="row">
                     <div class="col-lg-12 col-md-12 test">
                         <div class="panel panel-default">
-                            <div class="panel-heading">Testdrives list</div>
                             <div class="panel-body">
+                                <div class="switch_test text-center"><button id=0 class="active">Всі</button><button class="" id=1 >Закінчені</button><button id=2 class="">Незакінчені</button></div>
                                 <div class="table-responsive">
                                     <table id="data" class="table table-bordered table-striped" style="width:100%">
                                         <thead>
                                             <tr>
                                                 <th>#ID</th>
-                                                <th>Last Name</th>
-                                                <th>First Name</th>
-                                                <th>#CarID</th>
-                                                <th>Mark</th>
-                                                <th>Model</th>
-                                                <th>Date</th>
-                                                <th>Status</th>
+                                                <th>#ID Користувача</th>
+                                                <th>Прізвище</th>
+                                                <th>Ім'я</th>
+                                                <th>#ID Авто</th>
+                                                <th>Марка</th>
+                                                <th>Модель</th>
+                                                <th>Дата</th>
+                                                <th>Статус</th>
+                                                <th>Доїхав?</th>
                                             </tr>
                                         </thead>
                                         <tbody class="body"></tbody>
+                                        
                                     </table>
+                                    <h1 class="text-center error">Інформація відсутня</h1>
                                 </div>
                             </div>
                         </div>
@@ -103,4 +107,3 @@
 </body>
 
 </html>
-?>

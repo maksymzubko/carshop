@@ -59,7 +59,6 @@ if (isset($_COOKIE['acc'])) {
     <!--login-end-->
 
     <?php require_once 'templates/footer.php' ?>
-
 </body>
 
 </html>

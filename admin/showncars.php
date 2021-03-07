@@ -64,31 +64,31 @@
                 <!--Navigator end-->
                 <div class="row">
                     <div class="col-lg-12">
-                        <h1 class="page-header top">Shown cars</h1>
+                        <h1 class="page-header top">Видимість авто</h1>
                     </div>
                 </div>
                 <!-- /.row -->
                 <div class="row">
                     <div class="col-lg-12 col-md-12 test">
                         <div class="panel panel-default">
-                            <div class="panel-heading">Need change visible some car?</div>
                             <div class="panel-body">
                                 <div class="buttons-shown">
-                                    <button id="shownall">Shown all</button> <button id="hideall">Hide all</button>
+                                    <button id="shownall">Показати усі</button> <button id="hideall">Сховати усі</button>
                                 </div>
                                 <div class="table-responsive">
                                     <table id="data" class="table table-bordered table-striped" style="width:100%">
                                         <thead>
                                             <tr>
                                                 <th>#ID</th>
-                                                <th>Image</th>
+                                                <th>Зоображення</th>
                                                 <!--  <th>Mark</th>
                                                 <th>Model</th> -->
-                                                <th>Visible</th>
+                                                <th>Відображення</th>
                                             </tr>
                                         </thead>
                                         <tbody class="body"></tbody>
                                     </table>
+                                    <h1 class="text-center error">Інформація відсутня</h1>
                                 </div>
                             </div>
                         </div>

@@ -7,7 +7,9 @@ a{
     font-family: 'Roboto';
     font-size: 16px;
 }
-
+i{
+    font-style: normal;
+}
 #wrapper {
     width: 100%;
 }
@@ -344,9 +346,6 @@ div#OR {
     padding-right: 0;
     padding-left: 0;
 }
-.sidebar ul li:nth-child(1){
-    border-bottom: 2px solid;
-}
 .sidebar .sidebar-search {
     padding: 15px;
 }
@@ -357,6 +356,68 @@ div#OR {
 
 .activeInput{
     border: 2px solid red;
+}
+td.button{
+    width: 20px;
+}
+.td__button{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+img.load{
+margin-left: 5px;
+background-image: url("https://upload.wikimedia.org/wikipedia/commons/c/c7/Loading_2.gif");
+background-size: contain;
+background-repeat: no-repeat;
+width: 30px;
+padding: 14px;
+height: 30px;
+}
+.test_button.block, .test_button.delete{
+    background: #f15858;
+    color: white;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+td img{
+    transition: ease-in-out 1s;
+    position: relative;
+    z-index: 98;
+    cursor: pointer;
+}
+.test_button.edit{
+    background: #337ab7;
+    color: white;
+    letter-spacing: 1px;
+}
+.table-button{
+    text-align: center;
+    padding: 1px 6px;
+}
+td img.show-img{
+    transform: scale(4);
+    z-index: 99;
+}
+table>tbody>tr>td{
+    vertical-align: middle;
+}
+.switch_test{
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+}
+.switch_test button{
+    background-color: #f8f8f8;
+    color: #337ab7;;
+    border-radius: 5px;
+    padding: 5px 10px;
+    border: 1px solid black;
+    margin: auto 10px;
+}
+.switch_test button.active{
+background: black;
+    font-weight: 600;
 }
 
 .sidebar ul li a.active {

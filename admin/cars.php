@@ -65,30 +65,34 @@
                 <!--Navigator end-->
                 <div class="row">
                     <div class="col-lg-12">
-                        <h1 class="page-header top">Cars</h1>
+                        <h1 class="page-header top">Авто</h1>
                     </div>
                 </div>
                 <!-- /.row -->
                 <div class="row">
                     <div class="col-lg-12 col-md-12 test">
                         <div class="panel panel-default">
-                            <div class="panel-heading">Cars list</div>
                             <div class="panel-body">
                                 <div class="table-responsive">
                                     <table id="data" class="table table-bordered table-striped" style="width:100%">
                                         <thead>
                                             <tr>
                                                 <th>#ID</th>
-                                                <th>Image</th>
-                                                <th>Mark</th>
-                                                <th>Model</th>
-                                                <th>Color</th>
-                                                <th>Year</th>
-                                                <th>Count</th>
+                                                <th>Зоображення</th>
+                                                <th>Марка</th>
+                                                <th>Модель</th>
+                                                <th>Колір</th>
+                                                <th>Рік</th>
+                                                <th>Кількість</th>
+                                                <th>Ціна за тест-драйв</th>
+                                                <th>Функція #1</th>
+                                                <th>Функція #2</th>
+                                                <th>Функція #3</th>
                                             </tr>
                                         </thead>
                                         <tbody class="body"></tbody>
                                     </table>
+                                    <h1 class="text-center error">Інформація відсутня</h1>
                                 </div>
                             </div>
                         </div>

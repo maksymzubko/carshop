@@ -234,11 +234,13 @@ function validate(array $request, string $role)
 {
     $errors = "";
 
-    $res = strlen($request['phone']) != 13 ? $errors = "Количество цифр в номере равно 13!" : false;
-    if ($res) {
-        return $errors;
+    if(isset($request['phone'])){
+        $res = strlen($request['phone']) != 13 ? $errors = "Количество цифр в номере равно 13!" : false;
+        if ($res) {
+            return $errors;
+        }
     }
-
+   
     function isEmailAlreadyExists(string $email)
     {
         $query = "SELECT * FROM users WHERE u_login = '$email'";
@@ -384,13 +386,32 @@ function getAboutUser()
 {
     $user = getCoockie("id", "user");
 
-    $query = "SELECT `u_ID`,`u_login`,`u_name`,`u_fname`,(SELECT COUNT(d_ID) FROM testdrive WHERE uid=$user) as `test`, (SELECT COUNT(client_ID) FROM favourite WHERE client_ID=$user) as `fav` FROM `users` join testdrive on `u_ID` = `uid` join favourite on u_ID = client_ID WHERE `u_ID` = $user GROUP BY u_ID";
+    $arr = array();
+
+    $query = "SELECT `u_ID`,`u_login`,`u_name`,`u_fname` from users where u_ID = $user";
 
     $db = get_connection();
     $result = $db->query($query);
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $arr["u_ID"]=$row["u_ID"];
+        $arr["u_login"]=$row["u_login"];
+        $arr["u_name"]=$row["u_name"];
+        $arr["u_fname"]=$row["u_fname"];
 
-    if ($result) {
-        return $row = $result->fetch_assoc();
+        $query = "SELECT Count(`d_ID`) as count from testdrive where uid = $user";
+        $result = $db->query($query);
+        $row = $result->fetch_assoc();
+
+        $arr["test"]=$row['count'];
+
+        $query = "SELECT Count(`client_ID`) as count from favourite where client_ID = $user";
+        $result = $db->query($query);
+        $row = $result->fetch_assoc();
+
+        $arr["fav"]=$row['count'];
+
+        return $arr;
     } else
         return false;
 }
@@ -547,11 +568,11 @@ function addToTestdrive(string $id, string $date)
 {
     if (validateTest($id)) {
         $user = isset($_POST['userID']) ? $_POST['userID'] : getCoockie("id", "user");
-
+        
         $query = "INSERT INTO `testdrive` (`uid`, `car_ID`,`status`,`date`) VALUES($user,$id, 'Waiting', '$date')";
         $db = get_connection();
         $stmt = $db->query($query);
-        return $stmt;
+        return true;
     } else {
         return false;
     }
@@ -859,6 +880,25 @@ function getCarsList()
     return $db->query($query);
 }
 
+function getTestDrives()
+{
+    $query = "Select * from testdrive join auto on car_ID = a_ID join models on a_model = m_id join marks on m_mark_ID = markID where STATUS = 'Success' and isArrived IS NULL";
+
+    $db = get_connection();
+
+    $result = $db->query($query);
+
+    $arr = array();
+    if($result->num_rows>0)
+    {
+        while($row=$result->fetch_assoc())
+        $arr[$row["d_ID"]]=$row["d_ID"]." - (".$row["mark"].", ".$row["m_model"].", ".$row["a_color"].", ".$row["a_year"].")";
+
+        return $arr;
+    } 
+    else return false;
+}
+
 function IsCarFavourite($car_ID)
 {
     if (isAuthorizated()) {
@@ -1018,12 +1058,12 @@ function getAllTests($where)
 {
     $db = get_connection();
 
-    $column = array("d_ID", "u_fname", "u_name", "car_ID", "mark", "m_model", "date", "status");
+    $column = array("d_ID","u_ID", "u_fname", "u_name", "car_ID", "mark", "m_model", "date", "status", "isArrived");
 
     $query = "SELECT * FROM testdrive JOIN users on `uid` = u_ID JOIN `auto` on car_ID = a_ID JOIN models on a_model = m_ID JOIN marks on m_mark_ID = mark_ID where $where ";
 
     if ($_POST["search"]["value"] != "") {
-        $query .= '  OR (' . $where . ' and (u_name LIKE "%' . $_POST["search"]["value"] . '%"  OR u_fname LIKE "%' . $_POST["search"]["value"] . '%"  OR mark LIKE "%' . $_POST["search"]["value"] . '%" OR m_model LIKE "%' . $_POST["search"]["value"] . '%"  OR date LIKE "%' . $_POST["search"]["value"] . '%" )) ';
+        $query .= '  and (u_name LIKE "%' . $_POST["search"]["value"] . '%"  OR u_fname LIKE "%' . $_POST["search"]["value"] . '%"  OR status LIKE "%' . $_POST["search"]["value"] . '%"  OR mark LIKE "%' . $_POST["search"]["value"] . '%" OR car_ID LIKE "%' . $_POST["search"]["value"] . '%" OR m_model LIKE "%' .$_POST["search"]["value"] . '%"  OR date LIKE "%' . $_POST["search"]["value"] . '%") ';
     }
 
     if (isset($_POST["order"])) {
@@ -1047,8 +1087,10 @@ function getAllTests($where)
 
     while ($row = $statement->fetch_assoc()) {
         $sub_array = array();
-        if ($where == "status IN ('Waiting','Success', 'Denied')" || $where == "status = 'Waiting'") {
+        if (strpos($where, "u_ID") == false) {         
             $sub_array[] = $row["d_ID"];
+            if($where != "status = 'Waiting'")
+            $sub_array[] = $row["u_ID"];
             $sub_array[] = $row['u_fname'];
             $sub_array[] = $row['u_name'];
             $sub_array[] = $row['car_ID'];
@@ -1056,7 +1098,10 @@ function getAllTests($where)
         $sub_array[] = $row['mark'];
         $sub_array[] = $row['m_model'];
         $sub_array[] = $row['date'];
-        $sub_array[] = $row['status'];
+        if ($where != "status = 'Waiting'") {
+            $sub_array[] = $row['status'];
+            $sub_array[] = $row["isArrived"];
+        }
         $data[] = $sub_array;
     }
 
@@ -1079,7 +1124,7 @@ function getVisible()
     $query = "SELECT * FROM auto join images on img_a_ID = a_ID join models on a_model=m_id join marks on m_mark_ID = mark_ID where isMain = 'True'";
 
     if (isset($_POST["search"]["value"])) {
-        $query .= ' and (mark LIKE "%' . $_POST["search"]["value"] . '%"  OR m_model LIKE "%' . $_POST["search"]["value"] . '%") ';
+        $query .= ' and (a_ID LIKE "%' . $_POST["search"]["value"] . '%"  OR Visible LIKE "%' . $_POST["search"]["value"] . '%") ';
     }
     if (isset($_POST["order"])) {
         $query .= 'ORDER BY ' . $column[$_POST['order']['0']['column']] . ' ' . $_POST['order']['0']['dir'] . ' ';
@@ -1102,7 +1147,7 @@ function getVisible()
     while ($row = $statement->fetch_assoc()) {
         $sub_array = array();
         $sub_array[] = $row["a_ID"];
-        $sub_array[] = "<img class='center' src = ../" . $row['img'] . " width = '250px'>";
+        $sub_array[] = "<img class='center auto' src = ../" . $row['img'] . " width = '70px'>";
         // $sub_array[] = $row['mark'];
         // $sub_array[] = $row['m_model'];
         $sub_array[] = $row['visible'];
@@ -1119,22 +1164,80 @@ function getVisible()
     return $output;
 }
 
-function getUsers($where = "u_roleID = 'Пользователь'")
+function getModers()
 {
     $db = get_connection();
 
-    $column = array("u_ID", "u_name", "u_fname", "u_login", "u_pass", "u_phone", "u_sex", "u_roleID");
+    $column = array("adm_ID", "adm_UNI", "adm_LOG", "adm_PASS");
 
-    $query = "SELECT * FROM users where $where";
+    $query = "SELECT * FROM admins where adm_ROLE != 'Main'";
 
     if (isset($_POST["search"]["value"])) {
-        $query .= ' OR (' . $where . ' and (u_name LIKE "%' . $_POST["search"]["value"] . '%"  OR u_fname LIKE "%' . $_POST["search"]["value"] . '%"  OR u_sex LIKE "%' . $_POST["search"]["value"] . '%" OR u_phone LIKE "%' . $_POST["search"]["value"] . '%"  OR u_login LIKE "%' . $_POST["search"]["value"] . '%" OR u_roleID LIKE "%' . $_POST["search"]["value"] . '%" ))';
+        $query .= 'and (adm_UNI LIKE "%' . $_POST["search"]["value"] . '%"  OR adm_ID LIKE "%' . $_POST["search"]["value"]. '%") ';
     }
 
     if (isset($_POST["order"])) {
         $query .= 'ORDER BY ' . $column[$_POST['order']['0']['column']] . ' ' . $_POST['order']['0']['dir'] . ' ';
     } else {
-        $query .= 'ORDER BY u_ID ASC ';
+        $query .= 'ORDER BY adm_ID ASC ';
+    }
+    $query1 = '';
+
+    if ($_POST["length"] != -1) {
+        $query1 = 'LIMIT ' . $_POST['start'] . ', ' . $_POST['length'];
+    }
+
+    $statement = $db->query($query);
+
+    $number_filter_row = $statement->num_rows;
+
+    $statement = $db->query($query . $query1);
+
+    $data = array();
+
+    while ($row = $statement->fetch_assoc()) {
+        $sub_array = array();
+        $sub_array[] = $row["adm_ID"];
+        $sub_array[] = $row['adm_UNI'];
+        $sub_array[] = $row['adm_LOG'];
+        $sub_array[] = $row['adm_PASS'];
+        $sub_array[] = "<div id=".$row['adm_UNI']." class='td__button'><button  class='test_button delete'>Видалити</button><img class='load hide'></div>";
+        $data[] = $sub_array;
+    }
+
+    $output = array(
+        'draw'   => intval($_POST['draw']),
+        'recordsTotal' => count_all_data($db, "admins"),
+        'recordsFiltered' => $number_filter_row,
+        'data'   => $data
+    );
+
+    return $output;
+}
+
+function getUsers($where)
+{
+    $db = get_connection();
+
+    if($where == "1")
+    {
+        $column = array("u_ID", "u_name", "u_fname", "u_login", "u_pass", "u_phone", "u_sex");
+        $query ="SELECT * FROM users where `u_ID` not in (Select u_ID from blacklist)";
+    }
+    else
+    {
+        $column = array("u_ID", "u_name", "u_fname", "u_login", "u_pass", "u_phone", "u_sex","d_DESC");
+        $query = "SELECT * FROM users join blacklist on users.u_ID = blacklist.u_ID";
+    }
+    
+    if (isset($_POST["search"]["value"])) {
+        $query .= ' and (u_name LIKE "%' . $_POST["search"]["value"] . '%"  OR u_fname LIKE "%' . $_POST["search"]["value"] . '%"  OR u_sex LIKE "%' . $_POST["search"]["value"] . '%" OR u_phone LIKE "%' . $_POST["search"]["value"] . '%"  OR u_login LIKE "%' . $_POST["search"]["value"] . '%" ) ';
+    }
+
+    if (isset($_POST["order"])) {
+        $query .= 'ORDER BY ' . $column[$_POST['order']['0']['column']] . ' ' . $_POST['order']['0']['dir'] . ' ';
+    } else {
+        $query .= 'ORDER BY users.u_ID ASC ';
     }
     $query1 = '';
 
@@ -1159,7 +1262,12 @@ function getUsers($where = "u_roleID = 'Пользователь'")
         $sub_array[] = decrypt($row['u_pass']);
         $sub_array[] = $row['u_phone'];
         $sub_array[] = $row['u_sex'];
-        $sub_array[] = $row['u_roleID'];
+
+        if($where != "1")
+        $sub_array[] = $row['d_DESC'];
+        else
+        $sub_array[] = "<div id=".$row['u_ID']." class='td__button'><button  class='test_button block'>Заблокувати</button><img class='load hide'></div>";
+
         $data[] = $sub_array;
     }
 
@@ -1182,7 +1290,7 @@ function getAuto($where = "isMain = 'True'")
     $query = "SELECT * FROM auto join images on img_a_ID = a_ID join models on a_model=m_id join marks on m_mark_ID = mark_ID where $where";
 
     if (isset($_POST["search"]["value"])) {
-        $query .= ' OR (' . $where . ' and (mark LIKE "%' . $_POST["search"]["value"] . '%"  OR m_model LIKE "%' . $_POST["search"]["value"] . '%"  OR a_color LIKE "%' . $_POST["search"]["value"] . '%" OR a_year LIKE "%' . $_POST["search"]["value"] . '%" OR a_count LIKE "%' . $_POST["search"]["value"] . '%"))';
+        $query .= ' and (mark LIKE "%' . $_POST["search"]["value"] . '%"  OR m_model LIKE "%' . $_POST["search"]["value"] . '%"  OR a_color LIKE "%' . $_POST["search"]["value"] . '%" OR a_year LIKE "%' . $_POST["search"]["value"] . '%" OR a_count LIKE "%' . $_POST["search"]["value"] . '%")';
     }
     if (isset($_POST["order"])) {
         $query .= 'ORDER BY ' . $column[$_POST['order']['0']['column']] . ' ' . $_POST['order']['0']['dir'] . ' ';
@@ -1205,12 +1313,17 @@ function getAuto($where = "isMain = 'True'")
     while ($row = $statement->fetch_assoc()) {
         $sub_array = array();
         $sub_array[] = $row["a_ID"];
-        $sub_array[] = "<img class='center' src = ../" . $row['img'] . " width = '150px'>";
+        $sub_array[] = "<img class='center auto' src = ../" . $row['img'] . " width = '70px'>";
         $sub_array[] = $row['mark'];
         $sub_array[] = $row['m_model'];
         $sub_array[] = $row['a_color'];
         $sub_array[] = $row['a_year'];
         $sub_array[] = $row['a_count'];
+        $sub_array[] = $row['t_price'];
+        $sub_array[] = "<div class='td__button'><button  class='test_button edit price'>Змінити ціну</button><img class='load hide'></div>";
+        $sub_array[] = "<div class='td__button'><button  class='test_button edit video'>Змінити посилання</button><img class='load hide'></div>";
+        $sub_array[] = "<div class='td__button'><button  class='test_button edit photo'>Змінити зображення</button><img class='load hide'></div>";
+
         $data[] = $sub_array;
     }
 

@@ -37,8 +37,11 @@ echo '
                         if (!isset($_COOKIE['acc']))
                         echo '<label class="lab">' . $lang['footerH3'] . '</label>';
                         else
-                        echo '<label class="lab">' . $_COOKIE['name'] . '</label>';
-
+                        {
+                            $user = json_decode($_COOKIE['acc'],true)["name"];
+                            echo '<label class="lab">' . $user . '</label>';
+                        }
+                     
                         echo '
                         <img src="images/account.png" alt="" style="width:30px;height:30px" /> <i
                             class="fa fa-caret-down"></i>

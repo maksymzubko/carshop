@@ -68,7 +68,7 @@ if (!empty($_POST)) {
                 'success' => true,
                 'successmsg' => $succesmsg
             ]);
-        } else if($error == "" && !$regResponse) {
+        } else if ($error == "" && !$regResponse) {
             sendResponse([
                 'success' => false,
                 'error' => translateAction("Пользователь уже зарегистрирован!")
@@ -112,17 +112,35 @@ if (!empty($_POST)) {
     {
         $output = getAllTests("status = 'Waiting'");
         if ($output['recordsFiltered'] == 0) {
-            http_response_code(500);
-            echo json_encode($output);
+            sendResponse(["success" => false]);
         } else {
-            $output["success"] = true;
+            echo json_encode($output);
+        }
+    }
+
+    function getAllUncommingTest()
+    {
+        $output = getAllTests("status = 'Success' and isArrived is Null");
+        if ($output['recordsFiltered'] == 0) {
+            sendResponse(["success" => false]);
+        } else {
+            echo json_encode($output);
+        }
+    }
+
+    function getAllCommingTest()
+    {
+        $output = getAllTests("status IN ('Success', 'Denied') and isArrived IN ('Yes', 'No')");
+        if ($output['recordsFiltered'] == 0) {
+            sendResponse(["success" => false]);
+        } else {
             echo json_encode($output);
         }
     }
 
     function actionSecond()
     {
-        $output = getAllTests("status IN ('Waiting','Success', 'Denied')");
+        $output = getAllTests("status IN ('Success', 'Denied')");
         if ($output['recordsFiltered'] == 0) {
             http_response_code(500);
             echo json_encode($output);
@@ -191,27 +209,44 @@ if (!empty($_POST)) {
         }
     }
 
-    function actionGetTestsDrive(){
+    function actionGetTestsDrive()
+    {
         $output = getTestCar($_POST['car_ID']);
-        if($output["block"])
-        {
+        if ($output["block"]) {
             sendResponse([
-                'success'=>false,
-                'error'=>'Цей юзер вже замовив тест-драйв цього авто!'
+                'success' => false,
+                'error' => 'Цей юзер вже замовив тест-драйв цього авто!'
             ]);
-        }
-        else
-        {
+        } else {
             sendResponse([
-                'success'=>true,
-                'data'=>$output
+                'success' => true,
+                'data' => $output
             ]);
         }
     }
 
+    function actionAllGetTestsDrive()
+    {
+        $output = getTestCar($_POST['car_ID']);
+        sendResponse([
+            'success' => true,
+            'data' => $output
+        ]);
+    }
+
     function actionNinth()
     {
-        $output = getUsers();
+        $output = getUsers("1");
+        if ($output['recordsFiltered'] == 0) {
+            http_response_code(500);
+            echo json_encode($output);
+        } else {
+            echo json_encode($output);
+        }
+    }
+    function actionGetModers()
+    {
+        $output = getModers();
         if ($output['recordsFiltered'] == 0) {
             http_response_code(500);
             echo json_encode($output);
@@ -228,18 +263,35 @@ if (!empty($_POST)) {
             $status  = $_POST['status'];
 
             $query = "
- UPDATE testdrive SET status = '" . $_POST["status"] . "' WHERE d_ID = '" . $_POST["d_ID"] . "'
+ UPDATE testdrive SET status = '" . $status . "' WHERE d_ID = '" .  $d_ID . "'
  ";
+
             $statement = $db->query($query);
 
             echo json_encode($_POST);
         } else if (isset($_POST['visible'])) {
             $db = get_connection();
-            if ($_POST['visible'] == 'Enabled') {
+            if (isset($_POST['ID'])) {
+                $d_ID  = $_POST['ID'];
                 $vis  = $_POST['visible'];
 
                 $query = "
-                UPDATE auto SET visible = '" . $_POST["visible"] . "'";
+                UPDATE auto SET visible = '" . $vis . "' WHERE a_ID = '" . $d_ID . "'
+                ";
+                $statement = $db->query($query);
+
+                if (mysqli_affected_rows($db) == 1)
+                    sendResponse(
+                        ['success' => true]
+                    );
+                else sendResponse([
+                    'success' => false
+                ]);
+            } else if ($_POST['visible'] == 'Enabled') {
+                $vis  = $_POST['visible'];
+
+                $query = "
+                UPDATE auto SET visible = '" . $vis . "'";
                 $statement = $db->query($query);
 
                 echo json_encode($_POST);
@@ -247,44 +299,87 @@ if (!empty($_POST)) {
                 $vis  = $_POST['visible'];
 
                 $query = "
-                UPDATE auto SET visible = '" . $_POST["visible"] . "'";
-                $statement = $db->query($query);
-
-                echo json_encode($_POST);
-            } else {
-                $d_ID  = $_POST['a_ID'];
-                $vis  = $_POST['visible'];
-
-                $query = "
-                UPDATE auto SET visible = '" . $_POST["visible"] . "' WHERE a_ID = '" . $_POST["a_ID"] . "'
-                ";
+                UPDATE auto SET visible = '" . $vis . "'";
                 $statement = $db->query($query);
 
                 echo json_encode($_POST);
             }
+           
+         } else if (isset($_POST['isarrived'])) {
+            $db = get_connection();
+            $d_ID  = $_POST['ID'];
+            $vis  = $_POST['isarrived'];
+
+            $query = "
+            UPDATE testdrive SET isArrived = '" . $vis . "' WHERE d_ID = '" . $d_ID . "'
+            ";
+
+            $statement = $db->query($query);
+
+            if (mysqli_affected_rows($db) == 1)
+                sendResponse(
+                    ['success' => true]
+                );
+            else sendResponse([
+                'success' => false
+            ]);
+        }
+        else if (isset($_POST['price'])) {
+            $db = get_connection();
+
+            $vis  = $_POST['ID'];
+            $price = $_POST['price'];
+
+            $query = "
+            UPDATE auto SET t_price = '" . $price . "' where a_ID = '".$vis."'";
+            $statement = $db->query($query);
+
+            if (mysqli_affected_rows($db) == 1)
+            sendResponse(
+                ['success' => true]
+            );
+        else sendResponse([
+            'success' => false
+        ]);}
+        else if (isset($_POST['date'])) {
+            $db = get_connection();
+            $id  = $_POST['id'];
+            $date = $_POST['date'];
+
+            $query = "
+            UPDATE testdrive SET date = '" . $date . "' WHERE d_ID = '" . $id . "'
+            ";
+
+            $statement = $db->query($query);
+
+            if (mysqli_affected_rows($db) == 1)
+                sendResponse(
+                    ['success' => true]
+                );
+            else sendResponse([
+                'success' => false
+            ]);
         }
     }
 
     function actionGetMarkModelsList()
     {
         $result = getMarkModelsList();
-        if($result["success"])
-        {
+        if ($result["success"]) {
             sendResponse([
-                'success'=>true,
-                'data'=>$result['data']
+                'success' => true,
+                'data' => $result['data']
             ]);
-        }
-        else
-        {
+        } else {
             sendResponse([
-               'success'=>false,
-               'error'=>$result['error'] 
+                'success' => false,
+                'error' => $result['error']
             ]);
         }
     }
 
-    function actionBlockUser(){
+    function actionBlockUser()
+    {
         $output = blockUser();
         if ($output == "0") {
             sendResponse([
@@ -364,13 +459,12 @@ if (!empty($_POST)) {
 
     function actionWithTestDrive()
     {
-        if (isAuthorizated()) {
+        if (isAuthorizated() == true) {
             if (addToTestdrive($_POST['car_ID'], $_POST['date'])) {
                 sendResponse([
                     'success' => true,
                     'successmsg' => translateAction("Вы успешно добавили машину! С вами свяжется наш сотрудник.")
                 ]);
-                exit();
             } else {
                 sendResponse([
                     'success' => false,
@@ -447,11 +541,11 @@ if (!empty($_POST)) {
     {
         $result = getPhotos($_POST['carID']);
 
-        $arrDefault = array(); 
+        $arrDefault = array();
         $count = 0;
         $id = null;
         while ($row = $result->fetch_assoc()) {
-            $arrDefault["'".$row['imgID']."'"] = str_replace('images/', '', $row['img']);
+            $arrDefault["'" . $row['imgID'] . "'"] = str_replace('images/', '', $row['img']);
             $id = $row['img_a_ID'];
             $count++;
         }
@@ -464,7 +558,8 @@ if (!empty($_POST)) {
         ]);
     }
 
-    function actionGetListOfUsers(){
+    function actionGetListOfUsers()
+    {
         $res = getUsersList();
         if ($res['result'] == true)
             sendResponse([
@@ -481,102 +576,128 @@ if (!empty($_POST)) {
     {
         $result = UpdateVideos();
         $data = $result["data"] == "" ? "null" : $result["data"];
-        if ($result["success"]==true)
+        if ($result["success"] == true)
             sendResponse([
                 'success' => true,
-                'data'=>$data
+                'data' => $data
             ]);
         else
             sendResponse([
                 'success' => false,
-                'data'=>$data
+                'data' => $data
             ]);
     }
 
-    function actionCreateTestDrive(){
-            if (addToTestdrive($_POST['car_ID'], $_POST['date'])) {
-                sendResponse([
-                    'success' => true
-                ]);
-            }else{
-                sendResponse([
-                    'success'=>false
-                ]);
-            }
+    function actionCreateTestDrive()
+    {
+        if (addToTestdrive($_POST['car_ID'], $_POST['date'])) {
+            sendResponse([
+                'success' => true
+            ]);
+        } else {
+            sendResponse([
+                'success' => false
+            ]);
+        }
     }
 
     function actionRegNewUser()
     {
         $result = registerNewUser();
-        if ($result["success"]==true)
-            sendResponse([
-               'success' => true,
-                'data'=>$result['id']
-            ]);
-        else if(isset($result["id"]))
-        {
+        if ($result["success"] == true)
             sendResponse([
                 'success' => true,
-                 'data'=>$result['id']
-             ]);
-        }else
-        {
+                'data' => $result['id']
+            ]);
+        else if (isset($result["id"])) {
+            sendResponse([
+                'success' => true,
+                'data' => $result['id']
+            ]);
+        } else {
             $data = $result["error"] == "" ? "null" : $result["error"];
             sendResponse([
                 'success' => false,
-                'data'=>$data
+                'data' => $data
             ]);
         }
-       
     }
 
     function actionRegisterNewCar()
     {
         $result = registerNewCar();
 
-        if($result['success'])
-        {
+        if ($result['success']) {
             sendResponse([
-                'success'=>true
+                'success' => true
+            ]);
+        } else {
+            sendResponse([
+                'success' => false,
+                'error' => $result['error']
             ]);
         }
-        else
-        {
-            sendResponse([
-                'success'=>false,
-                'error'=>$result['error']
-            ]);
-        }
-       
     }
 
-    function actionGetImageSize(){
-        $data = getimagesize("../images/".$_POST['image']);
-        if($data[0]>1025)
-        sendResponse([
-            "success"=>false
-        ]);
-        else if($data[1]>1025)
-        sendResponse([
-            "success"=>false
-        ]);
-        else if($data[1]>=$data[0])
-        sendResponse([
-            "success"=>false
-        ]);
-        else
-        if(($data[0]-$data[1])>660)
-        sendResponse([
-            "success"=>false
-        ]);
-        else
-        sendResponse([
-            "success"=>true
-        ]);
+    function actionGetBlockedUsers(){
+        $output = getUsers("2");
+        if ($output['recordsFiltered'] == 0) {
+            http_response_code(500);
+            echo json_encode($output);
+        } else {
+            echo json_encode($output);
+        }
     }
+
+    function actionGetImageSize()
+    {
+        $data = getimagesize("../images/" . $_POST['image']);
+        if ($data[0] > 1025)
+            sendResponse([
+                "success" => false
+            ]);
+        else if ($data[1] > 1025)
+            sendResponse([
+                "success" => false
+            ]);
+        else if ($data[1] >= $data[0])
+            sendResponse([
+                "success" => false
+            ]);
+        else
+        if (($data[0] - $data[1]) > 660)
+            sendResponse([
+                "success" => false
+            ]);
+        else
+            sendResponse([
+                "success" => true
+            ]);
+    }
+
+    function actionGetTest()
+    {
+        $result = getTestDrives();
+
+        if ($result['success']) {
+            sendResponse([
+                'success' => true,
+                "data" => $result
+            ]);
+        } else {
+            sendResponse([
+                'success' => false
+            ]);
+        }
+    }
+
+
 
     //switch funtions//
     switch (isset($_POST)) {
+        case isset($_POST["getTestDrive"]):
+            actionGetTest();
+            break;
         case isset($_POST["getImageSize"]):
             actionGetImageSize();
             break;
@@ -637,7 +758,7 @@ if (!empty($_POST)) {
         case isset($_POST["getCarsList"]):
             actionGetCarsList();
             break;
-        case isset($_POST["ndtst"]):
+        case isset($_POST["mytest"]):
             actionWithTestDrive();
             break;
     }
@@ -653,6 +774,12 @@ if (!empty($_POST)) {
                 break;
             case 'getAllTests2':
                 actionSecond();
+                break;
+            case 'getAllTests3':
+                getAllUncommingTest();
+                break;
+            case 'getAllTests4':
+                getAllCommingTest();
                 break;
             case 'getVisible':
                 actionThird();
@@ -672,9 +799,18 @@ if (!empty($_POST)) {
             case 'getBlockA':
                 actionGetTestsDrive();
                 break;
+            case 'getBlockB':
+                actionAllGetTestsDrive();
+                break;
             case 'getUsers':
                 actionNinth();
                 break;
+                case 'getBlockedUsers':
+                    actionGetBlockedUsers();
+                    break;
+                case 'getModers':
+                    actionGetModers();
+                    break;
             case 'edit':
                 actionTenth();
                 break;

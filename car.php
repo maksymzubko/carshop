@@ -138,8 +138,7 @@ else {
 
     <!--footer-starts-->
     <?php require_once 'templates/footer.php'; ?>
-    <!--footer-end-->
-
+    <!--footer-end-->                           
     <script>
         $(function() {
 
