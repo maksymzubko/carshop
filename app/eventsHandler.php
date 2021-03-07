@@ -138,6 +138,19 @@ if (!empty($_POST)) {
         }
     }
 
+    function getTestForUser()
+    {
+        $uid = getCoockie("id","user");
+        $output = getAllTests("u_ID = ".$uid."");
+        if ($output['recordsFiltered'] == 0) {
+            http_response_code(500);
+            echo json_encode($output);
+        } else {
+            $output["success"] = true;
+            echo json_encode($output);
+        }
+    }
+
     function actionSecond()
     {
         $output = getAllTests("status IN ('Success', 'Denied')");
@@ -781,6 +794,9 @@ if (!empty($_POST)) {
             case 'getAllTests4':
                 getAllCommingTest();
                 break;
+                case 'getAllTests5':
+                    getTestForUser();
+                    break;
             case 'getVisible':
                 actionThird();
                 break;

@@ -50,6 +50,7 @@ if (!isset($_COOKIE['acc'])) {
                                 </thead>
                                 <tbody class="text-center"></tbody>
                             </table>
+                            <h1 class="error" style="text-align:center">No data</h1>
                         </div>
                     </div>
                 </div>

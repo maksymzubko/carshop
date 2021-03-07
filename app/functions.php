@@ -1058,6 +1058,14 @@ function getAllTests($where)
 {
     $db = get_connection();
 
+    $data2 = strpos($where,"u_ID");
+    
+    if($data2==0)
+    {
+        $column = array("mark", "m_model", "date", "status");
+
+    }
+    else
     $column = array("d_ID","u_ID", "u_fname", "u_name", "car_ID", "mark", "m_model", "date", "status", "isArrived");
 
     $query = "SELECT * FROM testdrive JOIN users on `uid` = u_ID JOIN `auto` on car_ID = a_ID JOIN models on a_model = m_ID JOIN marks on m_mark_ID = mark_ID where $where ";
@@ -1068,6 +1076,8 @@ function getAllTests($where)
 
     if (isset($_POST["order"])) {
         $query .= 'ORDER BY ' . $column[$_POST['order']['0']['column']] . ' ' . $_POST['order']['0']['dir'] . ' ';
+       
+        
     } else {
         $query .= 'ORDER BY d_ID ASC ';
     }
@@ -1087,7 +1097,7 @@ function getAllTests($where)
 
     while ($row = $statement->fetch_assoc()) {
         $sub_array = array();
-        if (strpos($where, "u_ID") == false) {         
+        if ($data2==TRUE) {         
             $sub_array[] = $row["d_ID"];
             if($where != "status = 'Waiting'")
             $sub_array[] = $row["u_ID"];

@@ -8,7 +8,7 @@ $(document).ready(function () {
 		timerProgressBar: true,
 		didOpen: (toast) => {
 			toast.addEventListener('click', Swal.close)
-		  }
+		}
 	});
 
 	const Toast2 = Swal.mixin({
@@ -19,7 +19,7 @@ $(document).ready(function () {
 		timerProgressBar: true,
 		didOpen: (toast) => {
 			toast.addEventListener('click', Swal.close)
-		  }
+		}
 	});
 
 	result();
@@ -37,7 +37,7 @@ $(document).ready(function () {
 	let engWords, ruWords, uaWords;
 
 	if (window.location.href.includes('car.php')) {
-		id_car = window.location.href.replace(window.location.href.substr(0,window.location.href.indexOf("=")),"").replace("=","").replace("#", "").split('&lang=')[0];
+		id_car = window.location.href.replace(window.location.href.substr(0, window.location.href.indexOf("=")), "").replace("=", "").replace("#", "").split('&lang=')[0];
 		$.ajax({
 			type: 'POST',
 			url: 'app/eventsHandler.php',
@@ -54,7 +54,7 @@ $(document).ready(function () {
 					if (block == true)
 						blockText = xhr.eq;
 
-				}priceTextRU = (priceTest == 0) ? "Тест драйв этой машини - бесплатен" : "Это будет стоить '" + priceTest + "'грн (оплата по приезду), вы согласны?";
+				} priceTextRU = (priceTest == 0) ? "Тест драйв этой машини - бесплатен" : "Это будет стоить '" + priceTest + "'грн (оплата по приезду), вы согласны?";
 				priceTextENG = (priceTest == 0) ? "Test drive is free" : "It will cost '" + priceTest + "'uan (pay on arrival), do you agree?";
 				priceTextUA = (priceTest == 0) ? "Тест драйв цього авто безкоштовний" : "Це буде коштувати '" + priceTest + "'грн (оплата по приїзду), ви згодні?";
 				engWords = { "errorMessage": "Error!", "successMessage": "Success!", "questionMessage": "Are you sure?", "btnCancel": "Cancel", "qu1": priceTextENG, "qu2": "Choose date" };
@@ -211,7 +211,7 @@ $(document).ready(function () {
 
 	function button() {
 		let id = $(this).parent().parent().parent().attr("id");
-		let link = window.location.origin+"/car.php?id=" + id;
+		let link = window.location.origin + "/car.php?id=" + id;
 		window.location.href.replace(link);
 	};
 	function favourite() {
@@ -230,9 +230,9 @@ $(document).ready(function () {
 				'need': need
 			}, success: function (xhr) {
 				Toast.fire({
-					icon:"success",
-					title:xhr.successmsg
-			});
+					icon: "success",
+					title: xhr.successmsg
+				});
 				if (need == 0)
 					elem.removeClass().addClass('favourite is');
 				else
@@ -244,8 +244,8 @@ $(document).ready(function () {
 			}, error: function (xhr, status, error) {
 				let d = JSON.parse(xhr.responseText);
 				Toast.fire({
-					icon:"error",
-					title:d.error				
+					icon: "error",
+					title: d.error
 				});
 			}
 		});
@@ -390,30 +390,30 @@ $(document).ready(function () {
 			location.href = window.location.origin + window.location.pathname + "?lang=" + e.target.id;
 	});
 	$('#register').submit(function (e) {
-			var data = new FormData(this);
-			e.preventDefault();
-			$.ajax({
-				type: 'POST',
-				url: 'app/eventsHandler.php',
-				data: data,
-				cache: false,
-				contentType: false,
-				processData: false,
-				success: function (xhr) {
-					Toast2.fire({
-						title:xhr.successmsg,
-						icon:"success"
-					});
-					location.href = window.location.origin + "/account.php";
-				},
-				error: function (xhr, status, error) {
-					let d = JSON.parse(xhr.responseText);
-					Toast2.fire({
-						title:d.error,
-						icon:"error"
-					});
-				}
-			})
+		var data = new FormData(this);
+		e.preventDefault();
+		$.ajax({
+			type: 'POST',
+			url: 'app/eventsHandler.php',
+			data: data,
+			cache: false,
+			contentType: false,
+			processData: false,
+			success: function (xhr) {
+				Toast2.fire({
+					title: xhr.successmsg,
+					icon: "success"
+				});
+				location.href = window.location.origin + "/account.php";
+			},
+			error: function (xhr, status, error) {
+				let d = JSON.parse(xhr.responseText);
+				Toast2.fire({
+					title: d.error,
+					icon: "error"
+				});
+			}
+		})
 	});
 	$('#login').submit(function (e) {
 		var data = new FormData(this);
@@ -436,8 +436,8 @@ $(document).ready(function () {
 			error: function (xhr, status, error) {
 				let d = JSON.parse(xhr.responseText);
 				Toast2.fire({
-					title:d.error,
-					icon:"error"
+					title: d.error,
+					icon: "error"
 				});
 			}
 		})
@@ -493,35 +493,60 @@ $(document).ready(function () {
 			}
 		});
 	});
+	function ChangeStateTable(table, error, footer, station) {
+		if (station == "disable") {
+			table.hide();
+			error.show();
+			footer.hide();
+		}
+		else {
+			table.show();
+			error.hide();
+			footer.show();
+		}
+	}
 	if (getCookie('acc') != undefined) {
 		let reload = true;
-			var url = lang();
-			if (window.location.pathname == "/testdrives.php") {
-				let success = true;
-				$('#data').DataTable({
-					"processing":true,
-					"serverSide": true,
-					"bSort": false,
-					"language": {
-						"url": url
-					},
-					"ajax": {
-						url: "app/eventsHandler.php",
-						data: { testdrive: 'getAllTests' },
-						type: "POST"	,
-						success: (xhr)=>{
-							if(reload)
-							$('#data').DataTable().ajax.reload();
-							reload = false;
-						},
-						error: (xhr) => {
-							$(".data-grid-error").html("");
-							$("#data_wrapper").append('<h2 style="text-align:center">No data found in the server<h2>');
-							$("#data_processing").css("display", "none");
-						}				
+		var url = lang();
+		if (window.location.pathname == "/testdrives.php") {
+			let success = true;
+			var data = $('#data').DataTable({
+				"processing": true,
+				"serverSide": true,
+				"language": {
+					"url": url
+				},
+				"order": [],
+				"ajax": {
+					url: "../app/eventsHandler.php",
+					data: { action: 'getAllTests5' },
+					type: "POST",
+					"processing": false,
+					error: function () {
+						let error = $('.error');
+						let table = $('table');
+						let footer = $('#data_wrapper .row:nth-child(3)');
+
+						ChangeStateTable(table, error, footer, "disable");
+
+						$("#data_processing").css("display", "none");
 					}
-				});
-			};
+				}
+			});
+
+			$('#data').on('draw.dt', function () {
+				let error = $('.error');
+				let table = $('table');
+				let footer = $('#data_wrapper .row:nth-child(3)');
+				($('table tr:not(:first)').length > 0)
+				{
+					ChangeStateTable(table, error, footer, "enable");
+
+					$("#data_processing").css("display", "none");
+				}
+
+			})
+		};
 	};
 });
 setTimeout(function () {
@@ -619,26 +644,26 @@ function result() {
 
 	}
 	else
-	if(getCookie('acc') != undefined)
-		$.ajax({
-			type: 'POST',
-			url: 'app/eventsHandler.php',
-			data: {
-				'checkAccount': "check",
-				'role': "user"
-			}, success: function (res) {
-				return true;
-				resultAsync = true;
-			}, error: function (xhr, status, error) {
-				let d = JSON.parse(xhr.responseText);
-				Swal.fire(
-					w("errorMessage"),
-					d.error,
-					"error",
-				);
-				location.href = window.location.origin + "/login.php";
-				return false;
-			}
-		});
+		if (getCookie('acc') != undefined)
+			$.ajax({
+				type: 'POST',
+				url: 'app/eventsHandler.php',
+				data: {
+					'checkAccount': "check",
+					'role': "user"
+				}, success: function (res) {
+					return true;
+					resultAsync = true;
+				}, error: function (xhr, status, error) {
+					let d = JSON.parse(xhr.responseText);
+					Swal.fire(
+						w("errorMessage"),
+						d.error,
+						"error",
+					);
+					location.href = window.location.origin + "/login.php";
+					return false;
+				}
+			});
 };
 
