@@ -110,7 +110,7 @@ if (!empty($_POST)) {
 
     function actionFirst()
     {
-        $output = getAllTests("status = 'Waiting'");
+        $output = getAllTests("status = 'Waiting'",0);
         if ($output['recordsFiltered'] == 0) {
             sendResponse(["success" => false]);
         } else {
@@ -120,7 +120,7 @@ if (!empty($_POST)) {
 
     function getAllUncommingTest()
     {
-        $output = getAllTests("status = 'Success' and isArrived is Null");
+        $output = getAllTests("status = 'Success' and isArrived is Null",0);
         if ($output['recordsFiltered'] == 0) {
             sendResponse(["success" => false]);
         } else {
@@ -130,7 +130,7 @@ if (!empty($_POST)) {
 
     function getAllCommingTest()
     {
-        $output = getAllTests("status IN ('Success', 'Denied') and isArrived IN ('Yes', 'No')");
+        $output = getAllTests("status IN ('Success', 'Denied') and isArrived IN ('Yes', 'No')",0);
         if ($output['recordsFiltered'] == 0) {
             sendResponse(["success" => false]);
         } else {
@@ -141,7 +141,7 @@ if (!empty($_POST)) {
     function getTestForUser()
     {
         $uid = getCoockie("id","user");
-        $output = getAllTests("u_ID = ".$uid."");
+        $output = getAllTests("u_ID = ".$uid."",1);
         if ($output['recordsFiltered'] == 0) {
             http_response_code(500);
             echo json_encode($output);
@@ -153,7 +153,7 @@ if (!empty($_POST)) {
 
     function actionSecond()
     {
-        $output = getAllTests("status IN ('Success', 'Denied')");
+        $output = getAllTests("status IN ('Success', 'Denied')",0);
         if ($output['recordsFiltered'] == 0) {
             http_response_code(500);
             echo json_encode($output);

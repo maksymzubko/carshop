@@ -1054,16 +1054,14 @@ function blockUser()
         return "0";
 }
 
-function getAllTests($where)
+function getAllTests($where,$s)
 {
     $db = get_connection();
-
-    $data2 = strpos($where,"u_ID");
-    
-    if($data2==0)
+    $isUser=false;
+    if($s==1)
     {
         $column = array("mark", "m_model", "date", "status");
-
+        $isUser=true;
     }
     else
     $column = array("d_ID","u_ID", "u_fname", "u_name", "car_ID", "mark", "m_model", "date", "status", "isArrived");
@@ -1095,9 +1093,21 @@ function getAllTests($where)
 
     $data = array();
 
+    if($isUser==true)
+    {
+        while ($row = $statement->fetch_assoc()) {
+            $sub_array = array();       
+            $sub_array[] = $row['mark'];
+            $sub_array[] = $row['m_model'];
+            $sub_array[] = $row['date'];
+            $sub_array[] = $row['status'];
+            $data[] = $sub_array;
+        }
+    }
+    else
     while ($row = $statement->fetch_assoc()) {
         $sub_array = array();
-        if ($data2==TRUE) {         
+        if (strpos($where, "u_ID") == false) {         
             $sub_array[] = $row["d_ID"];
             if($where != "status = 'Waiting'")
             $sub_array[] = $row["u_ID"];

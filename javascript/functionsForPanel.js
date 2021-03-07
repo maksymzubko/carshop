@@ -736,7 +736,7 @@ $(document).ready(function () {
 			}
 		})
 
-		let dataTable, error, table, footer, data;
+		let dataTable;
 
 		const first = {
 			"processing": true,
@@ -816,15 +816,15 @@ $(document).ready(function () {
 
 		function changeData(id) {
 			if (id == 0) {
-				dataTable.destroy();
+				dataTable.clear();
 				dataTable = $('#data').DataTable(third);
 			}
 			else if (id == 1) {
-				dataTable.destroy();
-				dataTable = $('#data').DataTable(second)
+				dataTable.clear();
+				dataTable = $('#data').DataTable(second);				
 			}
 			else if (id == 2) {
-				dataTable.destroy();
+				dataTable.clear();
 				dataTable = $('#data').DataTable(first);
 			}
 
