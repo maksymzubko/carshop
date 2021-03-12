@@ -4,6 +4,7 @@ if (!isset($_COOKIE['acc'])) {
     exit;
 }
 ?>
+
 <head>
 
     <meta charset="UTF-8">
@@ -19,47 +20,49 @@ if (!isset($_COOKIE['acc'])) {
 
     <!--Navigator start-->
     <div class="breadcrumb">
-        <div class="container">
-            <div class="breadcrumbs-main <?php echo $_SESSION['lang'] ?>">
-                <ol class="breadcrumb">
-                    <li><a href="index.php"><?php echo $lang['home'] ?></a></li>
-                    <li><a href="account.php"><?php echo $lang['footerH3'] ?></a></li>
-                    <li class="active"><?php echo $testdrive['test'] ?></li>
-                </ol>
+        <div class="container pt-3 pb-3 w-75">
+            <div class="row">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.php"><?php echo $lang['home'] ?></a></li>
+                        <li class="breadcrumb-item"><a href="account.php"><?php echo $lang['footerH3'] ?></a></li>
+                        <li class="breadcrumb-item active" aria-current="page"><?php echo $testdrive['test'] ?></li>
+                    </ol>
+                </nav>
             </div>
         </div>
     </div>
     <!--Navigator end-->
 
     <!--Testdrives start-->
-    <div class="container testdrives">
-        <h1 class="head"><?php echo $testdrive['test'] ?></h1>
-        <div class="row content testdrive">
-            <div class="col-sm-12">
-                <div class="panel panel-default">
-                    <div class="panel-body">
-                        <div class="table-responsive">
-                            <table id="data" class="table table-bordered table-striped" style="width:100%">
-                                <thead>
-                                    <tr>
-                                        <th><?php echo $testdrive['c1'] ?></th>
-                                        <th><?php echo $testdrive['c2'] ?></th>
-                                        <th><?php echo $testdrive['c3'] ?></th>
-                                        <th><?php echo $testdrive['c4'] ?></th>
-                                    </tr>
-                                </thead>
-                                <tbody class="text-center"></tbody>
-                            </table>
-                            <h1 class="error" style="text-align:center">No data</h1>
-                        </div>
-                    </div>
+    <section>
+        <div class="testdrives">
+            <div class="container">
+                <div class="top">
+                    <h2><?php echo $account['hd2'] ?></h2>
+                </div>
+                <div class="table-div">
+                    <table id="data" class="table table-striped table-bordered w-100">
+                        <thead class="table-dark">
+                            <th><?php echo $testdrive['c1'] ?></th>
+                            <th><?php echo $testdrive['c2'] ?></th>
+                            <th><?php echo $testdrive['c3'] ?></th>
+                            <th><?php echo $testdrive['c4'] ?></th>
+                        </thead>
+                        <tbody class="text-center">
+                        </tbody>
+                    </table>
+                    <h1 class="error" style="text-align:center"><?php $lang['ndata']?></h1>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
+    <section class="pb-5 pt-5"></section>
+    <section class="pb-5 pt-5"></section>
     <!--Testdrives end-->
 
     <?php require_once "templates/footer.php" ?>
+    <?php require_once "templates/scripts.php" ?>
 </body>
 
 </html>

@@ -1,3 +1,51 @@
+$(function() {
+
+	var menu_ul = $('.menu_drop > li > ul'),
+		menu_a = $('.menu_drop > li > a');
+
+	menu_ul.hide();
+
+	menu_a.click(function(e) {
+		e.preventDefault();
+		if (!$(this).hasClass('active')) {
+			menu_a.removeClass('active');
+			menu_ul.filter(':visible').slideUp('normal');
+			$(this).addClass('active').next().stop(true, true).slideDown('normal');
+		} else {
+			$(this).removeClass('active');
+			$(this).next().stop(true, true).slideUp('normal');
+		}
+	});
+});
+$(document).ready(() => {
+	$('body').addClass('visible');
+});
+$('.filter-ico').click((el) => {
+	$(el.target).toggleClass('enabled');
+})
+$(".fav").click((el) => {
+
+	p = $(el.target);
+
+	p.toggleClass('isfav nofav')
+
+	if (p.hasClass('click')) {
+		p.removeClass('click');
+		setTimeout(() => { p.addClass('click') }, 1);
+	}
+	else {
+		p.addClass('click');
+	}
+})
+$('.filter-ico').click(() => {
+	let filters = $('.filters_list');
+	filters.addClass('show');
+	$('body').addClass('overflow-hidden');
+	$('.close').click(() => {
+		filters.removeClass('show');
+		$('body').removeClass('overflow-hidden');
+	})
+});
 $(document).ready(function () {
 
 	const Toast = Swal.mixin({
@@ -13,7 +61,7 @@ $(document).ready(function () {
 
 	const Toast2 = Swal.mixin({
 		toast: true,
-		position: 'center',
+		position: 'top-end',
 		showConfirmButton: false,
 		timer: 3000,
 		timerProgressBar: true,
@@ -24,12 +72,9 @@ $(document).ready(function () {
 
 	result();
 
-	let fav = $('.favourite');
-	let but = $('.lookcar');
-	let t1 = $('#t1'); let t2 = $('#t2'); let t3 = $('#t3');
-	let input = $('input:radio[name="radio"]');
+	let fav = $('.fav');
+	let but = $('.car_btn');
 	let priceTest = 0;
-	let resultAsync;
 	let block;
 	let blockText;
 	let blockDates = [];
@@ -37,6 +82,7 @@ $(document).ready(function () {
 	let engWords, ruWords, uaWords;
 
 	if (window.location.href.includes('car.php')) {
+		let priceTest;
 		id_car = window.location.href.replace(window.location.href.substr(0, window.location.href.indexOf("=")), "").replace("=", "").replace("#", "").split('&lang=')[0];
 		$.ajax({
 			type: 'POST',
@@ -54,29 +100,32 @@ $(document).ready(function () {
 					if (block == true)
 						blockText = xhr.eq;
 
-				} priceTextRU = (priceTest == 0) ? "Тест драйв этой машини - бесплатен" : "Это будет стоить '" + priceTest + "'грн (оплата по приезду), вы согласны?";
+				} priceTextRU = (priceTest == 0) ? "Тест драйв этой машини - безплатен" : "Это будет стоить '" + priceTest + "'грн (оплата по приезду), вы согласны?";
 				priceTextENG = (priceTest == 0) ? "Test drive is free" : "It will cost '" + priceTest + "'uan (pay on arrival), do you agree?";
 				priceTextUA = (priceTest == 0) ? "Тест драйв цього авто безкоштовний" : "Це буде коштувати '" + priceTest + "'грн (оплата по приїзду), ви згодні?";
-				engWords = { "errorMessage": "Error!", "successMessage": "Success!", "questionMessage": "Are you sure?", "btnCancel": "Cancel", "qu1": priceTextENG, "qu2": "Choose date" };
-				ruWords = { "errorMessage": "Ошибка!", "successMessage": "Успех!", "questionMessage": "Вы уверены?", "btnCancel": "Отмена", "qu1": priceTextRU, "qu2": "Выберите дату" };
-				uaWords = { "errorMessage": "Помилка!", "successMessage": "Успіх!", "questionMessage": "Ви впевнені?", "btnCancel": "Відміна", "qu1": priceTextUA, "qu2": "Виберіть дату" };
+				engWords = { "errorMessage": "Error!", "denied":"Denied", "success":"Success", "successMessage": "Success!", "questionMessage": "Are you sure?", "btnCancel": "Cancel", "qu1": priceTextENG, "qu2": "Choose date" };
+				ruWords = { "errorMessage": "Ошибка!", "denied":"Отказано","success":"Принято","successMessage": "Успех!", "questionMessage": "Вы уверены?", "btnCancel": "Отмена", "qu1": priceTextRU, "qu2": "Выберите дату" };
+				uaWords = { "errorMessage": "Помилка!", "denied":"Відказано","success":"Прийнято","successMessage": "Успіх!", "questionMessage": "Ви впевнені?", "btnCancel": "Відміна", "qu1": priceTextUA, "qu2": "Виберіть дату" };
 
 			}, error: function (xhr) {
 				priceTextRU = (priceTest == 0) ? "Тест драйв этой машини - безплатен" : "Это будет стоить '" + priceTest + "'грн (оплата по приезду), вы согласны?";
 				priceTextENG = (priceTest == 0) ? "Test drive is free" : "It will cost '" + priceTest + "'uan (pay on arrival), do you agree?";
 				priceTextUA = (priceTest == 0) ? "Тест драйв цього авто безкоштовний" : "Це буде коштувати '" + priceTest + "'грн (оплата по приїзду), ви згодні?";
-				engWords = { "errorMessage": "Error!", "successMessage": "Success!", "questionMessage": "Are you sure?", "btnCancel": "Cancel", "qu1": priceTextENG, "qu2": "Choose date" };
-				ruWords = { "errorMessage": "Ошибка!", "successMessage": "Успех!", "questionMessage": "Вы уверены?", "btnCancel": "Отмена", "qu1": priceTextRU, "qu2": "Выберите дату" };
-				uaWords = { "errorMessage": "Помилка!", "successMessage": "Успіх!", "questionMessage": "Ви впевнені?", "btnCancel": "Відміна", "qu1": priceTextUA, "qu2": "Виберіть дату" };
+				engWords = { "errorMessage": "Error!", "denied":"Denied", "success":"Success", "successMessage": "Success!", "questionMessage": "Are you sure?", "btnCancel": "Cancel", "qu1": priceTextENG, "qu2": "Choose date" };
+				ruWords = { "errorMessage": "Ошибка!", "denied":"Отказано","success":"Принято","successMessage": "Успех!", "questionMessage": "Вы уверены?", "btnCancel": "Отмена", "qu1": priceTextRU, "qu2": "Выберите дату" };
+				uaWords = { "errorMessage": "Помилка!", "denied":"Відказано","success":"Прийнято","successMessage": "Успіх!", "questionMessage": "Ви впевнені?", "btnCancel": "Відміна", "qu1": priceTextUA, "qu2": "Виберіть дату" };
 				blockText = JSON.parse(xhr.responseText).error;
 				block = JSON.parse(xhr.responseText).block;
 			}
 		});
 	}
 	else {
-		engWords = { "errorMessage": "Error!", "successMessage": "Success!", "questionMessage": "Are you sure?", "btnCancel": "Cancel", "qu1": "It will cost '" + priceTest + "'grn (pay on arrival), do you agree?", "qu2": "Choose date" };
-		ruWords = { "errorMessage": "Ошибка!", "successMessage": "Успех!", "questionMessage": "Вы уверены?", "btnCancel": "Отмена", "qu1": "Это будет стоить '" + priceTest + "'грн (оплата по приезду), вы согласны?", "qu2": "Выберите дату" };
-		uaWords = { "errorMessage": "Помилка!", "successMessage": "Успіх!", "questionMessage": "Ви впевнені?", "btnCancel": "Відміна", "qu1": "Це буде коштувати '" + priceTest + "'грн (оплата по приїзду), ви згодні?", "qu2": "Виберіть дату" };
+		priceTextRU = (priceTest == 0) ? "Тест драйв этой машини - безплатен" : "Это будет стоить '" + priceTest + "'грн (оплата по приезду), вы согласны?";
+				priceTextENG = (priceTest == 0) ? "Test drive is free" : "It will cost '" + priceTest + "'uan (pay on arrival), do you agree?";
+				priceTextUA = (priceTest == 0) ? "Тест драйв цього авто безкоштовний" : "Це буде коштувати '" + priceTest + "'грн (оплата по приїзду), ви згодні?";
+				engWords = { "errorMessage": "Error!", "denied":"Denied", "success":"Success", "successMessage": "Success!", "questionMessage": "Are you sure?", "btnCancel": "Cancel", "qu1": priceTextENG, "qu2": "Choose date" };
+				ruWords = { "errorMessage": "Ошибка!", "denied":"Отказано","success":"Принято","successMessage": "Успех!", "questionMessage": "Вы уверены?", "btnCancel": "Отмена", "qu1": priceTextRU, "qu2": "Выберите дату" };
+				uaWords = { "errorMessage": "Помилка!", "denied":"Відказано","success":"Прийнято","successMessage": "Успіх!", "questionMessage": "Ви впевнені?", "btnCancel": "Відміна", "qu1": priceTextUA, "qu2": "Виберіть дату" };
 	}
 
 	let currentLang = getCookie('lang');
@@ -86,7 +135,7 @@ $(document).ready(function () {
 	}
 
 	function filterData() {
-		$('.maincar').html('<div id="load" style=""></div>');
+		$('.car-profile').html('<div id="load" style=""></div>');
 		var action = 'fetch_data';
 		var brand = get_filter('brand');
 		var category = get_filter('category');
@@ -98,38 +147,15 @@ $(document).ready(function () {
 			dataType: "html",
 			data: { action: action, brand: brand, category: category, color: color },
 			success: function (xhr) {
-				$('.maincar').html(xhr);
-				if (xhr.includes('none')) {
-					$('#change1').css('display', 'none');
-				}
-				else {
-					$('#change1').css('display', 'block');
-					elem = $(".product").children("div");
-				}
-				t1 = $('#t1'); t2 = $('#t2'); t3 = $('#t3');
-				input = $('input:radio[name="radio"]');
-				fav = $('img.favourite');
-				but = $('a.lookcar');
+				$('.car-profile').html(xhr);
+				fav = $('.fav');
+				but = $('a.car_btn');
 				but.click(button);
 				fav.click(favourite);
-				sameDivs();
 			},
 		});
 
 	}
-
-	$('.navbar-toggle-sidebar').click(function () {
-		$('.navbar-nav').toggleClass('slide-in');
-		$('.side-body').toggleClass('body-slide-in');
-		$('#search').removeClass('in').addClass('collapse').slideUp(200);
-	});
-
-	$('#search-trigger').click(function () {
-		$('.navbar-nav').removeClass('slide-in');
-		$('.side-body').removeClass('body-slide-in');
-		$('.search-input').focus();
-	});
-
 	$('#admin').submit(function (e) {
 		e.preventDefault();
 		var email = $('#inputEmail').val();
@@ -158,66 +184,38 @@ $(document).ready(function () {
 
 	function setActive() {
 		if (window.location.pathname == "/index.php") {
-			$('#first').removeClass().addClass('grid active');
-			$('#first2').removeClass().addClass('grid active');
+			$('#first').toggleClass('active');
 		}
 		else if (window.location.pathname == "/cars.php") {
-			$('#second').removeClass().addClass('grid active');
-			$('#second2').removeClass().addClass('grid active');
+			$('#second').toggleClass('active');
 		}
-		else if (window.location.pathname == "/blog.php") {
-			$('#third').removeClass().addClass('grid active');
-			$('#third2').removeClass().addClass('grid active');
-		}
-		else if (window.location.pathname == "/contact.php") {
-			$('#fourh').removeClass().addClass('grid active');
-			$('#fourh2').removeClass().addClass('grid active');
+		else if (window.location.pathname == "/contacts.php") {
+			$('#third').toggleClass('active');
 		}
 	}
 	setActive();
-	var elem = $(".product").children("div");
-	t1.change(function () {
-		if ($(this).is(':checked')) {
-			elem.removeClass().addClass('col-xs-12 col-sm-12 col-lg-6 col-md-6 product-left p-left');
-		}
-	});
-	t2.change(function () {
-		if ($(this).is(':checked')) {
-			elem.removeClass().addClass('col-xs-12 col-sm-12 col-lg-12 col-md-12 product-left p-left');
-		}
-	});
-	t3.change(function () {
-		if ($(this).is(':checked')) {
-			elem.removeClass().addClass('col-xs-12 col-sm-12 col-lg-4 col-md-4 product-left p-left');
-		}
-	});
 
 	$('.color').click(function () {
-		$(this).toggleClass('actived');
+		$(this).parent().toggleClass('actived');
 	});
 
 	$('.common_selector').click(function () {
 		filterData();
 	});
-	input.change(function () {
-		sameDivs();
-	});
 
 	but.click(button);
-	$('.link').click(function () {
-		window.location.href = '/admin/login.php';
-	});
 	fav.click(favourite);
 
 	function button() {
-		let id = $(this).parent().parent().parent().attr("id");
+		let id = $(this).parent().parent().parent().parent().attr("id");
 		let link = window.location.origin + "/car.php?id=" + id;
-		window.location.href.replace(link);
+		window.location.href = link;
 	};
+
 	function favourite() {
-		var elem = $(this);
+		let elem = $(this);
 		let need;
-		if (elem.attr('class') == "favourite nope") { need = "0"; }
+		if ($(this).attr('class') == "fav nofav") { need = "0"; }
 		else { need = "1"; }
 
 		var id_car = $(this).parent().parent().parent().parent().attr('id');
@@ -234,12 +232,9 @@ $(document).ready(function () {
 					title: xhr.successmsg
 				});
 				if (need == 0)
-					elem.removeClass().addClass('favourite is');
+					elem.removeClass().addClass('fav isfav');
 				else
-					elem.removeClass().addClass('favourite nope');
-
-				elem.focus();
-				elem.blur();
+					elem.removeClass().addClass('fav nofav');
 
 			}, error: function (xhr, status, error) {
 				let d = JSON.parse(xhr.responseText);
@@ -317,6 +312,10 @@ $(document).ready(function () {
 											}
 										}
 									});
+									$(".swal2-input").on("change", function(e) {
+										$('.swal2-input').datetimepicker('hide');
+										});
+											$('.swal2-input').datetimepicker('show');
 								}
 							}).then((result) => {
 								if (result.isConfirmed) {
@@ -452,47 +451,6 @@ $(document).ready(function () {
 			}
 		})
 	});
-	$.getScript("/javascript/resize.js", function () {
-		new ResizeSensor(jQuery(elem), function () {
-		});
-		$(window).resize(function () {
-			let element = $("#change1");
-			let width = document.documentElement.clientWidth;
-			if (window.location.pathname == "/favourite.php") {
-				if (width < 1183) {
-					element.css('display', 'none');
-				} else {
-					element.css('display', 'block');
-				}
-			}
-			else {
-				let tempElem = $(".none");
-				if (!tempElem) {
-					if (width < 768) {
-						element.css('display', 'none');
-					} else {
-						element.css('display', 'block');
-					}
-				}
-			}
-			sameDivs();
-
-			let element1 = $(".header1");
-			let element2 = $(".header-bottom");
-
-			if (width < 952) {
-
-				element1.hide();
-				element2.show();
-
-				setActive();
-			}
-			else {
-				element1.show();
-				element2.hide();
-			}
-		});
-	});
 	function ChangeStateTable(table, error, footer, station) {
 		if (station == "disable") {
 			table.hide();
@@ -540,6 +498,11 @@ $(document).ready(function () {
 				let footer = $('#data_wrapper .row:nth-child(3)');
 				($('table tr:not(:first)').length > 0)
 				{
+					$('tbody tr td:last-child').each((index,val)=>{
+						if($(val).html()=="Denied")
+						$(val).html(w("denied"));
+						else $(val).html(w("success"));
+					})
 					ChangeStateTable(table, error, footer, "enable");
 
 					$("#data_processing").css("display", "none");
@@ -548,46 +511,6 @@ $(document).ready(function () {
 			})
 		};
 	};
-});
-setTimeout(function () {
-	$('body').addClass('body_visible');
-}, 100);
-$(window).load(function () {
-	let element = $("#change1");
-	let width = document.documentElement.clientWidth;
-	if (window.location.pathname == "/favourite.php") {
-		if (width < 1183) {
-			element.css('display', 'none');
-		} else {
-			element.css('display', 'block');
-		}
-	}
-	else {
-		let tempElem = $(".none");
-		if (!tempElem) {
-			if (width < 768) {
-				element.css('display', 'none');
-			} else {
-				element.css('display', 'block');
-			}
-		}
-	}
-	sameDivs();
-
-	let element1 = $(".header1");
-	let element2 = $(".header-bottom");
-
-	if (width < 952) {
-
-		element1.hide();
-		element2.show();
-
-		setActive();
-	}
-	else {
-		element1.show();
-		element2.hide();
-	}
 });
 function getCookie(name) {
 	let matches = document.cookie.match(new RegExp(
@@ -616,28 +539,6 @@ function get_filter(class_name) {
 		});
 	}
 	return filter;
-}
-function sameDivs() {
-	let min = 0;
-	let width = 0;
-	let arr = [];
-	function del() {
-		$('.zoom-img').each(function () {
-			$(this).css("min-height", "");
-		});
-	}
-	del();
-	$('.zoom-img').each(function () {
-		let height = $(this).height();
-		arr.push($(this).height());
-		width = $(this).width();
-		if (height > min)
-			min = height + 1;
-	});
-	function setDiv(min) {
-		$('.zoom-img').css("min-height", min);
-	}
-	setDiv(min);
 }
 function result() {
 	if (location.href.includes("login.php")) {

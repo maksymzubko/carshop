@@ -15,50 +15,58 @@ if (isset($_COOKIE['acc'])) {
     <title><?php echo $login['login'] ?></title>
 </head>
 
-<body class="body_hide">
+<body>
 
     <?php require_once 'templates/header.php' ?>
 
     <!--start-breadcrumbs-->
     <div class="breadcrumb">
-        <div class="container">
-            <div class="breadcrumbs-main <?php echo $_SESSION['lang'] ?>">
-                <ol class="breadcrumb">
-                    <li><a href="index.php"><?php echo $lang['home'] ?></a></li>
-                    <li><a href="account.php"><?php echo $lang['footerH3'] ?></a></li>
-                    <li class="active"><?php echo $login['login'] ?></li>
-                </ol>
+        <div class="container pt-3 pb-3 w-75">
+            <div class="row">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.php"><?php echo $lang['home'] ?></a></li>
+                        <li class="breadcrumb-item" aria-current="page"><a href="account.php"><?php echo $lang['footerH3'] ?></a></li>
+                        <li class="breadcrumb-item active" aria-current="page"><?php echo $login['login'] ?></li>
+                    </ol>
+                </nav>
             </div>
         </div>
     </div>
     <!--end-breadcrumbs-->
 
     <!--login-starts-->
-    <div class="login <?php echo $_SESSION['lang'] ?>">
+    <section class="login_section pb-md-5 pb-lg-5">
         <div class="container">
-            <h2 class="text-center"><?php echo $login['login'] ?></h2>
+            <h2 class="text-center top"><?php echo $login['login'] ?></h2>
             <form id="login" method="post">
-                <div class="container">
-                    <label for="uname"><b><?php echo $register['email'] ?></b></label>
-                    <input type="text" placeholder="<?php echo $register['email'] ?>" name="email" maxlength="30" required>
-
-                    <label for="psw"><b><?php echo $register['pass'] ?></b></label>
-                    <input type="password" placeholder="<?php echo $register['pass'] ?>" name="pass" maxlength="30" required>
-                    <div class="text-center">
-                        <button type="submit" class="btn <?php echo $_SESSION['lang'] ?> btn-block effect-button2" data-sm-link-text="<?php echo $lang['buttonHideText'] ?>"><span><?php echo $login['log'] ?></span></button>
+                <div class="container d-flex flex-column">
+                    <div class="col-md-8 col-10 align-self-center">
+                        <label for="inputEmail"><?php echo $register['email'] ?></label>
+                        <input type="email" class="form-control" autocomplete="OFF" id="inputEmail" placeholder="<?php echo $register['email'] ?>"
+                            name="email" maxlength="30" required>
+                        <div class="form-control-feedback"></div>
+                        <label for="inputPassword"><?php echo $register['pass'] ?></label>
+                        <input type="password" maxlength="30" placeholder="<?php echo $register['pass'] ?>" autocomplete="OFF" class="form-control pass"
+                            id="pass" name="pass" required>
+                        <div class="form-control-feedback"></div>
+                        <input type="checkbox" name="remember"> <?php echo $login['rem'] ?></label>
                     </div>
-                    <label>
-                        <input type="checkbox" name="remember"> <?php echo $login['rem'] ?>
-                    </label>
-                    <span class="psw"><a href="register.php"><?php echo $login['acc'] ?></a></span>
+                    <div class="button mt-4 d-flex justify-content-center">
+                        <button id="login" type="submit" name="register"
+                            class="btn"><?php echo $login['log'] ?><span></span></button>
+                    </div>
+                    <span class="psw d-flex mt-3 justify-content-lg-end justify-content-center"><a
+                            href="register.php"><?php echo $login['acc'] ?></a></span>
                 </div>
+            </form>
         </div>
-        </form>
-    </div>
-    </div>
+    </section>
+    <section></section>
     <!--login-end-->
 
     <?php require_once 'templates/footer.php' ?>
+    <?php require_once 'templates/scripts.php' ?>
 </body>
 
 </html>

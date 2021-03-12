@@ -6,9 +6,6 @@ if (!isset($_COOKIE['acc'])) {
 ?>
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <?php require_once "templates/head.php" ?>
 
     <title><?php echo $lang['faccp2'] ?></title>
@@ -19,72 +16,74 @@ if (!isset($_COOKIE['acc'])) {
 
     <!--Navigator start-->
     <div class="breadcrumb">
-        <div class="container">
-            <div class="breadcrumbs-main <?php echo $_SESSION['lang'] ?>">
-                <ol class="breadcrumb">
-                    <li><a href="index.php"><?php echo $lang['home'] ?></a></li>
-                    <li><a href="account.php"><?php echo $lang['footerH3'] ?></a></li>
-                    <li class="active"><?php echo $lang['faccp2'] ?></li>
-                </ol>
+        <div class="container pt-3 pb-3 w-75">
+            <div class="row">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.php"><?php echo $lang['home'] ?></a></li>
+                        <li class="breadcrumb-item"><a href="account.php"><?php echo $lang['footerH3'] ?></a></li>
+                        <li class="breadcrumb-item active" aria-current="page"><?php echo $lang['faccp2'] ?></li>
+                    </ol>
+                </nav>
             </div>
         </div>
     </div>
     <!--Navigator end-->
 
     <!--Favourite start-->
-    <div class="cars-catalog-favourite <?php echo $_SESSION['lang'] ?>">
-        <div class="container">
-            <div class="cars-top">
-                <h1 class="head"><?php echo $lang['faccp2'] ?></h1>
-                <div id="change1" class="sky-form-sort">
-                        <h4>
-                            <span>
-                                <input type="radio" id="t3" name="radio" checked><img class="img-rounded" style="width:25px; height:25px" src="images/3x3-white.png">
-                            </span>
-                            <span>
-                                <input type="radio" id="t1" name="radio"><img class="img-rounded" style="width:25px; height:25px" src="images/grid-white.png">
-                            </span>
-                        </h4>
+    <section class="cars">
+        <div class="cars_favourite">
+            <div class="container">
+                <div class="row d-flex flex-column align-items-center">
+                    <div class="top">
+                        <h2><?php echo $lang['faccp2'] ?></h2>
                     </div>
-                <div class="col-sm-12 col-md-12 cars-left">
-                    <div class="product">
-                        <?php include 'app/functions.php';
+                    <div class="filter">
+                        <h3><?php echo $lang['filter'] ?></h3>
+                        <div class="filter-ico"></div>
+                    </div>
+                    <div class="col-lg-12 d-flex  main">
+                    <div class="car-profile row w-100">
+                    <?php include 'app/functions.php';
                         $result = favouriteList();
                         $numrows = $result->num_rows;
                         while ($row = $result->fetch_assoc()) {
                             $secrow = getCarByID($row['auto_ID']);
-                            echo '<div class="col-xs-12 col-sm-6 col-lg-4 col-md-6 product-left p-left" id="' . $secrow['a_ID'] . '">
-                            <div class="product-main">
-                                <a href="#" class="mask"><img class="img-responsive zoom-img" style="width:100%" src=" ' . $secrow['img'] . ' " alt="" /></a>
-                                <div class="product-bottom">
-                                    <h3>' . $secrow['mark'] . '</h3>
-                                    <p>' . $secrow['m_model'] . '</p>
+                            echo'
+                        <div class="car-item col-lg-4 col-12" id="' . $secrow['a_ID'] . '">
+                            <div class="container-car h-100">
+                                <div class="car-image overflow-hidden justify-content-center">
+                                    <div style="--background:url(../' . $secrow['img'] . ')" class="background-img"></div>
                                 </div>
-                                <div class="product-buttons">
-                                    <a href="" class="btn ' . $_SESSION['lang'] . ' effect-button lookcar" data-sm-link-text=" ' . $lang['buttonHideText'] . '"><span> ' . $catalog['btn'] . '</span></a>
-                                    <div class="photo" data-title="' . $catalog['alt'] . '">  
-                                    <img src="/images/favourite-is.png" class="favourite is" tabindex="' . $secrow['a_ID'] . '">
-                                </div>
+                                <div class="bottom">
+                                    <div class="car-desc">
+                                        <h2>' . $secrow['mark'] . '</h2>
+                                        <h3>' . $secrow['m_model'] . '</h3>
+                                    </div>
+                                    <div class="buttons d-flex align-items-center justify-content-between">
+                                        <a class="car_btn">' . $catalog['btn'] . '<span></span></a>
+                                    <div class="fav isfav"></div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="clearfix"></div>
                         </div>';
                         }
                         if ($numrows < 1) {
                             echo '<h2 class="empty list text-center">' . $account['emp'] . '</h2>';
-                            echo "<script>$('#change1').children().css('display','none');</script>";
                         }
                         ?>
                     </div>
+                    </div>
                 </div>
             </div>
-            <div class="clearfix"></div>
         </div>
-    </div>
-    </div>
+        </div>
+    </section>
     <!--Favourite end-->
+<section></section>
 
     <?php require_once "templates/footer.php" ?>
+    <?php require_once "templates/scripts.php" ?>
 </body>
 
 </html>

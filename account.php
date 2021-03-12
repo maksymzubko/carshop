@@ -22,58 +22,50 @@ if (!isset($_COOKIE['acc'])) {
     ?>
     <!--Navigator start-->
     <div class="breadcrumb">
-        <div class="container">
-            <div class="breadcrumbs-main <?php echo $_SESSION['lang'] ?>">
-                <ol class="breadcrumb">
-                    <li><a href="index.php"><?php echo $lang['home'] ?></a></li>
-                    <li class="active"><?php echo $lang['toplabel'] ?></li>
-                </ol>
+        <div class="container pt-3 pb-3 w-75">
+            <div class="row">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.php"><?php echo $lang['home'] ?></a></li>
+                        <li class="breadcrumb-item active" aria-current="page"><?php echo $lang['toplabel'] ?></li>
+                    </ol>
+                </nav>
             </div>
         </div>
     </div>
     <!--Navigator end-->
 
     <!--Account start-->
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12 col-lg-12 text-center account <?php echo $_SESSION['lang'] ?>">
-                <div class="profile">
-                    <div class="col-sm-12">
-                        <div class="col-xs-12 col-sm-8 col-md-12">
-                            <h2><?php
+    <section class="account_page">
+        <div class="container d-flex flex-column align-items-center">
+            <h2 class="text-center w-75 top"><?php
                                 $str =  json_decode($_COOKIE['acc'],true); echo $str['name']; ?></h2>
-                        </div>
-                    </div>
-                    <div class="col-xs-12 divider text-center">
-                        <div class="col-xs-12 col-sm-4 emphasis ">
-                            <h2><strong> <?php echo $row['fav']?>  </strong></h2>
-                            <p><small><?php echo $account['hd1'] ?></small></p>
-                            <button class="btn <?php echo $_SESSION['lang'] ?> btn-block effect-button2" data-sm-link-text="<?php echo $lang['buttonHideText'] ?>" onclick="window.location.href='/favourite.php'"> <span><?php echo $lang['faccp2'] ?></span>
-                            </button>
-                        </div>
-                        <div class="col-xs-12 col-sm-4 emphasis">
-                            <h2><strong> <?php echo $row['test'] ?></strong></h2>
-                            <p><small><?php echo $account['hd2'] ?></small></p>
-                            <button class="btn <?php echo $_SESSION['lang'] ?> btn-block effect-button2" data-sm-link-text="<?php echo $lang['buttonHideText'] ?>" onclick="window.location.href='/testdrives.php'"> <span> <?php echo $account['b1'] ?></span>
-                            </button>
-                        </div>
-                        <div class="col-xs-12 col-sm-4 emphasis">
-                            <h2><strong><?php echo $account['hd4'] ?></strong></h2>
-                            <p><small>😍</small></p>
-                            <button class="btn <?php echo $_SESSION['lang'] ?> btn-block effect-button2" data-sm-link-text="<?php echo $lang['buttonHideText'] ?>" onclick="window.location.href='/cars.php'"> <span><?php echo $account['b2'] ?></span>
-                            </button>
-                        </div>
-                    </div>
+            <div class="account__content mb-5 text-center w-50 d-lg-flex justify-content-md-between">
+                <div class="mt-2 col-12 col-lg-6">
+                    <h2><strong> <?php echo $row['fav']?>  </strong></h2>
+                    <p><?php echo $account['hd1'] ?></p>
+                    <button class="btn" onclick="window.location.href='/favourite.php'"> <?php echo $lang['faccp2'] ?><span></span>
+                    </button>
                 </div>
-                <form id="logout" method="post">
-                    <input name=logout class="hide" value="logout">
-                    <button type="submit" name=logout class="logout <?php echo $_SESSION['lang'] ?>"><span class="psw"><i class="fa fa-times-circle"></i><a id="signout" name=logout><?php echo '   ' . $account['exit'] ?></a></span></button>
-                </form>
+                <div class="mt-2 col-12 col-lg-6">
+                    <h2><strong> <?php echo $row['test'] ?></strong></h2>
+                    <p><?php echo $account['hd2'] ?></p>
+                    <button class="btn" onclick="window.location.href='/testdrives.php'"> <?php echo $account['b1'] ?><span></span>
+                    </button>
+                </div>
+            </div>
+            <div class="row align-items-center align-items-lg-start w-75 d-flex flex-column mt-5">
+                <button class="btn mb-2 small" onclick="window.location.href='/cars.php'"> <?php echo $account['b2'] ?><span></span>
+                </button>
+                <button class="btn logout small" onclick="window.location.href='/cars.php'"> <?php echo $account['exit'] ?><span></span>
+                </button>
             </div>
         </div>
-    </div>
+    </section>
+    <section></section>
     <!--Account end-->
     <?php require_once "templates/footer.php" ?>
+    <?php require_once "templates/scripts.php" ?>
 </body>
 
 </html>
