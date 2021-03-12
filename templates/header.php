@@ -1,105 +1,73 @@
 <?php
 echo '
-<!--header-start-->
-<div class="top-header">
-    <div class="top-header-main">
-        <div class="top-header-left">
-            <div class="titleSite">
-                <a class="mainLogo" href="index.php">
-                    <img src="images/logo-mini.png" alt="" style="width:27px;height:30px" />
-                    <h3><b>Carshop</b></h3>
-                </a>
-            </div>
-        </div>
-        <div class="header header1">
-            <div class="col-md-12">
-                <div class="top-nav">
-                    <ul class="memenu ' . $_SESSION['lang'] . ' main skyblue">
-                        <li class="grid" id="first">
-                            <a href="index.php">' . $lang['home'] . '</a>
+<header>
+<div class="container">
+    <div class="header">
+        <nav class="navbar sticky-top w-100 navbar-expand-lg navbar-dark bg-black">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#"><img class="logo"
+                        src="/images/logo-mini.png"><text>Carshop</text></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon custom_icon"></span>
+                    <span class="navbar-toggler-icon custom_icon"></span>
+                    <span class="navbar-toggler-icon custom_icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" id="first" aria-current="page" href="index.php">' . $lang['home'] . '</a>
                         </li>
-                        <li class="grid" id="second"><a href="cars.php">' . $lang['cars'] . '</a>
+                        <li class="nav-item">
+                            <a class="nav-link" id="second"  href="cars.php">' . $lang['cars'] . '</a>
                         </li>
-                        <li class="grid" id="third"><a href="blog.php">' . $lang['blog'] . '</a>
-                        </li>
-                        <li class="grid" id="fourh"><a href="contact.php">' . $lang['contact'] . '</a>
+                        <li class="nav-item">
+                            <a class="nav-link" id="third"  href="contacts.php">' . $lang['contact'] . '</a>
                         </li>
                     </ul>
-                </div>
-                <div class="clearfix"> </div>
-            </div>
-            <div class="clearfix"> </div>
-        </div>
-        <div class="top-header-right">
-            <div class="account-box ' . $_SESSION['lang'] . '">
-                <div class="dropdown ' . $_SESSION['lang'] . ' ">
-                    <button class="dropbtn">';
-                        if (!isset($_COOKIE['acc']))
-                        echo '<label class="lab">' . $lang['footerH3'] . '</label>';
-                        else
-                        {
-                            $user = json_decode($_COOKIE['acc'],true)["name"];
-                            echo '<label class="lab">' . $user . '</label>';
-                        }
-                     
-                        echo '
-                        <img src="images/account.png" alt="" style="width:30px;height:30px" /> <i
-                            class="fa fa-caret-down"></i>
-                    </button>
-                    <div class="dropdown-content acc">';
-                        if (!isset($_COOKIE['acc'])) {
-                        echo '<a href="login.php"><label class="acclog" id="log">' . $login['log'] . '</label></a>
-                        <a href="register.php"><label class="accreg" id="reg">' . $register['reg'] . '</label></a>';
-                        } else {
-                        echo '<a href="account.php"><label class="acclog" id="acc">' . $lang['faccp1'] . '</label></a>
-                        <a href="favourite.php"><label class="accreg" id="fav">' . $lang['faccp2'] . '</label></a>
-                        <a href="testdrives.php"><label class="accreg" id="test">' . $testdrive['test'] . '</label></a>
-                        <a class="logout"><label class="hr">' . $account['exit'] . '</label></a>';
-                        }
-                        echo '
-
-                    </div>
-                </div>
-                <div class="dropdown ' . $_SESSION['lang'] . ' ">
-                    <button class="dropbtn">' . $lang['language'] . ' <i class="fa fa-caret-down"></i>
-                    </button>
-                    <div class="dropdown-content lang">
-                        <label class="lan" id="en">English</label>
-                        <label class="lan" id="ru">Русский</label>
-                        <label class="lan" id="ukr">Українська</label>
+                    <div class="right__menu">
+                        <div class="dropdown">
+                            <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton"
+                                data-bs-toggle="dropdown" aria-expanded="false">';
+                                if (!isset($_COOKIE['acc']))
+                                echo '<label class="lab">' . $lang['footerH3'] . '</label>';
+                                else
+                                {
+                                    $user = json_decode($_COOKIE['acc'],true)["name"];
+                                    echo $user;
+                                }
+                                echo '<img src="images/account.png" width="22em">
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">';
+                            if (!isset($_COOKIE['acc'])) {
+                                echo ' <li><a class="dropdown-item" href="login.php">' . $login['log'] . '</a></li>
+                                <li><a class="dropdown-item" href="register.php">' . $register['reg'] . '</a></li>';
+                                } else {
+                                echo ' <li><a class="dropdown-item" href="account.php">' . $lang['faccp1'] . '</a></li>
+                                <li><a class="dropdown-item" href="account.php">' . $lang['faccp2'] . '</a></li>
+                                <li><a class="dropdown-item" href="testdrives.php">' . $testdrive['test'] . '</a></li>
+                                <li><a class="dropdown-item logout" href="#">' . $account['exit'] . '</a></li>';
+                                }   
+                                echo'     
+                            </ul>
+                        </div>
+                        <div class="dropdown">
+                            <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                '.$lang['language'].'
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                           
+                            <li  class=" lan"><a class="dropdown-item" id="en" onclick="return false"   href="">English</a></li>
+                            <li  class=" lan"><a class="dropdown-item" id="ru"  onclick="return false" href="">Русский</a></li>
+                            <li   class=" lan"><a class="dropdown-item" id="ukr" onclick="return false" href="">Українська</a></li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </nav>
     </div>
-</div>
-<div class="logo" style="display:none">
-    <a href="index.php">
-        <h1><b>Carshop INC</b></h1>
-    </a>
-</div>
-<div class="header-bottom disable">
-    <div class="container">
-        <div class="header header2">
-            <div class="col-md-12">
-                <div class="top-nav">
-                    <ul class="memenu '. $_SESSION['lang'] .' main skyblue">
-                        <li class="grid" id="first2">
-                            <a href="index.php">'. $lang['home'] .'</a>
-                        </li>
-                        <li class="grid" id="second2"><a href="cars.php">'. $lang['cars'] .'</a>
-                        </li>
-                        <li class="grid" id="third2"><a href="blog.php">'. $lang['blog'] .'</a>
-                        </li>
-                        <li class="grid" id="fourh2"><a href="contact.php">'. $lang['contact'] .'</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="clearfix"> </div>
-            </div>
-            <div class="clearfix"> </div>
-        </div>
-    </div>
-</div>
-<!--header-end-->';
+</header>';
 ?>

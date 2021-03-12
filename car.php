@@ -27,77 +27,95 @@ else {
 
     <!--start-breadcrumbs-->
     <div class="breadcrumb">
-        <div class="container">
-            <div class="breadcrumbs-main <?php echo $_SESSION['lang'] ?>">
-                <ol class="breadcrumb">
-                <li><a href="index.php"><?php echo $lang['home'] ?></a></li>
-                    <li><a href="cars.php"><?php echo $catalog['catalog'] ?></a></li>
-                    <li class="active"><?php echo $car['car']; echo $result['a_ID']?></li>
-                </ol>
+        <div class="container pt-3 pb-3 w-75">
+            <div class="row">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.php"><?php echo $lang['home'] ?></a></li>
+                        <li class="breadcrumb-item" ><a href="cars.php"><?php echo $catalog['catalog'] ?></a></li>
+                        <li class="breadcrumb-item active" aria-current="page"><?php echo $car['car']; echo $result['a_ID']?></li>
+                    </ol>
+                </nav>
             </div>
         </div>
     </div>
     <!--end-breadcrumbs-->
 
     <!--start-car-->
-    <div class="single contact <?php echo $_SESSION['lang'] ?>">
-        <div class="container">
-            <div class="single-main">
-                <div class="col-md-12 single-main-left">
-                    <div class="sngl-top">
-                        <div class="col-md-5 single-top-left">
-                            <div class="flexslider">
-                                <ul class="slides  text-center">
-                                    <?php $count = 0; while($img = $images->fetch_assoc())
+    <section>
+        <div class="car-page">
+            <div class="container">
+                <div class="row d-flex justify-content-center">
+                    <div class="col-12 col-lg-6 col-xl-4">
+                        <div id="carouselExampleIndicators" class="carousel slide mh-25" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                <?php $count = 0; while($img = $images->fetch_assoc())
                                     {
                                         if($count==9)
                                         break;
                                         
-                                        echo ' <li data-thumb="'. $img['img'] .'">
-                                        <div class="thumb-image"> <img src="'. $img['img'] .'" data-imagezoom="true" class="img-responsive" alt="" /> </div>
-                                    </li>';
+                                        if($count==0)
+                                        echo ' 
+                                        <div class="carousel-item active">
+                                        <img src="'. $img['img'] .'" class="d-block " alt="...">
+                                        </div>';
+                                        else
+                                        echo '<div class="carousel-item">
+                                        <img src="'. $img['img'] .'" class="d-block " alt="...">
+                                        </div>';
                                     $count++;
                                     }; ?>
-                                </ul>
                             </div>
+                            <?php if($count>1)
+                            echo ' <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+                            data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+                            data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>'
+                            ?>                    
                         </div>
-                        <div class="col-md-7 single-top-right">
-                            <div class="single-para">
-                                <h2><?php echo ''. $result['mark'] .' '.$result['m_model'] .'';?></h2>
-
-                                <div class="available">
-                                    <ul>
-                                        <li><?php echo $car['c1'] ?>
-                                        </li>
-                                        <select>
-                                            <?php  while($col = $colors->fetch_assoc())
+                    </div>
+                    <div class="col-12 col-lg-4 col-xl-6">
+                        <div class="car-main_info">
+                            <h2 class="mt-4 mt-lg-0"><?php echo ''. $result['mark'] .' '.$result['m_model'] .'';?></h2>
+                            <p class="mt-4"><?php echo $car['c1'] ?></p>
+                            <div class="colors-list">
+                                <ul class="colors">
+                                <?php  while($col = $colors->fetch_assoc())
                                             {
-                                                echo '<option>'.translateColor($col['a_color']).'</option>';
+                                                echo '<li><a class="'.$col['a_color'].'" onclick="return false"></a></li>';
                                             };
                                             ?>
-                                        </select>
-                                        <li class="size-in"><?php echo $car['c2'] ?></li>
-                                        <select><?php
-                                                echo '<option>'.translateEquip($result['e_name']).'</option>';
+                                </ul>
+                            </div>
+                            <p class="mb-1 mt-3"><?php echo $car['c2'] ?></p>
+                            <div class="eq-list">
+                                <ul class="equip p-4 pt-0">
+                                     <?php
+                                                echo '<li>'.translateEquip($result['e_name']).'</li>';
                                             ?>
-                                        </select>
-                                    </ul>
-                                </div>
-                                <a href="#" class="testdrive_add item_add"><?php echo $car['b2'] ?></a>
+                                </ul>
                             </div>
                         </div>
-                        <div class="clearfix"> </div>
                     </div>
-                    <div class="tabs">
+                </div>
+                <div class="row d-flex justify-content-center justify-content-lg-end">
+                    <div class="b w-lg-25">
+                        <a href="" class=" w-100
+                        btn mt-2 mb-2 testdrive_add item_add" onclick="return false"><?php echo $car['b2'] ?></a>
+                    </div>                
+                </div>
+                <div class="row">
+                    <div class="desc-car">
                         <ul class="menu_drop">
-                            <li class="items item1"><a href="#"><img><?php echo $car['ac1'] ?></a>
-                                <ul>
-                                    <li class="subitem1"><?php echo $result['m_description'] ?></li>
-                                </ul>
-                            </li>
-                            <li class="items item2"><a href="#"><img><?php echo $car['ac2'] ?></a>
-                            <ul>
-                                <div class="row">
+                            <li class="items item2"><a href="#"><?php echo $car['ac2'] ?></a>
+                            <ul style="display: none;">
+                            <div class="row">
                                 <div class="col-6-md left">
                                 <img class="icon" src="/images/icons/engine.svg"><li><?php echo $car['mc1']; echo " : "; echo $result['m_capacity']?></li>
                                 <img class="icon" src="/images/icons/car.svg"><li><?php echo $car['mc2']; echo " : "; echo translateEq($result['m_mode'])?></li>
@@ -112,61 +130,38 @@ else {
                                 <img class="icon" src="/images/icons/secure.svg"><li><?php echo $car['e4']; echo " : "; echo translateEq($result['m_security'])?></li> 
                                 <img class="icon" src="/images/icons/cruise-control.svg"><li><?php echo $car['e5']; echo " : "; echo translateEq($result['m_cruisctrl'])?></li>
                                 <img class="icon" src="/images/icons/esp.svg"><li><?php echo $car['e6']; echo " : "; echo translateEq($result['m_esp'])?></li>
-                                <img class="icon" src="/images/icons/airbag.svg"><li><?php echo $car['e7']; echo " : "; echo translateEq($result['m_airbags'])?></li>                        
+                                <img class="icon" src="/images/icons/airbag.svg"><li><?php echo $car['e7']; echo " : "; echo translateEq($result['m_airbags'])?></li>                                     
 </div></div>
                             </ul>
                             </li>
                             <li class="items item3"><a href="#"><img><?php echo $car['ac3'] ?></a>
-                                <ul class="text-center">                  
-                                    <li class="subitem3"><a class="links" target="_blank" type="button" href="https://www.youtube.com/results?search_query=review+<?php echo $result['m_model']; echo "+"; echo $result['mark']?>"><?php echo $car['b1'] ?> YOUTUBE</button></li>
+                                <ul class="text-center" style="display: none;">                  
+                                <li class="subitem3"><a class="links" target="_blank" type="button" href="https://www.youtube.com/results?search_query=review+<?php echo $result['m_model']; echo "+"; echo $result['mark']?>"><?php echo $car['b1'] ?> YOUTUBE</button></li>
                                     <li class="subitem3"><a  class="links" target="_blank" type="button" href="http://www.google.com/search?q=review+<?php echo $result['m_model']; echo "+"; echo $result['mark']?>"><?php echo $car['b1'] ?> GOOGLE</a></li>
                                     <?php  
                                     while($v = $videos -> fetch_assoc())
                                     {
-                                        echo '<iframe id="video" width="560" height="315" src="https://www.youtube.com/embed/'. $v['v_link'] .' " frameborder="0" allowfullscreen></iframe>';
+                                        echo '<li class="video><iframe id="video" width="560" height="315" src="https://www.youtube.com/embed/'. $v['v_link'] .' " frameborder="0" allowfullscreen></iframe></li>';
                                     }
                                     ?>
-                                </ul>
+                                    </ul>
                             </li>
                         </ul>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
+  
+    <section></section>
     <!--end-car-->
 
     <!--footer-starts-->
     <?php require_once 'templates/footer.php'; ?>
+    <?php require_once 'templates/scripts.php'; ?>
     <!--footer-end-->                           
     <script>
-        $(function() {
 
-            var menu_ul = $('.menu_drop > li > ul'),
-                menu_a = $('.menu_drop > li > a');
-
-            menu_ul.hide();
-
-            menu_a.click(function(e) {
-                e.preventDefault();
-                if (!$(this).hasClass('active')) {
-                    menu_a.removeClass('active');
-                    menu_ul.filter(':visible').slideUp('normal');
-                    $(this).addClass('active').next().stop(true, true).slideDown('normal');
-                } else {
-                    $(this).removeClass('active');
-                    $(this).next().stop(true, true).slideUp('normal');
-                }
-            });
-        });
-        $(window).load(function() {
-            $('.flexslider').flexslider({
-                directionNav: true,
-                animation: "fade",
-                prevText: "<?php echo $car['prev'] ?>",
-                nextText: "<?php echo $car['next'] ?>"
-            });
-        });
     </script>
 </body>
 

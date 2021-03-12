@@ -99,29 +99,30 @@ function filterAuto(string $lang)
         $numrows = $result->num_rows;
         if ($numrows > 0) {
             while ($row = $result->fetch_assoc()) {
-                $output .= '<div class="col-xs-12 col-sm-6 col-lg-6 col-md-6 product-left p-left" id="' . $row['a_ID'] . '">
-                <div class="product-main">
-                <div class="mask"><img class="img-responsive zoom-img" style="width:100%" src=" ' . $row['img'] . ' " alt="" /></div>
-                <div class="product-bottom">
-                    <h3>' . $row['mark'] . '</h3>
-                    <p>' . $row['m_model'] . '</p>
-                </div>
-                <div class="product-buttons">
-                    <a class="btn ' . $_SESSION['lang'] . ' effect-button lookcar" data-sm-link-text=" ' . $lang['buttonHideText'] . '"><span> ' . $catalog['btn'] . '</span></a>
-                    <div class="photo" data-title="' . $catalog['alt'] . '">';
-
+                $output .= '
+                <div class="car-item col-lg-6 col-12" id="' . $row['a_ID'] . '">
+                <div class="container-car h-100">
+                    <div class="car-image overflow-hidden justify-content-center">
+                        <div style="--background:url(../' . $row['img'] . ')" class="background-img"></div>
+                    </div>
+                    <div class="bottom">
+                        <div class="car-desc">
+                            <h2>' . $row['mark'] . '</h2>
+                            <h3>' . $row['m_model'] . '</h3>
+                        </div>
+                        <div class="buttons d-flex align-items-center justify-content-between">
+                            <a class="car_btn">' . $catalog['btn'] . '<span></span></a>';
+                                      
                 if (IsCarFavourite($row['a_ID']))
-                    $output .= ' <img class="favourite is" tabindex="' . $row['a_ID'] . '">';
+                    $output .= ' <div class="fav isfav"></div>';
                 else
-                    $output .= '<img class="favourite nope" tabindex="' . $row['a_ID'] . '">';
+                    $output .= '<div class="fav nofav"></div>';
 
                 $output .= '</div>
                 </div>
                 </div>
-                <div class="clearfix"></div>
                 </div>';
             }
-            $output .= "<script>sameDivs();</script>";
             echo $output;
         } else {
             echo $output = '<div class="text-center"><h3 class="none">' . $lang['ndata'] . '</h3></div>';

@@ -21,83 +21,89 @@ if (isset($_COOKIE['acc'])) {
 
     <!--start-breadcrumbs-->
     <div class="breadcrumb">
-        <div class="container">
-            <div class="breadcrumbs-main <?php echo $_SESSION['lang'] ?>">
-                <ol class="breadcrumb">
-                    <li><a href="index.php"><?php echo $lang['home'] ?></a></li>
-                    <li><a href="account.php"><?php echo $lang['footerH3'] ?></a></li>
-                    <li class="active"><?php echo $register['register'] ?></li>
-                </ol>
+        <div class="container pt-3 pb-3 w-75">
+            <div class="row">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html"><?php echo $lang['home'] ?></a></li>
+                        <li class="breadcrumb-item" aria-current="page"><a href="account.php"><?php echo $lang['footerH3'] ?></a></li>
+                        <li class="breadcrumb-item active" aria-current="page"><?php echo $register['register'] ?></li>
+                    </ol>
+                </nav>
             </div>
         </div>
     </div>
     <!--end-breadcrumbs-->
 
     <!--register-starts-->
-    <div class="register <?php echo $_SESSION['lang'] ?>">
-        <div class="container">
-            <div class="register-top heading">
-                <h2><?php echo $register['register'] ?></h2>
+
+    <section class="register_section">
+    <div class="container">
+        <div class="top heading">
+            <h2><?php echo $register['register'] ?></h2>
+        </div>
+        <form id="register" method="post" oninput="password2.setCustomValidity(password.value != password2.value ? 'Passwords do not match.' : '')">
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="inputEmail"><?php echo $register['email'] ?></label>
+                    <input type="email" class="form-control" autocomplete="OFF" id="inputEmail" placeholder="<?php echo $register['email'] ?>" name="email" required="">
+                    <div class="form-control-feedback"></div>
+                </div>
+                <div class="col-md-6">
+                    <label for="inputPhone"><?php echo $register['phone'] ?></label>
+                    <input type="tel" value="+380" maxlength="13" autocomplete="OFF" class="form-control phone" id="phone" placeholder="<?php echo $register['phone'] ?>" name="phone" required="">
+                    <div class="form-control-feedback"></div>
+                </div>
             </div>
-            <form id="register" method="post" oninput='password2.setCustomValidity(password.value != password2.value ? "Passwords do not match." : "")'>
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label for="inputEmail"><?php echo $register['email'] ?></label>
-                        <input type="email" class="form-control" autocomplete="OFF" id="inputEmail" placeholder="<?php echo $register['email'] ?>" name="email" required>
-                        <div class="form-control-feedback"></div>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="inputPhone"><?php echo $register['phone'] ?></label>
-                        <input type="tel" value="+380" maxlength="13" autocomplete="OFF" class="form-control phone" id="phone" placeholder="<?php echo $register['phone'] ?>" name="phone" required>
-                        <div class="form-control-feedback"></div>
-                    </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="inputName"><?php echo $register['name'] ?></label>
+                    <input type="text" class="form-control" autocomplete="OFF" id="inputName" placeholder="<?php echo $register['name'] ?>" name="name" required="">
+                    <div class="form-control-feedback"></div>
                 </div>
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label for="inputName"><?php echo $register['name'] ?></label>
-                        <input type="text" class="form-control" autocomplete="OFF" id="inputName" placeholder="<?php echo $register['name'] ?>" name="name" required>
-                        <div class="form-control-feedback"></div>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label><?php echo $register['pass'] ?></label>
-                        <input type="password" class="form-control" autocomplete="OFF" id="inputPassword1" placeholder="<?php echo $register['pass'] ?>" name=password required>
-                        <div class="form-control-feedback"></div>
-                    </div>
+                <div class="col-md-6">
+                    <label><?php echo $register['pass'] ?></label>
+                    <input type="password" class="form-control" autocomplete="OFF" id="inputPassword1" placeholder="<?php echo $register['pass'] ?>" name="password" required="">
+                    <div class="form-control-feedback"></div>
                 </div>
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label for="inputSecondName"><?php echo $register['sur'] ?></label>
-                        <input type="text" class="form-control" autocomplete="OFF" id="inputSecondName" placeholder="<?php echo $register['sur'] ?>" name="secondname">
-                        <div class="form-control-feedback"></div>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="inputPassword4"><?php echo $register['apass'] ?></label>
-                        <input type="password" class="form-control" autocomplete="OFF" id="inputPassword2" placeholder="<?php echo $register['apass'] ?>" required name=password2>
-                        <div class="form-control-feedback"></div>
-                    </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="inputSecondName"><?php echo $register['sur'] ?></label>
+                    <input type="text" class="form-control" autocomplete="OFF" id="inputSecondName" placeholder="<?php echo $register['sur'] ?>" name="secondname">
+                    <div class="form-control-feedback"></div>
                 </div>
+                <div class="col-md-6">
+                    <label for="inputPassword4"><?php echo $register['apass'] ?></label>
+                    <input type="password" class="form-control" autocomplete="OFF" id="inputPassword2" placeholder="<?php echo $register['apass'] ?>" required="" name="password2">
+                    <div class="form-control-feedback"></div>
+                </div>
+            </div>
+            <div class="row">
                 <div class="form-group">
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio"  autocomplete="OFF" id="inlineradio1" name="radi1" value="Male" checked>
+                    <div class="form-check-inline">
+                        <input class="form-check-input" type="radio" autocomplete="OFF" id="inlineradio1" name="radi1" value="Male" checked="">
                         <label class="form-check-label"><?php echo $register['m1'] ?></label>
                         <div class="form-control-feedback"></div>
                     </div>
-                    <div class="form-check form-check-inline">
+                    <div class="form-check-inline">
                         <input class="form-check-input" type="radio" autocomplete="OFF" id="inlineradio2" name="radi1" value="Female">
                         <label class="form-check-label"><?php echo $register['m2'] ?></label>
                         <div class="form-control-feedback"></div>
                     </div>
                 </div>
-                <div class="button text-center">
-                    <button id="registerButton" type="submit" name=register class="btn <?php echo $_SESSION['lang'] ?> btn-block effect-button2" data-sm-link-text="<?php echo $lang['buttonHideText'] ?>"><span><?php echo $register['reg'] ?></span></button>
-                </div>
-                <span class="psw"><a href="login.php"><?php echo $register['log'] ?></a></span>
-            </form>
-        </div>
-    </div>
-    <!--register-end-->
+            </div>          
+            <div class="button mt-4 text-center">
+                <button id="register" type="submit" name="register" class="btn" ><?php echo $register['reg'] ?><span></span></button>
+            </div>
+            <span class="psw d-flex mt-3 justify-content-lg-end justify-content-center"><a href="login.php"><?php echo $register['log'] ?></a></span>
+        </form>
+    </div> 
+</section>
+<!--register-end-->
 
     <?php require_once 'templates/footer.php' ?>
+    <?php require_once 'templates/scripts.php' ?>
 </body>
 
 </html>

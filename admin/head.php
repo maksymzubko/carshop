@@ -5,6 +5,7 @@ if (!isset($_COOKIE['accAdm'])) {
 }
 
 echo '    <!-- Import css -->
+<link rel="shortcut icon" href="../images/logo-mini.png">
 <link rel="stylesheet" href="../css/style.css">
 <link rel="stylesheet" href="../css/bootstrap-datetimepicker.css">
 <link rel="stylesheet" href="../css/bootstrap.css">
