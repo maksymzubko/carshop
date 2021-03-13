@@ -3,18 +3,11 @@
 
     <link rel="stylesheet" href="../css/bootstrap.css">
 <link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="../css/all.css">
-<link rel="stylesheet" href="../css/font-awesome.min.css">
-<link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css">
-<link rel="stylesheet" href="../css/sweetalert2.min.css">
+
 <!-- Import javascript -->
-<script type="text/javascript" src="../javascript/jquery-1.11.0.min.js"></script>
-<script type="text/javascript" src="../javascript/bootstrap.min.js"></script>
+<script type="text/javascript" src="../javascript/jquery.js"></script>
 <script src="../javascript/sweetalert2.min.js"></script>
-<script type="text/javascript" src="../javascript/metisMenu.min.js"></script>
-<script type="text/javascript" src="../javascript/all.js"></script>
 <script type="text/javascript" src="../javascript/otherFunctions.js"></script>
-<script type="text/javascript" src="../javascript/jquery.mask.js"></script>'
   </head>
   <?php 
       if(isset($_COOKIE['accAdm']))
@@ -25,8 +18,8 @@
       ?>
 
   <body class="text-center">
-    <div class="container signin">
-    <form class="form-signin" id="admin" method="post">
+    <div class="container h-100 signin d-flex align-items-center">
+    <form class="form-signin w-100" id="admin" method="post">
       <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
       <label for="inputEmail" class="sr-only">Login</label>
       <input type="text" id="inputEmail" name="email" class="form-control" placeholder="Login" required="" autofocus="">
@@ -39,6 +32,5 @@
     </form>
     </div>
 
-    <script></script>
 </body>
 </html>

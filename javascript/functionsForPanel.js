@@ -1,5 +1,7 @@
 $(document).ready(function () {
 
+	$('body').addClass('visible');
+	
 	let block;
 	let blockText;
 	let blockDates = [];
@@ -141,12 +143,12 @@ $(document).ready(function () {
 		}
 	}
 
-	$('#side-menu').metisMenu();
 	function toggleLoader(id) {
 		$(`#${id} .load`).toggleClass('hide');
 		$(`#${id} button`).attr('disabled', (index, attr) => { return attr == "disabled" ? null : "disabled" });
 	}
 	if (window.location.href.includes("testdrive.php")) {
+		$('.nav-link').eq(1).toggleClass('active');
 		var dataTable = $('#data').DataTable({
 			"processing": true,
 			"serverSide": true,
@@ -266,10 +268,7 @@ $(document).ready(function () {
 		});
 	}
 	else if (window.location.href.includes("showncars.php")) {
-		let error;
-		let table;
-		let footer;
-		let data;
+		$('.nav-link').eq(2).toggleClass('active');
 		var dataTable = $('#data').DataTable({
 			"processing": true,
 			"serverSide": true,
@@ -393,7 +392,7 @@ $(document).ready(function () {
 		});
 	}
 	else if (window.location.href.includes("users.php")) {
-
+		$('.dropdown .dropdown-item').eq(0).toggleClass('active');
 		function checkAdminRole() {
 			$.ajax({
 				type: 'POST',
@@ -714,7 +713,7 @@ $(document).ready(function () {
 		});
 
 	} else if (window.location.href.includes("testdrives.php")) {
-
+		$('.dropdown .dropdown-item').eq(1).toggleClass('active');
 		$('.switch_test button').click((el) => {
 
 			let pressedBtn = $(el.target);
@@ -877,8 +876,8 @@ $(document).ready(function () {
 					let idCar = $(el).parent().find('td:first').html();
 					$(el).html("<div class='td__button'><button  class='test_button edit arrived'>Змінити</button><img class='load hide'></div>");
 					$(el).attr("id", idCar);
-					$(el).addClass("button")
-					$("<td class='button' id=" + (i + 0) + "><div class='td__button'><button  class='test_button edit date'>Змінити</button><img class='load hide'></div></td>").insertAfter($(el));
+					$(el).addClass("button");
+					$(el).parent().append("<td class='button' id=" + (i + 0) + "><div class='td__button'><button  class='test_button edit date'>Змінити</button><img class='load hide'></div></td>");
 				})
 
 
@@ -1067,6 +1066,7 @@ $(document).ready(function () {
 		});
 
 	} else if (window.location.href.includes("cars.php")) {
+		$('.dropdown .dropdown-item').eq(2).toggleClass('active');
 		var dataTable = $('#data').DataTable({
 			"processing": true,
 			"serverSide": true,
@@ -1443,16 +1443,8 @@ $(document).ready(function () {
 		});
 	}
 	else if (window.location.href.includes("panel.php")) {
+		$('.nav-link').eq(0).toggleClass('active');
 		$(document).ready(function () {
-			$.getScript("../javascript/resize.js", function () {
-				let elem = $('.buttons').children('div');
-				$(window).resize(() => {
-					sameDivs();
-				})
-			});
-			$(window).load(() => {
-				sameDivs();
-			})
 			let fileName = "";
 			function checkAdminRole() {
 				$.ajax({
@@ -2026,6 +2018,7 @@ $(document).ready(function () {
 									Swal.showLoading();
 								}
 								else {
+									$('.swal2-confirm').toggleClass('hide');
 									let title = $(Swal.getHeader()).find('.swal2-title');
 									title.html('Заповніть данні щодо авто');
 									Swal.hideLoading();

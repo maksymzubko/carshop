@@ -1,33 +1,48 @@
 <?php
 echo '
 <!--header-start-->
-<div class="top-header">
-    <div class="top-header-main">
-        <div class="top-header-left">
-            <div class="titleSite">
-                <a class="mainLogo" href="../index.php">
-                    <img src="../images/logo-mini.png" alt="" style="width:27px;height:30px" />
-                    <h3><b>Carshop</b></h3>
-                </a>
-            </div>
-        </div>
-        <div class="top-header-right">
-            <div class="account-box">
-                <div class="dropdown ">
-                    <button class="dropbtn">';
-                        echo '<label class="lab"> Адмін </label>';
-                        echo '
-                        <img src="../images/account.png" alt="" style="width:30px;height:30px" /> <i
-                            class="fa fa-caret-down"></i>
-                    </button>
-                    <div class="dropdown-content acc">';
-                        echo '<a href="../index.php"><label class="acclog" id="acc"> Головна сайту </label></a>
-                        <a class="logout"><label class="hr"> Вийти </label></a>';
-                        echo '
-                    </div>
-                </div>
-            </div>
-        </div>
+<header>
+<div class="header">
+  <nav class="navbar fixed-top w-100 navbar-expand-xl navbar-dark bg-black">
+    <div class="container-fluid">
+      <a class="navbar-brand text-white" href="../index.php"><img class="logo" src="/images/logo-mini.png"><text>Carshop</text></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="panel.php">Головна</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="testdrive.php">Тест-драйви'; require '../app/functions.php';
+                                                    $res = getStats();
+                                                    if ($res) {
+                                                      if ($res['requests'] != 0)
+                                                        echo '<span class="notify">' . $res['requests'] . '</span>';
+                                                    } echo '</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="showncars.php">Налаштування відображення</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Таблиці
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="users.php">Користувачі</a></li>
+              <li><a class="dropdown-item" href="testdrives.php">Тест-драйви</a></li>
+              <li><a class="dropdown-item" href="cars.php">Автівки</a></li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link logout" onclick="return false" href="">Вийти з аккаунту</a>
+          </li>
+        </ul>
+      </div>
     </div>
+  </nav>
 </div>
+</header>
+<section></section>
 <!--header-end-->'; ?>
