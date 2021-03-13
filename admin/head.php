@@ -4,7 +4,6 @@ if (!isset($_COOKIE['accAdm'])) {
     exit;
 }
 
-<<<<<<< HEAD
 echo '  
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
