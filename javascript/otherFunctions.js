@@ -197,6 +197,7 @@ $(document).ready(function () {
 
 	$('.color').click(function () {
 		$(this).parent().toggleClass('actived');
+		$(this).toggleClass('actived');
 	});
 
 	$('.common_selector').click(function () {
