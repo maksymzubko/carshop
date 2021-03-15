@@ -269,6 +269,16 @@ ol.breadcrumb{
     border: 1px solid #ECEAEA;
     margin: 5px 0px 5px 0px;
 }
+.pointer-none{
+    pointer-events: none;
+}
+.fleximage{
+    margin-top: 2vh;
+}
+.main-inputs input{
+    margin: 10px 0;
+    padding: 1vh;
+}
 .car-image{
     height: 50%;
     position: relative;
@@ -283,6 +293,9 @@ color: #00539b;
     font-size: 1rem !important;
 }
 #data_wrapper .row div:nth-child(2) div{
+    float: right;
+}
+#data2_wrapper .row div:nth-child(2) div{
     float: right;
 }
 .background-img{
@@ -663,6 +676,48 @@ width: 30px;
 }
 .filter{
     z-index: 999;
+}
+td.button{
+    width: 5%;
+}
+.z-0{
+    z-index: 0;
+}
+.cursor{
+    cursor: pointer;
+}
+.test_button.edit{
+    content: url(/images//icons/edit.svg);
+}
+.test_button{
+    height: 30px;
+}
+th{
+    text-align: center;
+}
+.test_button.hiden{
+    content: url(/images/icons/hide.svg);
+}
+.test_button.show{
+    content: url(/images/icons/show.svg);
+}
+.test_button.block{
+    content: url(/images/icons/block.svg);
+}
+.test_button.delete{
+    content: url(/images/icons/delete.svg);
+}
+.td_button{
+    width: auto;
+}
+img.load{
+margin-left: 5px;
+background-image: url("https://upload.wikimedia.org/wikipedia/commons/c/c7/Loading_2.gif");
+background-size: contain;
+background-repeat: no-repeat;
+width: 30px;
+padding: 14px;
+height: 30px;
 }
 .go__top{
     z-index: 9999;

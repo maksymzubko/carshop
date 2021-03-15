@@ -28,7 +28,7 @@
                                     <th>Пароль</th>
                                     <th>Телефон</th>
                                     <th>Стать</th>
-                                    <th>Функція</th>
+                                    <th>Заблокувати</th>
                                 </tr>
                             </thead>
                             <tbody class="body"></tbody>
@@ -43,7 +43,7 @@
                                     <th>Унікальний код</th>
                                     <th>Логін</th>
                                     <th>Пароль</th>
-                                    <th>Функція</th>
+                                    <th>Видалити</th>
                                 </tr>
                             </thead>
                             <tbody class="body"></tbody>

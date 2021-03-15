@@ -148,7 +148,7 @@ $(document).ready(function () {
 
 	function toggleLoader(id) {
 		$(`#${id} .load`).toggleClass('hide');
-		$(`#${id} button`).attr('disabled', (index, attr) => { return attr == "disabled" ? null : "disabled" });
+		$(`#${id} .test_button	`).toggleClass('pointer-none');
 	}
 	if (window.location.href.includes("testdrive.php")) {
 		$('.nav-link').eq(1).toggleClass('active');
@@ -181,14 +181,14 @@ $(document).ready(function () {
 		$('#data').on('draw.dt', function () {
 
 			if ($('thead tr th:last-child').html() == "Дата")
-				$('thead tr').append("<th>Функція</th>");
+				$('thead tr').append("<th>Зміна статусу</th>");
 
 			$('tbody tr td:last-child').each((i, el) => {
 				let idTest = $(el).parent().find('td:first-child').html();
-				$("<td class='button' id=" + idTest + "><div class='td__button'><button  class='test_button edit test'>Змінити</button><img class='load hide'></div></td>").insertAfter($(el));
+				$("<td class='button' id=" + idTest + "><div class='td__button'><div  class='test_button edit test cursor'></div><img class='load hide'></div></td>").insertAfter($(el));
 			});
 
-			$('button.test').click((el) => {
+			$('.test').click((el) => {
 				let idTest = $(el.target).parent().parent().attr("id");
 				buttonHandler(idTest);
 			})
@@ -328,24 +328,24 @@ $(document).ready(function () {
 				footer.show();
 			}
 			if (!isConsist) {
-				$('thead tr').append("<th></th>");
+				$('thead tr').append("<th>Статус</th>");
 				isConsist = true;
 			}
 
 			$('.body tr td:last-child').each((i, el) => {
 				let idCar = $(el).parent().find('td:first').text();
-				$(el).html() == "Відображається" ? $("<td id=" + idCar + "><div class='td__button'><button  class='test_button edit'>Сховати</button><img class='load hide'></div></td>").insertAfter($(el)) : $("<td id=" + idCar + "><div class='td__button'><button class='test_button edit'>Показати</button><img class='load hide'></div></td>").insertAfter($(el));
+				$(el).html() == "Відображається" ? $("<td id=" + idCar + "><div class='td__button'><div class='test_button hiden cursor'></div><img class='load hide'></div></td>").insertAfter($(el)) : $("<td id=" + idCar + "><div class='td__button'><div class='test_button cursor show'></div><img class='load hide'></div></td>").insertAfter($(el));
 			})
 
 			$('.test_button').click((el) => {
-				buttonHandler($(el.target).parent().parent().attr("id"), $(el.target).text());
+				let _action = $(el.target).hasClass('show') ? "Enabled" : "Disabled";
+				buttonHandler($(el.target).parent().parent().attr("id"),_action);
 			})
 
 			function buttonHandler(id, action) {
-				let _action = action == "Показати" ? "Enabled" : "Disabled";
 				$.ajax({
 					url: "../app/eventsHandler.php",
-					data: { action: "edit", visible: _action, ID: id },
+					data: { action: "edit", visible: action, ID: id },
 					beforeSend: () => {
 						toggleLoader(id);
 					},
@@ -362,8 +362,8 @@ $(document).ready(function () {
 					success: () => {
 						setTimeout(() => {
 							toggleLoader(id);
-							_btn = $(`td#${id} button`);
-							_btn.text() == "Показати" ? _btn.text("Сховати") : _btn.text("Показати");
+							_btn = $(`td#${id} .test_button`);
+							_btn.toggleClass("show hiden");
 
 							let tr = _btn.parent().parent().parent().find('td').eq(-2);
 							tr.html() == "Відображається" ? tr.html("Не відображається") : tr.html("Відображається");
@@ -552,7 +552,7 @@ $(document).ready(function () {
 			$('.data1 thead th:last-child').removeClass('sorting').unbind("click");
 
 			if ($('button.active').attr('id') == "2") {
-				if ($('.data1 tbody tr td:last-child').html() == "Заблокувати")
+				if ($('.data1 tbody tr td:last-child').hasClass('block'))
 					$('.data1 tbody tr td:last-child').remove();
 			}
 
@@ -563,8 +563,8 @@ $(document).ready(function () {
 			if ($('.data1 tr:not(:first)').length > 0) {
 				ChangeStateTable(table, error, footer, "enable");
 
-				if ($('.data1 thead th:last-child').html() != "Функція")
-					$('.data1 thead th:last-child').html("Функція");
+				if ($('.data1 thead th:last-child').html() != "Заблокувати")
+					$('.data1 thead th:last-child').html("Заблокувати");
 
 				if ($('button.active').attr('id') == "0") {
 
@@ -647,7 +647,7 @@ $(document).ready(function () {
 					}
 				}
 				else {
-					if ($('.data1 thead th:last-child').html() == "Функція")
+					if ($('.data1 thead th:last-child').html() == "Заблокувати")
 						$('.data1 thead th:last-child').html("Причина");
 				}
 			}
@@ -657,7 +657,7 @@ $(document).ready(function () {
 
 			$('.data2 thead th:last-child').removeClass('sorting').unbind('click');
 
-			if ($('.data2 tbody tr td:last-child').html() == "Заблокувати")
+			if ($('.data2 tbody tr td:last-child').hasClass('block'))
 				$('.data2 tbody tr td:last-child').remove();
 
 			let error = $('.error:nth-child(2)');
@@ -668,7 +668,7 @@ $(document).ready(function () {
 				ChangeStateTable(table, error, footer, "enable");
 			}
 
-			$('button.delete').click((el) => {
+			$('.delete').click((el) => {
 				let idModer = $(el.target).parent().attr("id");
 				buttonHandler(idModer);
 			})
@@ -880,10 +880,10 @@ $(document).ready(function () {
 
 				$('.body tr td:last-child').each((i, el) => {
 					let idCar = $(el).parent().find('td:first').html();
-					$(el).html("<div class='td__button'><button  class='test_button edit arrived'>Змінити</button><img class='load hide'></div>");
+					$(el).html("<div class='td__button'><div  class='test_button edit arrived cursor'></div><img class='load hide'></div>");
 					$(el).attr("id", idCar);
 					$(el).addClass("button");
-					$(el).parent().append("<td class='button' id=" + (i + 0) + "><div class='td__button'><button  class='test_button edit date'>Змінити</button><img class='load hide'></div></td>");
+					$(el).parent().append("<td class='button' id=" + (i + 0) + "><div class='td__button'><div  class='test_button edit date cursor'></div><img class='load hide'></div></td>");
 				})
 
 
@@ -1311,7 +1311,7 @@ $(document).ready(function () {
 					})
 				}
 				else if (action == 2)
-					[
+					{
 						$.ajax({
 							type: 'POST',
 							url: '../../app/eventsHandler.php',
@@ -1338,7 +1338,7 @@ $(document).ready(function () {
 									data = (data == "notimage.png") ? data : fileExists("../images/" + data) == true ? data : "notimage.png";
 
 									i == 0 ? firstID = id : "";
-									i == 0 ? htmlCode += '<div class="flex" id="' + id + '"><div>Головне зображення:<input type="text" class="link swal2-input" placeholder="Зображення" value ="' + ((data == "notimage.png") ? "" : data) + '" readonly=true maxlength = 300></input> <input type="file" class="fileInput"></input></div><div class="fleximage "><img height="65px" style="margin-left:4px;margin-top:23px" width="115px" src=../images/' + data + '></div></div><hr>' : htmlCode += '<div class="flex" id="' + id + '"><div><input type="text" class="link swal2-input" placeholder="Зображення" value ="' + ((data == "notimage.png") ? "" : data) + '" readonly=true maxlength = 300></input> <input type="file" class="fileInput"></input></div><div class="fleximage ' + ((data == "notimage.png") ? "" : "withcontent") + '"><img height="65px" width="115px" src=../images/' + data + '></div></div>';
+									i == 0 ? htmlCode += '<div class="flex" id="' + id + '"><div>Головне зображення:<input type="text" class="link swal2-input" placeholder="Зображення" value ="' + ((data == "notimage.png") ? "" : data) + '" readonly=true maxlength = 300></input> <input type="file" class="fileInput"></input></div><div class="fleximage "><img height="65px"  width="115px" src=../images/' + data + '></div></div><hr>' : htmlCode += '<div class="flex" id="' + id + '"><div><input type="text" class="link swal2-input" placeholder="Зображення" value ="' + ((data == "notimage.png") ? "" : data) + '" readonly=true maxlength = 300></input> <input type="file" class="fileInput"></input></div><div class="fleximage ' + ((data == "notimage.png") ? "" : "withcontent") + '"><img height="65px" width="115px" src=../images/' + data + '></div></div>';
 								}
 
 								htmlCode += "</div></div>";
@@ -1435,7 +1435,7 @@ $(document).ready(function () {
 							}
 						})
 
-					]
+					}
 			}
 
 			let error = $('.error');

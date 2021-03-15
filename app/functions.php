@@ -861,7 +861,7 @@ function UpdateVideos()
                 if (mysqli_affected_rows($db) == 1);
                 $countOfEdited++;
             } else {
-                $arrFailed[] = $arrOld[$arrKeys[$a]];
+                $arrFailed[] = $arrNew[$a];
                 $countOfEdited++;
             }
         }
@@ -1222,7 +1222,7 @@ function getModers()
         $sub_array[] = $row['adm_UNI'];
         $sub_array[] = $row['adm_LOG'];
         $sub_array[] = $row['adm_PASS'];
-        $sub_array[] = "<div id=".$row['adm_UNI']." class='td__button'><button  class='test_button delete'>Видалити</button><img class='load hide'></div>";
+        $sub_array[] = "<div id=".$row['adm_UNI']." class='td__button'><div  class='test_button delete cursor'></div><img class='load hide'></div>";
         $data[] = $sub_array;
     }
 
@@ -1287,7 +1287,7 @@ function getUsers($where)
         if($where != "1")
         $sub_array[] = $row['d_DESC'];
         else
-        $sub_array[] = "<div id=".$row['u_ID']." class='td__button'><button  class='test_button block'>Заблокувати</button><img class='load hide'></div>";
+        $sub_array[] = "<div id=".$row['u_ID']." class='td__button'><div  class='test_button block cursor'></div><img class='load hide'></div>";
 
         $data[] = $sub_array;
     }
@@ -1341,9 +1341,9 @@ function getAuto($where = "isMain = 'True'")
         $sub_array[] = $row['a_year'];
         $sub_array[] = $row['a_count'];
         $sub_array[] = $row['t_price'];
-        $sub_array[] = "<div class='td__button'><button  class='test_button edit price'>Змінити ціну</button><img class='load hide'></div>";
-        $sub_array[] = "<div class='td__button'><button  class='test_button edit video'>Змінити посилання</button><img class='load hide'></div>";
-        $sub_array[] = "<div class='td__button'><button  class='test_button edit photo'>Змінити зображення</button><img class='load hide'></div>";
+        $sub_array[] = "<div class='td__button'><div  class='test_button edit price cursor'></div><img class='load hide'></div>";
+        $sub_array[] = "<div class='td__button'><div  class='test_button edit video cursor'></div><img class='load hide'></div>";
+        $sub_array[] = "<div class='td__button'><div  class='test_button edit photo cursor'></div><img class='load hide'></div>";
 
         $data[] = $sub_array;
     }
