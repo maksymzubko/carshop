@@ -16,6 +16,7 @@ if (!isset($_COOKIE['acc'])) {
 </head>
 
 <body class="body_hide">
+<img id="myBtn" src="images/arrow.png" class="go__top" style="display: none;">
     <?php require_once "templates/header.php" ?>
 
     <!--Navigator start-->

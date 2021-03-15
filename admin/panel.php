@@ -63,10 +63,10 @@
                   <i class="far fa-5x fa-plus-square"></i>
                 </div>
                 <div class="col-9 text-right">
-                  <div class="huge"><?php $res = $res['requests'];
+                  <div class="huge testdrivecounter"><?php $res = $res['requests'];
                                     echo $res; ?></div>
                   <?php if ($res != 0) {
-                    echo '<div>Нові тест драйви!</div>';
+                    echo '<div class="newtest">Нові тест драйви!</div>';
                   }
                   ?>
                 </div>

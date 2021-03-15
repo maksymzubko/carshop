@@ -16,7 +16,7 @@ if (isset($_COOKIE['acc'])) {
 </head>
 
 <body>
-
+<img id="myBtn" src="images/arrow.png" class="go__top" style="display: none;">
     <?php require_once 'templates/header.php' ?>
 
     <!--start-breadcrumbs-->
@@ -26,7 +26,8 @@ if (isset($_COOKIE['acc'])) {
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="index.php"><?php echo $lang['home'] ?></a></li>
-                        <li class="breadcrumb-item" aria-current="page"><a href="account.php"><?php echo $lang['footerH3'] ?></a></li>
+                        <li class="breadcrumb-item" aria-current="page"><a
+                                href="account.php"><?php echo $lang['footerH3'] ?></a></li>
                         <li class="breadcrumb-item active" aria-current="page"><?php echo $login['login'] ?></li>
                     </ol>
                 </nav>
@@ -43,12 +44,12 @@ if (isset($_COOKIE['acc'])) {
                 <div class="container d-flex flex-column">
                     <div class="col-md-8 col-10 align-self-center">
                         <label for="inputEmail"><?php echo $register['email'] ?></label>
-                        <input type="email" class="form-control" autocomplete="OFF" id="inputEmail" placeholder="<?php echo $register['email'] ?>"
-                            name="email" maxlength="30" required>
+                        <input type="email" class="form-control" autocomplete="OFF" id="inputEmail"
+                            placeholder="<?php echo $register['email'] ?>" name="email" maxlength="30" required>
                         <div class="form-control-feedback"></div>
                         <label for="inputPassword"><?php echo $register['pass'] ?></label>
-                        <input type="password" maxlength="30" placeholder="<?php echo $register['pass'] ?>" autocomplete="OFF" class="form-control pass"
-                            id="pass" name="pass" required>
+                        <input type="password" maxlength="30" placeholder="<?php echo $register['pass'] ?>"
+                            autocomplete="OFF" class="form-control pass" id="pass" name="pass" required>
                         <div class="form-control-feedback"></div>
                         <input type="checkbox" name="remember"> <?php echo $login['rem'] ?></label>
                     </div>

@@ -7,7 +7,7 @@
 </head>
 
 <body >
-
+    <img id="myBtn" src="images/arrow.png" class="go__top" style="display: none;">
     <?php require_once "templates/header.php" ?>
 
     <section class="banner">
@@ -49,7 +49,7 @@
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                 <span class="visually-hidden"><?php echo $lang['Nxt'] ?></span>
             </button>
-            <a href="cars.html" class="btn index w- w-lg-50"><?php echo $lang['cars'] ?><span></span></a>
+            <a href="cars.php" class="btn index w- w-lg-50"><?php echo $lang['cars'] ?><span></span></a>
         </div>
     </section>
     <section class="display-none black pt-5 pb-5"></section>

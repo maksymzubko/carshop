@@ -8,6 +8,11 @@
 <script type="text/javascript" src="../javascript/jquery.js"></script>
 <script src="../javascript/sweetalert2.min.js"></script>
 <script type="text/javascript" src="../javascript/otherFunctions.js"></script>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="shortcut icon" href="../images/logo-mini.png">
+<title>Admin Login</title>
   </head>
   <?php 
       if(isset($_COOKIE['accAdm']))
@@ -18,8 +23,8 @@
       ?>
 
   <body class="text-center">
-    <div class="container h-100 signin d-flex align-items-center">
-    <form class="form-signin w-100" id="admin" method="post">
+    <div class="container h-100 signin d-flex align-items-center justify-content-center">
+    <form class="form-signin w-50" id="admin" method="post">
       <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
       <label for="inputEmail" class="sr-only">Login</label>
       <input type="text" id="inputEmail" name="email" class="form-control" placeholder="Login" required="" autofocus="">

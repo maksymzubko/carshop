@@ -15,12 +15,21 @@ echo '
             <a class="nav-link" aria-current="page" href="panel.php">Головна</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="testdrive.php">Тест-драйви'; require '../app/functions.php';
-                                                    $res = getStats();
-                                                    if ($res) {
-                                                      if ($res['requests'] != 0)
-                                                        echo '<span class="notify">' . $res['requests'] . '</span>';
-                                                    } echo '</a>
+            <a class="nav-link" href="testdrive.php">Тест-драйви
+            <span class="notify">'; 
+            
+            require '../app/functions.php';
+            
+            $res = getStats();
+            if ($res) {
+              if ($res['requests'] != 0)
+               echo $res['requests'];
+               else
+               echo '0';
+            } 
+            else
+             echo '0'; 
+          echo '</span></a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="showncars.php">Налаштування відображення</a>

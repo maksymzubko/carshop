@@ -14,7 +14,8 @@ if (!isset($_COOKIE['acc'])) {
     <title><?php echo $lang['toplabel'] ?></title>
 </head>
 
-<body class="body_hide">
+<body class="body_hide">    
+<img id="myBtn" src="images/arrow.png" class="go__top" style="display: none;">
     <?php require_once "templates/header.php" ?>
 
     <?php include 'app/functions.php';
@@ -39,10 +40,11 @@ if (!isset($_COOKIE['acc'])) {
     <section class="account_page">
         <div class="container d-flex flex-column align-items-center">
             <h2 class="text-center w-75 top"><?php
-                                $str =  json_decode($_COOKIE['acc'],true); echo $str['name']; ?></h2>
+                                                $str =  json_decode($_COOKIE['acc'], true);
+                                                echo $str['name']; ?></h2>
             <div class="account__content mb-5 text-center w-50 d-lg-flex justify-content-md-between">
                 <div class="mt-2 col-12 col-lg-6">
-                    <h2><strong> <?php echo $row['fav']?>  </strong></h2>
+                    <h2><strong> <?php echo $row['fav'] ?> </strong></h2>
                     <p><?php echo $account['hd1'] ?></p>
                     <button class="btn" onclick="window.location.href='/favourite.php'"> <?php echo $lang['faccp2'] ?><span></span>
                     </button>

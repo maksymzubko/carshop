@@ -10,6 +10,7 @@
 </head>
 
 <body>
+<img id="myBtn" src="images/arrow.png" class="go__top" style="display: none;">
     <?php require_once "templates/header.php" ?>
 
     <!--Navigator start-->
@@ -31,44 +32,42 @@
         <div class="cars__product">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-3 filter mb-3 ">
-                        <div class="filters_setting">
+                    <div class="col-lg-3 filter mb-3 sticky top-0">
+                        <div class="filters_setting ">
                             <h2><?php echo $lang['filter'] ?></h2>
                             <div class="icons">
                                 <div class="ico filter-ico"></div>
                             </div>
                         </div>
-                        <div class="filters_list">
+                        <div class="filters_list sticky top-0">
                             <div class="close">X</div>
-                            <div class="filter__menu">
+                            <div class="filter__menu ">
                                 <div class="header">
                                     <h2><?php include 'app/functions.php';
-                                     echo $catalog['c1'] ?></h2>
+                                        echo $catalog['c1'] ?></h2>
                                 </div>
                                 <div class="content">
-                                    <?php 
-                                             $db = get_connection();
-                                             $query = "Select `cat_Caption` from categories group by `cat_Caption` order by `cat_Caption` asc";
-                                             $result = $db->query($query);
-                                            require 'languages/translater.php';
-                                            $arr = array();
-                                            $rows = array();
-                                             while($row = $result->fetch_assoc())
-                                             {  
-                                                 array_push($arr,translateCategory($row['cat_Caption']));                                             
-                                             }
+                                    <?php
+                                    $db = get_connection();
+                                    $query = "Select `cat_Caption` from categories group by `cat_Caption` order by `cat_Caption` asc";
+                                    $result = $db->query($query);
+                                    require 'languages/translater.php';
+                                    $arr = array();
+                                    $rows = array();
+                                    while ($row = $result->fetch_assoc()) {
+                                        array_push($arr, translateCategory($row['cat_Caption']));
+                                    }
 
-                                            asort($arr);
+                                    asort($arr);
 
-                                            $result = $db->query($query);
+                                    $result = $db->query($query);
 
-                                             foreach($arr as $val)
-                                             {
-                                                $row = $result->fetch_assoc();
-                                                echo '<div class="form-check"> <input class="form-check-input category common_selector" type="checkbox" value="'. $row['cat_Caption']  .'" id="flexCheckDefault"> <label class="form-check-label" for="flexCheckDefault">'. $val .'
+                                    foreach ($arr as $val) {
+                                        $row = $result->fetch_assoc();
+                                        echo '<div class="form-check"> <input class="form-check-input category common_selector" type="checkbox" value="' . $row['cat_Caption']  . '" id="flexCheckDefault"> <label class="form-check-label" for="flexCheckDefault">' . $val . '
                                             </label></div>';
-                                             }                                     
-                                            ?>       
+                                    }
+                                    ?>
                                 </div>
                             </div>
                             <div class="filter__menu">
@@ -77,14 +76,14 @@
                                 </div>
                                 <div class="content">
                                     <?php
-                                            $query = "Select mark from marks group by mark order by `mark` ASC";
-                                            $result = $db->query($query);
+                                    $query = "Select mark from marks group by mark order by `mark` ASC";
+                                    $result = $db->query($query);
 
-                                            while($row = $result->fetch_assoc())
-                                             {
-                                                echo '<div class="form-check"> <input class="form-check-input brand common_selector" type="checkbox" value="'. $row['mark']  .'" id="flexCheckDefault"> <label class="form-check-label" for="flexCheckDefault">'. $row['mark']  .'
-                                                </label></div>';                                             }
-                                            ?>  
+                                    while ($row = $result->fetch_assoc()) {
+                                        echo '<div class="form-check"> <input class="form-check-input brand common_selector" type="checkbox" value="' . $row['mark']  . '" id="flexCheckDefault"> <label class="form-check-label" for="flexCheckDefault">' . $row['mark']  . '
+                                                </label></div>';
+                                    }
+                                    ?>
                                 </div>
                             </div>
                             <div class="filter__menu">
@@ -92,13 +91,13 @@
                                     <h2><?php echo $catalog['col'] ?></h2>
                                 </div>
                                 <div class="content">
-                                <ul class="colors">
+                                    <ul class="colors">
                                         <li><a class="color yellow common_selector" id="Желтый" href="" onclick="return false;"></a></li>
-                                        <li><a class="color red common_selector"  id="Красный" href="" onclick="return false;"></a></li>
+                                        <li><a class="color red common_selector" id="Красный" href="" onclick="return false;"></a></li>
                                         <li><a class="color blue common_selector" href="" id="Синий" onclick="return false;"></a></li>
                                         <li><a class="color black common_selector" id="Черный" href="" onclick="return false;"></a></li>
-                                        <li><a class="color white common_selector"  id="Белый" href="" onclick="return false;"></a></li>
-                                        <li><a class="color green common_selector"  id="Зеленый" href="" onclick="return false;"></a></li>
+                                        <li><a class="color white common_selector" id="Белый" href="" onclick="return false;"></a></li>
+                                        <li><a class="color green common_selector" id="Зеленый" href="" onclick="return false;"></a></li>
                                     </ul>
                                 </div>
                             </div>

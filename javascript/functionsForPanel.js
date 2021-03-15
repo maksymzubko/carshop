@@ -1,5 +1,8 @@
 $(document).ready(function () {
 
+	if($('.notify').html() == "0")
+	$('.notify').hide();
+
 	$('body').addClass('visible');
 	
 	let block;
@@ -225,6 +228,9 @@ $(document).ready(function () {
 									toggleLoader(id);
 									Toast.fire({ title: `Тестдрайв #${id} успішно прийнятий!`, icon: "success" });
 									$('.notify').html(parseInt($('.notify').html()) - 1);
+									if ($('.notify').html() == "0")
+										$('.notify').hide();
+
 									dataTable.ajax.reload();
 								}, 1600);
 							},
@@ -1816,7 +1822,11 @@ $(document).ready(function () {
 																timer: 2000,
 																position: "center"
 															});
-
+															$('.notify').html(parseInt($('.notify').html()) + 1);
+															$('.notify').show();
+															$('.testdrivecounter').html(parseInt($('.testdrivecounter').html()) + 1);
+															if($('.testdrivecounter').html() == "1")
+															$('.testdrivecounter').parent().append('<div class="newtest">Нові тест драйви!</div>');
 														}, error: function (xhr, status, error) {
 															Toast.fire({
 																title: "Щось пішло не так!",

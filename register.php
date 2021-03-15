@@ -15,8 +15,8 @@ if (isset($_COOKIE['acc'])) {
     <title><?php echo $register['register'] ?></title>
 </head>
 
-<body class="body_hide">
-
+<body>
+<img id="myBtn" src="images/arrow.png" class="go__top" style="display: none;">
     <?php require_once 'templates/header.php' ?>
 
     <!--start-breadcrumbs-->

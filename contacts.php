@@ -10,7 +10,7 @@
 </head>
 
 <body>
-
+<img id="myBtn" src="images/arrow.png" class="go__top" style="display: none;">
     <?php require_once "templates/header.php" ?>
 
     <!--Navigator start-->
@@ -41,9 +41,9 @@
                         <div class="col-12 col-lg-4">
                             <h2><?php echo $contact['adr'] ?></h2>
                             <p>KhCar Shop,
-                            <?php echo $lang['fstorep1'] ?>,
-                            <?php echo $lang['fstorep2'] ?>
-                        </p>
+                                <?php echo $lang['fstorep1'] ?>,
+                                <?php echo $lang['fstorep2'] ?>
+                            </p>
                         </div>
                         <div class="col-12 col-lg-4">
                             <h2> <?php echo $contact['tel'] ?></h2>
