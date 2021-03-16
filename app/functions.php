@@ -570,10 +570,28 @@ function addToTestdrive(string $id, string $date)
     if (validateTest($id)) {
         $user = isset($_POST['userID']) ? $_POST['userID'] : getCoockie("id", "user");
         
-        $query = "INSERT INTO `testdrive` (`uid`, `car_ID`,`status`,`date`) VALUES($user,$id, 'Waiting', '$date')";
+        function isAlreadyExists($user, $id)
+        {
+        
+        $query = "Select * from `testdrive` where u_id = '$user' and car_ID = '$id' and status = 'Waiting')";
         $db = get_connection();
         $stmt = $db->query($query);
+        
+        if($stmt->num_rows>0)
         return true;
+        else
+        return false;
+        }
+        
+        if(!isAlreadyExists($user, $id))
+        {
+            $query = "INSERT INTO `testdrive` (`uid`, `car_ID`,`status`,`date`) VALUES($user,$id, 'Waiting', '$date')";
+            $db = get_connection();
+            $stmt = $db->query($query);
+            return true;
+        }
+        else
+        return false;       
     } else {
         return false;
     }
@@ -647,6 +665,8 @@ function registerNewCar()
 
         if (mysqli_affected_rows($db) == 1)
             $counter++;
+
+       
 
         if ($counter == 2)
             return array('success' => true);

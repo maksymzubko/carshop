@@ -2227,7 +2227,7 @@ $(document).ready(function () {
 												error: function (xhr) {
 													Toast.fire({
 														icon: "error",
-														title: xhr.error,
+														title: JSON.parse(xhr.responseText).error,
 														position: "top"
 													});
 												}
