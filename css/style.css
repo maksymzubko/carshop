@@ -247,11 +247,51 @@ button[aria-expanded=true] .navbar-toggler-icon.custom_icon:nth-child(3){
     position: absolute;
     bottom: 0;
 }
+.btn.mainbtn{
+    transition: .2s ease-out;
+}
+.btn.mainbtn:hover{
+    transform: scale(1.08);
+}
+.btn.mainbtn:hover span{
+    border-radius: 50%;
+    transform: translate(-50%,-50%);
+    top: 50%;
+    left: 50%;
+    height: 1px;
+    width: 1px;
+    background: rgb(72, 72, 72);
+    transform: scale(300);
+    }
 .btn.index:hover span{
 transform: scale(200);
 }
 
+.index_desc{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    position: absolute;
+}
 /* about__our__company */
+.index_desc h1{
+    margin-bottom: 20px;
+ font-size: 35px;
+}
+.index_desc h3{
+    font-size: 25px;
+    margin: 0 20vw;
+    margin-bottom: 20px;
+   }
+.index_desc a{
+    background: transparent;
+    padding: 5em 5em;
+    font-size: 30px;
+}
 section.cars{
 padding-top: 2vh;
 }
@@ -260,7 +300,16 @@ section
     padding-top: 4vh;
 }
 .banner{
+    background: black;
     padding: 0;
+    position: relative;
+}
+.btn.mainbtn:focus{
+    outline: none;
+    border: none;
+}
+.carousel{
+    opacity: 0.15;
 }
 .about__our__company .row:nth-child(n+2)
 {
@@ -434,9 +483,24 @@ color: #00539b;
 .container-car .bottom{
     height: 50% ;
 }
+.breadcrumb{
+    align-items: center;
+}
+.back {
+    height: max-content;
+    cursor: pointer;
+    margin-left: 5rem;
+    transition: .2s ease-out;
+    font-size: 20px;
+}
+.back:hover{
+    color: #1a2935;
+    transform: scale(1.05);
+   
+}
 .buttons .car_btn{
     text-align: center;
-    width: 50%;
+    width: 75%;
     transition: ease-in-out 0.5s;
     cursor: pointer;
     z-index: 1;
@@ -457,7 +521,7 @@ color: #00539b;
     background: #545151a6;
     width: 5px;
     height: 5px;
-    transform: scale(78);
+    transform: scale(178);
     transition: transform 0.5s;
 }
 .car_btn:hover{
@@ -1069,6 +1133,23 @@ body.swal2-height-auto {
 }
 @media screen and (max-width: 770px )
 {
+    .index_desc h1{
+        font-size: 28px;
+    }
+    .index_desc h3{
+        font-size: 20px;
+    }
+    .btn.mainbtn{
+        padding: 9em 2em;
+        font-size: 25px;
+    }
+    .btn.mainbtn:hover span{
+        width: 100%;
+        transform: scale(70);
+    }
+    .back{
+        margin-left: 0.5rem;
+    }
     #register .col-md-6:not(:first-child)
     {
         margin-top: 5vh;

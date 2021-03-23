@@ -117,14 +117,8 @@ function filterAuto(string $lang)
                             <h2>' . $row['mark'] . '</h2>
                             <h3>' . $row['m_model'] . '</h3>
                         </div>
-                        <div class="buttons d-flex align-items-center justify-content-between">
-                            <a class="car_btn">' . $catalog['btn'] . '<span></span></a>';
-                                      
-                if (IsCarFavourite($row['a_ID']))
-                    $output .= ' <div class="fav isfav"></div>';
-                else
-                    $output .= '<div class="fav nofav"></div>';
-
+                        <div class="buttons d-flex align-items-center justify-content-center">
+                            <a class="car_btn">' . $catalog['btn'] . '<span></span></a>';                                  
                 $output .= '</div>
                 </div>
                 </div>
@@ -437,44 +431,7 @@ function validateTest(string $id)
 function isAuthorizated()
 {
     if (isset($_COOKIE['acc'])) {
-        if (!getAboutUser())
-            return false;
-        else
             return true;
-    } else
-        return false;
-}
-
-function getAboutUser()
-{
-    $user = getCoockie("id", "user");
-
-    $arr = array();
-
-    $query = "SELECT `u_ID`,`u_login`,`u_name`,`u_fname` from users where u_ID = $user";
-
-    $db = get_connection();
-    $result = $db->query($query);
-    if ($result->num_rows > 0) {
-        $row = $result->fetch_assoc();
-        $arr["u_ID"]=$row["u_ID"];
-        $arr["u_login"]=$row["u_login"];
-        $arr["u_name"]=$row["u_name"];
-        $arr["u_fname"]=$row["u_fname"];
-
-        $query = "SELECT Count(`d_ID`) as count from testdrive where uid = $user";
-        $result = $db->query($query);
-        $row = $result->fetch_assoc();
-
-        $arr["test"]=$row['count'];
-
-        $query = "SELECT Count(`client_ID`) as count from favourite where client_ID = $user";
-        $result = $db->query($query);
-        $row = $result->fetch_assoc();
-
-        $arr["fav"]=$row['count'];
-
-        return $arr;
     } else
         return false;
 }
@@ -605,28 +562,6 @@ function getTestCar($car)
     return $arr;
 }
 
-function addToFavourite(array $data)
-{
-    $car = $data['car_ID'];
-    $user = getCoockie("id", "user");
-
-    $query = "INSERT INTO `favourite` (`client_ID`, `auto_ID`) VALUES('$user','$car')";
-    $db = get_connection();
-    $stmt = mysqli_query($db, $query);
-    return $stmt;
-}
-
-function removeFromFavourite(array $data)
-{
-    $car = $data['car_ID'];
-    $user = getCoockie("id", "user");
-
-    $query = "Delete from `favourite` where `auto_ID` = $car and `client_ID` = $user";
-    $db = get_connection();
-    $stmt = mysqli_query($db, $query);
-    return $stmt;
-}
-
 function addToTestdrive(string $id, string $date)
 {
     if (validateTest($id)) {
@@ -737,24 +672,6 @@ function registerNewCar()
     }
 }
 
-function favouriteList()
-{
-    $user = getCoockie("id", "user");
-
-    $query = "SELECT * FROM `favourite` join images on img_a_ID = auto_ID WHERE `client_ID` = $user and `isMain` = 'True'";
-
-    $db = get_connection();
-    return $db->query($query);
-}
-
-function getVideos(string $id)
-{
-    $query = "SELECT * FROM `videos` WHERE `auto_ID` = $id";
-
-    $db = get_connection();
-    return $db->query($query);
-}
-
 function getPhotos(string $id)
 {
     $query = "SELECT * FROM `images` WHERE `img_a_ID` = $id Order by `isMain` desc";
@@ -763,9 +680,9 @@ function getPhotos(string $id)
     return $db->query($query);
 }
 
-function isExistElement($element, $name)
+function isExistElement($name)
 {
-    $element == "video" ? $query = "SELECT * FROM `videos` WHERE `v_link` = '$name'" : $query = "SELECT * FROM `images` WHERE `img` = 'images/'$name";;
+    $query = "SELECT * FROM `images` WHERE `img` = 'images/'$name";;
 
     $db = get_connection();
     $result = $db->query($query);
@@ -882,79 +799,6 @@ function registerNewUser()
     }
 }
 
-function UpdateVideos()
-{
-
-    $arrFailed = array();
-
-    function isLinkValide($link)
-    {
-        $apiforyoutube = "AIzaSyBxUtkAn6PdFSnrYz7o4D6T7O7qb1RCVp4";
-        $theURL = "https://www.googleapis.com/youtube/v3/videos?id=$link&key=$apiforyoutube&part=status&json";
-
-        $headers = file($theURL);
-        if (count($headers) == 23)
-            return true;
-        else
-            return false;
-    }
-
-    $countToEdit = $_POST['countToEdit'];
-    $countOfEdited = 0;
-
-    $db = get_connection();
-
-    if (isset($_POST['linksOld'])) {
-        $arrOld = $_POST['linksOld'];
-        $arrKeys = array_keys($arrOld);
-        for ($a = 0; $a < count($arrKeys); $a++) {
-            if ($arrOld[$arrKeys[$a]] == "") {
-
-                $query = "Delete from `videos` where link_ID = $arrKeys[$a]";
-                $db->query($query);
-
-                if (mysqli_affected_rows($db) == 1);
-                $countOfEdited++;
-            }
-            if (!isExistElement("video", $arrOld[$arrKeys[$a]])) {
-                if (isLinkValide($arrOld[$arrKeys[$a]]) == true) {
-                    $query = "Update `videos` set v_link = '" . $arrOld[$arrKeys[$a]] . "' where link_ID = $arrKeys[$a]";
-
-                    $db->query($query);
-
-                    if (mysqli_affected_rows($db) == 1);
-                    $countOfEdited++;
-                } else {
-                    $arrFailed[] = $arrOld[$arrKeys[$a]];
-                    $countOfEdited++;
-                }
-            } else
-                $countOfEdited++;
-        }
-    }
-
-    $carID = $_POST['carID'];
-    if (isset($_POST['linksNew'])) {
-        $arrNew = array_unique(array_values($_POST['linksNew']));
-        for ($a = 0; $a < count($arrNew); $a++) {
-            if (isLinkValide($arrNew[$a]) == true) {
-                $query = "INSERT into `videos` (`auto_ID`,`v_link`) values ('$carID', '$arrNew[$a]')";
-                $db->query($query);
-                if (mysqli_affected_rows($db) == 1);
-                $countOfEdited++;
-            } else {
-                $arrFailed[] = $arrNew[$a];
-                $countOfEdited++;
-            }
-        }
-    }
-
-    if ($countOfEdited == $countToEdit)
-        return array("success" => true, "data" => $arrFailed);
-    else
-        return array("success" => false, "data" => $arrFailed);
-}
-
 function getCarsList()
 {
     $query = "SELECT * FROM `auto` join images on img_a_ID=a_ID join models on a_model=m_id join marks on m_mark_ID=mark_ID where visible = 'Enabled' and isMain = 'True'";
@@ -980,24 +824,6 @@ function getTestDrives()
         return $arr;
     } 
     else return false;
-}
-
-function IsCarFavourite($car_ID)
-{
-    if (isAuthorizated()) {
-        $user = getCoockie("id", "user");
-
-        $query = "Select * from `favourite` where `auto_ID` = $car_ID and `client_ID` = $user";
-        $db = get_connection();
-        $stmt = mysqli_query($db, $query);
-        $rowcount = $stmt->num_rows;
-        if ($rowcount != 0)
-            return true;
-        else
-            return false;
-    } else {
-        return false;
-    }
 }
 
 function getStats()
@@ -1484,7 +1310,6 @@ function getAuto($where = "isMain = 'True'")
         $sub_array[] = $row['a_count'];
         $sub_array[] = $row['t_price'];
         $sub_array[] = "<div class='td__button'><div  class='test_button edit price cursor'></div><img class='load hide'></div>";
-        $sub_array[] = "<div class='td__button'><div  class='test_button edit video cursor'></div><img class='load hide'></div>";
         $sub_array[] = "<div class='td__button'><div  class='test_button edit photo cursor'></div><img class='load hide'></div>";
 
         $data[] = $sub_array;

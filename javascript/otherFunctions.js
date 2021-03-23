@@ -1,5 +1,8 @@
 $(function () {
 
+	
+	
+
 	var menu_ul = $('.menu_drop > li > ul'),
 		menu_a = $('.menu_drop > li > a');
 
@@ -41,20 +44,6 @@ $(document).ready(() => {
 });
 $('.filter-ico').click((el) => {
 	$(el.target).toggleClass('enabled');
-})
-$(".fav").click((el) => {
-
-	p = $(el.target);
-
-	p.toggleClass('isfav nofav')
-
-	if (p.hasClass('click')) {
-		p.removeClass('click');
-		setTimeout(() => { p.addClass('click') }, 1);
-	}
-	else {
-		p.addClass('click');
-	}
 })
 
 $('.contact-with-us>.header').click((e) => {
@@ -155,7 +144,6 @@ $(document).ready(function () {
 
 	result();
 
-	let fav = $('.fav');
 	let but = $('.car_btn');
 	let priceTest = 0;
 	let block;
@@ -232,10 +220,8 @@ $(document).ready(function () {
 				data: { action: action, brand: brand, category: category, color: color },
 				success: function (xhr) {
 					$('.car-profile').html(xhr);
-					fav = $('.fav');
 					but = $('a.car_btn');
 					but.click(button);
-					fav.click(favourite);
 				},
 			});
 		}
@@ -254,10 +240,8 @@ $(document).ready(function () {
 				data: { action: action, filter: filter },
 				success: function (xhr) {
 					$('.car-profile').html(xhr);
-					fav = $('.fav');
 					but = $('a.car_btn');
 					but.click(button);
-					fav.click(favourite);
 				},
 			});
 		}
@@ -316,48 +300,12 @@ $(document).ready(function () {
 	});
 
 	but.click(button);
-	fav.click(favourite);
 
 	function button() {
 		let id = $(this).parent().parent().parent().parent().attr("id");
 		let link = window.location.origin + "/car.php?id=" + id;
 		window.location.href = link;
 	};
-
-	function favourite() {
-		let elem = $(this);
-		let need;
-		if ($(this).attr('class') == "fav nofav") { need = "0"; }
-		else { need = "1"; }
-
-		var id_car = $(this).parent().parent().parent().parent().attr('id');
-		$.ajax({
-			type: 'POST',
-			url: 'app/eventsHandler.php',
-			dataType: "json",
-			data: {
-				'car_ID': id_car,
-				'need': need
-			}, success: function (xhr) {
-				//Toast.fire({
-				//	icon: "success",
-				//	title: xhr.successmsg
-				//});
-				if (need == 0)
-					elem.removeClass().addClass('fav isfav');
-				else
-					elem.removeClass().addClass('fav nofav');
-
-			}, error: function (xhr, status, error) {
-				let d = JSON.parse(xhr.responseText);
-				Toast.fire({
-					icon: "error",
-					title: d.error
-				});
-			}
-		});
-	}
-
 	function formatDate(datestr) {
 		var date = new Date(datestr);
 		date.setHours(date.getHours() - 2);
@@ -478,7 +426,7 @@ $(document).ready(function () {
 
 				if($(this).val().length==11)
 				$(this).val($(this).val()+" ");
-				
+
 				return;
 			}
 			else e.preventDefault();
@@ -561,7 +509,7 @@ $(document).ready(function () {
 					xhr.successmsg,
 					"success",
 				);
-				location.href = window.location.origin + "/account.php";
+				location.href = window.location.origin + "/login.php";
 			},
 			error: function (xhr, status, error) {
 				let d = JSON.parse(xhr.responseText);

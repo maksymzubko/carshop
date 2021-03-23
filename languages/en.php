@@ -21,9 +21,15 @@ $lang = array(
 "ndata"=>"No Data Found!",
 "filter"=>"Filter",
 "Nxt"=>"Next",
-"Prv"=>"Previous"
+"Prv"=>"Previous",
+"back"=>"Go Back"
 );
 $index = array(
+    "ah11"=>"Reliability",
+    "ah12"=>"speed",
+    "ah13"=>"responsibility",
+    "ah14"=>"our main theses",
+    "ah2"=>"Here you can view all available cars in the catalog, as well as order a test drive.",
     "about1"=>"Warranty",
     "about1text"=>"We guarantee work and support for 10 years!",
     "about2"=>"Reliability",

@@ -25,12 +25,27 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 </head>
 
 <body>
+<div class="contact-with-us close unselect">
+        <div class="header">
+            <div><img src="/images/arrow-down.png" width="35px" height="15px"></div>
+            <p>Связаться с нами</p>
+        </div>
+        <div class="contact-info d-flex align-items-center justify-content-start flex-column">
+            <div class="d-flex align-items-center"><img style="margin-right:10px" src="/images/phone.png" width="25px" height="18px">
+                <p><a href="callto:+380992443242">+380 99 244 3242</a></h5>
+            </div>
+            <div class="d-flex align-items-center"><img style="margin-right:10px" src="/images/mail.png" width="25px" height="18px">
+                <p><a href="mailto:makzzubko66@email.com">makzzubko66@gmail.com</a></p>
+            </div>
+        </div>
+    </div>
 <img id="myBtn" src="images/arrow.png" class="go__top" style="display: none;">
     <?php require_once 'templates/header.php';
     require 'languages/translater.php'; ?>
 
     <!--start-breadcrumbs-->
     <div class="breadcrumb">
+    <div class="back d-flex align-items-center"> <img src="/images//arrow-back.png" height="15px" width="20px"> <a href="" onclick="history.back();return false;"><?php echo $lang['back'] ?></a> </div>
         <div class="container pt-3 pb-3 w-75">
             <div class="row">
                 <nav aria-label="breadcrumb">

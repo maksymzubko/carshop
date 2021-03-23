@@ -44,8 +44,7 @@ echo '
                                 echo ' <li><a class="dropdown-item" href="login.php">' . $login['log'] . '</a></li>
                                 <li><a class="dropdown-item" href="register.php">' . $register['reg'] . '</a></li>';
                                 } else {
-                                echo ' <li><a class="dropdown-item" href="account.php">' . $lang['faccp1'] . '</a></li>
-                                <li><a class="dropdown-item" href="account.php">' . $lang['faccp2'] . '</a></li>
+                                echo '
                                 <li><a class="dropdown-item" href="testdrives.php">' . $testdrive['test'] . '</a></li>
                                 <li><a class="dropdown-item logout" href="#">' . $account['exit'] . '</a></li>';
                                 }   

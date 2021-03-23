@@ -409,44 +409,6 @@ if (!empty($_POST)) {
         }
     }
 
-    function actionWithCars()
-    {
-        if (isAuthorizated()) {
-            if ($_POST['need'] == "0") {
-                addToFavourite($_POST);
-                sendResponse([
-                    'success' => true,
-                    'successmsg' => translateAction("Действие выполнено!")
-                ]);
-            } else {
-                removeFromFavourite($_POST);
-                sendResponse([
-                    'success' => true,
-                    'successmsg' => translateAction("Действие выполнено!")
-                ]);
-            }
-        } else {
-            sendResponse([
-                'success' => false,
-                'error' => translateAction("Необходимо быть авторизорованым!")
-            ]);
-        }
-    }
-
-    //function testDrive()
-    //{
-    //    $user = getCoockie("id", "user");
-    //    $where = 'u_ID = ' . $user . '';
-    //    $output = getAllTests($where);
-    //    if ($output['recordsFiltered'] == 0) {
-    //        http_response_code(500);
-    //        echo json_encode($output);
-    //    } else {
-    //        echo json_encode($output);
-    //    }
-    //    exit();
-    //}
-
     function actionGetListOfModers()
     {
         $res = getModersList();
@@ -519,27 +481,6 @@ if (!empty($_POST)) {
         }
     }
 
-    function actionGetVideosList()
-    {
-        $result = getVideos($_POST['carID']);
-
-        $arrDefault = array();
-        $count = 0;
-        $id = null;
-        while ($row = $result->fetch_assoc()) {
-            $arrDefault[$row['link_ID']] = $row['v_link'];
-            $id = $row['auto_ID'];
-            $count++;
-        }
-        $arr["links"] = $arrDefault;
-        $arr["count"] = $count;
-        $arr["id"] = $id;
-        sendResponse([
-            'success' => true,
-            json_encode($arr)
-        ]);
-    }
-
     function actionUpdatePhotos()
     {
         $result = UpdatePhotos();
@@ -586,22 +527,6 @@ if (!empty($_POST)) {
         else
             sendResponse([
                 'success' => false
-            ]);
-    }
-
-    function actionUpdateVideos()
-    {
-        $result = UpdateVideos();
-        $data = $result["data"] == "" ? "null" : $result["data"];
-        if ($result["success"] == true)
-            sendResponse([
-                'success' => true,
-                'data' => $data
-            ]);
-        else
-            sendResponse([
-                'success' => false,
-                'data' => $data
             ]);
     }
 
@@ -750,12 +675,6 @@ if (!empty($_POST)) {
         case isset($_POST["getPhotosList"]):
             actionGetPhotosList();
             break;
-        case isset($_POST["updateVideosLinks"]):
-            actionUpdateVideos();
-            break;
-        case isset($_POST["getVideosList"]):
-            actionGetVideosList();
-            break;
         case isset($_POST["listOfModers"]):
             actionGetListOfModers();
             break;
@@ -773,12 +692,6 @@ if (!empty($_POST)) {
             break;
         case isset($_POST["logout"]):
             logoutFromAccount($_POST['role']);
-            break;
-        case isset($_POST["need"]):
-            actionWithCars();
-            break;
-        case isset($_POST["testdrive"]):
-            testDrive();
             break;
         case isset($_POST["getCarsList"]):
             actionGetCarsList();

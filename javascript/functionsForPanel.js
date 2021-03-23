@@ -1,5 +1,7 @@
 $(document).ready(function () {
 
+	
+
 	if($('.notify').html() == "0")
 	$('.notify').hide();
 
@@ -1111,12 +1113,6 @@ $(document).ready(function () {
 				buttonHandler(idCar, oldPrice, 0);
 			})
 
-			$('.video').click((el) => {
-				let idCar = $(el.target).parent().parent().parent().find('td:first-child').html();
-
-				buttonHandler(idCar, 0, 1);
-			})
-
 			$('.photo').click((el) => {
 				let idCar = $(el.target).parent().parent().parent().find('td:first-child').html();
 
@@ -1180,136 +1176,7 @@ $(document).ready(function () {
 							ajaxRequest({ action: "edit", price: result.value, ID: id });
 						}
 					})
-				}
-				else if (action == 1) {
-					$.ajax({
-						type: 'POST',
-						url: '../../app/eventsHandler.php',
-						data: {
-							'getVideosList': "get",
-							'carID': id
-						},
-						success: function (xhr) {
-							let arrayOfLinks;
-
-							let newList, oldLinks;
-
-							count = JSON.parse(xhr[0]).count;
-							arrayOfLinks = JSON.parse(xhr[0]).links;
-							let lVal = Object.values(arrayOfLinks);
-							let lKeys = Object.keys(arrayOfLinks);
-
-							let htmlCode = "<div class=multiple-inputs-div>";
-							htmlCode += "<div class='main-inputs'>"
-							for (let i = 0; i < 10; i++) {
-								let data = lVal[i] == undefined ? "" : lVal[i];
-								let id = lKeys[i] == undefined ? "a" + i + "" : lKeys[i];
-
-								htmlCode += '<input type="text" id=' + id + '  class="link" class="swal2-input" placeholder="Посилання" value ="' + data + '" maxlength = 300></input>';
-							}
-
-							htmlCode += "</div></div>";
-							showSwalInputs();
-							function showSwalInputs() {
-								Swal.fire({
-									title: "Редагування посилань для авто #" + id,
-									html: htmlCode,
-									allowOutsideClick: false,
-									showCancelButton: true,
-									showDenyButton: true,
-									denyButtonText: "Назад",
-									denyButtonColor: "gray",
-									cancelButtonColor: "#E94D6A",
-									cancelButtonText: "Закрити",
-									confirmButtonText: "Оновити",
-									preConfirm: () => {
-
-										let countToEdit = 0;
-										var myMapOlds = new Map();
-										var myMapNew = new Map();
-
-										$('.link').each(function (index) {
-											let itemID = $(this).attr("id");
-											let itemValue = $(this).val();
-
-											if (itemID.includes('a')) {
-												if (itemValue != "") {
-													myMapNew.set(index, itemValue);
-													countToEdit++;
-												}
-											}
-											else {
-												myMapOlds.set(itemID, itemValue);
-												countToEdit++;
-											}
-										})
-
-										newList = Object.fromEntries(myMapNew);
-										oldLinks = Object.fromEntries(myMapOlds);
-
-										if (JSON.stringify(newList) == JSON.stringify({})) {
-											if (JSON.stringify(arrayOfLinks) === JSON.stringify(oldLinks)) {
-												Swal.showValidationMessage("Потрібно змінити або додати хоча-б 1 елемент");
-												return;
-											}
-										}
-
-
-										$.ajax({
-											type: 'POST',
-											url: '../app/eventsHandler.php',
-											data: {
-												'updateVideosLinks': "upd",
-												'linksNew': newList,
-												'linksOld': oldLinks,
-												'carID': id,
-												'countToEdit': countToEdit
-											},
-											success: function (xhr) {
-												Toast.fire({
-													title: "Данні змінено!",
-													icon: "success",
-													timer: 4000,
-													position: "top",
-													didClose: () => {
-														if (xhr.data != "null") {
-															let HTML = "<hr><ol style='text-align:justify'>"; xhr.data.forEach(element => {
-																HTML += "<li>https://www.youtube.com/watch?v=" + element + "</li>";
-															});
-															HTML += "</ol><hr>"
-															Swal.fire({
-																icon: "warning",
-																title: 'Посилання які не були змінені',
-																html: HTML,
-																confirmButtonText: 'ОК',
-																focusConfirm: false
-															})
-														}
-													}
-												})
-											},
-											error: function () {
-												Swal.fire({
-													icon: "error",
-													title: 'На жаль, щось пішло не за планом. Спробувати ще раз?',
-													confirmButtonText: 'Так',
-													focusConfirm: false,
-													showCancelButton: true,
-													cancelButtonText: "Ні",
-													allowOutsideClick: false
-												}).then(function (result) {
-													if (result.isConfirmed) {
-														showSwalInputs();
-													}
-												})
-											}
-										})
-									}
-								})
-							}
-						}
-					})
-				}
+				}				
 				else if (action == 2)
 					{
 						$.ajax({
