@@ -9,7 +9,6 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
     } else {
         $images = getImagesAuto($_GET['id']);
         $colors = getColors($result['a_year'], $result['a_model']);
-        $videos = getVideos($_GET['id']);
     }
 } else {
     header("Location: ../cars.php");
@@ -187,23 +186,6 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
                                                 echo " : ";
                                                 echo translateEq($result['m_airbags']) ?></li>
                                         </div>
-                                    </div>
-                                </ul>
-                            </li>
-                            <li class="items item3"><a href="#"><img><?php echo $car['ac3'] ?></a>
-                                <ul class="text-center" style="display: none;">
-                                    <li class="subitem3"><a class="links" target="_blank" type="button" href="https://www.youtube.com/results?search_query=review+<?php echo $result['m_model'];
-                                                                                                                                                                    echo "+";
-                                                                                                                                                                    echo $result['mark'] ?>"><?php echo $car['b1'] ?> YOUTUBE</button></li>
-                                    <li class="subitem3"><a class="links" target="_blank" type="button" href="http://www.google.com/search?q=review+<?php echo $result['m_model'];
-                                                                                                                                                    echo "+";
-                                                                                                                                                    echo $result['mark'] ?>"><?php echo $car['b1'] ?> GOOGLE</a></li>
-                                    <div class="video">
-                                        <?php
-                                        while ($v = $videos->fetch_assoc()) {
-                                            echo '<iframe id="video" width="560" height="315" src="https://www.youtube.com/embed/' . $v['v_link'] . ' " frameborder="0" allowfullscreen></iframe>';
-                                        }
-                                        ?>
                                     </div>
                                 </ul>
                             </li>

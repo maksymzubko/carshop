@@ -5,7 +5,7 @@ echo '
 <div class="header">
   <nav class="navbar fixed-top w-100 navbar-expand-xl navbar-dark bg-black">
     <div class="container-fluid">
-      <a class="navbar-brand text-white" href="../index.php"><img class="logo" src="/images/logo-mini.png"><text>Carshop</text></a>
+      <a class="navbar-brand text-white" href="../index.php"></a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
