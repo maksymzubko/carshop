@@ -74,6 +74,12 @@ function filterAuto(string $lang)
 
     $db = get_connection();
 
+    if(isset($_POST['filter']))
+    {
+        $query = "SELECT * FROM auto JOIN models on `a_model` = m_id JOIN `marks` on m_mark_ID = mark_ID join images on a_ID = img_a_ID where isMain = 'True' and ( m_model LIKE '%" . $_POST["filter"] . "%'  OR mark LIKE '%" . $_POST["filter"] . "%' or CONCAT(mark,' ',m_model) like '%".$_POST["filter"]."%')";
+    }
+    else
+    {
     $query = "SELECT * FROM `auto` join images on img_a_ID=a_ID join models on a_model=m_id join categories on c_ID = cat_ID join marks on m_mark_ID=mark_ID where visible = 'Enabled' and isMain = 'True'";
 
     if (isset($_POST['category']) && !empty($_POST['category'])) {
@@ -92,6 +98,7 @@ function filterAuto(string $lang)
         $color_filter = implode("','", $_POST['color']);
 
         $query .= " AND a_color IN('" . $color_filter . "')";
+    }
     }
     $result = $db->query($query);
     $output = "";
@@ -144,14 +151,14 @@ function register(array $data, string $role)
             $data['name'],
             $data['secondname'],
             $data['radi1'],
-            $c = $data['phone'],
+            trim($data['phone']),
             "d" => "1"
         ];
     } else
         $values = [
             $data['login'],
             encrypt($data['password']),
-            $data['number']
+            trim($data['number'])
         ];
 
     function insert(array $data, string $role)
@@ -234,11 +241,17 @@ function logout($from)
 function validate(array $request, string $role)
 {
     $errors = "";
+    $errorTarget = "";
+    $errArray = array();
 
     if(isset($request['phone'])){
-        $res = strlen($request['phone']) != 13 ? $errors = "Количество цифр в номере равно 13!" : false;
+        $res = strlen($request['phone']) != 16 ? $errors = "Неправильный формат!" : false;
         if ($res) {
-            return $errors;
+            $errorTarget = "phone";
+            $errArray[] = [
+                "error"=>$errors,
+                "errorTarget"=>$errorTarget
+            ];
         }
     }
    
@@ -270,6 +283,14 @@ function validate(array $request, string $role)
             return false;
     }
 
+    function validePassword(string $pass, $pass2)
+    {
+        if($pass != $pass2)
+        return true;
+        else
+        return false;
+    }
+
     function isLoginAlreadyExists(string $login)
     {
         $query = "SELECT * FROM admins WHERE adm_LOG = '$login'";
@@ -284,9 +305,45 @@ function validate(array $request, string $role)
             return false;
     }
 
+    function validateEmail(string $email)
+    {
+        if(filter_var($email,FILTER_VALIDATE_EMAIL))
+        return false;
+        else return true;
+    }
+
     if ($role == "user")
+    {
         if (isEmailAlreadyExists($request['email']))
+        {
             $errors = 'Email уже используется!';
+            $errorTarget = "email";
+            $errArray[] = [
+                "error"=>$errors,
+                "errorTarget"=>$errorTarget
+            ];
+        }
+        if(validePassword($request['password'], $request['password2']))
+        {
+            $errors = 'Пароли не совпадают!';
+            $errorTarget = "pass";
+            $errArray[] = [
+                "error"=>$errors,
+                "errorTarget"=>$errorTarget
+            ];
+        }
+        if(validateEmail($request['email']))
+        {
+            $errors = 'Неправильный формат!';
+            $errorTarget = "email";
+            $errArray[] = [
+                "error"=>$errors,
+                "errorTarget"=>$errorTarget
+            ]; 
+        }
+    }
+        
+            
 
     if ($role == "admin") {
         if (isset($request['unique'])) {
@@ -299,8 +356,9 @@ function validate(array $request, string $role)
                 $errors = 'Exception2';
         }
     }
-
+    if($role=="admin")
     return $errors;
+    else return $errArray;
 }
 
 function validateLogin(array $login)
@@ -308,9 +366,13 @@ function validateLogin(array $login)
     $errors = "";
 
     if (isUserHasBeenBlock($login['email'], "email"))
-        $errors = 'Этот email был заблокирован';
+            $errors = 'Этот email был заблокирован!';
+            $errorTarget = "email";
+            return [
+                "error"=>$errors,
+                "errorTarget"=>$errorTarget
+            ];
 
-    return $errors;
 }
 
 function isUserHasBeenBlock(string $data, $by)
@@ -1073,6 +1135,66 @@ function blockUser()
         return "1";
     else
         return "0";
+}
+
+function FilterCars(){
+    $db = get_connection();
+
+    if($_POST["filter"] != "")
+
+    {    
+   $query = "SELECT * FROM auto JOIN models on `a_model` = m_id JOIN `marks` on m_mark_ID = mark_ID join images on a_ID = img_a_ID where isMain = 'True' and ( m_model LIKE '%" . $_POST["filter"] . "%'  OR mark LIKE '%" . $_POST["filter"] . "%' or CONCAT(mark,' ',m_model) like '%".$_POST["filter"]."%')";
+
+    $statement = $db->query($query);
+
+    $number_filter_row = $statement->num_rows;
+
+    $htmlres = "";
+
+    if($number_filter_row>0)
+    {
+        $counter = 0;
+        while($row = $statement->fetch_assoc())
+        {
+            if($counter==3)
+            {
+                $res = $number_filter_row-$counter;
+                $htmlres .= "<div class='search_more text-center'><a href='/cars.php?filter=".$_POST['filter']."'>".translateAction("И еще")." $res ". translateAction("автомобилей")."</a></div>";
+                break;
+            }
+            else
+            {
+            $htmlres .= "
+            <div class='search_element'>
+                    <a href='/car.php?id=".$row['a_ID']."'>
+                        <img src=".$row['img']." width=95px height=55px>
+                        <div class='search_desc'>
+                            <div class='y_p'><h3>".$row["mark"]."</h3>
+                            <p>".$row['a_year']."</p>
+                            </div>
+                            <p>".$row["m_model"]."</p>
+                        </div>
+                        
+                    </a>
+            </div>";
+            $counter++;
+            }
+        }
+        return $htmlres;
+    }
+    else
+    {
+        include '../languages/'.$_SESSION['lang'].'.php';
+        return $htmlres.="<h2>".$lang['ndata']."</h2>";
+    }
+    }
+    else
+    {
+        return "";
+    }
+
+
+
 }
 
 function getAllTests($where,$s)

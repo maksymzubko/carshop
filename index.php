@@ -7,6 +7,7 @@
 </head>
 
 <body >
+<?php require_once 'mail.php' ?>
     <img id="myBtn" src="images/arrow.png" class="go__top" style="display: none;">
     <?php require_once "templates/header.php" ?>
 

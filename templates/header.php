@@ -64,6 +64,16 @@ echo '
                             <li   class=" lan"><a class="dropdown-item" id="ukr" onclick="return false" href="">Українська</a></li>
                             </ul>
                         </div>
+                        <div class="ico ">
+                            <div class="search ">                   
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hide-timing search-input ">
+                    <input placeholder="'.$lang['filter'].'" maxlength = 25>
+                    <div class="search_result text-white">
+                    </div>
+                    
                     </div>
                 </div>
             </div>

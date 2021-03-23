@@ -42,16 +42,18 @@ if (isset($_COOKIE['acc'])) {
         <div class="top heading">
             <h2><?php echo $register['register'] ?></h2>
         </div>
-        <form id="register" method="post" oninput="password2.setCustomValidity(password.value != password2.value ? 'Passwords do not match.' : '')">
+        <form id="register" method="post">
             <div class="row">
                 <div class="col-md-6">
                     <label for="inputEmail"><?php echo $register['email'] ?></label>
-                    <input type="email" class="form-control" autocomplete="OFF" id="inputEmail" placeholder="<?php echo $register['email'] ?>" name="email" required="">
+                    <input type="text" class="form-control" autocomplete="OFF" id="inputEmail" placeholder="<?php echo $register['email'] ?>" name="email" required="">
+                    <div class="alert email hide"><p></p></div>
                     <div class="form-control-feedback"></div>
                 </div>
                 <div class="col-md-6">
                     <label for="inputPhone"><?php echo $register['phone'] ?></label>
-                    <input type="tel" value="+380" maxlength="13" autocomplete="OFF" class="form-control phone" id="phone" placeholder="<?php echo $register['phone'] ?>" name="phone" required="">
+                    <input type="tel" value="+380 " maxlength="16" autocomplete="OFF" class="form-control phone" id="phone" placeholder="<?php echo $register['phone'] ?>" name="phone" required="">
+                    <div class="alert phone hide"><p></p></div>
                     <div class="form-control-feedback"></div>
                 </div>
             </div>
@@ -76,6 +78,7 @@ if (isset($_COOKIE['acc'])) {
                 <div class="col-md-6">
                     <label for="inputPassword4"><?php echo $register['apass'] ?></label>
                     <input type="password" class="form-control" autocomplete="OFF" id="inputPassword2" placeholder="<?php echo $register['apass'] ?>" required="" name="password2">
+                    <div class="alert pass hide"><p></p></div>
                     <div class="form-control-feedback"></div>
                 </div>
             </div>

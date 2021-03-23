@@ -39,6 +39,113 @@ body.visible{
     opacity: 1;
     transition: opacity ease-in-out 1s;
 }
+/* contact banner */
+.unselect{
+    -moz-user-select: none; /* Mozilla Firefox */
+    -ms-user-select: none; /* Internet Explorer (не поддерживается) */
+    -o-user-select: none; /* Opera Presto (не поддерживается) */
+    -webkit-user-select: none; /* Google Chrome, Opera Next, Safari */
+    }
+
+.contact-with-us{
+    border: 4px solid #00539b;
+    border-bottom: none;
+    transition: .2s ease-in-out;
+    color: white;
+    background: black;
+    z-index: 999;
+    position: fixed;
+    bottom: 40%;
+    right: 0px;
+    width: max-content;
+}
+.contact-with-us .header{
+    z-index: 99999;
+   height: 75px;
+    z-index: 1000;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+.swal2-container .close{
+    height: 30px;
+    width: 30px;;
+    border-radius: 50%;
+    border: 2px solid black;
+    position: absolute;
+    background: white;
+    top: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+}
+.swal2-container .close p{
+cursor: pointer;
+   font-size: 18px;
+   font-weight: bold;
+   width: 100%;
+   margin: 0;
+   text-align: center;
+}
+.contact-with-us .contact-info img{
+    filter: invert(1);
+}
+.contact-with-us div:nth-child(2){
+
+   border-top: 2px solid white;
+    }
+.contact-with-us div:nth-child(2) p{
+    font-size: 18px;
+    padding: 10px 0;
+    }
+.contact-with-us div:nth-child(2) p a{
+color: white;
+}
+.contact-with-us div:nth-child(2) p:hover a{
+    color: rgb(175, 175, 175);
+    }
+.contact-with-us .contact-info{
+    border: 4px solid #00539b;
+    color: white;
+    z-index: 998;
+    position: absolute;
+    width: 100%;
+    background: black;
+}
+.contact-with-us.close .contact-info{
+    transform: translateY(-60px);
+    height: 0;
+    opacity: 0;
+}
+.contact-with-us.close:hover{
+    transform: translateX(190px);
+}
+.contact-with-us .header div{
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+.contact-with-us p{
+    z-index: 999;
+   margin-right: 10px;
+   margin-bottom: 0;
+}
+.contact-with-us img{
+    z-index: 999;
+    margin:0 10px;
+}
+.contact-with-us.close{
+    border: none;
+    transition: .2s ease-in-out;
+    transform: translateX(210px);
+}
+.contact-with-us.close .header img{
+    transform: rotate(90deg);
+}
+
+/* contact banner end */
+
 /* header */
 header{
     background: #000;
@@ -165,7 +272,15 @@ section
 .left,.right{
     transition: width .05s;
 }
-.hide{display: none;}
+.hide{display: none !important;}
+.hide-timing{
+    display: none !important;
+    animation: hide-timing .2s ease-in-out forwards;
+}
+@keyframes hide-timing{
+    0%{opacity: 1; visibility: visible;}
+    100%{opacity: 0; visibility: hidden;}
+}
 .left{
     float: left;
 }
@@ -292,6 +407,9 @@ color: #00539b;
 .swal2-popup{
     font-size: 1rem !important;
 }
+.swal2-popup.swal2-toast.swal2-show{
+    font-size: 1.3rem !important;
+}
 #data_wrapper .row div:nth-child(2) div{
     float: right;
 }
@@ -317,6 +435,8 @@ color: #00539b;
     height: 50% ;
 }
 .buttons .car_btn{
+    text-align: center;
+    width: 50%;
     transition: ease-in-out 0.5s;
     cursor: pointer;
     z-index: 1;
@@ -364,8 +484,9 @@ color: #00539b;
 .fav.isfav{
    background: url(../images/heart.png) center;
    background-size: cover;
-   filter: invert(55%) sepia() saturate(10000%) hue-rotate(
-    200deg);
+   filter: invert(5%) sepia() saturate(10000%) hue-rotate( 
+    343deg
+    );
 }
 .fav.nofav{
     background: url(../images/heart-fill.png) center;
@@ -373,8 +494,9 @@ color: #00539b;
    
  }
  .fav.nofav:hover{
-    filter: invert(55%) sepia() saturate(10000%) hue-rotate(
-        200deg);
+    filter: invert(5%) sepia() saturate(10000%) hue-rotate( 
+        343deg
+        );
  }
 
 .click {
@@ -476,10 +598,14 @@ color: #00539b;
 /* about end */
 
 /* register */
-#register .row div
+#register .row
 {
-    margin-top: 2vh;
+    margin-top: 4vh;
 }
+#register .col-md-6{
+    position: relative;
+}
+
 .register_section{
     padding-bottom: 3vh;
 }
@@ -495,6 +621,39 @@ color: #00539b;
 .btn:hover{
     color: white;
 }
+input.error{
+    border: 2px solid rgb(155, 48, 48);
+}
+.row div .alert{
+    
+    bottom: -40px;
+    padding: 1vh 0vh;
+    position: absolute;
+    margin: 0;
+    width: 94%;
+}
+
+.alert p{
+    box-shadow: 0 0 2px #000; 
+    border-radius: 5px;
+    margin: 0;
+    background: rgb(158, 87, 87);
+    color: white;
+    padding: 0 1vh;
+}
+.alert p::before {
+    z-index: 1;
+    box-shadow: 0 0 3px #000; 
+    content: ''; 
+    position: absolute;
+    left: 10px; top: -8px;
+    border: 9px solid transparent;
+    border-bottom: 10px solid rgb(158, 87, 87);
+   }
+   .alert p::before {
+    z-index: 2;
+    box-shadow: none;
+   }
 /* register end */
 /* login */
 
@@ -643,8 +802,8 @@ width: 30px;
     font-size: 40px;
 }
 .btn.active{
-    background: #367ebd;
-    color: #000000;
+    background: #215482;
+    color: #ffffff;
     font-weight: 600;
 }
 .panel-green{
@@ -732,32 +891,6 @@ height: 30px;
 }
 /* admin panel */
 
-@media screen and (max-width: 770px )
-{
-    .switch_test .btn{
-        margin-top: 10px;
-    }
-    .display-none{
-        display: none;
-    }
-    #data_wrapper .row:nth-child(1) div{
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    #data_wrapper .row:nth-child(1) div:first-child label{
-       width: 150px;
-    }
-    #data_wrapper .row:nth-child(1) div:last-child{
-        margin-bottom: 10px;
-    }
-    #data_wrapper .row:nth-child(3) div:last-child{
-        margin-top: 10px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-}
 .td__button{
     display: flex;
     justify-content: center;
@@ -771,9 +904,98 @@ body.swal2-height-auto {
 .w-lg-25{
     width: 25%;
 }
+.nav-bar-collapse{
+    position: relative;
+}
+.search-input{
+    transition: .2s ease-in-out;
+    flex-direction: column;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    width: 25%;
+    background: #000000e8;
+
+    position: absolute;
+    right: 20px;
+    top: 2.7em;
+    height: auto;
+}
+.search-input input{
+    margin: 10px 0; 
+    height: 60%;
+    font-size: 18px;
+    width: 90%;
+}
+.search_result{
+    text-align: center;
+    width: 90%;
+}
+.search_element a:hover{
+    color: white !important;
+    background:#464646e8;
+}
+.search_element a{
+    color: white !important;
+    transition: .1s ease-in-out;
+    margin-bottom: 0.3em;
+    display: flex;
+}
+.search_desc{
+    margin-left: 1em;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+}
+.search_desc h3{
+    margin: 0;
+    font-size: 18px;
+}
+.y_p{
+    display: flex;
+    align-items: baseline;
+}
+.search_result .y_p p{
+    margin-left: 5px;
+}
+.search_result p{
+    margin: 0;
+    font-size: 16px;
+}
+
+.search-input .all_res, .search_more a{
+    color: white !important;
+    font-size: 18px;
+}
+.search-input .all_res, .search_more{
+    padding: 10px 0;
+}
+.search-input h2{
+    font-size: 18px;
+}
+.search-input .all_res:hover, .search_more a:hover{
+    color: rgb(150, 150, 150) !important;
+}
+.right__menu .search{
+    background: url(/images/search.png) center no-repeat;
+    background-size: contain;
+    height:  100%;
+}
+.right__menu .ico{
+    height: 30px;
+    width: 35px;
+    filter: invert(1);
+    cursor: pointer;
+    margin: 0 1.5vh
+}
 @media screen and (max-width: 991px )
 {
-
+.search-input{
+    top: 9.7em;
+    width: 50%;
+    right: 50%;
+}
 .position-lg-absolute{
     position: relative;
 }
@@ -844,5 +1066,39 @@ body.swal2-height-auto {
 .filters_list.show .close{
    display: block;
 }
+}
+@media screen and (max-width: 770px )
+{
+    #register .col-md-6:not(:first-child)
+    {
+        margin-top: 5vh;
+    }
+    .search-input{
+        width: 75%;
+        right: 25%;
+    }
+    .switch_test .btn{
+        margin-top: 10px;
+    }
+    .display-none{
+        display: none;
+    }
+    #data_wrapper .row:nth-child(1) div{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    #data_wrapper .row:nth-child(1) div:first-child label{
+       width: 150px;
+    }
+    #data_wrapper .row:nth-child(1) div:last-child{
+        margin-bottom: 10px;
+    }
+    #data_wrapper .row:nth-child(3) div:last-child{
+        margin-top: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 }
     

@@ -10,7 +10,21 @@
 </head>
 
 <body>
-<img id="myBtn" src="images/arrow.png" class="go__top" style="display: none;">
+    <div class="contact-with-us close unselect">
+        <div class="header">
+            <div><img src="/images/arrow-down.png" width="35px" height="15px"></div>
+            <p>Связаться с нами</p>
+        </div>
+        <div class="contact-info d-flex align-items-center justify-content-start flex-column">
+            <div class="d-flex align-items-center"><img style="margin-right:10px" src="/images/phone.png" width="25px" height="18px">
+                <p><a href="callto:+380992443242">+380 99 244 3242</a></h5>
+            </div>
+            <div class="d-flex align-items-center"><img style="margin-right:10px" src="/images/mail.png" width="25px" height="18px">
+                <p><a href="mailto:makzzubko66@email.com">makzzubko66@gmail.com</a></p>
+            </div>
+        </div>
+    </div>
+    <img id="myBtn" src="images/arrow.png" class="go__top" style="display: none;">
     <?php require_once "templates/header.php" ?>
 
     <!--Navigator start-->

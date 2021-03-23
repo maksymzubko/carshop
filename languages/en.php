@@ -41,7 +41,7 @@ $catalog = array(
     "f1"=>"Brand",
     "f2"=>"All Brands",
     "col"=>"Color",
-    "btn"=>"View auto",
+    "btn"=>"View",
     "alt"=>"(Add/Remove) from favourite"
 );
 $blog= array(

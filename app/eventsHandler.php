@@ -60,7 +60,7 @@ if (!empty($_POST)) {
 
         $regResponse = register($_POST, $temp);
 
-        if ($error == "" && $regResponse) {
+        if (empty($error) && $regResponse) {
 
             $succesmsg = ($temp == "user") ? translateAction("Вы успешно зарегистрированы!") : "Ви успішно додали модератора!";
 
@@ -68,15 +68,19 @@ if (!empty($_POST)) {
                 'success' => true,
                 'successmsg' => $succesmsg
             ]);
-        } else if ($error == "" && !$regResponse) {
+        } else if (empty($error) && !$regResponse) {
             sendResponse([
                 'success' => false,
                 'error' => translateAction("Пользователь уже зарегистрирован!")
             ]);
         } else {
+            foreach($error as $key=>$val)
+            {               
+                $error[$key]['error'] = translateAction($val["error"]); 
+            }          
             sendResponse([
-                'success' => false,
-                'error' => translateAction($error)
+                'success'=>false,
+                'errorArr' => $error
             ]);
         }
     }
@@ -429,19 +433,19 @@ if (!empty($_POST)) {
         }
     }
 
-    function testDrive()
-    {
-        $user = getCoockie("id", "user");
-        $where = 'u_ID = ' . $user . '';
-        $output = getAllTests($where);
-        if ($output['recordsFiltered'] == 0) {
-            http_response_code(500);
-            echo json_encode($output);
-        } else {
-            echo json_encode($output);
-        }
-        exit();
-    }
+    //function testDrive()
+    //{
+    //    $user = getCoockie("id", "user");
+    //    $where = 'u_ID = ' . $user . '';
+    //    $output = getAllTests($where);
+    //    if ($output['recordsFiltered'] == 0) {
+    //        http_response_code(500);
+    //        echo json_encode($output);
+    //    } else {
+    //        echo json_encode($output);
+    //    }
+    //    exit();
+    //}
 
     function actionGetListOfModers()
     {
@@ -704,6 +708,14 @@ if (!empty($_POST)) {
         }
     }
 
+    function actionGetFiltred(){
+        $output = FilterCars();
+        sendResponse([
+            "success"=>true,
+            "html"=>$output
+        ]);
+    }
+
 
 
     //switch funtions//
@@ -781,6 +793,9 @@ if (!empty($_POST)) {
             case 'fetch_data':
                 $lang = (!isset($_SESSION['lang'])) ? "ru" : $_SESSION['lang'];
                 filterAuto($lang);
+                break;
+            case 'getFiltred':
+                actionGetFiltred();
                 break;
             case 'getAllTests':
                 actionFirst();

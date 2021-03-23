@@ -1,11 +1,11 @@
-$(function() {
+$(function () {
 
 	var menu_ul = $('.menu_drop > li > ul'),
 		menu_a = $('.menu_drop > li > a');
 
 	menu_ul.hide();
 
-	menu_a.click(function(e) {
+	menu_a.click(function (e) {
 		e.preventDefault();
 		if (!$(this).hasClass('active')) {
 			menu_a.removeClass('active');
@@ -16,23 +16,25 @@ $(function() {
 			$(this).next().stop(true, true).slideUp('normal');
 		}
 	});
-mybutton = document.getElementById("myBtn");
 
-mybutton.addEventListener("click", topFunction);
 
-window.onscroll = function () { scrollFunction() };
+	mybutton = document.getElementById("myBtn");
 
-function scrollFunction() {
-    if (document.body.scrollTop > 120 || document.documentElement.scrollTop > 120) {
-        mybutton.style.display = "block";
-    } else {
-        mybutton.style.display = "none";
-    }
-}
-function topFunction() {
-    document.body.scrollTop = 0;
-    document.documentElement.scrollTop = 0;
-}
+	mybutton.addEventListener("click", topFunction);
+
+	window.onscroll = function () { scrollFunction(120) };
+
+	function scrollFunction(numb) {
+		if (document.body.scrollTop > numb || document.documentElement.scrollTop > numb) {
+			mybutton.style.display = "block";
+		} else {
+			mybutton.style.display = "none";
+		}
+	}
+	function topFunction() {
+		document.body.scrollTop = 0;
+		document.documentElement.scrollTop = 0;
+	}
 });
 $(document).ready(() => {
 	$('body').addClass('visible');
@@ -54,35 +56,99 @@ $(".fav").click((el) => {
 		p.addClass('click');
 	}
 })
+
+$('.contact-with-us>.header').click((e) => {
+	if ($(e.target).is("div") && $(e.target).hasClass('header'))
+		$(e.target).parent().toggleClass('close');
+	else if ($(e.target).is("img"))
+		$(e.target).parent().parent().parent().toggleClass('close');
+	else
+		$(e.target).parent().parent().toggleClass('close');
+})
+$('.search').click(() => {
+	let search = $('.search-input');
+	let search_input = $('.search-input input');
+
+	if (search.hasClass('hide-timing')) {
+		search.removeClass('hide-timing');
+		search_input.focus();
+	}
+	else {
+		search.addClass('hide-timing');
+	}
+
+	$(document).mouseup((e) => {
+		if (!search.hasClass('hide-timing')) {
+			if (!search.is(e.target) && search.has(e.target).length === 0 && !$('.search').is(e.target)) {
+				search.addClass('hide-timing');
+			}
+		}
+	})
+});
+$('.search-input input').keyup((e) => {
+	if ($(e.target).val().length > 0) $('.search-input a').removeClass('hide-timing');
+	else $('.search-input a').addClass('hide-timing');
+
+	search_func($('.search-input input').val());
+})
+function search_func(str) {
+	$.ajax({
+		type: 'POST',
+		url: 'app/eventsHandler.php',
+		data: {
+			'action': "getFiltred",
+			'filter': str
+		}, success: function (xhr) {
+			$('.search_result').html(xhr.html);
+		}
+	});
+}
+$('.search-input input').change((e) => {
+	if ($(e.target).val().length > 0) $('.search-input a').removeClass('hide-timing');
+	else $('.search-input a').addClass('hide-timing');
+})
 $('.filter-ico').click(() => {
 	let filters = $('.filters_list');
 	filters.addClass('show');
+	$('header').addClass('hide');
 	$('body').addClass('overflow-hidden');
 	$('.close').click(() => {
 		filters.removeClass('show');
+		$('header').removeClass('hide');
 		$('body').removeClass('overflow-hidden');
 	})
 });
+
+function toastCloseBtn(swal) {
+	let content = swal.getContainer();
+	$(content).append('<div class="close"><p>X</p></div>');
+	$('.close p').click(() => {
+		swal.close();
+	})
+}
+
 $(document).ready(function () {
 
 	const Toast = Swal.mixin({
 		toast: true,
-		position: 'top-end',
+		position: 'center',
 		showConfirmButton: false,
 		timer: 4000,
 		timerProgressBar: true,
 		didOpen: (toast) => {
+			toastCloseBtn(Swal);
 			toast.addEventListener('click', Swal.close)
 		}
 	});
 
 	const Toast2 = Swal.mixin({
 		toast: true,
-		position: 'top-end',
+		position: 'center',
 		showConfirmButton: false,
 		timer: 3000,
 		timerProgressBar: true,
 		didOpen: (toast) => {
+			toastCloseBtn(Swal);
 			toast.addEventListener('click', Swal.close)
 		}
 	});
@@ -120,17 +186,17 @@ $(document).ready(function () {
 				} priceTextRU = (priceTest == 0) ? "Тест драйв этой машини - безплатен" : "Это будет стоить '" + priceTest + "'грн (оплата по приезду), вы согласны?";
 				priceTextENG = (priceTest == 0) ? "Test drive is free" : "It will cost '" + priceTest + "'uan (pay on arrival), do you agree?";
 				priceTextUA = (priceTest == 0) ? "Тест драйв цього авто безкоштовний" : "Це буде коштувати '" + priceTest + "'грн (оплата по приїзду), ви згодні?";
-				engWords = { "errorMessage": "Error!", "denied":"Denied", "success":"Success", "successMessage": "Success!", "questionMessage": "Are you sure?", "btnCancel": "Cancel", "qu1": priceTextENG, "qu2": "Choose date" };
-				ruWords = { "errorMessage": "Ошибка!", "denied":"Отказано","success":"Принято","successMessage": "Успех!", "questionMessage": "Вы уверены?", "btnCancel": "Отмена", "qu1": priceTextRU, "qu2": "Выберите дату" };
-				uaWords = { "errorMessage": "Помилка!", "denied":"Відказано","success":"Прийнято","successMessage": "Успіх!", "questionMessage": "Ви впевнені?", "btnCancel": "Відміна", "qu1": priceTextUA, "qu2": "Виберіть дату" };
+				engWords = { "errorMessage": "Error!", "denied": "Denied", "success": "Success", "successMessage": "Success!", "questionMessage": "Are you sure?", "btnCancel": "Cancel", "qu1": priceTextENG, "qu2": "Choose date" };
+				ruWords = { "errorMessage": "Ошибка!", "denied": "Отказано", "success": "Принято", "successMessage": "Успех!", "questionMessage": "Вы уверены?", "btnCancel": "Отмена", "qu1": priceTextRU, "qu2": "Выберите дату" };
+				uaWords = { "errorMessage": "Помилка!", "denied": "Відказано", "success": "Прийнято", "successMessage": "Успіх!", "questionMessage": "Ви впевнені?", "btnCancel": "Відміна", "qu1": priceTextUA, "qu2": "Виберіть дату" };
 
 			}, error: function (xhr) {
 				priceTextRU = (priceTest == 0) ? "Тест драйв этой машини - безплатен" : "Это будет стоить '" + priceTest + "'грн (оплата по приезду), вы согласны?";
 				priceTextENG = (priceTest == 0) ? "Test drive is free" : "It will cost '" + priceTest + "'uan (pay on arrival), do you agree?";
 				priceTextUA = (priceTest == 0) ? "Тест драйв цього авто безкоштовний" : "Це буде коштувати '" + priceTest + "'грн (оплата по приїзду), ви згодні?";
-				engWords = { "errorMessage": "Error!", "denied":"Denied", "success":"Success", "successMessage": "Success!", "questionMessage": "Are you sure?", "btnCancel": "Cancel", "qu1": priceTextENG, "qu2": "Choose date" };
-				ruWords = { "errorMessage": "Ошибка!", "denied":"Отказано","success":"Принято","successMessage": "Успех!", "questionMessage": "Вы уверены?", "btnCancel": "Отмена", "qu1": priceTextRU, "qu2": "Выберите дату" };
-				uaWords = { "errorMessage": "Помилка!", "denied":"Відказано","success":"Прийнято","successMessage": "Успіх!", "questionMessage": "Ви впевнені?", "btnCancel": "Відміна", "qu1": priceTextUA, "qu2": "Виберіть дату" };
+				engWords = { "errorMessage": "Error!", "denied": "Denied", "success": "Success", "successMessage": "Success!", "questionMessage": "Are you sure?", "btnCancel": "Cancel", "qu1": priceTextENG, "qu2": "Choose date" };
+				ruWords = { "errorMessage": "Ошибка!", "denied": "Отказано", "success": "Принято", "successMessage": "Успех!", "questionMessage": "Вы уверены?", "btnCancel": "Отмена", "qu1": priceTextRU, "qu2": "Выберите дату" };
+				uaWords = { "errorMessage": "Помилка!", "denied": "Відказано", "success": "Прийнято", "successMessage": "Успіх!", "questionMessage": "Ви впевнені?", "btnCancel": "Відміна", "qu1": priceTextUA, "qu2": "Виберіть дату" };
 				blockText = JSON.parse(xhr.responseText).error;
 				block = JSON.parse(xhr.responseText).block;
 			}
@@ -138,11 +204,11 @@ $(document).ready(function () {
 	}
 	else {
 		priceTextRU = (priceTest == 0) ? "Тест драйв этой машини - безплатен" : "Это будет стоить '" + priceTest + "'грн (оплата по приезду), вы согласны?";
-				priceTextENG = (priceTest == 0) ? "Test drive is free" : "It will cost '" + priceTest + "'uan (pay on arrival), do you agree?";
-				priceTextUA = (priceTest == 0) ? "Тест драйв цього авто безкоштовний" : "Це буде коштувати '" + priceTest + "'грн (оплата по приїзду), ви згодні?";
-				engWords = { "errorMessage": "Error!", "denied":"Denied", "success":"Success", "successMessage": "Success!", "questionMessage": "Are you sure?", "btnCancel": "Cancel", "qu1": priceTextENG, "qu2": "Choose date" };
-				ruWords = { "errorMessage": "Ошибка!", "denied":"Отказано","success":"Принято","successMessage": "Успех!", "questionMessage": "Вы уверены?", "btnCancel": "Отмена", "qu1": priceTextRU, "qu2": "Выберите дату" };
-				uaWords = { "errorMessage": "Помилка!", "denied":"Відказано","success":"Прийнято","successMessage": "Успіх!", "questionMessage": "Ви впевнені?", "btnCancel": "Відміна", "qu1": priceTextUA, "qu2": "Виберіть дату" };
+		priceTextENG = (priceTest == 0) ? "Test drive is free" : "It will cost '" + priceTest + "'uan (pay on arrival), do you agree?";
+		priceTextUA = (priceTest == 0) ? "Тест драйв цього авто безкоштовний" : "Це буде коштувати '" + priceTest + "'грн (оплата по приїзду), ви згодні?";
+		engWords = { "errorMessage": "Error!", "denied": "Denied", "success": "Success", "successMessage": "Success!", "questionMessage": "Are you sure?", "btnCancel": "Cancel", "qu1": priceTextENG, "qu2": "Choose date" };
+		ruWords = { "errorMessage": "Ошибка!", "denied": "Отказано", "success": "Принято", "successMessage": "Успех!", "questionMessage": "Вы уверены?", "btnCancel": "Отмена", "qu1": priceTextRU, "qu2": "Выберите дату" };
+		uaWords = { "errorMessage": "Помилка!", "denied": "Відказано", "success": "Прийнято", "successMessage": "Успіх!", "questionMessage": "Ви впевнені?", "btnCancel": "Відміна", "qu1": priceTextUA, "qu2": "Виберіть дату" };
 	}
 
 	let currentLang = getCookie('lang');
@@ -151,26 +217,51 @@ $(document).ready(function () {
 		return (currentLang == "en") ? engWords[str] : (currentLang == "ru") ? ruWords[str] : uaWords[str];
 	}
 
-	function filterData() {
+	function filterData(id) {
 		$('.car-profile').html('<div id="load" style=""></div>');
 		var action = 'fetch_data';
-		var brand = get_filter('brand');
-		var category = get_filter('category');
-		var color = get_filter('color');
+		if (id == 0) {
+			var brand = get_filter('brand');
+			var category = get_filter('category');
+			var color = get_filter('color');
 
-		$.ajax({
-			url: "/app/eventsHandler.php",
-			method: "POST",
-			dataType: "html",
-			data: { action: action, brand: brand, category: category, color: color },
-			success: function (xhr) {
-				$('.car-profile').html(xhr);
-				fav = $('.fav');
-				but = $('a.car_btn');
-				but.click(button);
-				fav.click(favourite);
-			},
-		});
+			$.ajax({
+				url: "/app/eventsHandler.php",
+				method: "POST",
+				dataType: "html",
+				data: { action: action, brand: brand, category: category, color: color },
+				success: function (xhr) {
+					$('.car-profile').html(xhr);
+					fav = $('.fav');
+					but = $('a.car_btn');
+					but.click(button);
+					fav.click(favourite);
+				},
+			});
+		}
+		else {
+
+			let url = new URL(window.location.href);
+			let searchParams = new URLSearchParams(url.search);
+			let filter = searchParams.get('filter');
+			$('.search-input input').val(filter);
+			search_func($('.search-input input').val());
+
+			$.ajax({
+				url: "/app/eventsHandler.php",
+				method: "POST",
+				dataType: "html",
+				data: { action: action, filter: filter },
+				success: function (xhr) {
+					$('.car-profile').html(xhr);
+					fav = $('.fav');
+					but = $('a.car_btn');
+					but.click(button);
+					fav.click(favourite);
+				},
+			});
+		}
+
 
 	}
 	$('#admin').submit(function (e) {
@@ -196,7 +287,10 @@ $(document).ready(function () {
 	});
 
 	if (window.location.pathname == "/cars.php") {
-		filterData();
+		if (window.location.href.includes('filter'))
+			filterData(1);
+		else
+			filterData(0);
 	}
 
 	function setActive() {
@@ -245,10 +339,10 @@ $(document).ready(function () {
 				'car_ID': id_car,
 				'need': need
 			}, success: function (xhr) {
-				Toast.fire({
-					icon: "success",
-					title: xhr.successmsg
-				});
+				//Toast.fire({
+				//	icon: "success",
+				//	title: xhr.successmsg
+				//});
 				if (need == 0)
 					elem.removeClass().addClass('fav isfav');
 				else
@@ -330,10 +424,10 @@ $(document).ready(function () {
 											}
 										}
 									});
-									$(".swal2-input").on("change", function(e) {
+									$(".swal2-input").on("change", function (e) {
 										$('.swal2-input').datetimepicker('hide');
-										});
-											$('.swal2-input').datetimepicker('show');
+									});
+									$('.swal2-input').datetimepicker('show');
 								}
 							}).then((result) => {
 								if (result.isConfirmed) {
@@ -371,7 +465,7 @@ $(document).ready(function () {
 			if (e.keyCode == 8) {
 				let start = $(this).prop('selectionStart');
 				let end = $(this).prop('selectionEnd');
-				if ($(this).val().length == 4)
+				if ($(this).val().length == 5)
 					e.preventDefault();
 				else if (start != end)
 					e.preventDefault();
@@ -379,6 +473,12 @@ $(document).ready(function () {
 					return;
 			}
 			else if ((e.keyCode >= 48 && e.keyCode <= 57) || (e.keyCode >= 96 && e.keyCode <= 105)) {
+				if($(this).val().length==7)
+				$(this).val($(this).val()+" ");
+
+				if($(this).val().length==11)
+				$(this).val($(this).val()+" ");
+				
 				return;
 			}
 			else e.preventDefault();
@@ -421,14 +521,27 @@ $(document).ready(function () {
 					title: xhr.successmsg,
 					icon: "success"
 				});
-				location.href = window.location.origin + "/account.php";
+				setTimeout(() => { location.href = window.location.origin + "/account.php"; }, 2000)
 			},
 			error: function (xhr, status, error) {
 				let d = JSON.parse(xhr.responseText);
-				Toast2.fire({
-					title: d.error,
-					icon: "error"
-				});
+
+				$('input.error').removeClass('error');
+				$('.alert').addClass('hide');
+
+				if (d['error']==undefined) {
+					d.errorArr.forEach((elem) => {
+						$(".alert." + elem.errorTarget).removeClass('hide');
+						$(".alert." + elem.errorTarget + " p").html(elem.error);
+						$(".alert." + elem.errorTarget).prev('input').addClass('error');
+					})
+				}
+				else
+				{
+					$(".alert." + d.errorTarget).removeClass('hide');
+						$(".alert." + d.errorTarget + " p").html(d.error);
+						$(".alert." + d.errorTarget).prev('input').addClass('error');
+				}
 			}
 		})
 	});
@@ -516,9 +629,9 @@ $(document).ready(function () {
 				let footer = $('#data_wrapper .row:nth-child(3)');
 				($('table tr:not(:first)').length > 0)
 				{
-					$('tbody tr td:last-child').each((index,val)=>{
-						if($(val).html()=="Denied")
-						$(val).html(w("denied"));
+					$('tbody tr td:last-child').each((index, val) => {
+						if ($(val).html() == "Denied")
+							$(val).html(w("denied"));
 						else $(val).html(w("success"));
 					})
 					ChangeStateTable(table, error, footer, "enable");
