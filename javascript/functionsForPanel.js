@@ -198,7 +198,7 @@ $(document).ready(function () {
 				$("<td class='button' id=" + idTest + "><div class='td__button'><div  class='test_button edit test cursor'></div><img class='load hide'></div></td>").insertAfter($(el));
 			});
 
-			$('.test').click((el) => {
+			$('.test_button').click((el) => {
 				let idTest = $(el.target).parent().parent().attr("id");
 				buttonHandler(idTest);
 			})
