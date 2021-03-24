@@ -1,12 +1,12 @@
 $(document).ready(function () {
 
-	
 
-	if($('.notify').html() == "0")
-	$('.notify').hide();
+
+	if ($('.notify').html() == "0")
+		$('.notify').hide();
 
 	$('body').addClass('visible');
-	
+
 	let block;
 	let blockText;
 	let blockDates = [];
@@ -43,6 +43,14 @@ $(document).ready(function () {
 			}
 		});
 	};
+
+	function toastCloseBtn(swal) {
+		let content = swal.getPopup();
+		$(content).append('<div class="close"><p>X</p></div>');
+		$('.close p').click(() => {
+			swal.close();
+		})
+	}
 
 	result();
 
@@ -211,11 +219,15 @@ $(document).ready(function () {
 					icon: "question",
 					text: "Підтвердити цей тест-драйв?",
 					confirmButtonText: "Так",
-					showCancelButton: true,
+					showCancelButton: false,
 					cancelButtonText: "Вийти",
 					showDenyButton: true,
 					denyButtonText: "Ні",
-					allowOutsideClick: false
+					allowOutsideClick: false,
+					didOpen: () => {
+						$('.swal2-confirm').css('width','20%');
+						toastCloseBtn(Swal);
+					}
 				}).then((result) => {
 					if (result.isConfirmed) {
 						$.ajax({
@@ -341,7 +353,7 @@ $(document).ready(function () {
 
 			$('.test_button').click((el) => {
 				let _action = $(el.target).hasClass('show') ? "Enabled" : "Disabled";
-				buttonHandler($(el.target).parent().parent().attr("id"),_action);
+				buttonHandler($(el.target).parent().parent().attr("id"), _action);
 			})
 
 			function buttonHandler(id, action) {
@@ -579,11 +591,15 @@ $(document).ready(function () {
 						Swal.fire({
 							title: "Заблокувати користувача",
 							confirmButtonText: 'Заблокувати',
-							showCancelButton: true,
+							showCancelButton: false,
 							input: 'text',
 							inputPlaceholder: 'Уведіть причину блокування',
 							cancelButtonText: "Закрити",
 							allowOutsideClick: false,
+							didOpen: () => {
+								$('.swal2-confirm').css('width', '75%');
+								toastCloseBtn(Swal);
+							},
 							inputValidator: (value) => {
 								return new Promise((resolve) => {
 									if (!value) {
@@ -681,9 +697,13 @@ $(document).ready(function () {
 					icon: "question",
 					text: "Підтвердити видалення?",
 					confirmButtonText: "Так",
-					showCancelButton: true,
+					showCancelButton: false,
 					cancelButtonText: "Ні",
-					allowOutsideClick: false
+					allowOutsideClick: false,
+					didOpen: () => {
+						$('.swal2-confirm').css('width','75%');
+						toastCloseBtn(Swal);
+					}
 				}).then((result) => {
 					if (result.isConfirmed) {
 						$.ajax({
@@ -828,7 +848,7 @@ $(document).ready(function () {
 			}
 			else if (id == 1) {
 				dataTable.clear();
-				dataTable = $('#data').DataTable(second);				
+				dataTable = $('#data').DataTable(second);
 			}
 			else if (id == 2) {
 				dataTable.clear();
@@ -837,7 +857,7 @@ $(document).ready(function () {
 
 		}
 
-		dataTable = $('#data').DataTable(third);
+		dataTable = $('#data').DataTable(first);
 
 		dataTable.on('draw', function () {
 
@@ -864,7 +884,7 @@ $(document).ready(function () {
 
 			if ($('button.active').attr("id") == "2")
 				$('thead tr th').each((index, element) => {
-					if ($(element).html() == "Доїхав?") $(element).removeClass('sorting').unbind("click")
+					if ($(element).html() == "Прибув?") $(element).removeClass('sorting').unbind("click")
 				});
 
 			let error = $('.error');
@@ -911,13 +931,17 @@ $(document).ready(function () {
 								title: 'Клієнт приїхав?',
 								confirmButtonText: 'Так',
 								focusConfirm: false,
-								showCancelButton: true,
+								showCancelButton: false,
 								cancelButtonText: "Закрити",
 								allowOutsideClick: false,
 								denyButtonText: "Ні",
 								denyButtonColor: "#757575",
 								cancelButtonColor: "#d14529",
-								showDenyButton: true
+								showDenyButton: true,
+								didOpen: () => {
+									$('.swal2-confirm').css('width','20%');
+									toastCloseBtn(Swal);
+								}
 							}).then((result) => {
 								if (result.isDenied) {
 									_action = "No";
@@ -960,17 +984,15 @@ $(document).ready(function () {
 							inputAttributes: {
 								"readonly": true
 							},
-							showCancelButton: true,
+							showCancelButton: false,
 							cancelButtonText: "Закрити",
 							confirmButtonText: "Змінити",
 							didOpen: () => {
+
 								Swal.showLoading();
 								let title = $(Swal.getHeader()).find('.swal2-title');
 								title.html('Загрузка');
-								$('.swal2-actions button').each((index, value) => {
-									if (index == 0 || index == 2)
-										$(value).css('display', 'none')
-								});
+								$('.swal2-confirm').css('display', 'none');
 								$('.swal2-input').css('display', 'none');
 								$.ajax({
 									type: 'POST',
@@ -983,15 +1005,12 @@ $(document).ready(function () {
 										setTimeout(changeStation, 2000);
 										function changeStation() {
 											Swal.hideLoading();
+											toastCloseBtn(Swal);
 											let title = $(Swal.getHeader()).find('.swal2-title');
 											title.html('Зміна дати тестдрайву');
 											$('.swal2-input').css('display', 'block');
-											$('.swal2-actions button').each((index, value) => {
-												if (index == 0 || index == 2)
-													$(value).css('display', 'flex')
-											});
+											$('.swal2-confirm').css('display', 'block');
 											$('.swal2-input').prop('disabled', false);
-											$('.swal2-input').css('border', '2px solid red');
 										}
 
 										if (xhr.dates != undefined) {
@@ -1134,6 +1153,7 @@ $(document).ready(function () {
 								toggleLoader(id);
 								Toast.fire({
 									title: "Щось пішло не так!",
+									position: "center",
 									icon: "error"
 								})
 							}, 1600);
@@ -1143,6 +1163,7 @@ $(document).ready(function () {
 								toggleLoader(id);
 								Toast.fire({
 									title: "Успішно змінено!",
+									position: "center",
 									icon: "success"
 								});
 								dataTable.ajax.reload();
@@ -1168,141 +1189,147 @@ $(document).ready(function () {
 						}
 						,
 						confirmButtonText: "Змінити",
-						showCancelButton: true,
+						showCancelButton: false,
 						allowOutsideClick: false,
-						cancelButtonText: "Вийти"
+						cancelButtonText: "Вийти",
+						didOpen: () => {
+							$('.swal2-confirm').css('width', "75%");
+							toastCloseBtn(Swal);
+						}
 					}).then((result) => {
 						if (result.isConfirmed) {
 							ajaxRequest({ action: "edit", price: result.value, ID: id });
 						}
 					})
-				}				
-				else if (action == 2)
-					{
-						$.ajax({
-							type: 'POST',
-							url: '../../app/eventsHandler.php',
-							data: {
-								'getPhotosList': "get",
-								'carID': id
-							},
-							success: function (xhr) {
-								let arrayOfLinks;
+				}
+				else if (action == 2) {
+					$.ajax({
+						type: 'POST',
+						url: '../../app/eventsHandler.php',
+						data: {
+							'getPhotosList': "get",
+							'carID': id
+						},
+						success: function (xhr) {
+							let arrayOfLinks;
 
-								let newList, oldLinks;
+							let newList, oldLinks;
 
-								count = JSON.parse(xhr[0]).count;
-								arrayOfLinks = JSON.parse(xhr[0]).links;
-								let lVal = Object.values(arrayOfLinks);
-								let lKeys = Object.keys(arrayOfLinks);
+							count = JSON.parse(xhr[0]).count;
+							arrayOfLinks = JSON.parse(xhr[0]).links;
+							let lVal = Object.values(arrayOfLinks);
+							let lKeys = Object.keys(arrayOfLinks);
 
-								let htmlCode = "<div class=multiple-inputs-div>";
-								htmlCode += "<div class='main-inputs'>"
-								for (let i = 0; i < 9; i++) {
-									let data = lVal[i] == undefined ? "notimage.png" : lVal[i];
-									let id = lKeys[i] == undefined ? "a" + i + "" : lKeys[i].replace("'", "").replace("'", "");
+							let htmlCode = "<div class=multiple-inputs-div>";
+							htmlCode += "<div class='main-inputs'><div class='row d-flex'><div class='col-6'>"
+							for (let i = 0; i < 9; i++) {
+								let data = lVal[i] == undefined ? "notimage.png" : lVal[i];
+								let id = lKeys[i] == undefined ? "a" + i + "" : lKeys[i].replace("'", "").replace("'", "");
 
-									data = (data == "notimage.png") ? data : fileExists("../images/" + data) == true ? data : "notimage.png";
+								data = (data == "notimage.png") ? data : fileExists("../images/" + data) == true ? data : "notimage.png";
 
-									i == 0 ? firstID = id : "";
-									i == 0 ? htmlCode += '<div class="flex" id="' + id + '"><div>Головне зображення:<input type="text" class="link swal2-input" placeholder="Зображення" value ="' + ((data == "notimage.png") ? "" : data) + '" readonly=true maxlength = 300></input> <input type="file" class="fileInput"></input></div><div class="fleximage "><img height="65px"  width="115px" src=../images/' + data + '></div></div><hr>' : htmlCode += '<div class="flex" id="' + id + '"><div><input type="text" class="link swal2-input" placeholder="Зображення" value ="' + ((data == "notimage.png") ? "" : data) + '" readonly=true maxlength = 300></input> <input type="file" class="fileInput"></input></div><div class="fleximage ' + ((data == "notimage.png") ? "" : "withcontent") + '"><img height="65px" width="115px" src=../images/' + data + '></div></div>';
-								}
+								i == 0 ? firstID = id : "";
+								if (i == 5)
+									htmlCode += "</div><div class='col-6 mt-4'>";
 
-								htmlCode += "</div></div>";
-								showSwalInputs();
-								function showSwalInputs() {
-									Swal.fire({
-										title: "Редагування зображень для авто #" + id,
-										html: htmlCode,
-										allowOutsideClick: false,
-										showCancelButton: true,
-										showDenyButton: true,
-										denyButtonText: "Назад",
-										denyButtonColor: "gray",
-										cancelButtonColor: "#E94D6A",
-										cancelButtonText: "Закрити",
-										confirmButtonText: "Оновити",
-										didOpen: () => {
+								i == 0 ? htmlCode += '<div class="flex" id="' + id + '"><div><b>Головне зображення:</b><input type="text" class="link swal2-input" placeholder="Зображення" value ="' + ((data == "notimage.png") ? "" : data) + '" readonly=true maxlength = 300></input> <input type="file" class="fileInput"></input></div><div class="fleximage "><img height="65px"  width="115px" src=../images/' + data + '></div></div>' : htmlCode += '<div class="flex" id="' + id + '"><div><input type="text" class="link swal2-input" placeholder="Зображення" value ="' + ((data == "notimage.png") ? "" : data) + '" readonly=true maxlength = 300></input> <input type="file" class="fileInput"></input></div><div class="fleximage ' + ((data == "notimage.png") ? "" : "withcontent") + '"><img height="65px" width="115px" src=../images/' + data + '></div></div>';
+							}
 
-											var tem = Swal.getContainer();
-											$(tem).children().css('width', '35em');
+							htmlCode += "</div></div></div>";
+							showSwalInputs();
+							function showSwalInputs() {
+								Swal.fire({
+									title: "Редагування зображень для авто #" + id,
+									html: htmlCode,
+									allowOutsideClick: false,
+									showCancelButton: false,
+									showDenyButton: true,
+									denyButtonText: "Назад",
+									denyButtonColor: "gray",
+									cancelButtonColor: "#E94D6A",
+									cancelButtonText: "Закрити",
+									confirmButtonText: "Оновити",
+									didOpen: () => {
+										toastCloseBtn(Swal);
+										var tem = Swal.getContainer();
+										$(tem).children().css('width', '85%');
 
-											$('.fileInput').change(function (obj) {
-												fileHandler(obj.target, Swal, $(this).parent().parent().attr("id"));
-											})
+										$('.fileInput').change(function (obj) {
+											fileHandler(obj.target, Swal, $(this).parent().parent().attr("id"));
+										})
 
-											deletephoto();
-										},
-										preConfirm: () => {
-											let countToEdit = 0;
-											var myMapOlds = new Map();
-											var myMapNew = new Map();
-											$('.link').each(function (index) {
-												let itemID = $(this).parent().parent().attr("id");
-												let itemValue = $(this).val();
+										deletephoto();
+									},
+									preConfirm: () => {
+										let countToEdit = 0;
+										var myMapOlds = new Map();
+										var myMapNew = new Map();
+										$('.link').each(function (index) {
+											let itemID = $(this).parent().parent().attr("id");
+											let itemValue = $(this).val();
 
-												if (itemID.includes('a')) {
-													if (itemValue != "") {
-														myMapNew.set(index, itemValue);
-														countToEdit++;
-													}
-												}
-												else {
-													myMapOlds.set(itemID, itemValue);
+											if (itemID.includes('a')) {
+												if (itemValue != "") {
+													myMapNew.set(index, itemValue);
 													countToEdit++;
 												}
-											})
-
-											newList = Object.fromEntries(myMapNew);
-											oldLinks = Object.fromEntries(myMapOlds);
-											if (JSON.stringify(newList) === JSON.stringify({})) {
-												if (JSON.stringify(arrayOfLinks) === JSON.stringify(oldLinks)) {
-													Swal.showValidationMessage("Потрібно змінити або додати хоча-б 1 елемент");
-													return;
-												}
 											}
+											else {
+												myMapOlds.set(itemID, itemValue);
+												countToEdit++;
+											}
+										})
 
-											$.ajax({
-												type: 'POST',
-												url: '../app/eventsHandler.php',
-												data: {
-													'updatePhotos': "upd",
-													'linksNew': newList,
-													'linksOld': oldLinks,
-													'carID': id,
-													'countToEdit': countToEdit
-												},
-												success: function (xhr) {
-													Toast.fire({
-														title: "Данні змінено!",
-														icon: "success",
-														timer: 4000,
-														position: "top"
-													});
-												},
-												error: function () {
-													Swal.fire({
-														icon: "error",
-														title: 'На жаль, щось пішло не за планом. Спробувати ще раз?',
-														confirmButtonText: 'Так',
-														focusConfirm: false,
-														showCancelButton: true,
-														cancelButtonText: "Ні",
-														allowOutsideClick: false
-													}).then(function (result) {
-														if (result.isConfirmed) {
-															showSwalInputs();
-														}
-													})
-												}
-											})
+										newList = Object.fromEntries(myMapNew);
+										oldLinks = Object.fromEntries(myMapOlds);
+										if (JSON.stringify(newList) === JSON.stringify({})) {
+											if (JSON.stringify(arrayOfLinks) === JSON.stringify(oldLinks)) {
+												Swal.showValidationMessage("Потрібно змінити або додати хоча-б 1 елемент");
+												return;
+											}
 										}
-									})
-								}
-							}
-						})
 
-					}
+										$.ajax({
+											type: 'POST',
+											url: '../app/eventsHandler.php',
+											data: {
+												'updatePhotos': "upd",
+												'linksNew': newList,
+												'linksOld': oldLinks,
+												'carID': id,
+												'countToEdit': countToEdit
+											},
+											success: function (xhr) {
+												Toast.fire({
+													title: "Данні змінено!",
+													icon: "success",
+													timer: 4000,
+													position: "top"
+												});
+											},
+											error: function () {
+												Swal.fire({
+													icon: "error",
+													title: 'На жаль, щось пішло не за планом. Спробувати ще раз?',
+													confirmButtonText: 'Так',
+													focusConfirm: false,
+													showCancelButton: true,
+													cancelButtonText: "Ні",
+													allowOutsideClick: false
+												}).then(function (result) {
+													if (result.isConfirmed) {
+														showSwalInputs();
+													}
+												})
+											}
+										})
+									}
+								})
+							}
+						}
+					})
+
+				}
 			}
 
 			let error = $('.error');
@@ -1346,7 +1373,7 @@ $(document).ready(function () {
 						html: `<input type="text" id="unique" class="swal2-input" placeholder="Унікальний номер" maxlength = 6>`,
 						confirmButtonText: 'Зареєструвати нового модера',
 						focusConfirm: false,
-						showCancelButton: true,
+						showCancelButton: false,
 						cancelButtonText: "Закрити",
 						preConfirm: () => {
 							const unique = Swal.getPopup().querySelector('#unique').value
@@ -1414,6 +1441,9 @@ $(document).ready(function () {
 									}
 							return { unique: unique }
 						},
+						didOpen: () => {
+							toastCloseBtn(Swal);
+						},
 						allowOutsideClick: false
 					}).then((result) => {
 						if (result.isConfirmed) {
@@ -1461,10 +1491,12 @@ $(document).ready(function () {
 						html: htmlCode,
 						confirmButtonText: 'Обрати',
 						focusConfirm: false,
-						showCancelButton: true,
+						showCancelButton: false,
 						cancelButtonText: "Закрити",
 						allowOutsideClick: false,
 						didOpen: () => {
+							$('.swal2-confirm').css('width', "75%");
+							toastCloseBtn(Swal);
 							var tem = Swal.getContainer();
 							$(tem).children().css('width', '60em');
 							changeInput([$('.name'), $('.fname'), $('.phone')]);
@@ -1554,14 +1586,14 @@ $(document).ready(function () {
 											title: "Реєєстрація тест-драйва",
 											allowOutsideClick: false,
 											html: htmlCode,
-											showCancelButton: true,
+											showCancelButton: false,
 											showDenyButton: true,
 											denyButtonText: "Назад",
 											denyButtonColor: "gray",
 											cancelButtonColor: "#E94D6A",
-											cancelButtonText: "Закрити",
 											confirmButtonText: "Замовити",
 											didOpen: () => {
+												toastCloseBtn(Swal);
 												let carID;
 												let data;
 												$('.car').change((e) => {
@@ -1629,7 +1661,7 @@ $(document).ready(function () {
 															onHide: () => {
 																$('swal2-input').blur();
 															},
-												
+
 															onRenderHour: function (date) {
 																if ($('.disabled').attr('class') != undefined && $('.disabled').attr('class').includes('active'))
 																	$('span.disabled').removeClass('active');
@@ -1692,8 +1724,8 @@ $(document).ready(function () {
 															$('.notify').html(parseInt($('.notify').html()) + 1);
 															$('.notify').show();
 															$('.testdrivecounter').html(parseInt($('.testdrivecounter').html()) + 1);
-															if($('.testdrivecounter').html() == "1")
-															$('.testdrivecounter').parent().append('<div class="newtest">Нові тест драйви!</div>');
+															if ($('.testdrivecounter').html() == "1")
+																$('.testdrivecounter').parent().append('<div class="newtest">Нові тест драйви!</div>');
 														}, error: function (xhr, status, error) {
 															Toast.fire({
 																title: "Щось пішло не так!",
@@ -1711,7 +1743,9 @@ $(document).ready(function () {
 									Swal.fire({
 										title: "Реєстрація нового користувача",
 										allowOutsideClick: false,
+										showCancelButton: false,
 										didOpen: () => {
+											toastCloseBtn(Swal);
 											Swal.showLoading();
 											let counter = 0;
 											let content = $('.swal2-title');
@@ -1879,23 +1913,26 @@ $(document).ready(function () {
 					title: 'Заповніть данні щодо авто',
 					showDenyButton: false,
 					cancelButtonText: "Закрити",
+					showCancelButton: false,
 					html: htmlCode,
 					currentProgressStep: 0,
 					didOpen: () => {
 
-						$('.swal2-progress-step').css("width","4em");
+
+
+						$('.swal2-confirm').css('width', "75%");
+						$('.swal2-progress-step').css("width", "4em");
 						if (!isLoaded) {
 							function ToggleAll(boolian) {
 								$('div.main').toggleClass('hide');
 								$('.swal2-confirm').toggleClass('hide');
-								$('.swal2-cancel').toggleClass('hide');
 								if (boolian) {
 									let title = $(Swal.getHeader()).find('.swal2-title');
 									title.html('Загрузка');
 									Swal.showLoading();
 								}
 								else {
-									$('.swal2-confirm').toggleClass('hide');
+									toastCloseBtn(Swal);
 									let title = $(Swal.getHeader()).find('.swal2-title');
 									title.html('Заповніть данні щодо авто');
 									Swal.hideLoading();
@@ -2013,13 +2050,14 @@ $(document).ready(function () {
 				let second = {
 					title: 'Виберіть фото авто',
 					showDenyButton: true,
+					showCancelButton: false,
 					html: htmlSecond,
 					currentProgressStep: 1,
 					didOpen: () => {
 						fileName != "" ? $('.link').val(fileName) : $('.swal-input').val();
-
-						$('.swal2-progress-step').css("width","4em");
-						$('.swal2-popup').css("width","35em");
+						toastCloseBtn(Swal);
+						$('.swal2-progress-step').css("width", "4em");
+						$('.swal2-popup').css("width", "35em");
 						$('.fileInput').change(function (obj) {
 							fileHandler(obj.target, Swal, 0);
 						})
@@ -2128,50 +2166,6 @@ $(document).ready(function () {
 	});
 
 });
-
-function sameDivs() {
-	let min = 0;
-	let arr = [];
-	function del() {
-		$('.buttons .panel').each(function () {
-			$(this).css("min-height", "");
-		});
-		$('.buttons .panel').each(function () {
-			let height = $(this).height();
-			arr.push($(this).height());
-			if (height > min)
-				min = height + 1;
-		});
-		function setDiv(min) {
-			$('.buttons .panel').css("min-height", min);
-		}
-		setDiv(min);
-	}
-	del();
-
-	function del2() {
-		min = 0;
-		arr = [];
-		$('.buttons .panel .pointer').each(function () {
-			$(this).css("min-height", "");
-		});
-		$('.buttons .panel .panel-footer').each(function () {
-			$(this).css("height", "");
-		});
-		$('.buttons .panel .pointer').each(function () {
-			let height = $(this).height();
-			arr.push($(this).height());
-			if (height > min)
-				min = height + 1;
-		});
-		function setDiv(min) {
-			$('.buttons .panel .pointer').css("min-height", min);
-			$('.buttons .panel .panel-footer').css("height", min);
-		}
-		setDiv(min);
-	}
-	del2();
-}
 setTimeout(function () {
 	$('body').addClass('body_visible');
 }, 100);

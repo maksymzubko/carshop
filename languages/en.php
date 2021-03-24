@@ -22,7 +22,8 @@ $lang = array(
 "filter"=>"Filter",
 "Nxt"=>"Next",
 "Prv"=>"Previous",
-"back"=>"Go Back"
+"back"=>"Go Back",
+"cont"=>"Contact with us"
 );
 $index = array(
     "ah11"=>"Reliability",
@@ -97,6 +98,7 @@ $account = array(
         "c1"=>"Mark",
         "c2"=>"Model",
         "c3"=>"Date",
+        "c32"=>"Time",
         "c4"=>"Status"
     );
     $car = array(
@@ -123,6 +125,13 @@ $account = array(
     "prev"=>"Previous",
     "next"=>"Next"
     );
-
-    
-?>
+    $testform = array (
+        "auto"=>"Auto",
+        "year"=>"Year",
+        "com"=>"The specification, complete set of this car is described on the current page.",
+        "datetext"=>"Choose a date that is convenient for you (from the available ones)",
+        "inputtext"=>"Choose",
+        "rules"=>"I agree with the <a href='https://auto.today/bok/4338-test-drayv-pravila-i-podvodnye-kamni.html' target=_blank>rules</a> of handling the car during the test drive, as well as with the payment for the test drive on arrival in the total cost",
+        "order"=>"Your order"
+    )
+    ?>

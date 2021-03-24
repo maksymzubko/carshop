@@ -19,7 +19,7 @@ if (!isset($_COOKIE['acc'])) {
 <div class="contact-with-us close unselect">
         <div class="header">
             <div><img src="/images/arrow-down.png" width="35px" height="15px"></div>
-            <p>Связаться с нами</p>
+            <p><?php echo $lang['cont']?></p>
         </div>
         <div class="contact-info d-flex align-items-center justify-content-start flex-column">
             <div class="d-flex align-items-center"><img style="margin-right:10px" src="/images/phone.png" width="25px" height="18px">
@@ -63,6 +63,7 @@ if (!isset($_COOKIE['acc'])) {
                             <th><?php echo $testdrive['c1'] ?></th>
                             <th><?php echo $testdrive['c2'] ?></th>
                             <th><?php echo $testdrive['c3'] ?></th>
+                            <th><?php echo $testdrive['c32'] ?></th>
                             <th><?php echo $testdrive['c4'] ?></th>
                         </thead>
                         <tbody class="text-center">

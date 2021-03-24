@@ -1,8 +1,4 @@
 $(function () {
-
-	
-	
-
 	var menu_ul = $('.menu_drop > li > ul'),
 		menu_a = $('.menu_drop > li > a');
 
@@ -19,7 +15,6 @@ $(function () {
 			$(this).next().stop(true, true).slideUp('normal');
 		}
 	});
-
 
 	mybutton = document.getElementById("myBtn");
 
@@ -40,6 +35,10 @@ $(function () {
 	}
 });
 $(document).ready(() => {
+	$('.close_btn').click(() => {
+		$('.form-testdrive').toggleClass('hide');
+		$('body').toggleClass('overflow-hidden');
+	});
 	$('body').addClass('visible');
 });
 $('.filter-ico').click((el) => {
@@ -125,7 +124,6 @@ $(document).ready(function () {
 		timer: 4000,
 		timerProgressBar: true,
 		didOpen: (toast) => {
-			toastCloseBtn(Swal);
 			toast.addEventListener('click', Swal.close)
 		}
 	});
@@ -137,7 +135,6 @@ $(document).ready(function () {
 		timer: 3000,
 		timerProgressBar: true,
 		didOpen: (toast) => {
-			toastCloseBtn(Swal);
 			toast.addEventListener('click', Swal.close)
 		}
 	});
@@ -145,7 +142,6 @@ $(document).ready(function () {
 	result();
 
 	let but = $('.car_btn');
-	let priceTest = 0;
 	let block;
 	let blockText;
 	let blockDates = [];
@@ -171,32 +167,25 @@ $(document).ready(function () {
 					if (block == true)
 						blockText = xhr.eq;
 
-				} priceTextRU = (priceTest == 0) ? "Тест драйв этой машини - безплатен" : "Это будет стоить '" + priceTest + "'грн (оплата по приезду), вы согласны?";
-				priceTextENG = (priceTest == 0) ? "Test drive is free" : "It will cost '" + priceTest + "'uan (pay on arrival), do you agree?";
-				priceTextUA = (priceTest == 0) ? "Тест драйв цього авто безкоштовний" : "Це буде коштувати '" + priceTest + "'грн (оплата по приїзду), ви згодні?";
-				engWords = { "errorMessage": "Error!", "denied": "Denied", "success": "Success", "successMessage": "Success!", "questionMessage": "Are you sure?", "btnCancel": "Cancel", "qu1": priceTextENG, "qu2": "Choose date" };
-				ruWords = { "errorMessage": "Ошибка!", "denied": "Отказано", "success": "Принято", "successMessage": "Успех!", "questionMessage": "Вы уверены?", "btnCancel": "Отмена", "qu1": priceTextRU, "qu2": "Выберите дату" };
-				uaWords = { "errorMessage": "Помилка!", "denied": "Відказано", "success": "Прийнято", "successMessage": "Успіх!", "questionMessage": "Ви впевнені?", "btnCancel": "Відміна", "qu1": priceTextUA, "qu2": "Виберіть дату" };
+				}
+				engWords = { "errorMessage": "Error!", "denied": "Denied", "wait": "Waiting", "success": "Success", "successMessage": "Success!", "questionMessage": "Are you sure?", "btnCancel": "Cancel", "catalog": "Go to catalog" };
+				ruWords = { "errorMessage": "Ошибка!", "denied": "Отказано", "wait": "Обрабатывается", "success": "Принято", "successMessage": "Успех!", "questionMessage": "Вы уверены?", "btnCancel": "Отмена", "catalog": "Перейти в каталог" };
+				uaWords = { "errorMessage": "Помилка!", "denied": "Відказано", "wait": "Обробляється", "success": "Прийнято", "successMessage": "Успіх!", "questionMessage": "Ви впевнені?", "btnCancel": "Відміна", "catalog": "Перейти в каталог" };
 
 			}, error: function (xhr) {
-				priceTextRU = (priceTest == 0) ? "Тест драйв этой машини - безплатен" : "Это будет стоить '" + priceTest + "'грн (оплата по приезду), вы согласны?";
-				priceTextENG = (priceTest == 0) ? "Test drive is free" : "It will cost '" + priceTest + "'uan (pay on arrival), do you agree?";
-				priceTextUA = (priceTest == 0) ? "Тест драйв цього авто безкоштовний" : "Це буде коштувати '" + priceTest + "'грн (оплата по приїзду), ви згодні?";
-				engWords = { "errorMessage": "Error!", "denied": "Denied", "success": "Success", "successMessage": "Success!", "questionMessage": "Are you sure?", "btnCancel": "Cancel", "qu1": priceTextENG, "qu2": "Choose date" };
-				ruWords = { "errorMessage": "Ошибка!", "denied": "Отказано", "success": "Принято", "successMessage": "Успех!", "questionMessage": "Вы уверены?", "btnCancel": "Отмена", "qu1": priceTextRU, "qu2": "Выберите дату" };
-				uaWords = { "errorMessage": "Помилка!", "denied": "Відказано", "success": "Прийнято", "successMessage": "Успіх!", "questionMessage": "Ви впевнені?", "btnCancel": "Відміна", "qu1": priceTextUA, "qu2": "Виберіть дату" };
+
+				engWords = { "errorMessage": "Error!", "denied": "Denied", "wait": "Waiting", "success": "Success", "successMessage": "Success!", "questionMessage": "Are you sure?", "btnCancel": "Cancel", "catalog": "Go to catalog" };
+				ruWords = { "errorMessage": "Ошибка!", "denied": "Отказано", "wait": "Обрабатывается", "success": "Принято", "successMessage": "Успех!", "questionMessage": "Вы уверены?", "btnCancel": "Отмена", "catalog": "Перейти в каталог" };
+				uaWords = { "errorMessage": "Помилка!", "denied": "Відказано", "wait": "Обробляється", "success": "Прийнято", "successMessage": "Успіх!", "questionMessage": "Ви впевнені?", "btnCancel": "Відміна", "catalog": "Перейти в каталог" };
 				blockText = JSON.parse(xhr.responseText).error;
 				block = JSON.parse(xhr.responseText).block;
 			}
 		});
 	}
 	else {
-		priceTextRU = (priceTest == 0) ? "Тест драйв этой машини - безплатен" : "Это будет стоить '" + priceTest + "'грн (оплата по приезду), вы согласны?";
-		priceTextENG = (priceTest == 0) ? "Test drive is free" : "It will cost '" + priceTest + "'uan (pay on arrival), do you agree?";
-		priceTextUA = (priceTest == 0) ? "Тест драйв цього авто безкоштовний" : "Це буде коштувати '" + priceTest + "'грн (оплата по приїзду), ви згодні?";
-		engWords = { "errorMessage": "Error!", "denied": "Denied", "success": "Success", "successMessage": "Success!", "questionMessage": "Are you sure?", "btnCancel": "Cancel", "qu1": priceTextENG, "qu2": "Choose date" };
-		ruWords = { "errorMessage": "Ошибка!", "denied": "Отказано", "success": "Принято", "successMessage": "Успех!", "questionMessage": "Вы уверены?", "btnCancel": "Отмена", "qu1": priceTextRU, "qu2": "Выберите дату" };
-		uaWords = { "errorMessage": "Помилка!", "denied": "Відказано", "success": "Прийнято", "successMessage": "Успіх!", "questionMessage": "Ви впевнені?", "btnCancel": "Відміна", "qu1": priceTextUA, "qu2": "Виберіть дату" };
+		engWords = { "errorMessage": "Error!", "denied": "Denied", "wait": "Waiting", "success": "Success", "successMessage": "Success!", "questionMessage": "Are you sure?", "btnCancel": "Cancel", "catalog": "Go to catalog" };
+				ruWords = { "errorMessage": "Ошибка!", "denied": "Отказано", "wait": "Обрабатывается", "success": "Принято", "successMessage": "Успех!", "questionMessage": "Вы уверены?", "btnCancel": "Отмена", "catalog": "Перейти в каталог" };
+				uaWords = { "errorMessage": "Помилка!", "denied": "Відказано", "wait": "Обробляється", "success": "Прийнято", "successMessage": "Успіх!", "questionMessage": "Ви впевнені?", "btnCancel": "Відміна", "catalog": "Перейти в каталог" };
 	}
 
 	let currentLang = getCookie('lang');
@@ -227,9 +216,7 @@ $(document).ready(function () {
 		}
 		else {
 
-			let url = new URL(window.location.href);
-			let searchParams = new URLSearchParams(url.search);
-			let filter = searchParams.get('filter');
+			let filter = getParams('filter');
 			$('.search-input input').val(filter);
 			search_func($('.search-input input').val());
 
@@ -245,30 +232,7 @@ $(document).ready(function () {
 				},
 			});
 		}
-
-
 	}
-	$('#admin').submit(function (e) {
-		e.preventDefault();
-		var email = $('#inputEmail').val();
-		var pass = $('#inputPassword').val();
-		$.ajax({
-			type: 'POST',
-			url: '../app/eventsHandler.php',
-			data: { 'email': email, 'pass': pass, 'role': 'admin' },
-			success: function (xhr) {
-				location.href = window.location.origin + window.location.pathname.replace("/login.php", "/panel.php");
-			},
-			error: function (xhr, status, error) {
-				let d = JSON.parse(xhr.responseText);
-				Swal.fire(
-					w("errorMessage"),
-					d.error,
-					"error",
-				);
-			}
-		})
-	});
 
 	if (window.location.pathname == "/cars.php") {
 		if (window.location.href.includes('filter'))
@@ -315,99 +279,104 @@ $(document).ready(function () {
 		return full;
 	}
 
-
-	$('.testdrive_add').click(function async() {
+	$('.test').click(function async() {
 		if (block == true) {
-			Swal.fire(
-				w("errorMessage"),
-				blockText,
-				"error"
+			Swal.fire({
+				title: blockText,
+				icon: "info"
+			}
 			);
 		}
 		else {
-			Swal.fire(
-				{
-					title: w("questionMessage"),
-					text: w("qu1"),
-					icon: "question",
-					showCancelButton: true,
-					cancelButtonText: w("btnCancel")
-				}).then(async function name(result) {
-					if (result.isConfirmed) {
+			$('body').toggleClass('overflow-hidden');
+			let s = $('.pricecheck');
+			if (s.is(':checked'))
+				s.prop("checked", false);
+
+			s.change(() => {
+				if (s.is(':checked') && $('.datetime').val() != "")
+					$('.form-testdrive button').removeClass('disable');
+				else
+					$('.form-testdrive button').removeClass('disable').addClass('disable');
+			})
+
+			$('.form-testdrive button').removeClass('disable').addClass('disable');
+			$('.form-testdrive .datetime').val("");
+
+			$('.form-testdrive').toggleClass('hide');
+			$('.datetime').datetimepicker({
+				daysOfWeekDisabled: [6],
+				startDate: new Date(),
+				minView: 1,
+				format: "yyyy-mm-dd hh:00",
+				language: currentLang,
+				hoursDisabled: [0, 1, 2, 3, 4, 5, 6, 7, 8, 20, 21, 22, 23],
+				clearBtn: true,
+				onRenderHour: function (date) {
+					if ($('.disabled').attr('class') != undefined && $('.disabled').attr('class').includes('active'))
+						$('span.disabled').removeClass('active');
+					if (blockDates.indexOf(formatDate(date) + " " + date.getUTCHours()) > -1) {
+						return ['disabled'];
+					}
+				},
+				onRenderMinute: function (date) {
+					if ($('.disabled').attr('class') != undefined && $('.disabled').attr('class').includes('active'))
+						$('.disabled').removeClass('active');
+					if (blockDates.indexOf(formatDate(date) + " " + date.getUTCHours()) > -1) {
+						return ['disabled'];
+					}
+				}
+			});
+			$(".datetime").on("change", function (e) {
+				if (s.is(':checked') && $('.datetime').val() != "")
+					$('.form-testdrive button').removeClass('disable');
+				else
+					$('.form-testdrive button').removeClass('disable').addClass('disable');
+				$('.datetime').datetimepicker('hide');
+			});
+			$('.datetime').datetimepicker('hide');
+			$('.order').click(() => {
+				$.ajax({
+					type: 'POST',
+					url: '../app/eventsHandler.php',
+					data: {
+						'car_ID': getParams('id'),
+						'mytest': "ndtst",
+						'date': $('.datetime').val()
+					}, success: function (xhr) {
+						$('.form-testdrive').toggleClass('hide');
 						Swal.fire(
 							{
-								title: w("qu2"),
-								input: 'text',
-								inputPlaceholder: w("qu2"),
-								inputAttributes: {
-									autofocus: false,
-									readonly: true
-								},
-								inputValidator: (value) => {
-									if (!value) {
-										return 'You need to write something!'
-									}
-								}
-								, didOpen: function () {
-									$('.swal2-input').datetimepicker({
-										daysOfWeekDisabled: [6],
-										startDate: new Date(),
-										minView: 1,
-										format: "yyyy-mm-dd hh:00",
-										language: currentLang,
-										hoursDisabled: [0, 1, 2, 3, 4, 5, 6, 7, 8, 20, 21, 22, 23],
-										clearBtn: true,
-										onRenderHour: function (date) {
-											if ($('.disabled').attr('class') != undefined && $('.disabled').attr('class').includes('active'))
-												$('span.disabled').removeClass('active');
-											if (blockDates.indexOf(formatDate(date) + " " + date.getUTCHours()) > -1) {
-												return ['disabled'];
-											}
-										},
-										onRenderMinute: function (date) {
-											if ($('.disabled').attr('class') != undefined && $('.disabled').attr('class').includes('active'))
-												$('.disabled').removeClass('active');
-											if (blockDates.indexOf(formatDate(date) + " " + date.getUTCHours()) > -1) {
-												return ['disabled'];
-											}
-										}
-									});
-									$(".swal2-input").on("change", function (e) {
-										$('.swal2-input').datetimepicker('hide');
-									});
-									$('.swal2-input').datetimepicker('show');
-								}
-							}).then((result) => {
-								if (result.isConfirmed) {
-									$.ajax({
-										type: 'POST',
-										url: '../app/eventsHandler.php',
-										data: {
-											'car_ID': id_car,
-											'mytest': "ndtst",
-											'date': result.value
-										}, success: function (xhr) {
-											Swal.fire(
-												w("succesMessage"),
-												xhr.successmsg,
-												"success",
-											);
+								title: w("succesMessage"),
+								text: xhr.successmsg,
+								icon: "success",
+								showConfirmButton: true,
+								showCancelButton: false,
+								confirmButtonText: w("catalog")
+							}
 
-										}, error: function (xhr) {
-											let d = JSON.parse(xhr.responseText);
-											Swal.fire(
-												w("errorMessage"),
-												d.error,
-												"error",
-											);
-										}
-									});
-								}
-							})
+
+
+						).then((result) => {
+							if (result.isConfirmed) {
+								window.location.href = "/cars.php";
+							}
+						});
+
+					}, error: function (xhr) {
+						let d = JSON.parse(xhr.responseText);
+						$('.form-testdrive').toggleClass('hide');
+						Swal.fire(
+							w("errorMessage"),
+							d.error,
+							"error",
+						);
 					}
-				})
+				});
+			})
 		}
 	});
+
 	function phone(elem) {
 		$(elem).bind('keydown', function (e) {
 			if (e.keyCode == 8) {
@@ -421,11 +390,11 @@ $(document).ready(function () {
 					return;
 			}
 			else if ((e.keyCode >= 48 && e.keyCode <= 57) || (e.keyCode >= 96 && e.keyCode <= 105)) {
-				if($(this).val().length==7)
-				$(this).val($(this).val()+" ");
+				if ($(this).val().length == 7)
+					$(this).val($(this).val() + " ");
 
-				if($(this).val().length==11)
-				$(this).val($(this).val()+" ");
+				if ($(this).val().length == 11)
+					$(this).val($(this).val() + " ");
 
 				return;
 			}
@@ -436,7 +405,7 @@ $(document).ready(function () {
 	$('.lan').click(function (e) {
 		if (window.location.origin + window.location.pathname == "http://carshop.loft/car.php") {
 			let link = location.href;
-			if (link.includes("&lang=")) {
+			if (getParams("&lang=")) {
 				link = link.split('&lang=')[0] + '&lang=' + e.target.id;
 				if (link.includes('#')) {
 					link = link.split('#')[0];
@@ -469,7 +438,7 @@ $(document).ready(function () {
 					title: xhr.successmsg,
 					icon: "success"
 				});
-				setTimeout(() => { location.href = window.location.origin + "/account.php"; }, 2000)
+				setTimeout(() => { location.href = window.location.origin + "/login.php"; }, 2000)
 			},
 			error: function (xhr, status, error) {
 				let d = JSON.parse(xhr.responseText);
@@ -477,18 +446,17 @@ $(document).ready(function () {
 				$('input.error').removeClass('error');
 				$('.alert').addClass('hide');
 
-				if (d['error']==undefined) {
+				if (d['error'] == undefined) {
 					d.errorArr.forEach((elem) => {
 						$(".alert." + elem.errorTarget).removeClass('hide');
 						$(".alert." + elem.errorTarget + " p").html(elem.error);
 						$(".alert." + elem.errorTarget).prev('input').addClass('error');
 					})
 				}
-				else
-				{
+				else {
 					$(".alert." + d.errorTarget).removeClass('hide');
-						$(".alert." + d.errorTarget + " p").html(d.error);
-						$(".alert." + d.errorTarget).prev('input').addClass('error');
+					$(".alert." + d.errorTarget + " p").html(d.error);
+					$(".alert." + d.errorTarget).prev('input').addClass('error');
 				}
 			}
 		})
@@ -580,7 +548,10 @@ $(document).ready(function () {
 					$('tbody tr td:last-child').each((index, val) => {
 						if ($(val).html() == "Denied")
 							$(val).html(w("denied"));
-						else $(val).html(w("success"));
+						else if ($(val).html() == "Success")
+							$(val).html(w("success"));
+						else if ($(val).html() == "Waiting")
+						$(val).html(w("wait"));
 					})
 					ChangeStateTable(table, error, footer, "enable");
 
@@ -647,3 +618,9 @@ function result() {
 			});
 };
 
+function getParams(filterStr) {
+	let url = new URL(window.location.href);
+	let searchParams = new URLSearchParams(url.search);
+	let filter = searchParams.get(filterStr);
+	return filter;
+}

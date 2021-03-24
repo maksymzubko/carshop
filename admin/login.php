@@ -6,10 +6,9 @@
 
 <!-- Import javascript -->
 <script type="text/javascript" src="../javascript/jquery.js"></script>
-<script src="../javascript/sweetalert2.min.js"></script>
-<script type="text/javascript" src="../javascript/otherFunctions.js"></script>
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
+<link rel="stylesheet" href="../css/sweetalert2.min.css">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="shortcut icon" href="../images/logo-mini.png">
 <title>Admin Login</title>
@@ -22,7 +21,7 @@
       }
       ?>
 
-  <body class="text-center">
+  <body class="text-center visible">
     <div class="container h-100 signin d-flex align-items-center justify-content-center">
     <form class="form-signin w-50" id="admin" method="post">
       <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
@@ -36,6 +35,29 @@
       <p class="mt-5 mb-3 text-muted">Carshop © 2020</p>
     </form>
     </div>
-
+    <script src="../javascript/sweetalert2.min.js"></script>
+    <script>
+      $('#admin').submit(function (e) {
+		e.preventDefault();
+		var email = $('#inputEmail').val();
+		var pass = $('#inputPassword').val();
+		$.ajax({
+			type: 'POST',
+			url: '../app/eventsHandler.php',
+			data: { 'email': email, 'pass': pass, 'role': 'admin' },
+			success: function (xhr) {
+				location.href = window.location.origin + window.location.pathname.replace("/login.php", "/panel.php");
+			},
+			error: function (xhr, status, error) {
+				let d = JSON.parse(xhr.responseText);
+				Swal.fire(
+					"Помилка",
+					d.error,
+					"error",
+				);
+			}
+		})
+	});
+    </script>
 </body>
 </html>

@@ -1,6 +1,6 @@
 <?php require_once "app/config.php";
 if (isset($_COOKIE['acc'])) {
-    header("Location: account.php");
+    header("Location: cars.php");
     exit;
 }
 ?>
@@ -19,7 +19,7 @@ if (isset($_COOKIE['acc'])) {
 <div class="contact-with-us close unselect">
         <div class="header">
             <div><img src="/images/arrow-down.png" width="35px" height="15px"></div>
-            <p>Связаться с нами</p>
+            <p><?php echo $lang['cont']?></p>
         </div>
         <div class="contact-info d-flex align-items-center justify-content-start flex-column">
             <div class="d-flex align-items-center"><img style="margin-right:10px" src="/images/phone.png" width="25px" height="18px">

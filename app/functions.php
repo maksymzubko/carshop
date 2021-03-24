@@ -114,7 +114,7 @@ function filterAuto(string $lang)
                     </div>
                     <div class="bottom">
                         <div class="car-desc">
-                            <h2>' . $row['mark'] . '</h2>
+                           <h2>' . $row['mark'] . ' ' . $row['a_year'] .'</h2>
                             <h3>' . $row['m_model'] . '</h3>
                         </div>
                         <div class="buttons d-flex align-items-center justify-content-center">
@@ -140,18 +140,18 @@ function register(array $data, string $role)
 
     if ($role == "user") {
         $values = [
-            $data['email'],
+            strtolower($data['email']),
             encrypt($data['password']),
             $data['name'],
             $data['secondname'],
             $data['radi1'],
-            trim($data['phone']),
+            str_replace(" ","", $data['phone']),
             "d" => "1"
         ];
     } else
         $values = [
             $data['login'],
-            encrypt($data['password']),
+            encrypt($data['pass']),
             trim($data['number'])
         ];
 
@@ -159,6 +159,7 @@ function register(array $data, string $role)
     {
         if ($role == "user") {
             $response = isUserAlreadyExist($data[2], $data[3], $data[5]);
+
             function ifEmptyEmail($id)
             {
                 $query = "Select u_login from users where u_ID = $id";
@@ -171,12 +172,13 @@ function register(array $data, string $role)
                 else
                     return false;
             }
-            if (isset($response["id"])) {
+
+            if (($response["success"]==false)) {
                 $id = $response["id"];
                 if (ifEmptyEmail($id))
                     $query = "Update users set u_login = '$data[0]', u_pass='$data[1]',u_sex = '$data[4]' where u_ID = $id";
                 else
-                    return;
+                    return false;
             } else
                 $query = "INSERT INTO `users` (u_login, u_pass, u_name, u_fname, u_sex, u_phone) VALUES('$data[0]', '$data[1]', '$data[2]', '$data[3]', '$data[4]', '$data[5]')";
 
@@ -187,7 +189,6 @@ function register(array $data, string $role)
             $query = "INSERT INTO `admins` (adm_UNI, adm_LOG, adm_PASS, adm_ROLE) VALUES('$data[0]', '$data[1]', '$data[2]', 'Moder')";
             $db = get_connection();
             $stmt = mysqli_query($db, $query);
-            return $stmt;
         }
     }
 
@@ -239,7 +240,7 @@ function validate(array $request, string $role)
     $errArray = array();
 
     if(isset($request['phone'])){
-        $res = strlen($request['phone']) != 16 ? $errors = "Неправильный формат!" : false;
+        $res = strlen(str_replace(" ","", $request['phone'])) != 13 ? $errors = "Неправильный формат!" : false;
         if ($res) {
             $errorTarget = "phone";
             $errArray[] = [
@@ -251,14 +252,14 @@ function validate(array $request, string $role)
    
     function isEmailAlreadyExists(string $email)
     {
-        $query = "SELECT * FROM users WHERE u_login = '$email'";
+        $query = "SELECT * FROM users WHERE u_login = '". strtolower($email) ."'";
 
         $db = get_connection();
 
         $result = $db->query($query);
 
         if ($result->num_rows > 0)
-            return $result;
+            return true;
         else
             return false;
     }
@@ -539,7 +540,7 @@ function getTestCar($car)
     $db = get_connection();
     $stmt = $db->query($query);
 
-    $userid = isset($_POST['userID']) ? $_POST['userID'] : decrypt($_COOKIE['acc']);
+    $userid = isset($_POST['userID']) ? $_POST['userID'] : getCoockie('id','user');
 
     $arr = array();
     $res = false;
@@ -570,7 +571,7 @@ function addToTestdrive(string $id, string $date)
         function isAlreadyExists($user, $id)
         {
         
-        $query = "Select * from `testdrive` where u_id = '$user' and car_ID = '$id' and status = 'Waiting')";
+        $query = "Select * from `testdrive` where uid = '$user' and car_ID = '$id' and status = 'Waiting'";
         $db = get_connection();
         $stmt = $db->query($query);
         
@@ -714,7 +715,7 @@ function UpdatePhotos()
 
                 if (mysqli_affected_rows($db) == 1);
                 $countOfEdited++;
-            }
+            }else
             if (!isExistElement("photo", $arrOld[$arrKeys[$a]])) {
                 $query = "Update `images` set img = 'images/" . $arrOld[$arrKeys[$a]] . "' where imgID = $arrKeys[$a]";
 
@@ -739,6 +740,7 @@ function UpdatePhotos()
 
             $query = "INSERT into `images` (`img_a_ID`,`img`,`isMain`) values ('$carID','images/$arrNew[$a]','False')";
             $db->query($query);
+
             if (mysqli_affected_rows($db) == 1);
             $countOfEdited++;
         }
@@ -921,8 +923,8 @@ function makeAdmin(string $uniq)
         $error = validate(array("login" => $login), "admin");
         $error == "Exception2" ? $loginIsExists = true : $loginIsExists = false;
     }
-
-    $query = "INSERT INTO `admins`(`adm_UNI`, `adm_LOG`, `adm_PASS`, `adm_ROLE`) VALUES ('$uniq', '$login', '$pass', 'Moder')";
+    $temp = encrypt($pass);
+    $query = "INSERT INTO `admins`(`adm_UNI`, `adm_LOG`, `adm_PASS`, `adm_ROLE`) VALUES ('$uniq', '$login', '$temp', 'Moder')";
 
     $db = get_connection();
     $stmt = mysqli_query($db, $query);
@@ -1033,9 +1035,9 @@ function getAllTests($where,$s)
         $isUser=true;
     }
     else
-    $column = array("d_ID","u_ID", "u_fname", "u_name", "car_ID", "mark", "m_model", "date", "status", "isArrived");
+    $column = array("d_ID","u_ID", "u_fname", "u_name", "car_ID", "mark", "m_model", "date", "time", "status", "isArrived");
 
-    $query = "SELECT * FROM testdrive JOIN users on `uid` = u_ID JOIN `auto` on car_ID = a_ID JOIN models on a_model = m_ID JOIN marks on m_mark_ID = mark_ID where $where ";
+    $query = "SELECT *, DATE_FORMAT(date, '%d-%m-%Y') as date_, DATE_FORMAT(date, '%H:%i') as time_ FROM testdrive JOIN users on `uid` = u_ID JOIN `auto` on car_ID = a_ID JOIN models on a_model = m_ID JOIN marks on m_mark_ID = mark_ID  where $where ";
 
     if ($_POST["search"]["value"] != "") {
         $query .= '  and (u_name LIKE "%' . $_POST["search"]["value"] . '%"  OR u_fname LIKE "%' . $_POST["search"]["value"] . '%"  OR status LIKE "%' . $_POST["search"]["value"] . '%"  OR mark LIKE "%' . $_POST["search"]["value"] . '%" OR car_ID LIKE "%' . $_POST["search"]["value"] . '%" OR m_model LIKE "%' .$_POST["search"]["value"] . '%"  OR date LIKE "%' . $_POST["search"]["value"] . '%") ';
@@ -1046,7 +1048,7 @@ function getAllTests($where,$s)
        
         
     } else {
-        $query .= 'ORDER BY d_ID ASC ';
+        $query .= 'ORDER BY date DESC ';
     }
     $query1 = '';
 
@@ -1068,7 +1070,8 @@ function getAllTests($where,$s)
             $sub_array = array();       
             $sub_array[] = $row['mark'];
             $sub_array[] = $row['m_model'];
-            $sub_array[] = $row['date'];
+            $sub_array[] = $row['date_'];
+            $sub_array[] = $row['time_'];
             $sub_array[] = $row['status'];
             $data[] = $sub_array;
         }
@@ -1086,7 +1089,8 @@ function getAllTests($where,$s)
         }
         $sub_array[] = $row['mark'];
         $sub_array[] = $row['m_model'];
-        $sub_array[] = $row['date'];
+        $sub_array[] = $row['date_'];
+        $sub_array[] = $row['time_'];
         if ($where != "status = 'Waiting'") {
             $sub_array[] = $row['status'];
             $sub_array[] = $row["isArrived"];

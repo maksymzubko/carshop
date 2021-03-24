@@ -58,22 +58,24 @@ if (!empty($_POST)) {
 
         $error = validate($_POST, $temp);
 
-        $regResponse = register($_POST, $temp);
+        if (empty($error)) {
+            $regResponse = register($_POST, $temp);
+            if($regResponse)
+            {
+                $succesmsg = ($temp == "user") ? translateAction("Вы успешно зарегистрированы!") : "Ви успішно додали модератора!";
 
-        if (empty($error) && $regResponse) {
-
-            $succesmsg = ($temp == "user") ? translateAction("Вы успешно зарегистрированы!") : "Ви успішно додали модератора!";
-
-            sendResponse([
-                'success' => true,
-                'successmsg' => $succesmsg
-            ]);
-        } else if (empty($error) && !$regResponse) {
-            sendResponse([
-                'success' => false,
-                'error' => translateAction("Пользователь уже зарегистрирован!")
-            ]);
-        } else {
+                sendResponse([
+                    'success' => true,
+                    'successmsg' => $succesmsg
+                ]);
+            }
+            else {
+                sendResponse([
+                    'success' => false,
+                    'error' => translateAction("Пользователь уже зарегистрирован!")
+                ]);
+            }          
+        }  else {
             foreach($error as $key=>$val)
             {               
                 $error[$key]['error'] = translateAction($val["error"]); 
@@ -214,9 +216,20 @@ if (!empty($_POST)) {
     {
         if (isAuthorizated()) {
             $output = getTestCar($_POST['car_ID']);
+            if($output['block']==true)
+            {
+                sendResponse([
+                    'success' => false,
+                    'block' => true,
+                    'error' => translateAction("Вы уже заказывали тест драйв этой машини!")
+                ]);
+            }
+            else
+            {
             $output["eq"] = translateAction("Вы уже заказывали тест драйв этой машини!");
             http_response_code(200);
             echo json_encode($output);
+            }
         } else {
             sendResponse([
                 'success' => false,
@@ -439,6 +452,7 @@ if (!empty($_POST)) {
     function actionWithTestDrive()
     {
         if (isAuthorizated() == true) {
+            
             if (addToTestdrive($_POST['car_ID'], $_POST['date'])) {
                 sendResponse([
                     'success' => true,
