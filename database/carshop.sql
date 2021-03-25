@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Время создания: Мар 24 2021 г., 19:37
+-- Время создания: Мар 25 2021 г., 02:07
 -- Версия сервера: 10.4.14-MariaDB
 -- Версия PHP: 7.4.10
 
@@ -161,28 +161,6 @@ INSERT INTO `categories` (`cat_ID`, `cat_Caption`) VALUES
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `favourite`
---
-
-CREATE TABLE `favourite` (
-  `client_ID` int(11) NOT NULL,
-  `auto_ID` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Дамп данных таблицы `favourite`
---
-
-INSERT INTO `favourite` (`client_ID`, `auto_ID`) VALUES
-(94, 3),
-(67, 11),
-(95, 3),
-(95, 4),
-(67, 4);
-
--- --------------------------------------------------------
-
---
 -- Структура таблицы `images`
 --
 
@@ -254,7 +232,6 @@ CREATE TABLE `models` (
   `m_id` int(10) NOT NULL,
   `m_mark_ID` int(10) NOT NULL,
   `m_model` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `m_description` varchar(150) NOT NULL,
   `m_capacity` decimal(2,1) NOT NULL,
   `m_mode` enum('седан','хетчбек','универсал') CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `m_gb` enum('механика','автомат') CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
@@ -267,22 +244,11 @@ CREATE TABLE `models` (
 -- Дамп данных таблицы `models`
 --
 
-INSERT INTO `models` (`m_id`, `m_mark_ID`, `m_model`, `m_description`, `m_capacity`, `m_mode`, `m_gb`, `m_privod`, `m_fuel`, `m_equip`) VALUES
-(1, 2, 'Rogue', 'Lorem Ipsum - это текст-\"рыба\", часто используемый в печати и вэб-дизайне. Lorem Ipsum является стандартной \"рыбой\" для текстов на латинице с начала X', '3.0', 'хетчбек', 'механика', 'задний', 'газ', 2),
-(2, 1, 'Camry', '\'Lorem Ipsum - это текст-\"рыба\", часто используемый в печати и вэб-дизайне. Lorem Ipsum является стандартной \"рыбой\" для текстов на латинице с начала ', '3.5', 'хетчбек', 'механика', 'задний', 'газ', 2),
-(3, 3, 'Mondeo', '\'Lorem Ipsum - это текст-\"рыба\", часто используемый в печати и вэб-дизайне. Lorem Ipsum является стандартной \"рыбой\" для текстов на латинице с начала ', '3.5', 'хетчбек', 'автомат', 'задний', 'газ', 1),
-(4, 1, 'CamryD', '\'Lorem Ipsum - это текст-\"рыба\", часто используемый в печати и вэб-дизайне. Lorem Ipsum является стандартной \"рыбой\" для текстов на латинице с начала ', '3.5', 'хетчбек', 'механика', 'задний', 'газ', 2);
-
--- --------------------------------------------------------
-
---
--- Структура таблицы `sessions`
---
-
-CREATE TABLE `sessions` (
-  `s_ID` int(11) NOT NULL,
-  `us_ID` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+INSERT INTO `models` (`m_id`, `m_mark_ID`, `m_model`, `m_capacity`, `m_mode`, `m_gb`, `m_privod`, `m_fuel`, `m_equip`) VALUES
+(1, 2, 'Rogue', '3.0', 'хетчбек', 'механика', 'задний', 'газ', 2),
+(2, 1, 'Camry', '3.5', 'хетчбек', 'механика', 'задний', 'газ', 2),
+(3, 3, 'Mondeo', '3.5', 'хетчбек', 'автомат', 'задний', 'газ', 1),
+(4, 1, 'CamryD', '3.5', 'хетчбек', 'механика', 'задний', 'газ', 2);
 
 -- --------------------------------------------------------
 
@@ -385,51 +351,6 @@ INSERT INTO `users` (`u_ID`, `u_login`, `u_pass`, `u_name`, `u_fname`, `u_sex`, 
 (164, 'dsadasdads@dasda.com', '/U2X', '123', '123', 'Male', '+380111111111'),
 (165, 'dasdsa1213@gmail.com', '/U2X', '123', '123', 'Male', '+380111111111');
 
--- --------------------------------------------------------
-
---
--- Структура таблицы `videos`
---
-
-CREATE TABLE `videos` (
-  `link_ID` int(11) NOT NULL,
-  `auto_ID` int(11) NOT NULL,
-  `v_link` varchar(300) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Дамп данных таблицы `videos`
---
-
-INSERT INTO `videos` (`link_ID`, `auto_ID`, `v_link`) VALUES
-(1, 1, 'W7SR2LAGUBQ'),
-(2, 1, 'qeQY9yFu6XI'),
-(7, 4, '2'),
-(8, 4, '551'),
-(9, 4, 'ggggggggggggggggg'),
-(10, 4, 'dfsg'),
-(11, 4, 'asdj'),
-(12, 5, '2'),
-(13, 5, '5'),
-(14, 4, 'dsad'),
-(15, 4, '2'),
-(16, 4, '511515'),
-(17, 1, 'qeQY9yFu6XI'),
-(18, 1, 'qeQY9yFu6XI'),
-(19, 1, 'W7SR2LAGUBQ');
-
--- --------------------------------------------------------
-
---
--- Структура таблицы `view`
---
-
-CREATE TABLE `view` (
-  `v_ID` int(11) NOT NULL,
-  `a_ID` int(11) NOT NULL,
-  `view` enum('Enabled','Disabled') NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
 --
 -- Индексы сохранённых таблиц
 --
@@ -468,13 +389,6 @@ ALTER TABLE `categories`
   ADD PRIMARY KEY (`cat_ID`);
 
 --
--- Индексы таблицы `favourite`
---
-ALTER TABLE `favourite`
-  ADD KEY `carsid` (`auto_ID`),
-  ADD KEY `usid` (`client_ID`);
-
---
 -- Индексы таблицы `images`
 --
 ALTER TABLE `images`
@@ -496,13 +410,6 @@ ALTER TABLE `models`
   ADD KEY `m_equip_idx` (`m_equip`);
 
 --
--- Индексы таблицы `sessions`
---
-ALTER TABLE `sessions`
-  ADD UNIQUE KEY `s_ID` (`s_ID`),
-  ADD KEY `user` (`us_ID`);
-
---
 -- Индексы таблицы `testdrive`
 --
 ALTER TABLE `testdrive`
@@ -516,19 +423,6 @@ ALTER TABLE `testdrive`
 ALTER TABLE `users`
   ADD PRIMARY KEY (`u_ID`),
   ADD UNIQUE KEY `u_login_UNIQUE` (`u_login`);
-
---
--- Индексы таблицы `videos`
---
-ALTER TABLE `videos`
-  ADD PRIMARY KEY (`link_ID`),
-  ADD KEY `a` (`auto_ID`);
-
---
--- Индексы таблицы `view`
---
-ALTER TABLE `view`
-  ADD KEY `cars2` (`a_ID`);
 
 --
 -- AUTO_INCREMENT для сохранённых таблиц
@@ -595,12 +489,6 @@ ALTER TABLE `users`
   MODIFY `u_ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=166;
 
 --
--- AUTO_INCREMENT для таблицы `videos`
---
-ALTER TABLE `videos`
-  MODIFY `link_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
-
---
 -- Ограничения внешнего ключа сохраненных таблиц
 --
 
@@ -618,13 +506,6 @@ ALTER TABLE `blacklist`
   ADD CONSTRAINT `blacklist_ibfk_1` FOREIGN KEY (`u_ID`) REFERENCES `users` (`u_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Ограничения внешнего ключа таблицы `favourite`
---
-ALTER TABLE `favourite`
-  ADD CONSTRAINT `carsid` FOREIGN KEY (`auto_ID`) REFERENCES `auto` (`a_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `usid` FOREIGN KEY (`client_ID`) REFERENCES `users` (`u_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
 -- Ограничения внешнего ключа таблицы `images`
 --
 ALTER TABLE `images`
@@ -638,29 +519,11 @@ ALTER TABLE `models`
   ADD CONSTRAINT `m_mark_ID` FOREIGN KEY (`m_mark_ID`) REFERENCES `marks` (`mark_ID`);
 
 --
--- Ограничения внешнего ключа таблицы `sessions`
---
-ALTER TABLE `sessions`
-  ADD CONSTRAINT `user` FOREIGN KEY (`us_ID`) REFERENCES `auto` (`a_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
 -- Ограничения внешнего ключа таблицы `testdrive`
 --
 ALTER TABLE `testdrive`
   ADD CONSTRAINT `cars` FOREIGN KEY (`car_ID`) REFERENCES `auto` (`a_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `ud` FOREIGN KEY (`uid`) REFERENCES `users` (`u_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Ограничения внешнего ключа таблицы `videos`
---
-ALTER TABLE `videos`
-  ADD CONSTRAINT `a` FOREIGN KEY (`auto_ID`) REFERENCES `auto` (`a_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Ограничения внешнего ключа таблицы `view`
---
-ALTER TABLE `view`
-  ADD CONSTRAINT `cars2` FOREIGN KEY (`a_ID`) REFERENCES `auto` (`a_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
