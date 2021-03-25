@@ -27,12 +27,7 @@ echo '<footer class="footer sticky-bottom dark bg-black pt-5 pb-4">
             </div>
             <div class="col-md-12 col-lg-3 d-flex flex-column align-items-center align-items-lg-start">
                 <h3>'. $lang['footerH3'] .'</h3>
-                <p><a href="account.php">
-                            '. $lang['faccp1'] .'
-                        </a></p>
-                        <p><a href="favourite.php">
-                           '. $lang['faccp2'] .'
-                        </a></p>
+                <p>
                         <p><a href="testdrives.php">
                            '. $testdrive['test'] .'
                         </a></p>

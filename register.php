@@ -41,7 +41,7 @@ if (isset($_COOKIE['acc'])) {
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="index.html"><?php echo $lang['home'] ?></a></li>
-                        <li class="breadcrumb-item" aria-current="page"><a href="account.php"><?php echo $lang['footerH3'] ?></a></li>
+                        <li class="breadcrumb-item active" aria-current="page"><?php echo $lang['footerH3'] ?></li>
                         <li class="breadcrumb-item active" aria-current="page"><?php echo $register['register'] ?></li>
                     </ol>
                 </nav>
