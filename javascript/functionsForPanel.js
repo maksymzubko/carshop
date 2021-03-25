@@ -910,8 +910,8 @@ $(document).ready(function () {
 
 
 				$('.arrived').click((el) => {
-					let elem = $(el.target).parent().parent().parent().find('td').eq(-4);
-					buttonHandler($(el.target).parent().parent().parent().find('td:first').html(), elem.html(), "1");;
+					let elem = $(el.target).parent().parent().parent().find('td').eq(-5);
+					buttonHandler($(el.target).parent().parent().parent().find('td:first').html(), elem.html(), "1");
 				})
 
 				$('.date').click((el) => {
@@ -921,9 +921,10 @@ $(document).ready(function () {
 
 				function buttonHandler(id, data, event) {
 
+					
 					let _action;
 					let dateNow = new Date(Date.now());
-					let dateCurrent = new Date(data);
+					let dateCurrent = new Date(data.split("-").reverse().join("-"));
 					if (event == "1") {
 						if (dateNow >= dateCurrent) {
 							Swal.fire({
