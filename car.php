@@ -136,9 +136,9 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
                     </div>
                 </div>
                 <div class="row d-flex justify-content-center justify-content-lg-end">
-                    <div class="b w-lg-25">
+                    <div class="b w-lg-25 mt-4 mb-4">
                         <a href="" class=" w-100
-                        btn mt-2 mb-2 test" onclick="return false"><?php echo $car['b2'] ?></a>
+                        btn_opacity black  test" onclick="return false"><?php echo $car['b2'] ?></a>
                     </div>
                 </div>
                 <div class="row">
@@ -148,8 +148,8 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
                                     <div class="arrow_car"></div><?php echo $car['ac2'] ?>
                                 </a>
                                 <ul style="display: none;">
-                                    <div class="row">
-                                        <div class="col-6-md left">
+                                    <div class="row pb-4 pt-4">
+                                        <div class="col-md-6 col-sm-12 left">
                                             <img class="icon" src="/images/icons/engine.svg">
                                             <li><?php echo $car['mc1'];
                                                 echo " : ";
@@ -170,12 +170,12 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
                                             <li><?php echo $car['mc5'];
                                                 echo " : ";
                                                 echo translateEq($result['m_fuel']) ?></li>
-                                        </div>
-                                        <div class="col-6-md right">
-                                            <img class="icon" src="/images/icons/seat.svg">
+                                                <img class="icon" src="/images/icons/seat.svg">
                                             <li><?php echo $car['e1'];
                                                 echo " : ";
                                                 echo translateEq($result['m_seat']) ?></li>
+                                        </div>
+                                        <div class="col-6 col-12-sm right">                                      
                                             <img class="icon" src="/images/icons/window.svg">
                                             <li><?php echo $car['e2'];
                                                 echo " : ";

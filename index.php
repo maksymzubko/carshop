@@ -58,7 +58,7 @@
         <section class="pt-2 pb-2 text-white text-center index_desc">
         <?php echo "<h1><b>".$index['ah11']."</b>, <b>".$index['ah12']."</b>, <b>".$index['ah13']."</b> - ".$index['ah14']."!</h1>
         <h3>".$index['ah2']."</h3>";?>
-        <a href="cars.php" class="btn mainbtn"><?php echo $index['buttonMainText'] ?><span></span></a>
+        <a href="cars.php" class="btn_opacity white"><?php echo $index['buttonMainText'] ?><span></span></a>
     </section>
     </section>
     <section class="display-none black pt-5 pb-5"></section>

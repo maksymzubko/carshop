@@ -16,7 +16,7 @@
                         <h2 class="m-0">Налаштування відображення</h2>
                     </div>
                             <div class="buttons-shown">
-                                <button class="btn" id="shownall">Показати усі</button> <button class="btn" id="hideall">Сховати усі</button>
+                                <button class="btn_opacity black" id="shownall">Показати усі</button> <button class="btn_opacity black" id="hideall">Сховати усі</button>
                             </div> 
                             <div class="table-responsive">
                                 <table id="data" class="table table-bordered table-striped" style="width:100%">

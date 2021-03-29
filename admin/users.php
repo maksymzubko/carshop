@@ -16,7 +16,7 @@
                 <div class="top text-start">
                         <h2 class="m-0">Користувачі</h2>
                     </div>
-                    <div class="switch_test text-center"><button id="0" class="active btn">Користувачі</button><button style="margin-left: 10px;" class="btn" id="2">Заблоковані користувачі</button><button style="margin-left: 10px;" class="btn" id="1">Модераторы</button></div>
+                    <div class="switch_test text-center mb-3 mt-3 d-flex justify-content-center"><button id="0" class="btn_opacity black active">Користувачі</button><button style="margin-left: 10px;" class="btn_opacity black" id="2">Заблоковані користувачі</button><button style="margin-left: 10px;" class="btn_opacity black" id="1">Модераторы</button></div>
                     <div class="table-responsive data1">
                         <table id="data" class="table table-bordered table-striped" style="width:100%">
                             <thead>

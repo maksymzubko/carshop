@@ -118,7 +118,7 @@ function filterAuto(string $lang)
                             <h3>' . $row['m_model'] . '</h3>
                         </div>
                         <div class="buttons d-flex align-items-center justify-content-center">
-                            <a class="car_btn">' . $catalog['btn'] . '<span></span></a>';                                  
+                            <a class="mt-4 mb-4 car_btn btn_opacity black">' . $catalog['btn'] . '<span></span></a>';                                  
                 $output .= '</div>
                 </div>
                 </div>
