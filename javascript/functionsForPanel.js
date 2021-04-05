@@ -44,6 +44,10 @@ $(document).ready(function () {
 		});
 	};
 
+	function deleteCloseBtn(swal)
+	{
+		$(swal).find('.close').remove()
+}
 	function toastCloseBtn(swal) {
 		let content = swal.getPopup();
 		$(content).append('<div class="close"><p>X</p></div>');
@@ -1128,7 +1132,7 @@ $(document).ready(function () {
 
 			$('.price').click((el) => {
 				let idCar = $(el.target).parent().parent().parent().find('td:first-child').html();
-				let oldPrice = $(el.target).parent().parent().parent().find('td').eq(-2).html();
+				let oldPrice = $(el.target).parent().parent().parent().find('td').eq(-3).html();
 
 				buttonHandler(idCar, oldPrice, 0);
 			})
@@ -1180,6 +1184,9 @@ $(document).ready(function () {
 						title: `Зміна ціни для авто №${id}`,
 						input: 'text',
 						inputPlaceholder: "Уведіть ціну",
+						inputAttributes:{
+							maxlength: 7,
+						},
 						inputValidator: (value) => {
 							if (value == old)
 								return 'Уведіть нову ціну!';
@@ -1194,6 +1201,11 @@ $(document).ready(function () {
 						allowOutsideClick: false,
 						cancelButtonText: "Вийти",
 						didOpen: () => {
+							$('.swal2-input').keypress((e)=>{
+								if ((e.which != 46 || $(this).val().indexOf('.') != -1) && (e.which < 48 || e.which > 57)) {
+									e.preventDefault();
+								}
+							})
 							$('.swal2-confirm').css('width', "75%");
 							toastCloseBtn(Swal);
 						}
@@ -1602,6 +1614,7 @@ $(document).ready(function () {
 														carID = $('.car').val();
 														$('.main').css('display', 'none');
 														Swal.resetValidationMessage();
+														deleteCloseBtn(Swal);
 														Swal.showLoading();
 														let title = $(Swal.getHeader()).find('.swal2-title');
 														title.html('Загрузка');
@@ -1619,6 +1632,7 @@ $(document).ready(function () {
 																setTimeout(changeStation, 2000)
 																function changeStation() {
 																	Swal.hideLoading();
+																	toastCloseBtn(Swal);
 																	$('.main').css('display', 'block');
 																	let title = $(Swal.getHeader()).find('.swal2-title');
 																	title.html('Реєєстрація тест-драйва');
@@ -1645,6 +1659,7 @@ $(document).ready(function () {
 																	$('.swal2-actions button').each((index, value) => { $(value).css('display', 'flex') });
 																	Swal.showValidationMessage(JSON.parse(xhr.responseText).error);
 																	Swal.hideLoading();
+																	toastCloseBtn(Swal);
 																	$('.data').prop('disabled', true);
 																	$('.data').css('border', '1px solid #d9d9d9');
 																}

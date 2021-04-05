@@ -260,7 +260,7 @@ $(document).ready(function () {
 	});
 
 	$('.common_selector').click(function () {
-		filterData();
+		filterData(0);
 	});
 
 	but.click(button);
@@ -425,6 +425,8 @@ $(document).ready(function () {
 	});
 	$('#register').submit(function (e) {
 		var data = new FormData(this);
+		$('input.error').removeClass('error');
+		$('.alert').addClass('hide');
 		e.preventDefault();
 		$.ajax({
 			type: 'POST',
@@ -434,6 +436,8 @@ $(document).ready(function () {
 			contentType: false,
 			processData: false,
 			success: function (xhr) {
+				$('input.error').removeClass('error');
+				$('.alert').addClass('hide');
 				Toast2.fire({
 					title: xhr.successmsg,
 					icon: "success"

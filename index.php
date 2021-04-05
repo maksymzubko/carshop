@@ -23,7 +23,7 @@
     </div>
     <img id="myBtn" src="images/arrow.png" class="go__top" style="display: none;">
     <?php require_once "templates/header.php" ?>
-    <section class="banner pt-5 pb-5" id="bannersection">
+    <section class="banner main pt-5 pb-5" id="bannersection">
         <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-indicators hide">
                 <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"

@@ -173,7 +173,7 @@ function register(array $data, string $role)
                     return false;
             }
 
-            if (($response["success"]==false)) {
+            if (($response["success"]==true)) {
                 $id = $response["id"];
                 if (ifEmptyEmail($id))
                     $query = "Update users set u_login = '$data[0]', u_pass='$data[1]',u_sex = '$data[4]' where u_ID = $id";
@@ -199,7 +199,9 @@ function register(array $data, string $role)
 function login(array $data)
 {
     $login = $data['email'];
-    $pass = encrypt($data['pass']);
+    if(isset($_POST['role']))
+    $pass = $data['pass'];
+    else $pass = encrypt($data['pass']);
 
     $query = "";
 
@@ -442,6 +444,9 @@ function checkUser(array $data)
     $errors = "";
 
     $login = $data['email'];
+    if(isset($_POST['role']))
+    $pass = $data['pass'];
+    else
     $pass = encrypt($data['pass']);
 
     $query = "";
