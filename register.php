@@ -61,7 +61,7 @@ if (isset($_COOKIE['acc'])) {
             <div class="row">
                 <div class="col-md-6">
                     <label for="inputEmail"><?php echo $register['email'] ?></label>
-                    <input type="text" class="form-control" autocomplete="OFF" id="inputEmail" placeholder="<?php echo $register['email'] ?>" name="email" required="">
+                    <input type="text" class="form-control" autocomplete="OFF" id="inputEmail" maxlength = 45 placeholder="<?php echo $register['email'] ?>" name="email" required="">
                     <div class="alert email hide"><p></p></div>
                     <div class="form-control-feedback"></div>
                 </div>
@@ -75,24 +75,24 @@ if (isset($_COOKIE['acc'])) {
             <div class="row">
                 <div class="col-md-6">
                     <label for="inputName"><?php echo $register['name'] ?></label>
-                    <input type="text" class="form-control" autocomplete="OFF" id="inputName" placeholder="<?php echo $register['name'] ?>" name="name" required="">
+                    <input type="text" class="form-control" autocomplete="OFF" id="inputName" maxlength = 25 placeholder="<?php echo $register['name'] ?>" name="name" required="">
                     <div class="form-control-feedback"></div>
                 </div>
                 <div class="col-md-6">
                     <label><?php echo $register['pass'] ?></label>
-                    <input type="password" class="form-control" autocomplete="OFF" id="inputPassword1" placeholder="<?php echo $register['pass'] ?>" name="password" required="">
+                    <input type="password" class="form-control" autocomplete="OFF" id="inputPassword1" maxlength = 25 placeholder="<?php echo $register['pass'] ?>" name="password" required="">
                     <div class="form-control-feedback"></div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-6">
                     <label for="inputSecondName"><?php echo $register['sur'] ?></label>
-                    <input type="text" class="form-control" autocomplete="OFF" id="inputSecondName" placeholder="<?php echo $register['sur'] ?>" name="secondname">
+                    <input type="text" class="form-control" autocomplete="OFF" id="inputSecondName" maxlength = 25 placeholder="<?php echo $register['sur'] ?>" name="secondname">
                     <div class="form-control-feedback"></div>
                 </div>
                 <div class="col-md-6">
                     <label for="inputPassword4"><?php echo $register['apass'] ?></label>
-                    <input type="password" class="form-control" autocomplete="OFF" id="inputPassword2" placeholder="<?php echo $register['apass'] ?>" required="" name="password2">
+                    <input type="password" class="form-control" autocomplete="OFF" id="inputPassword2"  maxlength = 25 placeholder="<?php echo $register['apass'] ?>" required="" name="password2">
                     <div class="alert pass hide"><p></p></div>
                     <div class="form-control-feedback"></div>
                 </div>

@@ -377,6 +377,12 @@ $(document).ready(function () {
 		}
 	});
 
+	$('body').on('input', '#inputSecondName', function(){
+		this.value = this.value.replace(/[^a-zа-яё\s]/gi, '');
+	});
+	$('body').on('input', '#inputName', function(){
+		this.value = this.value.replace(/[^a-zа-яё\s]/gi, '');
+	});
 	function phone(elem) {
 		$(elem).bind('keydown', function (e) {
 			if (e.keyCode == 8) {

@@ -1493,7 +1493,7 @@ $(document).ready(function () {
 
 				function swaladd(str) {
 
-					let htmlCode = "<div class='flex'><div class='newUser'><h3>Зареєструвати нового</h3><input placeholder='Ім`я' class='name swal2-input custom'><input placeholder='Прізвище' class='fname swal2-input custom'><input placeholder='Номер телефону' type='tel' value='+380' maxlength=13 class='phone swal2-input custom'></div><div class='selectUser'><h3>Вибрати існуючого</h3><select class='swal2-select custom'><option id='phone' value='' disabled selected>Виберіть користувача</option><optgroup label='Користувачі'>";
+					let htmlCode = "<div class='flex'><div class='newUser'><h3>Зареєструвати нового</h3><input placeholder='Ім`я' class='name swal2-input custom'><input placeholder='Прізвище' class='fname swal2-input custom'><input placeholder='Номер телефону' type='tel' value='+380 ' maxlength=16 class='phone swal2-input custom'></div><div class='selectUser'><h3>Вибрати існуючого</h3><select class='swal2-select custom'><option id='phone' value='' disabled selected>Виберіть користувача</option><optgroup label='Користувачі'>";
 					Object.entries(numbers).forEach(([key, value]) => {
 						htmlCode += "<option value = " + key + ">" + value + "</option>"
 					})
@@ -1850,7 +1850,7 @@ $(document).ready(function () {
 					if (e.keyCode == 8) {
 						let start = $(this).prop('selectionStart');
 						let end = $(this).prop('selectionEnd');
-						if ($(this).val().length == 4)
+						if ($(this).val().length == 5)
 							e.preventDefault();
 						else if (start != end)
 							e.preventDefault();
@@ -1858,6 +1858,12 @@ $(document).ready(function () {
 							return;
 					}
 					else if ((e.keyCode >= 48 && e.keyCode <= 57) || (e.keyCode >= 96 && e.keyCode <= 105)) {
+						if ($(this).val().length == 7)
+							$(this).val($(this).val() + " ");
+		
+						if ($(this).val().length == 11)
+							$(this).val($(this).val() + " ");
+		
 						return;
 					}
 					else e.preventDefault();
