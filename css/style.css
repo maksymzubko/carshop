@@ -425,7 +425,7 @@ footer p{
 /* breadcrumb */
 
 ol.breadcrumb{
-    border: 1px solid rgb(114, 111, 111);
+    border-bottom: 1px solid rgb(114, 111, 111);
     margin: 0;
     padding: 1vh 2vh;
 }
@@ -531,6 +531,7 @@ button:disabled{
     align-items: center;
 }
 .back {
+    display: flex;
     height: max-content;
     cursor: pointer;
     margin-left: 5rem;
@@ -1375,7 +1376,10 @@ body.auto .swal2-confirm.swal2-styled
 }
 @media screen and (max-width: 770px )
 {
- 
+  .back{
+      display: none;
+      
+  }
     .close_btn{
         top: -30px;
     }
@@ -1412,9 +1416,6 @@ body.auto .swal2-confirm.swal2-styled
     .btn.mainbtn{
         padding: 0;
         font-size: 20px;
-    }
-    .back{
-    display: none
     }
     #register .col-md-6:not(:first-child)
     {

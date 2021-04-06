@@ -35,7 +35,7 @@ if (isset($_COOKIE['acc'])) {
 
     <!--start-breadcrumbs-->
     <div class="breadcrumb">
-    <div class="back d-flex align-items-center"> <img src="/images//arrow-back.png" height="15px" width="20px"> <a href="" onclick="history.back();return false;"><?php echo $lang['back'] ?></a> </div>
+    <div class="back align-items-center"> <img src="/images//arrow-back.png" height="15px" width="20px"> <a href="" onclick="history.back();return false;"><?php echo $lang['back'] ?></a> </div>
         <div class="container pt-3 pb-3 w-75">
             <div class="row">
                 <nav aria-label="breadcrumb">

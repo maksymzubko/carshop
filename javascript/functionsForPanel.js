@@ -194,7 +194,7 @@ $(document).ready(function () {
 		let exist = false;
 		$('#data').on('draw.dt', function () {
 
-			if ($('thead tr th:last-child').html() == "Дата")
+			if ($('thead tr th:last-child').html() == "Час")
 				$('thead tr').append("<th>Зміна статусу</th>");
 
 			$('tbody tr td:last-child').each((i, el) => {

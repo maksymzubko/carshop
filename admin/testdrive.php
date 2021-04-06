@@ -20,12 +20,15 @@
                             <thead class="table-dark">
                                 <tr>
                                     <th>#ID</th>
+                                    <th>#ID Користувача</th>
                                     <th>Прізвище</th>
                                     <th>Ім'я</th>
+                                    <th>Номер телефону</th>
                                     <th>#ID Авто</th>
                                     <th>Марка</th>
                                     <th>Модель</th>
                                     <th>Дата</th>
+                                    <th>Час</th>
                                 </tr>
                             </thead>
                             <tbody class="body"></tbody>

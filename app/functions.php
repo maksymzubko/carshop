@@ -1039,8 +1039,11 @@ function getAllTests($where,$s)
         $column = array("mark", "m_model", "date", "status");
         $isUser=true;
     }
+    else if($s==4)
+    $column = array("d_ID","u_ID", "u_fname", "u_name", "u_phone", "car_ID", "mark", "m_model", "date", "time", "status");
     else
-    $column = array("d_ID","u_ID", "u_fname", "u_name", "car_ID", "mark", "m_model", "date", "time", "status", "isArrived");
+    $column = array("d_ID","u_ID", "u_fname", "u_name", "u_phone", "car_ID", "mark", "m_model", "date", "time", "status", "isArrived");
+    
 
     $query = "SELECT *, DATE_FORMAT(date, '%d-%m-%Y') as date_, DATE_FORMAT(date, '%H:%i') as time_ FROM testdrive JOIN users on `uid` = u_ID JOIN `auto` on car_ID = a_ID JOIN models on a_model = m_ID JOIN marks on m_mark_ID = mark_ID  where $where ";
 
@@ -1073,6 +1076,24 @@ function getAllTests($where,$s)
     {
         while ($row = $statement->fetch_assoc()) {
             $sub_array = array();       
+            $sub_array[] = $row['mark'];
+            $sub_array[] = $row['m_model'];
+            $sub_array[] = $row['date_'];
+            $sub_array[] = $row['time_'];
+            $sub_array[] = $row['status'];
+            $data[] = $sub_array;
+        }
+    }
+    else if($s==4)
+    {
+        while ($row = $statement->fetch_assoc()) {
+            $sub_array = array();      
+            $sub_array[] = $row["d_ID"]; 
+            $sub_array[] = $row["u_ID"];
+            $sub_array[] = $row['u_fname'];
+            $sub_array[] = $row['u_name'];
+            $sub_array[] = $row['u_phone'];
+            $sub_array[] = $row['car_ID'];
             $sub_array[] = $row['mark'];
             $sub_array[] = $row['m_model'];
             $sub_array[] = $row['date_'];

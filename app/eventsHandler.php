@@ -116,7 +116,7 @@ if (!empty($_POST)) {
 
     function actionFirst()
     {
-        $output = getAllTests("status = 'Waiting'",0);
+        $output = getAllTests("status = 'Waiting'",4);
         if ($output['recordsFiltered'] == 0) {
             sendResponse(["success" => false]);
         } else {
